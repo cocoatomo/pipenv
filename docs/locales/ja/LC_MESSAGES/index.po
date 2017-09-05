@@ -1,0 +1,234 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017. A <a
+# href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a>
+# Project
+# This file is distributed under the same license as the pipenv package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pipenv 5.3.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-06 08:37+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.0\n"
+
+#: ../../index.rst:7
+msgid "Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv"
+msgstr ""
+
+#: ../../index.rst:29
+msgid ""
+"**Pipenv** — the officially recommended Python packaging tool from "
+"`Python.org <https://packaging.python.org/new-tutorials/installing-and-"
+"using-packages/>`_, free (as in freedom)."
+msgstr ""
+
+#: ../../index.rst:31
+msgid ""
+"Pipenv is a project that aims to bring the best of all packaging worlds "
+"to the Python world. It harnesses `Pipfile "
+"<https://github.com/pypa/pipfile>`_, `pip "
+"<https://github.com/pypa/pip>`_, and `virtualenv "
+"<https://github.com/pypa/virtualenv>`_ into one single toolchain. It "
+"features very pretty terminal colors."
+msgstr ""
+
+#: ../../index.rst:33
+msgid ""
+"It automatically creates and manages a virtualenv for your projects, as "
+"well as adds/removes packages from your ``Pipfile`` as you "
+"install/uninstall packages. The ``lock`` command generates a lockfile "
+"(``Pipfile.lock``)."
+msgstr ""
+
+#: ../../index.rst:37
+msgid "The problems that Pipenv seeks to solve are multi-faceted:"
+msgstr ""
+
+#: ../../index.rst:39
+msgid ""
+"When using Pipenv, you no longer need to use ``pip`` and ``virtualenv`` "
+"separately. They work together."
+msgstr ""
+
+#: ../../index.rst:40
+msgid ""
+"Managing a ``requirements.txt`` file `can be problematic "
+"<https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv "
+"uses the upcoming ``Pipfile`` and ``Pipfile.lock`` instead, which is "
+"superior for basic use cases."
+msgstr ""
+
+#: ../../index.rst:44
+msgid "Install Pipenv Today!"
+msgstr ""
+
+#: ../../index.rst:51
+msgid ""
+"If you have excellent taste, there's also a  `fancy installation method "
+"<http://docs.pipenv.org/en/latest/advanced.html#fancy-installation-of-"
+"pipenv>`_."
+msgstr ""
+
+#: ../../index.rst:59
+msgid "User Testimonials"
+msgstr ""
+
+#: ../../index.rst:62
+msgid "**Jannis Leidel**, former pip maintainer—"
+msgstr ""
+
+#: ../../index.rst:62
+msgid ""
+"*Pipenv is the porcelain I always wanted built for pip. It fits my brain "
+"and mostly replaces virtualenvwrapper and manual pip calls for me. Use "
+"it.*"
+msgstr ""
+
+#: ../../index.rst:65
+msgid "**Jhon Crypt**—"
+msgstr ""
+
+#: ../../index.rst:65
+msgid "*Pipenv is the best thing since pip, thank you!*"
+msgstr ""
+
+#: ../../index.rst:68
+msgid "**Isaac Sanders**—"
+msgstr ""
+
+#: ../../index.rst:68
+msgid "*Pipenv is literally the best thing about my day today. Thanks, Kenneth!*"
+msgstr ""
+
+#: ../../index.rst:71
+msgid "☤ Pipenv Features"
+msgstr ""
+
+#: ../../index.rst:73
+msgid ""
+"Enables truly *deterministic builds*, while easily specifying *what you "
+"want*."
+msgstr ""
+
+#: ../../index.rst:74
+msgid ""
+"Automatically generates and checks file hashes for locked dependencies "
+"(via ``--hashes``)."
+msgstr ""
+
+#: ../../index.rst:75
+msgid ""
+"Automatically finds your project home, recursively, by looking for a "
+"``Pipfile``."
+msgstr ""
+
+#: ../../index.rst:76
+msgid "Automatically generates a ``Pipfile``, if one doesn't exist."
+msgstr ""
+
+#: ../../index.rst:77
+msgid "Automatically generates a ``Pipfile.lock``, if one doesn't exist."
+msgstr ""
+
+#: ../../index.rst:78
+msgid "Automatically creates a virtualenv in a standard location."
+msgstr ""
+
+#: ../../index.rst:79
+msgid "Automatically adds packages to a Pipfile when they are installed."
+msgstr ""
+
+#: ../../index.rst:80
+msgid "Automatically removes packages from a Pipfile when they are un-installed."
+msgstr ""
+
+#: ../../index.rst:81
+msgid "Also automatically updates pip."
+msgstr ""
+
+#: ../../index.rst:83
+msgid ""
+"The main commands are ``install``, ``uninstall``, and ``lock``, which "
+"generates a ``Pipfile.lock``. These are intended to replace ``$ pip "
+"install`` usage, as well as manual virtualenv management (to activate a "
+"virtualenv, run ``$ pipenv shell``)."
+msgstr ""
+
+#: ../../index.rst:86
+msgid "Basic Concepts"
+msgstr ""
+
+#: ../../index.rst:88
+msgid "A virtualenv will automatically be created, when one doesn't exist."
+msgstr ""
+
+#: ../../index.rst:89
+msgid ""
+"When no parameters are passed to ``install``, all packages ``[packages]``"
+" specified will be installed."
+msgstr ""
+
+#: ../../index.rst:90
+msgid "To initialize a Python 3 virtual environment, run ``$ pipenv --three``."
+msgstr ""
+
+#: ../../index.rst:91
+msgid "To initialize a Python 2 virtual environment, run ``$ pipenv --two``."
+msgstr ""
+
+#: ../../index.rst:92
+msgid "Otherwise, whatever virtualenv defaults to will be the default."
+msgstr ""
+
+#: ../../index.rst:97
+msgid "Other Commands"
+msgstr ""
+
+#: ../../index.rst:99
+msgid "``shell`` will spawn a shell with the virtualenv activated."
+msgstr ""
+
+#: ../../index.rst:100
+msgid ""
+"``run`` will run a given command from the virtualenv, with any arguments "
+"forwarded (e.g. ``$ pipenv run python``)."
+msgstr ""
+
+#: ../../index.rst:101
+msgid ""
+"``check`` asserts that PEP 508 requirements are being met by the current "
+"environment."
+msgstr ""
+
+#: ../../index.rst:104
+msgid "☤ Pipenv Usage"
+msgstr ""
+
+#: ../../index.rst:161
+msgid "Further Documentation Guides"
+msgstr ""
+
+#: ../../index.rst:171
+msgid "Indices and tables"
+msgstr ""
+
+#: ../../index.rst:173
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../../index.rst:174
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../../index.rst:175
+msgid ":ref:`search`"
+msgstr ""
+
