@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: pipenv 5.3.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-06 08:37+0900\n"
-"PO-Revision-Date: 2017-09-07 00:46+0900\n"
+"PO-Revision-Date: 2017-09-07 10:42+0900\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -229,7 +229,7 @@ msgstr "より進んだ内容のドキュメントガイド"
 
 #: ../../index.rst:171
 msgid "Indices and tables"
-msgstr "索引と表"
+msgstr "索引と一覧表"
 
 #: ../../index.rst:173
 msgid ":ref:`genindex`"

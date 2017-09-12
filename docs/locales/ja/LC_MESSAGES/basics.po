@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: pipenv 5.3.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-06 08:37+0900\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-09-12 00:02+0900\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr ""
 
 #: ../../basics.rst:4
 msgid "Pipenv & Virtual Environments"
-msgstr ""
+msgstr "Pipenvと仮想環境"
 
 #: ../../basics.rst:6
 msgid "This tutorial walks you through installing and using Python packages."
-msgstr ""
+msgstr "このチュートリアルでは、Pythonのパッケージをインストールして使う体験をしてもらいます。"
 
 #: ../../basics.rst:8
 msgid ""
@@ -38,22 +38,27 @@ msgid ""
 "applications), but is also very well suited to managing development and "
 "testing environments for any kind of project."
 msgstr ""
+"このチュートリアルは必要とするツールをインストールして使う方法を解説し、ベストプラクティスを強く推奨するものです。\n"
+"Pythonは非常に多岐に渡る目的に使われていて、依存関係をどのように管理したいかは厳密には、どのようにソフトウェアの公開を決めるかによって変わるかもしれないことを心に留めておいてください。\n"
+"このガイダンスを直接適用するのに一番向いているのは、(Webアプリケーションを含む) ネットワークサービスの開発とデプロイですが、どんな種類のプロジェクトの開発環境やテスト環境の管理にも非常によく適したものになっています。"
 
 #: ../../basics.rst:16
 msgid ""
 "This guide is written for Python 3, however, these instructions should "
 "work fine on Python 2.7—if you are still using it, for some reason."
-msgstr ""
+msgstr "このガイドはPython 3向けに書かれていますが、とある理由でまだPython 2.7を使っている場合でも、それぞれの指示はきちんと動くでしょう。"
 
 #: ../../basics.rst:21
 msgid "Make sure you've got Python & pip"
-msgstr ""
+msgstr "Pythonとpipがあるかの確認"
 
 #: ../../basics.rst:23
 msgid ""
 "Before you go any further, make sure you have Python and that it's "
 "avalable from your command line. You can check this by simply running:"
 msgstr ""
+"先に進む前に、Pythonがインストールしてあって、コマンドラインから使えることを確認してください。\n"
+"次のコマンドを実行して確認できます:"
 
 #: ../../basics.rst:30
 msgid ""
@@ -61,10 +66,12 @@ msgid ""
 "please install the latest 3.x version from `python.org`_ or refer to the "
 "`Installing Python`_ section of *The Hitchhiker's Guide to Python*."
 msgstr ""
+"``3.6.2`` のような表示が出力されたと思います。\n"
+"もしPythonをインストールしていなかったら、 `python.org`_ から最新のバージョン3.xをインストールするか、 *The Hitchhiker's Guide to Python* の `Installing Python`_ 節を参照してください。"
 
 #: ../../basics.rst:34
 msgid "If you're newcomer and you get an error like this:"
-msgstr ""
+msgstr "もしあなたが初心者で次のようなエラーが出てしまったら:"
 
 #: ../../basics.rst:43
 msgid ""
@@ -73,12 +80,16 @@ msgid ""
 "started tutorial`_ for an introduction to using your operating system's "
 "shell and interacting with Python."
 msgstr ""
+"このエラーが起きたのは、 ``python`` コマンドは *シェル* (*ターミナル* や *コンソール* とも呼ばれます) で動かすものだからです。\n"
+"Python for Beginnersというサイトの `getting started tutorial`_ を参照し、OSのシェルの使い方やPythonとやり取りする入門をしてください。"
 
 #: ../../basics.rst:48
 msgid ""
 "Additionally, you'll need to make sure you have :ref:`pip` available. You"
 " can check this by running:"
 msgstr ""
+"さらに、 :ref:`pip` が使える状態にあるかを確認する必要があります。\n"
+"次のコマンドを実行して確認できます:"
 
 #: ../../basics.rst:55
 msgid ""
@@ -87,10 +98,12 @@ msgid ""
 "on Linux and installed using your OS package manager, you may have to "
 "`install pip <https://pip.pypa.io/en/stable/installing/>`_ separately."
 msgstr ""
+"ソースコードや `python.org`_ のインストーラーや  `Homebrew`_ からPythonをインストールした場合は、既にpipがインストールされているはずです。\n"
+"Linuxを使っていて、OSのパッケージマネージャーを使ってインストールした場合には、それとは別に `pipのインストール <https://pip.pypa.io/en/stable/installing/>`_ をしなければならないかもしれません。"
 
 #: ../../basics.rst:66
 msgid "Installing Pipenv"
-msgstr ""
+msgstr "Pipenvのインストール"
 
 #: ../../basics.rst:68
 msgid ""
@@ -100,10 +113,13 @@ msgid ""
 "Pipenv is recommended as it's a higher-level tool that simplifies "
 "dependency management for common use cases."
 msgstr ""
+":ref:`Pipenv` はPythonプロジェクトのための依存関係管理ツールです。\n"
+"もしNode.jsの `npm`_ やRubyの `bundler`_ に馴染みがあるなら、Pipenvはそれらのツールとやりたいことはよく似ています。\n"
+":ref:`pip` はPythonのパッケージをインストールできますが、Pipenvは通常のユースケースでの依存関係管理を簡単にするより高度なツールとして推奨されています。"
 
 #: ../../basics.rst:74
 msgid "Use ``pip`` to install Pipenv:"
-msgstr ""
+msgstr "次の通り ``pip`` でPipenvをインストールしてください:"
 
 #: ../../basics.rst:81
 msgid ""
@@ -117,10 +133,16 @@ msgid ""
 "``PATH`` permanently by `modifying ~/.profile`_. On Windows you can set "
 "the user ``PATH`` permanently in the `Control Panel`_."
 msgstr ""
+"このコマンドは、システム全体で使っているパッケージを壊さないようにするため、 `user installation`_ を行います。\n"
+"インストールしたのに ``pipenv`` がシェルで使えない場合は、 `user base`_ の ``bin`` ディレクトリを ``PATH`` に追加する必要があります。\n"
+"user baseを含む場所の情報を出力する ``python -m site`` を実行すると、user baseの場所が分かります。\n"
+"例えば、Linuxではこのコマンドは ``USER_BASE: '~/.local'`` を返すので、 ``~/.local/bin`` を ``PATH`` に追加する必要があります。\n"
+"LinuxとmacOSでは `modifying ~/.profile`_ :ref:`modifying ~/.profile` して、永続的な ``PATH`` の設定を行います。\n"
+"Windowsでは `Control Panel`_ から、永続的なユーザーの ``PATH`` の設定を行います。"
 
 #: ../../basics.rst:99
 msgid "Installing packages for your project"
-msgstr ""
+msgstr "プロジェクトで使うパッケージのインストール"
 
 #: ../../basics.rst:101
 msgid ""
@@ -128,6 +150,8 @@ msgid ""
 "change into your project's directory (or just an empty directory for this"
 " tutorial) and run:"
 msgstr ""
+"Pipenvはプロジェクトごとに依存関係を管理します。\n"
+"パッケージをインストールするには、プロジェクトのディレクトリ (もしくは、このチュートリアル用の空ディレクトリ) に移動して、次のコマンドを実行してください:"
 
 #: ../../basics.rst:110
 msgid ""
