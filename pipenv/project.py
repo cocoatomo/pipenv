@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import sys
 import base64
 import hashlib
 
@@ -11,14 +12,17 @@ import toml
 import delegator
 from requests.compat import OrderedDict
 
-from .utils import (format_toml, mkdir_p, convert_deps_from_pip,
-    pep423_name, recase_file, find_requirements)
+from .utils import (
+    format_toml, mkdir_p, convert_deps_from_pip, pep423_name, recase_file,
+    find_requirements, is_file, is_vcs
+)
 from .environments import PIPENV_MAX_DEPTH, PIPENV_VENV_IN_PROJECT
 from .environments import PIPENV_USE_SYSTEM
 
 
 class Project(object):
     """docstring for Project"""
+
     def __init__(self):
         super(Project, self).__init__()
         self._name = None
@@ -27,6 +31,13 @@ class Project(object):
         self._proper_names_location = None
         self._pipfile_location = None
         self._requirements_location = None
+
+        # Hack to skip this during pipenv run.
+        if 'run' not in sys.argv[1]:
+            try:
+                os.chdir(self.project_directory)
+            except (TypeError, AttributeError):
+                pass
 
     @property
     def name(self):
@@ -37,6 +48,10 @@ class Project(object):
     @property
     def pipfile_exists(self):
         return bool(self.pipfile_location)
+
+    @property
+    def project_directory(self):
+        return os.path.abspath(os.path.join(self.pipfile_location, os.pardir))
 
     @property
     def requirements_exists(self):
@@ -197,20 +212,40 @@ class Project(object):
             return json.load(lock)
 
     @property
+    def vcs_packages(self):
+        """Returns a list of VCS packages, for not pip-tools to consume."""
+        ps = {}
+        for k, v in self.parsed_pipfile.get('packages', {}).items():
+            if is_vcs(v):
+                ps.update({k: v})
+        return ps
+
+    @property
+    def vcs_dev_packages(self):
+        """Returns a list of VCS packages, for not pip-tools to consume."""
+        ps = {}
+        for k, v in self.parsed_pipfile.get('dev-packages', {}).items():
+            if is_vcs(v):
+                ps.update({k: v})
+        return ps
+
+    @property
     def packages(self):
+        """Returns a list of packages, for pip-tools to consume."""
         ps = {}
         for k, v in self.parsed_pipfile.get('packages', {}).items():
             # Skip VCS deps.
-            if 'extras' in v or (not hasattr(v, 'keys')):
+            if ('extras' in v) or (not hasattr(v, 'keys')):
                 ps.update({k: v})
         return ps
 
     @property
     def dev_packages(self):
+        """Returns a list of dev-packages, for pip-tools to consume."""
         ps = {}
         for k, v in self.parsed_pipfile.get('dev-packages', {}).items():
             # Skip VCS deps.
-            if 'extras' in v or (not hasattr(v, 'keys')):
+            if ('extras' in v) or (not hasattr(v, 'keys')):
                 ps.update({k: v})
         return ps
 
@@ -258,7 +293,9 @@ class Project(object):
         # Read and append Pipfile.
         p = self._pipfile
 
-        package_name = pep423_name(package_name)
+        # Don't re-capitalize file URLs.
+        if not is_file(package_name):
+            package_name = pep423_name(package_name)
 
         key = 'dev-packages' if dev else 'packages'
 
@@ -273,4 +310,7 @@ class Project(object):
         p[key][package_name] = package[package_name]
 
         # Write Pipfile.
-        self.write_toml(recase_file(p))
+        self.write_toml(p)
+
+    def recase_pipfile(self):
+        self.write_toml(recase_file(self._pipfile))

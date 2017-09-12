@@ -28,16 +28,20 @@ Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv
 
 **Pipenv** — the officially recommended Python packaging tool from `Python.org <https://packaging.python.org/new-tutorials/installing-and-using-packages/>`_, free (as in freedom).
 
-Pipenv is a project that aims to bring the best of all packaging worlds to the Python world. It harnesses `Pipfile <https://github.com/pypa/pipfile>`_, `pip <https://github.com/pypa/pip>`_, and `virtualenv <https://github.com/pypa/virtualenv>`_ into one single toolchain. It features very pretty terminal colors.
+Pipenv is a project that aims to bring the best of all packaging worlds to the Python world. It harnesses `Pipfile <https://github.com/pypa/pipfile>`_, `pip <https://github.com/pypa/pip>`_, and `virtualenv <https://github.com/pypa/virtualenv>`_ into one single toolchain. It features very pretty terminal colors. *Windows is a first–class citizen, in our world.*
 
 It automatically creates and manages a virtualenv for your projects, as well as adds/removes packages from your ``Pipfile`` as you install/uninstall packages. The ``lock`` command generates a lockfile (``Pipfile.lock``).
 
-.. image:: http://media.kennethreitz.com.s3.amazonaws.com/pipenv.gif
+
+.. raw:: html
+
+    <iframe src="https://player.vimeo.com/video/233134524" width="700" height="460" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
 The problems that Pipenv seeks to solve are multi-faceted:
 
 - When using Pipenv, you no longer need to use ``pip`` and ``virtualenv`` separately. They work together.
-- Managing a ``requirements.txt`` file `can be problematic <https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv uses the upcoming ``Pipfile`` and ``Pipfile.lock`` instead, which is superior for basic use cases. 
+- Managing a ``requirements.txt`` file `can be problematic <https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv uses the upcoming ``Pipfile`` and ``Pipfile.lock`` instead, which is superior for basic use cases.
+- Hashes are used everywhere, always. Security.
 
 
 Install Pipenv Today!
@@ -47,7 +51,7 @@ Install Pipenv Today!
 
     $ pip install pipenv
     ✨🍰✨
-    
+
 If you have excellent taste, there's also a  `fancy installation method <http://docs.pipenv.org/en/latest/advanced.html#fancy-installation-of-pipenv>`_.
 
 .. toctree::
@@ -71,14 +75,14 @@ User Testimonials
 -----------------
 
 - Enables truly *deterministic builds*, while easily specifying *what you want*.
-- Automatically generates and checks file hashes for locked dependencies (via ``--hashes``).
+- Automatically generates and checks file hashes for locked dependencies.
 - Automatically finds your project home, recursively, by looking for a ``Pipfile``.
 - Automatically generates a ``Pipfile``, if one doesn't exist.
 - Automatically generates a ``Pipfile.lock``, if one doesn't exist.
 - Automatically creates a virtualenv in a standard location.
 - Automatically adds packages to a Pipfile when they are installed.
 - Automatically removes packages from a Pipfile when they are un-installed.
-- Also automatically updates pip.
+- Also automatically updates pip and itself, when asked.
 
 The main commands are ``install``, ``uninstall``, and ``lock``, which generates a ``Pipfile.lock``. These are intended to replace ``$ pip install`` usage, as well as manual virtualenv management (to activate a virtualenv, run ``$ pipenv shell``).
 
@@ -100,62 +104,6 @@ Other Commands
 - ``run`` will run a given command from the virtualenv, with any arguments forwarded (e.g. ``$ pipenv run python``).
 - ``check`` asserts that PEP 508 requirements are being met by the current environment.
 
-☤ Pipenv Usage
---------------
-
-::
-
-    $ pipenv
-    Usage: pipenv [OPTIONS] COMMAND [ARGS]...
-
-    Options:
-      --where          Output project home information.
-      --venv           Output virtualenv information.
-      --rm             Remove the virtualenv.
-      --bare           Minimal output.
-      --three / --two  Use Python 3/2 when creating virtualenv.
-      --python TEXT    Specify which version of Python virtualenv should use.
-      -h, --help       Show this message then exit.
-      --version        Show the version and exit.
-
-
-    Usage Examples:
-       Create a new project using Python 3:
-       $ pipenv --three
-
-       Install all dependencies for a project (including dev):
-       $ pipenv install --dev
-
-       Create a lockfile:
-       $ pipenv lock
-
-    Commands:
-      check      Checks PEP 508 markers provided in Pipfile.
-      install    Installs provided packages and adds them to...
-      lock       Generates Pipfile.lock.
-      run        Spawns a command installed into the...
-      shell      Spawns a shell within the virtualenv.
-      uninstall  Un-installs a provided package and removes it...
-      update     Updates pip to latest version, uninstalls all...
-
-::
-
-    $ pipenv --where
-    Pipfile found at /Users/kennethreitz/repos/kr/pip2/test/Pipfile. Considering this to be the project home.
-
-::
-
-    $ pipenv install
-    Creating a virtualenv for this project...
-    ...
-    No package provided, installing all dependencies.
-    Virtualenv location: /Users/kennethreitz/repos/kr/pip2/test/.venv
-    Installing dependencies from Pipfile.lock...
-    ...
-
-    To activate this project's virtualenv, run the following:
-    $ pipenv shell
-
 
 Further Documentation Guides
 ----------------------------
@@ -166,6 +114,12 @@ Further Documentation Guides
    basics
    advanced
 
+☤ Pipenv Usage
+--------------
+
+.. click:: pipenv:cli
+   :prog: pipenv
+   :show-nested:
 
 Indices and tables
 ==================

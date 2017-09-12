@@ -25,6 +25,12 @@ PIPENV_MAX_DEPTH = int(os.environ.get('PIPENV_MAX_DEPTH', '3')) + 1
 # Tells Pipenv to use the virtualenv-provided pip instead.
 PIPENV_USE_SYSTEM = os.environ.get('VIRTUAL_ENV') if 'PIPENV_IGNORE_VIRTUALENVS' not in os.environ else False
 
+# Tells Pipenv to use hashing mode.
+PIPENV_USE_HASHES = True
+
+# Tells pipenv to skip case-checking (slow internet connections).
+PIPENV_SKIP_VALIDATION = True
+
 # Use shell compatibility mode when using venv in project mode.
 if PIPENV_VENV_IN_PROJECT:
     PIPENV_SHELL_COMPAT = True
@@ -32,6 +38,10 @@ if PIPENV_VENV_IN_PROJECT:
 # Disable spinner on windows.
 if os.name == 'nt':
     PIPENV_NOSPIN = True
+
+PIPENV_HIDE_EMOJIS = os.environ.get('PIPENV_HIDE_EMOJIS')
+if os.name == 'nt':
+    PIPENV_HIDE_EMOJIS = True
 
 # Tells pipenv how long to wait for virtualenvs to be created in seconds
 PIPENV_TIMEOUT = int(os.environ.get('PIPENV_TIMEOUT', 120))

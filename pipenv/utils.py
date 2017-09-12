@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
+import hashlib
 import tempfile
 
 from piptools.resolver import Resolver
 from piptools.repositories.pypi import PyPIRepository
 from piptools.scripts.compile import get_pip_command
+from piptools import logging
 
 import requests
 import parse
@@ -13,15 +15,30 @@ import six
 
 # List of version control systems we support.
 VCS_LIST = ('git', 'svn', 'hg', 'bzr')
+FILE_LIST = ('http://', 'https://', 'ftp://', 'file:///')
 
 requests = requests.session()
 
 
 class PipCommand(pip.basecommand.Command):
+    """Needed for pip-tools."""
     name = 'PipCommand'
 
 
-def resolve_deps(deps, sources=None):
+def shellquote(s):
+    """Prepares a string for the shell (on Windows too!)"""
+    return '"' + s.replace("'", "'\\''") + '"'
+
+
+def clean_pkg_version(version):
+    """Uses pip to prepare a package version string, from our internal version."""
+    return six.u(pep440_version(str(version).replace('==', '')))
+
+
+def resolve_deps(deps, sources=None, verbose=False):
+    """Given a list of dependencies, return a resolved list of dependencies,
+    using pip-tools -- and their hashes, using the warehouse API / pip.
+    """
 
     constraints = []
 
@@ -41,19 +58,52 @@ def resolve_deps(deps, sources=None):
 
     pip_options, _ = pip_command.parse_args(pip_args)
 
-    pypi = PyPIRepository(pip_options=pip_options, session=requests)
+    pypi = PyPIRepository(pip_options=pip_options, session=pip._vendor.requests)
 
-    r = Resolver(constraints=constraints, repository=pypi)
+    if verbose:
+        logging.log.verbose = True
+
+    resolver = Resolver(constraints=constraints, repository=pypi)
     results = []
 
-    for result in r.resolve():
-        results.append({'name': pep423_name(result.name), 'version': six.u(str(result.specifier)).replace('==', '')})
+    # pre-resolve instead of iterating to avoid asking pypi for hashes of editable packages
+    resolved_tree = resolver.resolve()
+
+    for result in resolved_tree:
+        name = pep423_name(result.name)
+        version = clean_pkg_version(result.specifier)
+
+        collected_hashes = []
+
+        try:
+            # Grab the hashes from the new warehouse API.
+            r = requests.get('https://pypi.org/pypi/{0}/json'.format(name))
+            api_releases = r.json()['releases']
+
+            cleaned_releases = {}
+            for api_version, api_info in api_releases.items():
+                cleaned_releases[clean_pkg_version(api_version)] = api_info
+
+            for release in cleaned_releases[version]:
+                collected_hashes.append(release['digests']['sha256'])
+
+            collected_hashes = ['sha256:' + s for s in collected_hashes]
+
+            # Collect un-collectable hashes.
+            if not collected_hashes:
+                collected_hashes = list(list(resolver.resolve_hashes([result]).items())[0][1])
+
+        except (ValueError, KeyError):
+            pass
+
+        results.append({'name': name, 'version': version, 'hashes': collected_hashes})
 
     return results
 
 
 def format_toml(data):
     """Pretty-formats a given toml string."""
+
     data = data.split('\n')
     for i, line in enumerate(data):
         if i > 0:
@@ -65,6 +115,7 @@ def format_toml(data):
 
 def multi_split(s, split):
     """Splits on multiple given separators."""
+
     for r in split:
         s = s.replace(r, '|')
 
@@ -73,10 +124,21 @@ def multi_split(s, split):
 
 def convert_deps_from_pip(dep):
     """"Converts a pip-formatted dependency to a Pipfile-formatted one."""
+
     dependency = {}
 
     import requirements
     req = [r for r in requirements.parse(dep)][0]
+
+    # File installs.
+    if req.uri and not req.vcs:
+
+        # Assign a package name to the file, last 7 of it's sha256 hex digest.
+        req.name = hashlib.sha256(req.uri.encode('utf-8')).hexdigest()
+        req.name = req.name[len(req.name) - 7:]
+
+        # {file: uri} TOML (spec 3 I guess...)
+        dependency[req.name] = {'file': req.uri}
 
     # VCS Installs.
     if req.vcs:
@@ -91,6 +153,10 @@ def convert_deps_from_pip(dep):
         # Add --editable, if it's there.
         if req.editable:
             dependency[req.name].update({'editable': True})
+
+        # Add subdirectory, if it's there
+        if req.subdirectory:
+            dependency[req.name].update({'subdirectory': req.subdirectory})
 
         # Add the specifier, if it was provided.
         if req.revision:
@@ -120,7 +186,8 @@ def convert_deps_from_pip(dep):
 
 
 def convert_deps_to_pip(deps, r=True):
-    """"Converts a Pipfile-formatteddependency to a pip-formatted one."""
+    """"Converts a Pipfile-formatted dependency to a pip-formatted one."""
+
     dependencies = []
 
     for dep in deps.keys():
@@ -134,8 +201,13 @@ def convert_deps_to_pip(deps, r=True):
             extra = ''
 
         hash = ''
+        # Support for single hash (spec 1).
         if 'hash' in deps[dep]:
             hash = ' --hash={0}'.format(deps[dep]['hash'])
+
+        # Support for multiple hashes (spec 2).
+        if 'hashes' in deps[dep]:
+            hash = '{0} '.format(''.join([' --hash={0} '.format(h) for h in deps[dep]['hashes']]))
 
         # Support for extras (e.g. requests[socks])
         if 'extras' in deps[dep]:
@@ -148,6 +220,10 @@ def convert_deps_to_pip(deps, r=True):
         maybe_vcs = [vcs for vcs in VCS_LIST if vcs in deps[dep]]
         vcs = maybe_vcs[0] if maybe_vcs else None
 
+        # Support for files.
+        if 'file' in deps[dep]:
+            dep = deps[dep]['file']
+
         if vcs:
             extra = '{0}+{1}'.format(vcs, deps[dep][vcs])
 
@@ -156,6 +232,10 @@ def convert_deps_to_pip(deps, r=True):
                 extra += '@{0}'.format(deps[dep]['ref'])
 
             extra += '#egg={0}'.format(dep)
+
+            # Support for subdirectory
+            if 'subdirectory' in deps[dep]:
+                extra += '&subdirectory={0}'.format(deps[dep]['subdirectory'])
 
             # Support for editable.
             if 'editable' in deps[dep]:
@@ -182,6 +262,7 @@ def mkdir_p(newdir):
         - parent directory(ies) does not exist, make them as well
         From: http://code.activestate.com/recipes/82465-a-friendly-mkdir/
     """
+
     if os.path.isdir(newdir):
         pass
     elif os.path.isfile(newdir):
@@ -198,6 +279,7 @@ def is_required_version(version, specified_version):
     """Check to see if there's a hard requirement for version
     number provided in the Pipfile.
     """
+
     # Certain packages may be defined with multiple values.
     if isinstance(specified_version, dict):
         specified_version = specified_version.get('version', '')
@@ -208,20 +290,39 @@ def is_required_version(version, specified_version):
 
 def is_vcs(pipfile_entry):
     """Determine if dictionary entry from Pipfile is for a vcs dependency."""
+
     if isinstance(pipfile_entry, dict):
         return any(key for key in pipfile_entry.keys() if key in VCS_LIST)
     return False
 
 
+def is_file(package):
+    """Determine if a package name is for a File dependency."""
+    for start in FILE_LIST:
+        if package.startswith(start):
+            return True
+
+    return False
+
+
+def pep440_version(version):
+    """Normalize version to PEP 440 standards"""
+
+    # Use pip built-in version parser.
+    return str(pip.index.parse_version(version))
+
+
 def pep423_name(name):
     """Normalize package name to PEP 423 style standard."""
-    return name.lower().replace('_','-')
+
+    return name.lower().replace('_', '-')
 
 
 def proper_case(package_name):
-    """Properly case project name from pypi.org"""
+    """Properly case project name from pypi.org."""
+
     # Hit the simple API.
-    r = requests.get('https://pypi.org/pypi/{0}/json'.format(package_name), timeout=1, stream=True)
+    r = requests.get('https://pypi.org/pypi/{0}/json'.format(package_name), timeout=0.3, stream=True)
     if not r.ok:
         raise IOError('Unable to find package {0} in PyPI repository.'.format(package_name))
 
@@ -233,6 +334,7 @@ def proper_case(package_name):
 
 def split_vcs(split_file):
     """Split VCS dependencies out from file."""
+
     if 'packages' in split_file or 'dev-packages' in split_file:
         sections = ('packages', 'dev-packages')
     elif 'default' in split_file or 'develop' in split_file:
@@ -242,13 +344,14 @@ def split_vcs(split_file):
     for section in sections:
         entries = split_file.get(section, {})
         vcs_dict = dict((k, entries.pop(k)) for k in list(entries.keys()) if is_vcs(entries[k]))
-        split_file[section+'-vcs'] = vcs_dict
+        split_file[section + '-vcs'] = vcs_dict
 
     return split_file
 
 
 def recase_file(file_dict):
     """Recase file before writing to output."""
+
     if 'packages' in file_dict or 'dev-packages' in file_dict:
         sections = ('packages', 'dev-packages')
     elif 'default' in file_dict or 'develop' in file_dict:
@@ -269,13 +372,13 @@ def recase_file(file_dict):
 
 
 def walk_up(bottom):
-    """mimic os.walk, but walk 'up' instead of down the directory tree.
+    """Mimic os.walk, but walk 'up' instead of down the directory tree.
     From: https://gist.github.com/zdavkeos/1098474
     """
 
     bottom = os.path.realpath(bottom)
 
-    # get files in current dir
+    # Get files in current dir.
     try:
         names = os.listdir(bottom)
     except Exception:
@@ -292,7 +395,7 @@ def walk_up(bottom):
 
     new_path = os.path.realpath(os.path.join(bottom, '..'))
 
-    # see if we are at the top
+    # See if we are at the top.
     if new_path == bottom:
         return
 
@@ -301,14 +404,15 @@ def walk_up(bottom):
 
 
 def find_requirements(max_depth=3):
-        """Returns the path of a Pipfile in parent directories."""
-        i = 0
-        for c, d, f in walk_up(os.getcwd()):
-            i += 1
+    """Returns the path of a Pipfile in parent directories."""
 
-            if i < max_depth:
-                if 'requirements.txt':
-                    r = os.path.join(c, 'requirements.txt')
-                    if os.path.isfile(r):
-                        return r
-        raise RuntimeError('No requirements.txt found!')
+    i = 0
+    for c, d, f in walk_up(os.getcwd()):
+        i += 1
+
+        if i < max_depth:
+            if 'requirements.txt':
+                r = os.path.join(c, 'requirements.txt')
+                if os.path.isfile(r):
+                    return r
+    raise RuntimeError('No requirements.txt found!')

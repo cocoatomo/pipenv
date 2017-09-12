@@ -5,15 +5,17 @@ mock = "*"
 "delegator.py" = ">=0.0.13"
 toml = "*"
 Sphinx = "<=1.5.5"
+"-e ." = "*"
 
 [packages]
 pew = ">=0.1.26"
 pep8 = "*"
 pytest = "*"
 pip-tools = "*"
-background = "*"
 semver = "*"
 requests = "*"
+ibm-db-sa-py3 = ">=0.3.1-1"
+"-e ." = "*"
 
 [requires]
 python_version = "3.6"

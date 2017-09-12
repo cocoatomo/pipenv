@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from mock import patch, Mock, PropertyMock
 
@@ -7,15 +8,30 @@ import delegator
 import toml
 
 from pipenv.cli import (
-    activate_virtualenv, ensure_proper_casing, pip_install, pip_download
+    ensure_proper_casing, parse_download_fname, parse_install_output,
+    pip_install, pip_download
 )
-from pipenv.project import Project
-
-# Tell pipenv to ignore activated virtualenvs.
-os.environ['PIPENV_IGNORE_VIRTUALENVS'] = 'True'
 
 
-class TestPipenv():
+class TestPipenvWindows():
+
+    def test_existience(self):
+        assert True
+
+    @pytest.mark.parametrize('fname, name, expected', [
+        ('functools32-3.2.3-2.zip', 'functools32', '3.2.3'),
+        ('functools32-3.2.3-blah.zip', 'functools32', '3.2.3-blah'),
+        ('functools32-3.2.3.zip', 'functools32', '3.2.3'),
+        ('colorama-0.3.7-py2.py3-none-any.whl', 'colorama', '0.3.7'),
+        ('colorama-0.3.7-2-py2.py3-none-any.whl', 'colorama', '0.3.7'),
+        ('click-completion-0.2.1.tar.gz', 'click-completion', '0.2.1'),
+        ('Twisted-16.5.0.tar.bz2', 'Twisted', '16.5.0'),
+        ('Twisted-16.1.1-cp27-none-win_amd64.whl', 'twIsteD', '16.1.1'),
+        ('pdfminer.six-20140915.zip', 'pdfMiner.SIX', '20140915')
+    ])
+    def test_parse_download_fname(self, fname, name, expected):
+        version = parse_download_fname(fname, name)
+        assert version == expected
 
     def test_cli_usage(self):
         delegator.run('mkdir test_project')
@@ -23,25 +39,19 @@ class TestPipenv():
 
         os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
 
-        assert delegator.run('touch Pipfile').return_code == 0
+        assert delegator.run('copy /y nul Pipfile').return_code == 0
 
         assert delegator.run('pipenv --python python').return_code == 0
         assert delegator.run('pipenv install Werkzeug').return_code == 0
         assert delegator.run('pipenv install pytest --dev').return_code == 0
-        # assert delegator.run('pipenv install https://pypi.python.org/packages/49/df/50aa1999ab9bde74656c2919d9c0c085fd2b3775fd3eca826012bef76d8c/requests-2.18.4-py2.py3-none-any.whl#md5=eb9be71cc41fd73a51a7c9cd1adde5de').return_code == 0
-
-        # Debug.
-        print(delegator.run('pipenv install regex').err)
-
-        assert delegator.run('pipenv install regex').return_code == 0  # failing before
         assert delegator.run('pipenv install git+https://github.com/requests/requests.git@v2.18.4#egg=requests').return_code == 0
         assert delegator.run('pipenv lock').return_code == 0
 
         # Test uninstalling a package after locking.
         assert delegator.run('pipenv uninstall Werkzeug').return_code == 0
 
-        pipfile_output = delegator.run('cat Pipfile').out
-        lockfile_output = delegator.run('cat Pipfile.lock').out
+        pipfile_output = delegator.run('type Pipfile').out
+        lockfile_output = delegator.run('type Pipfile.lock').out
 
         # Ensure uninstall works.
         assert 'Werkzeug' not in pipfile_output
@@ -56,7 +66,7 @@ class TestPipenv():
         assert '"git": "https://github.com/requests/requests.git"' in lockfile_output
 
         os.chdir('..')
-        delegator.run('rm -fr test_project')
+        shutil.rmtree('test_project')
 
     def test_requirements_to_pipfile(self):
         delegator.run('mkdir test_requirements_to_pip')
@@ -71,12 +81,15 @@ class TestPipenv():
                     '-e git+https://github.com/kennethreitz/tablib.git@v0.11.5#egg=tablib\n'
                     'six==1.10.0\n')
 
-        assert delegator.run('pipenv --python python').return_code == 0
+        c = delegator.run('pipenv --python python')
+        print(c.err)
+        assert c.return_code == 0
+
         print(delegator.run('pipenv lock').err)
         assert delegator.run('pipenv lock').return_code == 0
 
-        pipfile_output = delegator.run('cat Pipfile').out
-        lockfile_output = delegator.run('cat Pipfile.lock').out
+        pipfile_output = delegator.run('type Pipfile').out
+        lockfile_output = delegator.run('type Pipfile.lock').out
 
         # Ensure extras work.
         assert 'extras = [ "socks",]' in pipfile_output
@@ -94,7 +107,7 @@ class TestPipenv():
         assert 'six = "==1.10.0"' not in pipfile_output
 
         os.chdir('..')
-        delegator.run('rm -fr test_requirements_to_pip')
+        shutil.rmtree('test_requirements_to_pip')
         del os.environ['PIPENV_MAX_DEPTH']
 
     def test_timeout_long(self):
@@ -104,12 +117,12 @@ class TestPipenv():
         os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
         os.environ['PIPENV_TIMEOUT'] = '60'
 
-        assert delegator.run('touch Pipfile').return_code == 0
+        assert delegator.run('copy /y nul Pipfile').return_code == 0
 
         assert delegator.run('pipenv --python python').return_code == 0
 
         os.chdir('..')
-        delegator.run('rm -fr test_timeout_long')
+        shutil.rmtree('test_timeout_long')
         del os.environ['PIPENV_TIMEOUT']
 
     def test_timeout_short(self):
@@ -117,14 +130,14 @@ class TestPipenv():
         os.chdir('test_timeout_short')
 
         os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
-        os.environ['PIPENV_TIMEOUT'] = '1'
+        os.environ['PIPENV_TIMEOUT'] = '0'
 
-        assert delegator.run('touch Pipfile').return_code == 0
+        assert delegator.run('copy /y nul Pipfile').return_code == 0
 
         assert delegator.run('pipenv --python python').return_code == 1
 
         os.chdir('..')
-        delegator.run('rm -fr test_timeout_short')
+        shutil.rmtree('test_timeout_short')
         del os.environ['PIPENV_TIMEOUT']
 
     def test_pipenv_uninstall(self):
@@ -133,14 +146,14 @@ class TestPipenv():
 
         # Build the environment.
         os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
-        assert delegator.run('touch Pipfile').return_code == 0
+        assert delegator.run('copy /y nul Pipfile').return_code == 0
         assert delegator.run('pipenv --python python').return_code == 0
 
         # Add entries to Pipfile.
         assert delegator.run('pipenv install Werkzeug').return_code == 0
         assert delegator.run('pipenv install pytest --dev').return_code == 0
 
-        pipfile_output = delegator.run('cat Pipfile').out
+        pipfile_output = delegator.run('type Pipfile').out
         pipfile_list = pipfile_output.split('\n')
 
         assert 'werkzeug = "*"' in pipfile_list
@@ -156,7 +169,7 @@ class TestPipenv():
         assert c.return_code == 0
         assert 'No package NotAPackage to remove from Pipfile.' in c.out
 
-        pipfile_output = delegator.run('cat Pipfile').out
+        pipfile_output = delegator.run('type Pipfile').out
         pipfile_list = pipfile_output.split('\n')
 
         assert 'Werkzeug = "*"' in pipfile_list
@@ -165,7 +178,7 @@ class TestPipenv():
         assert '[dev-packages]' not in pipfile_list
 
         os.chdir('..')
-        delegator.run('rm -fr test_pipenv_uninstall')
+        shutil.rmtree('test_pipenv_uninstall')
 
     def test_pipenv_run(self):
         working_dir = 'test_pipenv_run'
@@ -174,10 +187,10 @@ class TestPipenv():
 
         # Build the environment.
         os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
-        delegator.run('touch Pipfile')
+        assert delegator.run('copy /y nul Pipfile').return_code == 0
+        assert delegator.run('pipenv --python python').return_code == 0
 
         # Install packages for test.
-        # print(delegator.run('pipenv install pep8').err)
         assert delegator.run('pipenv install pep8').return_code == 0
         assert delegator.run('pipenv install pytest').return_code == 0
 
@@ -187,7 +200,7 @@ class TestPipenv():
         assert delegator.run('pipenv run pytest --version').return_code == 0
 
         os.chdir('..')
-        delegator.run('rm -fr {0}'.format(working_dir))
+        shutil.rmtree(working_dir)
 
     def test_ensure_proper_casing_names(self):
         """Ensure proper casing for package names."""
@@ -214,46 +227,35 @@ class TestPipenv():
 
         assert changed is True
 
-    def test_ensure_proper_casing_no_change(self):
-        """Ensure changed flag is false with no changes."""
-        pfile_test = ("[packages]\n"
-                      "Flask = \"==0.11\"\n"
-                      "\n\n"
-                      "[dev-packages]\n"
-                      "pytest = \"*\"\n")
+    def test_parse_install_output(self):
+        """Ensure pip output is parsed properly."""
+        install_output = ("Collecting requests\n"
+                          "Using cached requests-2.13.0-py2.py3-none-any.whl\n"
+                          "Successfully downloaded requests-2.13.0\n"
+                          "Collecting honcho\n"
+                          "Using cached honcho-0.7.1.tar.gz\n"
+                          "Successfully downloaded honcho-0.7.1\n"
+                          "Collecting foursquare\n"
+                          "Downloading foursquare-1%212015.4.7.tar.gz\n"
+                          "Saved ./foursquare-1%212015.4.7.tar.gz\n"
+                          "Successfully downloaded foursquare\n"
+                          "Collecting django-debug-toolbar\n"
+                          "Using cached django_debug_toolbar-1.6-py2.py3-none-any.whl\n"
+                          "Collecting sqlparse>=0.2.0 (from django-debug-toolbar)\n"
+                          "Using cached sqlparse-0.2.2-py2.py3-none-any.whl\n")
 
-        # Load test Pipfile.
-        p = toml.loads(pfile_test)
-        changed = ensure_proper_casing(p)
+        names_map = dict(parse_install_output(install_output))
 
-        assert 'Flask' in p['packages']
-        assert 'pytest' in p['dev-packages']
-        assert changed is False
+        # Verify files are added to names map with appropriate project name.
+        assert 'requests-2.13.0-py2.py3-none-any.whl' in names_map
+        assert names_map['requests-2.13.0-py2.py3-none-any.whl'] == 'requests'
 
-    @pytest.mark.parametrize('shell, extension', [
-        ('/bin/bash', ''),
-        ('/bin/fish', '.fish'),
-        ('/bin/csh', '.csh'),
-        ('/bin/unknown', '')]
-    )
-    def test_activate_virtualenv(self, shell, extension):
-        orig_shell = os.environ['SHELL']
-        os.environ['SHELL'] = shell
+        # Verify percent-encoded characters are unencoded (%21 -> !).
+        assert 'foursquare-1!2015.4.7.tar.gz' in names_map
 
-        # Get standard activation command for bash
-        command = activate_virtualenv()
-
-        # Return environment to initial shell config.
-        os.environ['SHELL'] = orig_shell
-
-        venv = Project().virtualenv_location
-        assert command == 'source {0}/bin/activate{1}'.format(venv, extension)
-
-    def test_activate_virtualenv_no_source(self):
-        command = activate_virtualenv(source=False)
-        venv = Project().virtualenv_location
-
-        assert command == '{0}/bin/activate'.format(venv)
+        # Verify multiple dashes in name is parsed correctly.
+        assert 'django_debug_toolbar-1.6-py2.py3-none-any.whl' in names_map
+        assert names_map['django_debug_toolbar-1.6-py2.py3-none-any.whl'] == 'django-debug-toolbar'
 
     @patch('pipenv.project.Project.sources', new_callable=PropertyMock)
     @patch('delegator.run')
@@ -359,17 +361,15 @@ class TestPipenv():
         delegator.run('mkdir test_pipenv_requirements')
         os.chdir('test_pipenv_requirements')
 
-        pip_str = ("[packages]\n"
-                   "requests = \"==2.14.0\"\n"
-                   "flask = \"==0.12.2\"\n\n"
-                   "[dev-packages]\n"
-                   "pytest = \"==3.1.1\"\n")
+        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
+
+        assert delegator.run('copy /y nul Pipfile').return_code == 0
+        assert delegator.run('pipenv --python python').return_code == 0
+        assert delegator.run('pipenv install requests==2.14.0').return_code == 0
+        assert delegator.run('pipenv install flask==0.12.2').return_code == 0
+        assert delegator.run('pipenv install --dev pytest==3.1.1').return_code == 0
 
         req_list = ("requests==2.14.0", "flask==0.12.2", "pytest==3.1.1")
-
-        # Build the environment.
-        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
-        assert delegator.run('echo \'{0}\' > Pipfile'.format(pip_str)).return_code == 0
 
         # Validate requirements.txt.
         c = delegator.run('pipenv lock -r')
@@ -379,4 +379,4 @@ class TestPipenv():
 
         # Cleanup.
         os.chdir('..')
-        delegator.run('rm -fr test_pipenv_requirements')
+        shutil.rmtree('test_pipenv_requirements')

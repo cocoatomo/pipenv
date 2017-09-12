@@ -15,6 +15,9 @@ Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv
 
 .. image:: https://travis-ci.org/kennethreitz/pipenv.svg?branch=master
     :target: https://travis-ci.org/kennethreitz/pipenv
+    
+.. image:: https://img.shields.io/appveyor/ci/kennethreitz/pipenv.svg   
+    :target: https://ci.appveyor.com/project/kennethreitz/pipenv/branch/master
 
 .. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
     :target: https://saythanks.io/to/kennethreitz
@@ -23,7 +26,7 @@ Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv
 
 **Pipenv** — the officially recommended Python packaging tool from `Python.org <https://packaging.python.org/new-tutorials/installing-and-using-packages/>`_, free (as in freedom).
 
-Pipenv harnesses `Pipfile <https://github.com/pypa/pipfile>`_, `Pip <https://github.com/pypa/pip>`_, and `Virtualenv <https://github.com/pypa/virtualenv>`_ together in unison to create a single, high-quality tool that is optimized for workflow efficiency and best practices. 
+Pipenv harnesses `Pipfile <https://github.com/pypa/pipfile>`_, `Pip <https://github.com/pypa/pip>`_, and `Virtualenv <https://github.com/pypa/virtualenv>`_ together in unison to create a single, high-quality tool that is optimized for workflow efficiency and best practices. *Windows is a first–class citizen, in our world.*
 
 Pipenv automatically creates and manages the virtualenvs of your projects, as well as adds/removes packages from your ``Pipfile`` as you install/uninstall packages. The ``lock`` command generates a lockfile (``Pipfile.lock``).
 
@@ -32,8 +35,8 @@ Pipenv automatically creates and manages the virtualenvs of your projects, as we
 The problems that Pipenv seeks to solve are multi-faceted:
 
 - When using Pipenv, you no longer need to use ``pip`` and ``virtualenv`` separately. They work together.
-- Managing a ``requirements.txt`` file `can be problematic <https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv uses the upcoming ``Pipfile`` and ``Pipfile.lock`` instead, which is superior for basic use cases. 
-
+- Managing a ``requirements.txt`` file `can be problematic <https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv uses the upcoming ``Pipfile`` and ``Pipfile.lock`` instead, which is superior for basic use cases.
+- Hashes are used everywhere, always. Security.
 
 Installation
 ------------
@@ -62,7 +65,7 @@ Installation
 ----------
 
 - Enables truly *deterministic builds*, while easily specifying *what you want*.
-- Generates and checks file hashes for locked dependencies (via ``--hashes``). 
+- Generates and checks file hashes for locked dependencies (via ``--hashes``).
 - Automatically finds your project home, recursively, by looking for a ``Pipfile``.
 - Automatically generates a ``Pipfile``, if one doesn't exist.
 - Automatically generates a ``Pipfile.lock``, if one doesn't exist.
@@ -88,6 +91,7 @@ Other Commands
 - ``shell`` will spawn a shell with the virtualenv activated.
 - ``run`` will run a given command from the virtualenv, with any arguments forwarded (e.g. ``$ pipenv run python``).
 - ``check`` asserts that PEP 508 requirements are being met by the current environment.
+- ``graph`` will print a pretty graph of all your installed dependencies. 
 
 Shell Completion
 ////////////////
@@ -110,13 +114,16 @@ Fish is the best shell. You should use it.
     Usage: pipenv [OPTIONS] COMMAND [ARGS]...
 
     Options:
+      --update         Upate Pipenv & pip to latest.
       --where          Output project home information.
       --venv           Output virtualenv information.
       --rm             Remove the virtualenv.
       --bare           Minimal output.
       --three / --two  Use Python 3/2 when creating virtualenv.
-      --python TEXT    Specify which version of Python virtualenv should use.
+      --python TEXT    Specify which version of Python virtualenv
+                       should use.
       -h, --help       Show this message then exit.
+      -j, --jumbotron  An easter egg, effectively.
       --version        Show the version and exit.
 
 
@@ -132,13 +139,13 @@ Fish is the best shell. You should use it.
 
     Commands:
       check      Checks PEP 508 markers provided in Pipfile.
+      graph      Displays currently–installed dependency graph...
       install    Installs provided packages and adds them to...
       lock       Generates Pipfile.lock.
       run        Spawns a command installed into the...
       shell      Spawns a shell within the virtualenv.
       uninstall  Un-installs a provided package and removes it...
-      update     Updates pip to latest version, uninstalls all...
-
+      update     Updates Pipenv & pip to latest, uninstalls...
 ::
 
     $ pipenv --where
@@ -166,6 +173,19 @@ Fish is the best shell. You should use it.
 
 ::
 
+    $ pipenv graph
+    pip==9.0.1
+    regex==2017.7.28
+    requests==2.18.4
+      - certifi [required: >=2017.4.17, installed: 2017.7.27.1]
+      - chardet [required: >=3.0.2,<3.1.0, installed: 3.0.4]
+      - idna [required: >=2.5,<2.7, installed: 2.6]
+      - urllib3 [required: <1.23,>=1.21.1, installed: 1.22]
+    setuptools==36.4.0
+    wheel==0.29.0
+
+::
+
     $ pipenv lock
     Assuring all dependencies from Pipfile are installed...
     Locking [dev-packages] dependencies...
@@ -184,7 +204,7 @@ Fish is the best shell. You should use it.
 
 ::
 
-    $ pipenv uninstall
+    $ pipenv uninstall --all
     No package provided, un-installing all dependencies.
     Found 25 installed package(s), purging...
     ...
