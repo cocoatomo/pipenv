@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: pipenv 5.3.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-06 08:37+0900\n"
-"PO-Revision-Date: 2017-09-13 01:01+0900\n"
+"PO-Revision-Date: 2017-09-13 01:35+0900\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -134,8 +134,8 @@ msgid ""
 "the user ``PATH`` permanently in the `Control Panel`_."
 msgstr ""
 "このコマンドは、システム全体で使っているパッケージを壊さないようにするため、 `ユーザーインストール <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を行います。\n"
-"インストールしたのに ``pipenv`` がシェルで使えない場合は、 `user base`_ の ``bin`` ディレクトリを ``PATH`` に追加する必要があります。\n"
-"user baseを含む場所の情報を出力する ``python -m site`` を実行すると、user baseの場所が分かります。\n"
+"インストールしたのに ``pipenv`` がシェルで使えない場合は、 `ユーザー基底ディレクトリ <https://docs.python.org/3/library/site.html#site.USER_BASE>`_ の ``bin`` ディレクトリを ``PATH`` に追加する必要があります。\n"
+"user baseを含む場所の情報を出力する ``python -m site`` を実行すると、ユーザー基底ディレクトリの場所が分かります。\n"
 "例えば、Linuxではこのコマンドは ``USER_BASE: '~/.local'`` を返すので、 ``~/.local/bin`` を ``PATH`` に追加する必要があります。\n"
 "LinuxとmacOSでは `~/.profileを修正 <https://stackoverflow.com/a/14638025>`_ して、永続的な ``PATH`` の設定を行います。\n"
 "Windowsでは `コントロールパネル <https://msdn.microsoft.com/en-us/library/windows/desktop/bb776899(v=vs.85).aspx>`_ から、永続的なユーザーの ``PATH`` の設定を行います。"
@@ -162,24 +162,27 @@ msgid ""
 "should get output similar to this (although the exact paths shown will "
 "vary):"
 msgstr ""
+"Pipenvは非常に優れた `Requests`_ ライブラリをインストールし、プロジェクトディレクトリに ``Pipfile`` を作成します。\n"
+":ref:`Pipfile` は、プロジェクトを他の人に共有するときのように、依存関係を再インストールする必要が出てきたときに、プロジェクトがどの依存関係を必要としているのかを追跡するのに使います。\n"
+"これに似た出力が表示されるはずです (もっとも、表示されている正確なパスは異なるでしょう):"
 
 #: ../../basics.rst:147
 msgid "Using installed packages"
-msgstr ""
+msgstr "インストールされたパッケージを使う"
 
 #: ../../basics.rst:149
 msgid ""
 "Now that Requests is installed you can create a simple ``main.py`` file "
 "to use it:"
-msgstr ""
+msgstr "これでRequestsがインストールされたので、単純な ``main.py`` ファイルを作成し、Requestsを使えます:"
 
 #: ../../basics.rst:160
 msgid "Then you can run this script using ``pipenv run``:"
-msgstr ""
+msgstr "そして ``pipenv run`` を使って、このスクリプトが実行できます:"
 
 #: ../../basics.rst:166
 msgid "You should get output similar to this:"
-msgstr ""
+msgstr "これに似た出力が表示されるはずです:"
 
 #: ../../basics.rst:172
 msgid ""
@@ -187,14 +190,16 @@ msgid ""
 " to your script. It's also possible to spawn a new shell that ensures all"
 " commands have access to your installed packages with ``$ pipenv shell``."
 msgstr ""
+"``$ pipenv run`` を使うと、インストールしたパッケージがスクリプトから使えることが保証されます。\n"
+"インストールしたパッケージに全てのコマンドがアクセスできることが保証された新しいシェルの起動もできます。"
 
 #: ../../basics.rst:178
 msgid "Next steps"
-msgstr ""
+msgstr "次のステップ"
 
 #: ../../basics.rst:180
 msgid ""
 "Congratulations, you now know how to install and use Python packages! ✨ 🍰"
 " ✨"
-msgstr ""
+msgstr "おめでとうございます、Pythonのパッケージをインストールして使う方法が学べました! ✨ 🍰 ✨"
 
