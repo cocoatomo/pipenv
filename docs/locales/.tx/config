@@ -1,0 +1,19 @@
+[main]
+host = https://www.transifex.com
+type = PO
+
+[pipenv.advanced]
+file_filter = <lang>/LC_MESSAGES/advanced.po
+source_file = pot/advanced.pot
+source_lang = en
+
+[pipenv.basics]
+file_filter = <lang>/LC_MESSAGES/basics.po
+source_file = pot/basics.pot
+source_lang = en
+
+[pipenv.index]
+file_filter = <lang>/LC_MESSAGES/index.po
+source_file = pot/index.pot
+source_lang = en
+
