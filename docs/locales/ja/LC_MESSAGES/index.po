@@ -1,23 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2017. A <a
-# href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a>
-# Project
+# Copyright (C) 2017. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project
 # This file is distributed under the same license as the pipenv package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
-#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 5.3.3\n"
+"Project-Id-Version: pipenv 6.2.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-06 08:37+0900\n"
-"PO-Revision-Date: 2017-09-07 10:42+0900\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2017-09-13 08:52+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
+"Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.5.0\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../../index.rst:7
 msgid "Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv"
@@ -28,36 +27,39 @@ msgid ""
 "**Pipenv** — the officially recommended Python packaging tool from "
 "`Python.org <https://packaging.python.org/new-tutorials/installing-and-"
 "using-packages/>`_, free (as in freedom)."
-msgstr "**Pipenv** — `Python.org <https://packaging.python.org/new-tutorials/installing-and-using-packages/>`_ が正式に推薦するPythonパッケージングツール, free (as in freedom)"
+msgstr ""
+"**Pipenv** — `Python.org <https://packaging.python.org/new-tutorials"
+"/installing-and-using-packages/>`_ が正式に推薦するPythonパッケージングツール, free (as in "
+"freedom)"
 
 #: ../../index.rst:31
 msgid ""
-"Pipenv is a project that aims to bring the best of all packaging worlds "
-"to the Python world. It harnesses `Pipfile "
-"<https://github.com/pypa/pipfile>`_, `pip "
-"<https://github.com/pypa/pip>`_, and `virtualenv "
+"Pipenv is a project that aims to bring the best of all packaging worlds to "
+"the Python world. It harnesses `Pipfile <https://github.com/pypa/pipfile>`_,"
+" `pip <https://github.com/pypa/pip>`_, and `virtualenv "
 "<https://github.com/pypa/virtualenv>`_ into one single toolchain. It "
-"features very pretty terminal colors."
+"features very pretty terminal colors. *Windows is a first–class citizen, in "
+"our world.*"
 msgstr ""
 "Pipenvは全てのパッケージングの世界における最高のものをPythonの世界にもたらすことを目的としたプロジェクトです。\n"
 "Pipenvは `Pipfile <https://github.com/pypa/pipfile>`_ 、 `pip <https://github.com/pypa/pip>`_ 、 `virtualenv <https://github.com/pypa/virtualenv>`_ を結び付け一つのツールチェインとしました。\n"
-"Pipenvにはターミナルの色付けがとても見やすいという特徴があります。"
+"Pipenvにはターミナルの色付けがとても見やすいという特徴があります。\n"
+"*我々の世界ではWindowsは第一級市民です。*"
 
 #: ../../index.rst:33
 msgid ""
-"It automatically creates and manages a virtualenv for your projects, as "
-"well as adds/removes packages from your ``Pipfile`` as you "
-"install/uninstall packages. The ``lock`` command generates a lockfile "
-"(``Pipfile.lock``)."
+"It automatically creates and manages a virtualenv for your projects, as well"
+" as adds/removes packages from your ``Pipfile`` as you install/uninstall "
+"packages. The ``lock`` command generates a lockfile (``Pipfile.lock``)."
 msgstr ""
 "Pipenvは、手動でパッケージのインストール/アンインストールをするのと同じように ``Pipfile`` に対してパッケージの追加/削除を行うのに加え、自動的にプロジェクト用の仮想環境を作成し管理します。\n"
 "``lock`` コマンドは、ロックファイル (``Pipfile.lock``) を生成します。"
 
-#: ../../index.rst:37
+#: ../../index.rst:40
 msgid "The problems that Pipenv seeks to solve are multi-faceted:"
 msgstr "Pipenvが解決しようとしている問題は多面的なものです:"
 
-#: ../../index.rst:39
+#: ../../index.rst:42
 msgid ""
 "When using Pipenv, you no longer need to use ``pip`` and ``virtualenv`` "
 "separately. They work together."
@@ -65,7 +67,7 @@ msgstr ""
 "Pipenvを使っているときは、もう ``pip`` と ``virtualenv`` を別々に使う必要はありません。\n"
 "両者は協調して動作します。"
 
-#: ../../index.rst:40
+#: ../../index.rst:43
 msgid ""
 "Managing a ``requirements.txt`` file `can be problematic "
 "<https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv "
@@ -76,94 +78,101 @@ msgstr ""
 "これらは基本的な場面では ``requirements.txt`` に勝るものです。"
 
 #: ../../index.rst:44
+msgid "Hashes are used everywhere, always. Security."
+msgstr "ハッシュがどこでもいつでも使われます。安心安全。"
+
+#: ../../index.rst:48
 msgid "Install Pipenv Today!"
 msgstr "さぁ今日これからPipenvをインストール!"
 
-#: ../../index.rst:51
+#: ../../index.rst:55
 msgid ""
 "If you have excellent taste, there's also a  `fancy installation method "
 "<http://docs.pipenv.org/en/latest/advanced.html#fancy-installation-of-"
 "pipenv>`_."
-msgstr "もし素晴しいセンスをお持ちなら、 `高度なインストール方法 <http://docs.pipenv.org/en/latest/advanced.html#fancy-installation-of-pipenv>`_ もあります。"
+msgstr ""
+"もし素晴しいセンスをお持ちなら、 `高度なインストール方法 "
+"<http://docs.pipenv.org/en/latest/advanced.html#fancy-installation-of-"
+"pipenv>`_ もあります。"
 
-#: ../../index.rst:59
+#: ../../index.rst:63
 msgid "User Testimonials"
 msgstr "ユーザーによる推薦文"
 
-#: ../../index.rst:62
+#: ../../index.rst:66
 msgid "**Jannis Leidel**, former pip maintainer—"
 msgstr "**Jannis Leidel**、前pipメンテナー—"
 
-#: ../../index.rst:62
+#: ../../index.rst:66
 msgid ""
-"*Pipenv is the porcelain I always wanted built for pip. It fits my brain "
-"and mostly replaces virtualenvwrapper and manual pip calls for me. Use "
-"it.*"
+"*Pipenv is the porcelain I always wanted built for pip. It fits my brain and"
+" mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*"
 msgstr ""
 
-#: ../../index.rst:65
+#: ../../index.rst:69
 msgid "**Jhon Crypt**—"
 msgstr "**Jhon Crypt**—"
 
-#: ../../index.rst:65
+#: ../../index.rst:69
 msgid "*Pipenv is the best thing since pip, thank you!*"
 msgstr "*Pipenvはpip登場以降における最高のものだ、ありがとう!*"
 
-#: ../../index.rst:68
+#: ../../index.rst:72
 msgid "**Isaac Sanders**—"
 msgstr "**Isaac Sanders**—"
 
-#: ../../index.rst:68
-msgid "*Pipenv is literally the best thing about my day today. Thanks, Kenneth!*"
+#: ../../index.rst:72
+msgid ""
+"*Pipenv is literally the best thing about my day today. Thanks, Kenneth!*"
 msgstr ""
 
-#: ../../index.rst:71
+#: ../../index.rst:75
 msgid "☤ Pipenv Features"
 msgstr "☤ Pipenvの特徴"
 
-#: ../../index.rst:73
+#: ../../index.rst:77
 msgid ""
 "Enables truly *deterministic builds*, while easily specifying *what you "
 "want*."
 msgstr "*何をしたいか* を簡単に指定できるのに、真の *決定論的ビルド* が可能です。"
 
-#: ../../index.rst:74
+#: ../../index.rst:78
 msgid ""
-"Automatically generates and checks file hashes for locked dependencies "
-"(via ``--hashes``)."
-msgstr "(``--hashes`` オプションを付けることで) 固定された依存関係ファイルのハッシュを自動で生成しチェックします。"
+"Automatically generates and checks file hashes for locked dependencies."
+msgstr ""
 
-#: ../../index.rst:75
+#: ../../index.rst:79
 msgid ""
 "Automatically finds your project home, recursively, by looking for a "
 "``Pipfile``."
 msgstr "``Pipfile`` を探して、再帰的に、プロジェクトホームを自動で見付けに行きます。"
 
-#: ../../index.rst:76
+#: ../../index.rst:80
 msgid "Automatically generates a ``Pipfile``, if one doesn't exist."
 msgstr "``Pipfile`` が存在していない場合、自動で生成します。"
 
-#: ../../index.rst:77
+#: ../../index.rst:81
 msgid "Automatically generates a ``Pipfile.lock``, if one doesn't exist."
 msgstr "``Pipfile.lock`` が存在していない場合、自動で生成します。"
 
-#: ../../index.rst:78
+#: ../../index.rst:82
 msgid "Automatically creates a virtualenv in a standard location."
 msgstr "標準的な場所に仮想環境を自動で作成します。"
 
-#: ../../index.rst:79
+#: ../../index.rst:83
 msgid "Automatically adds packages to a Pipfile when they are installed."
 msgstr "パッケージがインストールされたときに、Pipfileに自動で追加します。"
 
-#: ../../index.rst:80
-msgid "Automatically removes packages from a Pipfile when they are un-installed."
+#: ../../index.rst:84
+msgid ""
+"Automatically removes packages from a Pipfile when they are un-installed."
 msgstr "パッケージがアンインストールされたときに、Pipfileから自動で削除します。"
 
-#: ../../index.rst:81
-msgid "Also automatically updates pip."
-msgstr "pipのアップデートも自動で行います。"
+#: ../../index.rst:85
+msgid "Also automatically updates pip and itself, when asked."
+msgstr "求められたときには、pipと自分自身のアップデートも自動で行います。"
 
-#: ../../index.rst:83
+#: ../../index.rst:87
 msgid ""
 "The main commands are ``install``, ``uninstall``, and ``lock``, which "
 "generates a ``Pipfile.lock``. These are intended to replace ``$ pip "
@@ -173,73 +182,229 @@ msgstr ""
 "主なコマンドは ``install`` 、 ``uninstall`` 、 ``lock`` で、``lock`` コマンドは ``Pipfile.lock`` を生成します。\n"
 "これらは、手動での仮想環境の管理 (仮想環境を有効にするための ``$ pipenv shell`` の実行) だけでなく、 ``$ pip install`` の使用も置き換えるために作られています。"
 
-#: ../../index.rst:86
+#: ../../index.rst:90
 msgid "Basic Concepts"
 msgstr "基本コンセプト"
 
-#: ../../index.rst:88
+#: ../../index.rst:92
 msgid "A virtualenv will automatically be created, when one doesn't exist."
 msgstr "既存の仮想環境が存在しないときは、自動で作成されます。"
 
-#: ../../index.rst:89
+#: ../../index.rst:93
 msgid ""
-"When no parameters are passed to ``install``, all packages ``[packages]``"
-" specified will be installed."
-msgstr "``install`` にパラメータが何も渡されないときは、 ``[packages]`` に指定された全てのパッケージがインストールされます。"
+"When no parameters are passed to ``install``, all packages ``[packages]`` "
+"specified will be installed."
+msgstr ""
+"``install`` にパラメータが何も渡されないときは、 ``[packages]`` に指定された全てのパッケージがインストールされます。"
 
-#: ../../index.rst:90
-msgid "To initialize a Python 3 virtual environment, run ``$ pipenv --three``."
+#: ../../index.rst:94
+msgid ""
+"To initialize a Python 3 virtual environment, run ``$ pipenv --three``."
 msgstr "Python 3の仮想環境を初期化するには、 ``$ pipenv --three`` を実行します。"
 
-#: ../../index.rst:91
+#: ../../index.rst:95
 msgid "To initialize a Python 2 virtual environment, run ``$ pipenv --two``."
 msgstr "Python 3の仮想環境を初期化するには、 ``$ pipenv --two`` を実行します。"
 
-#: ../../index.rst:92
+#: ../../index.rst:96
 msgid "Otherwise, whatever virtualenv defaults to will be the default."
 msgstr "それ以外は、virtualenvがデフォルトとしているものをPipenvのデフォルトとします。"
 
-#: ../../index.rst:97
+#: ../../index.rst:101
 msgid "Other Commands"
 msgstr "他のコマンド"
 
-#: ../../index.rst:99
+#: ../../index.rst:103
 msgid "``shell`` will spawn a shell with the virtualenv activated."
 msgstr "``shell`` は仮想環境が有効化されたシェルを起動します。"
 
-#: ../../index.rst:100
+#: ../../index.rst:104
 msgid ""
 "``run`` will run a given command from the virtualenv, with any arguments "
 "forwarded (e.g. ``$ pipenv run python``)."
 msgstr ""
 
-#: ../../index.rst:101
+#: ../../index.rst:105
 msgid ""
 "``check`` asserts that PEP 508 requirements are being met by the current "
 "environment."
 msgstr ""
 
-#: ../../index.rst:104
-msgid "☤ Pipenv Usage"
-msgstr "☤ Pipenvの使い方"
-
-#: ../../index.rst:161
+#: ../../index.rst:109
 msgid "Further Documentation Guides"
 msgstr "より進んだ内容のドキュメントガイド"
 
-#: ../../index.rst:171
+#: ../../index.rst:118
+msgid "☤ Pipenv Usage"
+msgstr "☤ Pipenvの使い方"
+
+#: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
+#: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
+#: ../../index.rst:0
+msgid "Options"
+msgstr "オプション"
+
+#: ../../../pipenv:1
+msgid "Update Pipenv & pip to latest."
+msgstr "Pipenvとpipを最新に更新します。"
+
+#: ../../../pipenv:1
+msgid "Output project home information."
+msgstr "プロジェクトホームの情報を出力します。"
+
+#: ../../../pipenv:1
+msgid "Output virtualenv information."
+msgstr "仮想環境の情報を出力します。"
+
+#: ../../../pipenv:1
+msgid "Remove the virtualenv."
+msgstr "仮想環境を削除します。"
+
+#: ../../../pipenv:1 ../../../pipenv graph:1 ../../../pipenv update:1
+msgid "Minimal output."
+msgstr "出力を最小限にします。"
+
+#: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv install:1
+#: ../../../pipenv lock:1 ../../../pipenv run:1 ../../../pipenv shell:1
+#: ../../../pipenv uninstall:1 ../../../pipenv update:1
+msgid "Use Python 3/2 when creating virtualenv."
+msgstr "仮想環境を作成するときにPython 3/2を使います。"
+
+#: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv install:1
+#: ../../../pipenv lock:1 ../../../pipenv run:1 ../../../pipenv shell:1
+#: ../../../pipenv uninstall:1 ../../../pipenv update:1
+msgid "Specify which version of Python virtualenv should use."
+msgstr "どのバージョンのPython仮想環境を使うかを指定します。"
+
+#: ../../../pipenv:1
+msgid "Show this message then exit."
+msgstr "このメッセージを表示して終了します。"
+
+#: ../../../pipenv:1
+msgid "An easter egg, effectively."
+msgstr "実質的には、イースターエッグです。"
+
+#: ../../../pipenv:1
+msgid "Show the version and exit."
+msgstr "バージョンを表示して終了します。"
+
+#: ../../../pipenv check:1
+msgid "Checks PEP 508 markers provided in Pipfile."
+msgstr ""
+
+#: ../../../pipenv graph:1
+msgid "Displays currently–installed dependency graph information."
+msgstr ""
+
+#: ../../../pipenv install:1
+msgid ""
+"Installs provided packages and adds them to Pipfile, or (if none is given), "
+"installs all packages."
+msgstr ""
+
+#: ../../../pipenv install:1
+msgid "Install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv uninstall:1
+msgid "System pip management."
+msgstr ""
+
+#: ../../../pipenv install:1
+msgid "Import a requirements.txt file."
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv update:1
+msgid "Verbose mode."
+msgstr ""
+
+#: ../../../pipenv install:1
+msgid "Ignore Pipfile when installing, using the Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv install:1
+msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
+msgstr ""
+
+#: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
+msgid "Arguments"
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv uninstall:1
+msgid "Optional argument"
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv run:1 ../../../pipenv shell:1
+#: ../../../pipenv uninstall:1
+msgid "Optional argument(s)"
+msgstr ""
+
+#: ../../../pipenv lock:1
+msgid "Generates Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv lock:1
+msgid "Generate output compatible with requirements.txt."
+msgstr ""
+
+#: ../../../pipenv run:1
+msgid "Spawns a command installed into the virtualenv."
+msgstr ""
+
+#: ../../../pipenv run:1
+msgid "Required argument"
+msgstr ""
+
+#: ../../../pipenv shell:1
+msgid "Spawns a shell within the virtualenv."
+msgstr ""
+
+#: ../../../pipenv shell:1
+msgid "Run in shell compatibility mode (for misconfigured shells)."
+msgstr ""
+
+#: ../../../pipenv uninstall:1
+msgid "Un-installs a provided package and removes it from Pipfile."
+msgstr ""
+
+#: ../../../pipenv uninstall:1
+msgid "Lock afterwards."
+msgstr ""
+
+#: ../../../pipenv uninstall:1
+msgid "Un-install all package from [dev-packages]."
+msgstr ""
+
+#: ../../../pipenv uninstall:1
+msgid "Purge all package(s) from virtualenv. Does not edit Pipfile."
+msgstr ""
+
+#: ../../../pipenv update:1
+msgid ""
+"Updates Pipenv & pip to latest, uninstalls all packages, and re-installs "
+"package(s) in [packages] to latest compatible versions."
+msgstr ""
+
+#: ../../../pipenv update:1
+msgid "Additionally install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../../pipenv update:1
+msgid "Just output outdated packages."
+msgstr ""
+
+#: ../../index.rst:125
 msgid "Indices and tables"
 msgstr "索引と一覧表"
 
-#: ../../index.rst:173
+#: ../../index.rst:127
 msgid ":ref:`genindex`"
 msgstr ":ref:`genindex`"
 
-#: ../../index.rst:174
+#: ../../index.rst:128
 msgid ":ref:`modindex`"
 msgstr ":ref:`modindex`"
 
-#: ../../index.rst:175
+#: ../../index.rst:129
 msgid ":ref:`search`"
 msgstr ":ref:`search`"
-
