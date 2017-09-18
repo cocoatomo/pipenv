@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: pipenv 6.2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-13 08:52+0900\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-09-14 11:20+0900\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -170,7 +170,7 @@ msgstr "パッケージがアンインストールされたときに、Pipfile�
 
 #: ../../index.rst:85
 msgid "Also automatically updates pip and itself, when asked."
-msgstr "求められたときには、pipと自分自身のアップデートも自動で行います。"
+msgstr "求められたときには、pipと自分自身の更新も自動で行います。"
 
 #: ../../index.rst:87
 msgid ""
