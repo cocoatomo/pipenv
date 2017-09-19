@@ -3,26 +3,47 @@ import os
 import hashlib
 import tempfile
 
+import delegator
+import pip
+import parse
+import requirements
+import requests
+import six
+
 from piptools.resolver import Resolver
 from piptools.repositories.pypi import PyPIRepository
 from piptools.scripts.compile import get_pip_command
 from piptools import logging
 
-import requests
-import parse
-import pip
-import six
-
 # List of version control systems we support.
 VCS_LIST = ('git', 'svn', 'hg', 'bzr')
 FILE_LIST = ('http://', 'https://', 'ftp://', 'file:///')
 
-requests = requests.session()
+requests = requests.Session()
 
 
-class PipCommand(pip.basecommand.Command):
-    """Needed for pip-tools."""
-    name = 'PipCommand'
+def python_version(path_to_python):
+    if not path_to_python:
+        return None
+
+    try:
+        c = delegator.run([path_to_python, '--version'], block=False)
+    except Exception:
+        return None
+    output = c.out.strip() or c.err.strip()
+
+    @parse.with_pattern(r'.*')
+    def allow_empty(text):
+        return text
+
+    TEMPLATE = 'Python {}.{}.{:d}{:AllowEmpty}'
+    parsed = parse.parse(TEMPLATE, output, dict(AllowEmpty=allow_empty))
+    if parsed:
+        parsed = parsed.fixed
+    else:
+        return None
+
+    return u"{v[0]}.{v[1]}.{v[2]}".format(v=parsed)
 
 
 def shellquote(s):
@@ -35,39 +56,80 @@ def clean_pkg_version(version):
     return six.u(pep440_version(str(version).replace('==', '')))
 
 
-def resolve_deps(deps, sources=None, verbose=False):
+class HackedPythonVersion(object):
+    """A Beautiful hack, which allows us to tell pip which version of Python we're using."""
+    def __init__(self, python):
+        self.python = python
+
+    def __enter__(self):
+        if self.python:
+            os.environ['PIP_PYTHON_VERSION'] = str(self.python)
+
+    def __exit__(self, *args):
+        # Restore original Python version information.
+        if self.python:
+            del os.environ['PIP_PYTHON_VERSION']
+
+
+def best_matches_from(path, which):
+    def gen(path, which):
+        path = os.path.abspath(os.sep.join([path, 'setup.py']))
+
+        if os.path.isfile(path):
+            # Install the path into develop mode, since it's going to be used anyway...
+            output = delegator.run('{0} {1} develop -v'.format(which('python'), shellquote(path))).out
+
+        for line in output.split('\n'):
+            if line.startswith('Searching for'):
+                yield line.split('for')[1].strip()
+
+    return list(gen(path, which))
+
+
+def resolve_deps(deps, which, sources=None, verbose=False, python=False, clear=False):
     """Given a list of dependencies, return a resolved list of dependencies,
     using pip-tools -- and their hashes, using the warehouse API / pip.
     """
 
-    constraints = []
+    with HackedPythonVersion(python):
 
-    for dep in deps:
-        if dep.startswith('-e '):
-            constraint = pip.req.InstallRequirement.from_editable(dep[len('-e '):])
-        else:
-            constraint = pip.req.InstallRequirement.from_line(dep)
-        constraints.append(constraint)
+        class PipCommand(pip.basecommand.Command):
+            """Needed for pip-tools."""
+            name = 'PipCommand'
 
-    pip_command = get_pip_command()
+        constraints = []
+        extra_constraints = []
 
-    pip_args = []
+        for dep in deps:
+            if dep.startswith('-e '):
+                constraint = pip.req.InstallRequirement.from_editable(dep[len('-e '):])
+                # Resolve extra constraints from -e packages (that rely on setuptools.)
+                extra_constraints = best_matches_from(dep[len('-e ')], which=which)
+                extra_constraints = [pip.req.InstallRequirement.from_line(c) for c in extra_constraints]
+            else:
+                constraint = pip.req.InstallRequirement.from_line(dep)
+            constraints.append(constraint)
+            constraints.extend(extra_constraints)
 
-    if sources:
-        pip_args.extend(['-i', sources[0]['url']])
+        pip_command = get_pip_command()
 
-    pip_options, _ = pip_command.parse_args(pip_args)
+        pip_args = []
 
-    pypi = PyPIRepository(pip_options=pip_options, session=pip._vendor.requests)
+        if sources:
+            pip_args.extend(['-i', sources[0]['url']])
 
-    if verbose:
-        logging.log.verbose = True
+        pip_options, _ = pip_command.parse_args(pip_args)
 
-    resolver = Resolver(constraints=constraints, repository=pypi)
-    results = []
+        pypi = PyPIRepository(pip_options=pip_options, session=requests)
 
-    # pre-resolve instead of iterating to avoid asking pypi for hashes of editable packages
-    resolved_tree = resolver.resolve()
+        if verbose:
+            logging.log.verbose = True
+
+        resolver = Resolver(constraints=constraints, repository=pypi, clear_caches=clear)
+        results = []
+
+        # pre-resolve instead of iterating to avoid asking pypi for hashes of editable packages
+        resolved_tree = resolver.resolve()
 
     for result in resolved_tree:
         name = pep423_name(result.name)
@@ -127,18 +189,21 @@ def convert_deps_from_pip(dep):
 
     dependency = {}
 
-    import requirements
     req = [r for r in requirements.parse(dep)][0]
-
     # File installs.
-    if req.uri and not req.vcs:
+    if (req.uri or (os.path.exists(req.path) if req.path else False)) and not req.vcs:
 
         # Assign a package name to the file, last 7 of it's sha256 hex digest.
-        req.name = hashlib.sha256(req.uri.encode('utf-8')).hexdigest()
+        hashable_path = req.uri if req.uri else req.path
+        req.name = hashlib.sha256(hashable_path.encode('utf-8')).hexdigest()
         req.name = req.name[len(req.name) - 7:]
 
         # {file: uri} TOML (spec 3 I guess...)
-        dependency[req.name] = {'file': req.uri}
+        dependency[req.name] = {'file': hashable_path}
+
+        # Add --editable if applicable
+        if req.editable:
+            dependency[req.name].update({'editable': True})
 
     # VCS Installs.
     if req.vcs:
@@ -147,8 +212,11 @@ def convert_deps_from_pip(dep):
                              'dependencies. Please install remote dependency '
                              'in the form {0}#egg=<package-name>.'.format(req.uri))
 
+        # Extras: e.g. #egg=requests[security]
+        if req.extras:
+            dependency[req.name] = {'extras': req.extras}
         # Crop off the git+, etc part.
-        dependency[req.name] = {req.vcs: req.uri[len(req.vcs) + 1:]}
+        dependency.setdefault(req.name, {}).update({req.vcs: req.uri[len(req.vcs) + 1:]})
 
         # Add --editable, if it's there.
         if req.editable:
@@ -167,7 +235,7 @@ def convert_deps_from_pip(dep):
         specs = None
         # Comparison operators: e.g. Django>1.10
         if req.specs:
-            r = multi_split(dep, '=<>')
+            r = multi_split(dep, '!=<>')
             specs = dep[len(r[0]):]
             dependency[req.name] = specs
 
@@ -222,7 +290,13 @@ def convert_deps_to_pip(deps, r=True):
 
         # Support for files.
         if 'file' in deps[dep]:
-            dep = deps[dep]['file']
+            extra = deps[dep]['file']
+
+            # Flag the file as editable if it is a local relative path
+            if 'editable' in deps[dep]:
+                dep = '-e '
+            else:
+                dep = ''
 
         if vcs:
             extra = '{0}+{1}'.format(vcs, deps[dep][vcs])
@@ -298,8 +372,11 @@ def is_vcs(pipfile_entry):
 
 def is_file(package):
     """Determine if a package name is for a File dependency."""
+    if os.path.exists(str(package)):
+        return True
+
     for start in FILE_LIST:
-        if package.startswith(start):
+        if str(package).startswith(start):
             return True
 
     return False

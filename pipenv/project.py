@@ -6,15 +6,14 @@ import sys
 import base64
 import hashlib
 
+import contoml
+import delegator
 import pipfile
 import toml
 
-import delegator
-from requests.compat import OrderedDict
-
 from .utils import (
-    format_toml, mkdir_p, convert_deps_from_pip, pep423_name, recase_file,
-    find_requirements, is_file, is_vcs
+    mkdir_p, convert_deps_from_pip, pep423_name, recase_file,
+    find_requirements, is_file, is_vcs, python_version
 )
 from .environments import PIPENV_MAX_DEPTH, PIPENV_VENV_IN_PROJECT
 from .environments import PIPENV_USE_SYSTEM
@@ -33,7 +32,7 @@ class Project(object):
         self._requirements_location = None
 
         # Hack to skip this during pipenv run.
-        if 'run' not in sys.argv[1]:
+        if 'run' not in sys.argv:
             try:
                 os.chdir(self.project_directory)
             except (TypeError, AttributeError):
@@ -48,6 +47,13 @@ class Project(object):
     @property
     def pipfile_exists(self):
         return bool(self.pipfile_location)
+
+    @property
+    def required_python_version(self):
+        if self.pipfile_exists:
+            required = self.parsed_pipfile.get('requires', {}).get('python_version')
+            if required != "*":
+                return required
 
     @property
     def project_directory(self):
@@ -166,8 +172,29 @@ class Project(object):
 
     @property
     def parsed_pipfile(self):
+        # Open the pipfile, read it into memory.
         with open(self.pipfile_location) as f:
-            return toml.load(f, _dict=OrderedDict)
+            contents = f.read()
+
+        # If any outline tables are present...
+        if ('[packages.' in contents) or ('[dev-packages.' in contents):
+
+            data = toml.loads(contents)
+
+            # Convert all outline tables to inline tables.
+            for section in ('packages', 'dev-packages'):
+                for package in data.get(section):
+
+                    # Convert things to inline tables — fancy :)
+                    if hasattr(data[section][package], 'keys'):
+                        _data = data[section][package]
+                        data[section][package] = toml._get_empty_inline_table(dict)
+                        data[section][package].update(_data)
+
+            # We lose comments here, but it's for the best.)
+            return contoml.loads(toml.dumps(data, preserve=True))
+        else:
+            return contoml.loads(contents)
 
     @property
     def _pipfile(self):
@@ -249,15 +276,63 @@ class Project(object):
                 ps.update({k: v})
         return ps
 
-    def create_pipfile(self):
-        data = {u'source': [{u'url': u'https://pypi.python.org/simple', u'verify_ssl': True}], u'packages': {}, 'dev-packages': {}}
+    def touch_pipfile(self):
+        """Simply touches the Pipfile, for later use."""
+        with open('Pipfile', 'a'):
+            os.utime('Pipfile', None)
+
+    @property
+    def pipfile_is_empty(self):
+        self.touch_pipfile()
+
+        with open('Pipfile', 'r') as f:
+            if not f.read():
+                return True
+
+    def create_pipfile(self, python=None):
+        """Creates the Pipfile, filled with juicy defaults."""
+        data = {
+            # Default source.
+            u'source': [
+                {u'url': u'https://pypi.python.org/simple', u'verify_ssl': True}
+            ],
+
+            # Default packages.
+            u'packages': {},
+            u'dev-packages': {},
+
+        }
+
+        # Default requires.
+        if python:
+            data[u'requires'] = {'python_version': python_version(python)[:len('2.7')]}
+
         self.write_toml(data, 'Pipfile')
 
     def write_toml(self, data, path=None):
+        """Writes the given data structure out as TOML."""
         if path is None:
             path = self.pipfile_location
 
-        formatted_data = format_toml(toml.dumps(data))
+        try:
+            formatted_data = contoml.dumps(data)
+        except RuntimeError:
+            import toml
+            for section in ('packages', 'dev-packages'):
+                for package in data[section]:
+
+                    # Convert things to inline tables — fancy :)
+                    if hasattr(data[section][package], 'keys'):
+                        _data = data[section][package]
+                        data[section][package] = toml._get_empty_inline_table(dict)
+                        data[section][package].update(_data)
+
+            formatted_data = toml.dumps(data)
+        else:
+            pass
+        finally:
+            pass
+
         with open(path, 'w') as f:
             f.write(formatted_data)
 

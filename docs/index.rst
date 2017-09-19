@@ -63,7 +63,7 @@ User Testimonials
 -----------------
 
 **Jannis Leidel**, former pip maintainer—
-    *Pipenv is the porcelain I always wanted built for pip. It fits my brain and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*
+    *Pipenv is the porcelain I always wanted to build for pip. It fits my brain and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*
 
 **Jhon Crypt**—
     *Pipenv is the best thing since pip, thank you!*
@@ -100,6 +100,7 @@ Basic Concepts
 Other Commands
 //////////////
 
+- ``graph`` will show you a dependency graph, of your installed dependencies.
 - ``shell`` will spawn a shell with the virtualenv activated.
 - ``run`` will run a given command from the virtualenv, with any arguments forwarded (e.g. ``$ pipenv run python``).
 - ``check`` asserts that PEP 508 requirements are being met by the current environment.

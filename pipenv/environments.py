@@ -23,7 +23,10 @@ PIPENV_NOSPIN = os.environ.get('PIPENV_NOSPIN')
 PIPENV_MAX_DEPTH = int(os.environ.get('PIPENV_MAX_DEPTH', '3')) + 1
 
 # Tells Pipenv to use the virtualenv-provided pip instead.
-PIPENV_USE_SYSTEM = os.environ.get('VIRTUAL_ENV') if 'PIPENV_IGNORE_VIRTUALENVS' not in os.environ else False
+PIPENV_USE_SYSTEM = False
+if 'PIPENV_ACTIVE' not in os.environ:
+    if 'PIPENV_IGNORE_VIRTUALENVS' not in os.environ:
+        PIPENV_USE_SYSTEM = os.environ.get('VIRTUAL_ENV')
 
 # Tells Pipenv to use hashing mode.
 PIPENV_USE_HASHES = True
@@ -39,9 +42,16 @@ if PIPENV_VENV_IN_PROJECT:
 if os.name == 'nt':
     PIPENV_NOSPIN = True
 
+if 'CI' in os.environ:
+    PIPENV_NOSPIN = True
+
 PIPENV_HIDE_EMOJIS = os.environ.get('PIPENV_HIDE_EMOJIS')
 if os.name == 'nt':
     PIPENV_HIDE_EMOJIS = True
 
 # Tells pipenv how long to wait for virtualenvs to be created in seconds
 PIPENV_TIMEOUT = int(os.environ.get('PIPENV_TIMEOUT', 120))
+
+PIPENV_INSTALL_TIMEOUT = 60 * 15
+
+PYENV_INSTALLED = (bool(os.environ.get('PYENV_SHELL')) or bool(os.environ.get('PYENV_ROOT')))

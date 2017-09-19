@@ -24,11 +24,11 @@ if sys.argv[-1] == "publish":
 required = [
     'virtualenv',
     'pew>=0.1.26',
-    'pip',
+    'pip>=9.0.1',
     'pip-tools>=1.9.0',
     'setuptools>=36.3.0',
     'semver',
-    'requests'
+    'requests>2.0.0'
 ]
 
 if sys.version_info < (2, 7):

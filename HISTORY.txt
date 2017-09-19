@@ -1,3 +1,67 @@
+7.3.0:
+ - Added support for grabbing dependencies from -e requirements into dependency graph.
+7.2.9:
+ - Bug fixes.
+7.2.8:
+ - Vast improvements to python finding abilities (multiple pythons with the same name are now detected).
+7.2.7:
+ - Automatically convert outline TOML tables to inline tables (losing comments in the process).
+ - Bug fixes.
+7.2.6:
+ - Fix pip execution from within existing virtualenvs.
+7.2.5:
+ - Always tell patched pip what version of Python we're using.
+7.2.4:
+ - Improve compatibility with --system.
+ - Improve automatic --system use within shell spawning (disallowing it).
+7.2.3:
+ - Courtesy notice when running in a virtualenv.
+7.2.2:
+ - Improvements to pyenv detection.
+ - Refactorings, and general improvements
+7.2.1:
+ - Bug fix.
+7.2.0:
+ - Automatically install Pythons, if they aren't available and pyenv is setup!
+ - Fixes for when a requirements.txt file contains an !.
+ - Support for relative package paths (that wasn't easy either).
+ - Bug fixes.
+7.1.1:
+ - Fixes for windows (full compatibility restored — sorry!).
+ - Catch if graph is being run outside of a project directory.
+ - Catch if self-updater doesn't get a clean response from PyPI.
+ - Support Miniconda's `python --version` format
+7.1.0:
+ - Inline TOML tables for things like requests[security]!
+ - Attempt to preserve comments in Pipfiles.
+7.0.6:
+ - NO_SPIN is now automatic when CI is set.
+ - Additionally, vendor pip (a patched version) for doing advanced dependency resolution.
+7.0.5:
+ - Depend on latest version of pip.
+7.0.4:
+ - Bug fix.
+7.0.3:
+ - Windows fixes.
+7.0.2:
+ - Tell pip we're using the requied Python version, with trickery, for dependency resolution.
+ - Dev dependencies are now read from a lockfile before default dependencies, so
+   any mismatches will prefer default to develop.
+ - Add support for extras_require in Pipfile for vcs urls.
+ - Warn if 'which' is not found on the system.
+ - Warn if Pew or Virtualenv isn't in the PATH.
+ - More consistent stderr output.
+7.0.1:
+ - [requires] python_version is now set for new projects, automatically
+   if a version of Python was specified.
+ - That wasn't easy.
+7.0.0:
+ - New path handling for --python, versions like '3.6' are now supported.
+ - [requires] python_version is automatically honored.
+6.2.9:
+ - Bug fix.
+6.2.8:
+ - Bug fix.
 6.2.7:
  - pip run --system is now default.
 6.2.6:

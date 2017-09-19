@@ -1,21 +1,21 @@
 [dev-packages]
+
 flake8 = ">=3.3.0,<4"
 pytest = "*"
 mock = "*"
 "delegator.py" = ">=0.0.13"
-toml = "*"
-Sphinx = "<=1.5.5"
+sphinx = "<=1.5.5"
 "-e ." = "*"
+toml = "*"
 
 [packages]
+
 pew = ">=0.1.26"
 pep8 = "*"
 pytest = "*"
 pip-tools = "*"
 semver = "*"
 requests = "*"
-ibm-db-sa-py3 = ">=0.3.1-1"
-"-e ." = "*"
 
 [requires]
 python_version = "3.6"

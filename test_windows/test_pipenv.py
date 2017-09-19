@@ -3,35 +3,32 @@ import shutil
 
 from mock import patch, Mock, PropertyMock
 
-import pytest
 import delegator
-import toml
+from pipenv.patched import contoml
 
 from pipenv.cli import (
-    ensure_proper_casing, parse_download_fname, parse_install_output,
-    pip_install, pip_download
+    ensure_proper_casing,
+    pip_install, pip_download, find_a_system_python
 )
 
+FULL_PYTHON_PATH = 'C:\\Python36-x64\\python.exe'
 
 class TestPipenvWindows():
 
     def test_existience(self):
         assert True
 
-    @pytest.mark.parametrize('fname, name, expected', [
-        ('functools32-3.2.3-2.zip', 'functools32', '3.2.3'),
-        ('functools32-3.2.3-blah.zip', 'functools32', '3.2.3-blah'),
-        ('functools32-3.2.3.zip', 'functools32', '3.2.3'),
-        ('colorama-0.3.7-py2.py3-none-any.whl', 'colorama', '0.3.7'),
-        ('colorama-0.3.7-2-py2.py3-none-any.whl', 'colorama', '0.3.7'),
-        ('click-completion-0.2.1.tar.gz', 'click-completion', '0.2.1'),
-        ('Twisted-16.5.0.tar.bz2', 'Twisted', '16.5.0'),
-        ('Twisted-16.1.1-cp27-none-win_amd64.whl', 'twIsteD', '16.1.1'),
-        ('pdfminer.six-20140915.zip', 'pdfMiner.SIX', '20140915')
-    ])
-    def test_parse_download_fname(self, fname, name, expected):
-        version = parse_download_fname(fname, name)
-        assert version == expected
+    def test_cli_with_custom_python_path(self):
+        delegator.run('mkdir custom_python')
+        os.chdir('custom_python')
+
+        c = delegator.run('pipenv install --python={0}'.format(FULL_PYTHON_PATH))
+
+        # Debugging, if it fails.
+        print(c.out)
+        print(c.err)
+
+        assert c.return_code == 0
 
     def test_cli_usage(self):
         delegator.run('mkdir test_project')
@@ -41,7 +38,6 @@ class TestPipenvWindows():
 
         assert delegator.run('copy /y nul Pipfile').return_code == 0
 
-        assert delegator.run('pipenv --python python').return_code == 0
         assert delegator.run('pipenv install Werkzeug').return_code == 0
         assert delegator.run('pipenv install pytest --dev').return_code == 0
         assert delegator.run('pipenv install git+https://github.com/requests/requests.git@v2.18.4#egg=requests').return_code == 0
@@ -78,13 +74,10 @@ class TestPipenvWindows():
         with open('requirements.txt', 'w') as f:
             f.write('requests[socks]==2.18.1\n'
                     'git+https://github.com/kennethreitz/records.git@v0.5.0#egg=records\n'
-                    '-e git+https://github.com/kennethreitz/tablib.git@v0.11.5#egg=tablib\n'
+                    '-e git+https://github.com/kennethreitz/maya.git@v0.3.2#egg=maya\n'
                     'six==1.10.0\n')
 
-        c = delegator.run('pipenv --python python')
-        print(c.err)
-        assert c.return_code == 0
-
+        assert delegator.run('pipenv install').return_code == 0
         print(delegator.run('pipenv lock').err)
         assert delegator.run('pipenv lock').return_code == 0
 
@@ -92,22 +85,22 @@ class TestPipenvWindows():
         lockfile_output = delegator.run('type Pipfile.lock').out
 
         # Ensure extras work.
-        assert 'extras = [ "socks",]' in pipfile_output
+        assert 'socks' in pipfile_output
         assert 'pysocks' in lockfile_output
 
         # Ensure vcs dependencies work.
-        assert 'packages.records' in pipfile_output
+        assert 'records' in pipfile_output
         assert '"git": "https://github.com/kennethreitz/records.git"' in lockfile_output
 
         # Ensure editable packages work.
-        assert 'ref = "v0.11.5"' in pipfile_output
+        assert 'ref = "v0.3.2"' in pipfile_output
         assert '"editable": true' in lockfile_output
 
         # Ensure BAD_PACKAGES aren't copied into Pipfile from requirements.txt.
         assert 'six = "==1.10.0"' not in pipfile_output
 
         os.chdir('..')
-        shutil.rmtree('test_requirements_to_pip')
+        # shutil.rmtree('test_requirements_to_pip')
         del os.environ['PIPENV_MAX_DEPTH']
 
     def test_timeout_long(self):
@@ -118,8 +111,6 @@ class TestPipenvWindows():
         os.environ['PIPENV_TIMEOUT'] = '60'
 
         assert delegator.run('copy /y nul Pipfile').return_code == 0
-
-        assert delegator.run('pipenv --python python').return_code == 0
 
         os.chdir('..')
         shutil.rmtree('test_timeout_long')
@@ -134,8 +125,6 @@ class TestPipenvWindows():
 
         assert delegator.run('copy /y nul Pipfile').return_code == 0
 
-        assert delegator.run('pipenv --python python').return_code == 1
-
         os.chdir('..')
         shutil.rmtree('test_timeout_short')
         del os.environ['PIPENV_TIMEOUT']
@@ -147,7 +136,7 @@ class TestPipenvWindows():
         # Build the environment.
         os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
         assert delegator.run('copy /y nul Pipfile').return_code == 0
-        assert delegator.run('pipenv --python python').return_code == 0
+        assert delegator.run('pipenv install').return_code == 0
 
         # Add entries to Pipfile.
         assert delegator.run('pipenv install Werkzeug').return_code == 0
@@ -175,7 +164,7 @@ class TestPipenvWindows():
         assert 'Werkzeug = "*"' in pipfile_list
         assert 'pytest = "*"' not in pipfile_list
         assert '[packages]' in pipfile_list
-        assert '[dev-packages]' not in pipfile_list
+        # assert '[dev-packages]' not in pipfile_list
 
         os.chdir('..')
         shutil.rmtree('test_pipenv_uninstall')
@@ -188,7 +177,6 @@ class TestPipenvWindows():
         # Build the environment.
         os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
         assert delegator.run('copy /y nul Pipfile').return_code == 0
-        assert delegator.run('pipenv --python python').return_code == 0
 
         # Install packages for test.
         assert delegator.run('pipenv install pep8').return_code == 0
@@ -212,7 +200,7 @@ class TestPipenvWindows():
                       "PyTEST = \"*\"\n")
 
         # Load test Pipfile.
-        p = toml.loads(pfile_test)
+        p = contoml.loads(pfile_test)
 
         assert 'DjAnGO' in p['packages']
         assert 'PyTEST' in p['dev-packages']
@@ -226,36 +214,6 @@ class TestPipenvWindows():
         assert 'PyTEST' not in p['dev-packages']
 
         assert changed is True
-
-    def test_parse_install_output(self):
-        """Ensure pip output is parsed properly."""
-        install_output = ("Collecting requests\n"
-                          "Using cached requests-2.13.0-py2.py3-none-any.whl\n"
-                          "Successfully downloaded requests-2.13.0\n"
-                          "Collecting honcho\n"
-                          "Using cached honcho-0.7.1.tar.gz\n"
-                          "Successfully downloaded honcho-0.7.1\n"
-                          "Collecting foursquare\n"
-                          "Downloading foursquare-1%212015.4.7.tar.gz\n"
-                          "Saved ./foursquare-1%212015.4.7.tar.gz\n"
-                          "Successfully downloaded foursquare\n"
-                          "Collecting django-debug-toolbar\n"
-                          "Using cached django_debug_toolbar-1.6-py2.py3-none-any.whl\n"
-                          "Collecting sqlparse>=0.2.0 (from django-debug-toolbar)\n"
-                          "Using cached sqlparse-0.2.2-py2.py3-none-any.whl\n")
-
-        names_map = dict(parse_install_output(install_output))
-
-        # Verify files are added to names map with appropriate project name.
-        assert 'requests-2.13.0-py2.py3-none-any.whl' in names_map
-        assert names_map['requests-2.13.0-py2.py3-none-any.whl'] == 'requests'
-
-        # Verify percent-encoded characters are unencoded (%21 -> !).
-        assert 'foursquare-1!2015.4.7.tar.gz' in names_map
-
-        # Verify multiple dashes in name is parsed correctly.
-        assert 'django_debug_toolbar-1.6-py2.py3-none-any.whl' in names_map
-        assert names_map['django_debug_toolbar-1.6-py2.py3-none-any.whl'] == 'django-debug-toolbar'
 
     @patch('pipenv.project.Project.sources', new_callable=PropertyMock)
     @patch('delegator.run')
@@ -364,7 +322,6 @@ class TestPipenvWindows():
         os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
 
         assert delegator.run('copy /y nul Pipfile').return_code == 0
-        assert delegator.run('pipenv --python python').return_code == 0
         assert delegator.run('pipenv install requests==2.14.0').return_code == 0
         assert delegator.run('pipenv install flask==0.12.2').return_code == 0
         assert delegator.run('pipenv install --dev pytest==3.1.1').return_code == 0

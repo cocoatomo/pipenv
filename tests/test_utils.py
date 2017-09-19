@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pytest
+from mock import patch, Mock
 
 import pipenv.utils
 
@@ -103,6 +104,13 @@ class TestUtils:
         dep = pipenv.utils.convert_deps_from_pip(dep)
         assert dep == {'MyProject': {'hg': 'http://hg.myproject.org/MyProject', 'ref': 'da39a3ee5e6b'}}
 
+        # vcs dependency with extras_require
+        dep = 'git+https://github.com/requests/requests.git@master#egg=requests[security]'
+        dep = pipenv.utils.convert_deps_from_pip(dep)
+        assert dep == {'requests': {'git': 'https://github.com/requests/requests.git',
+                                    'ref': 'master',
+                                    'extras': ['security']}}
+
         # vcs dependency without #egg
         dep = 'git+https://github.com/kennethreitz/requests.git'
         with pytest.raises(ValueError) as e:
@@ -131,15 +139,16 @@ class TestUtils:
 
     def test_split_vcs(self):
         pipfile_dict = {
-                        'packages': {
-                            'requests': {'git': 'https://github.com/kennethreitz/requests.git'},
-                            'Flask': '*'
-                        },
-                        'dev-packages': {
-                            'Django': '==1.10',
-                            'click': {'svn': 'https://svn.notareal.com/click'},
-                            'crayons': {'hg': 'https://hg.alsonotreal.com/crayons'}
-                        }}
+            'packages': {
+                'requests': {'git': 'https://github.com/kennethreitz/requests.git'},
+                'Flask': '*'
+            },
+            'dev-packages': {
+                'Django': '==1.10',
+                'click': {'svn': 'https://svn.notareal.com/click'},
+                'crayons': {'hg': 'https://hg.alsonotreal.com/crayons'}
+            }
+        }
         split_dict = pipenv.utils.split_vcs(pipfile_dict)
 
         assert list(split_dict['packages'].keys()) == ['Flask']
@@ -147,3 +156,21 @@ class TestUtils:
         assert list(split_dict['dev-packages'].keys()) == ['Django']
         assert 'click' in split_dict['dev-packages-vcs']
         assert 'crayons' in split_dict['dev-packages-vcs']
+
+    def test_python_version_from_bad_path(self):
+        assert pipenv.utils.python_version("/fake/path") is None
+
+    def test_python_version_from_non_python(self):
+        assert pipenv.utils.python_version("/dev/null") is None
+
+    @pytest.mark.parametrize('version_output, version', [
+        ('Python 3.6.2', '3.6.2'),
+        ('Python 3.6.2 :: Continuum Analytics, Inc.', '3.6.2'),
+        ('Python 3.6.20 :: Continuum Analytics, Inc.', '3.6.20'),
+    ])
+    @patch('delegator.run')
+    def test_python_version_output_variants(self, mocked_delegator, version_output, version):
+        run_ret = Mock()
+        run_ret.out = version_output
+        mocked_delegator.return_value = run_ret
+        assert pipenv.utils.python_version('some/path') == version

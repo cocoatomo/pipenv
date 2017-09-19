@@ -115,8 +115,8 @@ pipenv will automatically import the contents of this file and create a ``Pipfil
 
 .. _specifying_versions:
 
-☤ Specifying Versions
----------------------
+☤ Specifying Versions of a Package
+----------------------------------
 
 To tell pipenv to install a specific version of a library, the usage is simple::
 
@@ -125,7 +125,81 @@ To tell pipenv to install a specific version of a library, the usage is simple::
 This will update your ``Pipfile`` to reflect this requirement, automatically.
 
 
+☤ Specifying Versions of Python
+-------------------------------
 
+To create a new virtualenv, using a specific version of Python you have installed (and
+on your ``PATH``), use the ``--python VERSION`` flag, like so:
+
+Use Python 3.6::
+
+   $ pipenv --python 3.6
+
+Use Python 2.7::
+
+    $ pipenv --python 2.7
+
+When given a Python version, like this, Pipenv will automatically scan your system for a Python that matches that given version.
+
+If a ``Pipfile`` hasn't been created yet, one will be created for you, that looks like this::
+
+    [[source]]
+    url = "https://pypi.python.org/simple"
+    verify_ssl = true
+
+    [dev-packages]
+
+    [packages]
+
+    [requires]
+    python_version = "3.6"
+
+Note the inclusion of ``[requires] python_version = "3.6"``. This specifies that your application requires this version
+of Python, and will be used automatically when running ``pipenv install`` against this ``Pipfile`` in the future
+(e.g. on other machines). If this is not true, feel free to simply remove this section.
+
+If you don't specify a Python version on the command–line, either the ``[requires]`` ``python_version`` will be selected
+automatically, or whatever your system's default ``python`` installation is, at time of execution.
+
+
+
+☤ Automatic Python Installation
+-------------------------------
+
+If you have `pyenv <https://github.com/pyenv/pyenv#simple-python-version-management-pyenv>`_ installed and configured, Pipenv will automatically ask you if you want to install a required version of Python if you don't already have it available.
+
+This is a very fancy feature, and we're very proud of it::
+
+    $ cat Pipfile
+    [[source]]
+    url = "https://pypi.python.org/simple"
+    verify_ssl = true
+
+    [dev-packages]
+
+    [packages]
+    requests = "*"
+
+    [requires]
+    python_version = "3.6"
+
+    $ pipenv install
+    Warning: Python 3.6 was not found on your system…
+    Would you like us to install latest CPython 3.6 with pyenv? [Y/n]: y
+    Installing CPython 3.6.2 with pyenv (this may take a few minutes)…
+    ...
+    Making Python installation global…
+    Creating a virtualenv for this project…
+    Using /Users/kennethreitz/.pyenv/shims/python3 to create virtualenv…
+    ...
+    No package provided, installing all dependencies.
+    ...
+    Installing dependencies from Pipfile.lock…
+    🐍   ❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒❒ 5/5 — 00:00:03
+    To activate this project's virtualenv, run the following:
+     $ pipenv shell
+
+💫✨🍰✨💫
 
 .. _proper_installation:
 
@@ -181,7 +255,7 @@ To upgrade pipenv at any time::
 
 If you don't even have pip installed, you can use this crude installation method, which will boostrap your whole system::
 
-    $ curl https://github.com/kennethreitz/pipenv/raw/master/get-pipenv.py | python
+    $ curl https://raw.githubusercontent.com/kennethreitz/pipenv/master/get-pipenv.py | python
 
 Congratulations, you now have pip and Pipenv installed!
 
@@ -223,8 +297,8 @@ The user can provide these additional parameters:
 
     - ``--dev`` — Install both ``develop`` and ``default`` packages from ``Pipfile.lock``.
     - ``--system`` — Use the system ``pip`` command rather than the one from your virtualenv.
-    - ``--lock`` — Generate a new ``Pipfile.lock`` adding the newly installed packages.
     - ``--ignore-pipfile`` — Ignore the ``Pipfile`` and install from the ``Pipfile.lock``.
+    - ``--skip-lock`` — Ignore the ``Pipfile.ock`` and install from the ``Pipfile``. In addition, do not write out a ``Pipfile.lock`` reflecting changes to the ``Pipfile``.
 
 .. _pipenv_uninstall
 
@@ -245,6 +319,21 @@ $ pipenv lock
 
 ``$ pipenv lock`` is used to create a ``Pipfile.lock``, which declares **all** dependencies (and sub-depdendencies) of your project, their latest available versions, and the current hashes for the downloaded files. This ensures repeatable, and most importantly *deterministic*, builds.
 
+☤ About Shell Configuration
+---------------------------
+
+Shells are typically misconfigured for subshell use, so ``$ pipenv shell`` may produce unexpected results. If this is the case, try ``$ pipenv shell -c``, which uses "compatibility mode", and will attempt to spawn a subshell despite misconfiguration.
+
+A proper shell configuration only sets environment variables like ``PATH`` during a login session, not during every subshell spawn (as they are typically configured to do). In fish, this looks like this::
+
+    if status --is-login
+
+        set -gx PATH /usr/local/bin $PATH
+
+    end
+
+You should do this for your shell too, in your ``~/.profile`` or ``~/.bashrc`` or wherever appropriate.
+
 
 ☤ Configuration With Environment Variables
 ------------------------------------------
@@ -253,27 +342,26 @@ $ pipenv lock
 variables. To activate them, simply create the variable in your shell and pipenv
 will detect it.
 
-    - ``PIPENV_SHELL_COMPAT`` — Toggle from our default ``pipenv shell`` mode to classic.
-                                  (Suggested for use with pyenv).
+    - ``PIPENV_SHELL_COMPAT`` — Always use compatibility mode when invoking ``pipenv shell``.
 
-    - ``PIPENV_VENV_IN_PROJECT`` — Toggle for detecting a ``.venv`` in your project directory
-                                    and using it over the default environment manager, ``pew``.
+    - ``PIPENV_VENV_IN_PROJECT`` — If set, use ``.venv`` in your project directory
+                                    instead of the global virtualenv manager ``pew``.
 
     - ``PIPENV_COLORBLIND`` — Disable terminal colors, for some reason.
 
     - ``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs.
 
-    - ``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of directories to
+    - ``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of directories to resursively
                                search for a Pipfile.
 
-    - ``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds pipenv will
+    - ``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds Pipenv will
                             wait for virtualenv creation to complete.  Defaults to 120 seconds.
 
     - ``PIPENV_IGNORE_VIRTUALENVS`` — Set to disable automatically using an activated virtualenv over
-                                      the current project.
+                                      the current project's own virtual environment.
 
 
-Also note that `pip itself supports environment variables <https://pip.pypa.io/en/stable/user_guide/#environment-variables>`, if you need additional customization.
+Also note that `pip itself supports environment variables <https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you need additional customization.
 
 ☤ Custom Virtual Environment Location
 -------------------------------------
@@ -292,10 +380,6 @@ projects like `Requests`_. Specifically for transitioning to the new Pipfile
 format and running the test suite.
 
 We've currently tested deployments with both `Travis-CI`_ and `tox`_ with success.
-
-.. note:: It's highly recommended to run ``pipenv lock`` before installing on a
-          CI platform, due to possible hash conflicts between system binaries.
-
 
 Travis CI
 /////////
@@ -367,7 +451,7 @@ and external testing::
 --------------------------------
 
 ``Pipfile.lock`` takes advantage of some great new security improvements in ``pip``.
-By default, the ``Pipfile.lock`` will be generated with a sha256 hash of each downloaded
+By default, the ``Pipfile.lock`` will be generated with the sha256 hashes of each downloaded
 package. This will allow ``pip`` to guarantee you're installing what you intend to when
 on a compromised network, or downloading dependencies from an untrusted PyPI endpoint.
 
@@ -376,10 +460,11 @@ environment into production. You can use ``pipenv lock`` to compile your depende
 your development environment and deploy the compiled ``Pipfile.lock`` to all of your
 production environments for reproducible builds.
 
-.. note:: Due to different hashes being generated between wheels on different systems, you
-          will find hashes don't work cross-platform or between Python versions.
-          To solve this, you may either compile the lock file on your target system, or use
-          the less secure ``pipenv install --ignore-hashes``.
+.. note:
+
+    If you'd like a ``requirements.txt`` output of the lockfile, run ``$ pipenv lock -r``.
+    This will include all hashes, however (which is great!). To get a ``requirements.txt``
+    without hashes, use ``$ pipenv run pip freeze``.
 
 ☤ Shell Completion
 ------------------
