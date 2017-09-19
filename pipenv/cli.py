@@ -8,6 +8,7 @@ import shutil
 import signal
 import time
 import tempfile
+from glob import glob
 
 import background
 import click
@@ -106,6 +107,12 @@ if PIPENV_NOSPIN:
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 project = Project()
+
+
+def add_to_path(p):
+    """Adds a given path to the PATH."""
+    if p not in os.environ['PATH']:
+        os.environ['PATH'] = '{0}{1}{2}'.format(os.environ['PATH'], os.pathsep, p)
 
 
 @background.task
@@ -289,18 +296,20 @@ def ensure_pipfile(validate=True):
 
 
 def find_a_system_python(python):
-    """Finds a system python, given a version (e.g. 2.7 / 3.6), or a full path."""
+    """Finds a system python, given a version (e.g. 2.7 / 3.6.2), or a full path."""
     if python.startswith('py'):
         return system_which(python)
     elif os.path.isabs(python):
         return python
     else:
-        possibilities = [
+        possibilities = reversed([
             'python',
             'python{0}'.format(python[0]),
             'python{0}{1}'.format(python[0], python[2]),
-            'python{0}.{1}'.format(python[0], python[2])
-        ]
+            'python{0}.{1}'.format(python[0], python[2]),
+            'python{0}.{1}m'.format(python[0], python[2])
+        ])
+
         for possibility in possibilities:
             # Windows compatibility.
             if os.name == 'nt':
@@ -308,11 +317,12 @@ def find_a_system_python(python):
 
             versions = []
             pythons = system_which(possibility, mult=True)
+
             for p in pythons:
                 versions.append(python_version(p))
 
             for i, version in enumerate(versions):
-                if python in version:
+                if python in (version or ''):
                     return pythons[i]
 
 
@@ -326,7 +336,21 @@ def ensure_python(three=None, python=None):
         )
         sys.exit(1)
 
+    def activate_pyenv():
+        """Adds all pyenv installations to the PATH."""
+        if PYENV_INSTALLED:
+            for found in glob(
+                '{0}{1}versions{1}*{1}bin'.format(
+                    os.environ.get('PYENV_ROOT'),
+                    os.sep
+                )
+            ):
+                add_to_path(found)
+
     global USING_DEFAULT_PYTHON
+
+    # Add pyenv paths to PATH.
+    activate_pyenv()
 
     path_to_python = None
     USING_DEFAULT_PYTHON = (three is None and not python)
@@ -354,17 +378,8 @@ def ensure_python(three=None, python=None):
         if not PYENV_INSTALLED:
             abort()
         else:
-            s = (
-                '{0} {1} {2}'.format(
-                    'Would you like us to install latest',
-                    crayons.green('CPython {0}'.format(python)),
-                    'with pyenv?'
-                )
-            )
-
-            # Find the latest version of Python available.
-            # TODO: Keep this up to date!
             version_map = {
+                # TODO: Keep this up to date!
                 # These versions appear incompatible with pew:
                 # '2.5': '2.5.6',
                 '2.6': '2.6.9',
@@ -377,16 +392,22 @@ def ensure_python(three=None, python=None):
                 '3.6': '3.6.2',
             }
             try:
-                version = version_map[python]
+                if len(python.split('.')) == 2:
+                    # Find the latest version of Python available.
+
+                    version = version_map[python]
+                else:
+                    version = python
             except KeyError:
-                # click.echo(
-                #     '{0}: The version of Python you selected is incompatible '
-                #     'with virtualenv, and is no longer supported'
-                #     ''.format(
-                #         crayons.red('Warning', bold=True)
-                #     )
-                # )
                 abort()
+
+            s = (
+                '{0} {1} {2}'.format(
+                    'Would you like us to install',
+                    crayons.green('CPython {0}'.format(version)),
+                    'with pyenv?'
+                )
+            )
 
             # Prompt the user to continue...
             if not click.confirm(s, default=True):
@@ -415,19 +436,31 @@ def ensure_python(three=None, python=None):
                     # Wait until the process has finished...
                     c.block()
 
+                    try:
+                        assert c.return_code == 0
+                    except AssertionError:
+                        click.echo(u'Something went wrong…')
+                        click.echo(crayons.blue(c.err), err=True)
+
                     # Print the results, in a beautiful blue...
                     click.echo(crayons.blue(c.out), err=True)
 
-                click.echo(
-                    crayons.white(u'Making Python installation global…', bold=True)
-                )
-
-                c = delegator.run(
-                    'pyenv global system {0}'.format(version)
-                )
+                # Add new paths to PATH.
+                activate_pyenv()
 
                 # Find the newly installed Python, hopefully.
-                path_to_python = find_a_system_python(python)
+                path_to_python = find_a_system_python(version)
+
+                try:
+                    assert python_version(path_to_python) == version
+                except AssertionError:
+                    click.echo(
+                        '{0}: The Python you just installed is not available on your {1}, apparently.'
+                        ''.format(
+                            crayons.red('Warning', bold=True),
+                            crayons.white('PATH', bold=True)
+                        )
+                    )
 
     return path_to_python
 
@@ -578,6 +611,7 @@ def do_where(virtualenv=False, bare=True):
             click.echo(
                 'Pipfile found at {0}.\n  Considering this to be the project home.'
                 ''.format(crayons.green(location)), err=True)
+            pass
         else:
             click.echo(location)
 
@@ -859,7 +893,9 @@ def do_lock(verbose=False, system=False, clear=False):
         verbose=verbose,
         python=python_version(which('python', allow_global=system)),
         clear=clear,
-        which=which
+        which=which,
+        which_pip=which_pip,
+        project=project
     )
 
     # Add develop dependencies to lockfile.
@@ -901,7 +937,9 @@ def do_lock(verbose=False, system=False, clear=False):
         sources=project.sources,
         verbose=verbose,
         python=python_version(which('python', allow_global=system)),
-        which=which
+        which=which,
+        which_pip=which_pip,
+        project=project
     )
 
     # Add default dependencies to lockfile.
@@ -1038,10 +1076,6 @@ def do_init(
 
     # Ensure the Pipfile exists.
     ensure_pipfile()
-
-    # Display where the Project is established.
-    if not requirements:
-        do_where(bare=False)
 
     # Write out the lockfile if it doesn't exist, but not if the Pipfile is being ignored
     if (project.lockfile_exists and not ignore_pipfile) and not skip_lock:
@@ -1758,7 +1792,7 @@ def run(command, args, three=None, python=False):
         pass
 
 
-@click.command(help="Checks PEP 508 markers provided in Pipfile.")
+@click.command(help="Checks for security vulnerabilities and against PEP 508 markers provided in Pipfile.")
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
 @click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
 def check(three=None, python=False):
@@ -1799,6 +1833,42 @@ def check(three=None, python=False):
         sys.exit(1)
     else:
         click.echo(crayons.green('Passed!'))
+
+    # This part doesn't appear to work on Windows.
+    if os.name != 'nt':
+        click.echo(
+            crayons.white(u'Checking installed package safety…', bold=True)
+        )
+
+        path = pep508checker.__file__.rstrip('cdo')
+        path = os.sep.join(__file__.split(os.sep)[:-1] + ['vendor', 'safety.zip'])
+
+        c = delegator.run('"{0}" {1} check --json'.format(which('python'), shellquote(path)))
+        try:
+            results = json.loads(c.out)
+        except ValueError:
+            click.echo('An error occured:')
+            click.echo(c.err)
+            sys.exit(1)
+
+        for (package, resolved, installed, description, vuln) in results:
+            click.echo(
+                '{0}: {1} {2} resolved ({3} installed)!'.format(
+                    crayons.white(vuln, bold=True),
+                    crayons.green(package),
+                    crayons.red(resolved, bold=False),
+                    crayons.red(installed, bold=True)
+                )
+            )
+
+            click.echo('{0}'.format(description))
+            click.echo()
+
+        if not results:
+            click.echo(crayons.green('All good!'))
+        else:
+            sys.exit(1)
+
 
 
 @click.command(help=u"Displays currently–installed dependency graph information.")
@@ -1884,7 +1954,7 @@ def update(dev=False, three=None, python=None, dry_run=False, bare=False, dont_u
                 pass
 
         # Resolve dependency tree.
-        for result in resolve_deps(deps, sources=project.sources, clear=clear):
+        for result in resolve_deps(deps, sources=project.sources, clear=clear, which=which, which_pip=which_pip, project=projct):
 
             name = result['name']
             installed = result['version']
@@ -1922,6 +1992,7 @@ def update(dev=False, three=None, python=None, dry_run=False, bare=False, dont_u
     click.echo(
         crayons.green('All dependencies are now up-to-date!')
     )
+
 
 
 # Install click commands.

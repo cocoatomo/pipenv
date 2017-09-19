@@ -1,3 +1,18 @@
+7.3.6:
+ - Fix VCS dependency resolution.
+7.3.5:
+ - Fix packaging.
+7.3.4:
+ - An error occured.
+7.3.3:
+ - Pipenv check now includes security vulnerability disclosures!
+7.3.2:
+ - Vastly improved support for VCS dependencies.
+7.3.1:
+ - Advanced pyenv minor version support.
+ - Added support for "full_python_version".
+ - Added support for specifying minor versions of Python with `--python`.
+ - Removed "considering this to be project home" messaging from `pipenv install`.
 7.3.0:
  - Added support for grabbing dependencies from -e requirements into dependency graph.
 7.2.9:

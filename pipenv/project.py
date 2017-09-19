@@ -51,7 +51,9 @@ class Project(object):
     @property
     def required_python_version(self):
         if self.pipfile_exists:
-            required = self.parsed_pipfile.get('requires', {}).get('python_version')
+            required = self.parsed_pipfile.get('requires', {}).get('python_full_version')
+            if not required:
+                required = self.parsed_pipfile.get('requires', {}).get('python_version')
             if required != "*":
                 return required
 
@@ -183,7 +185,7 @@ class Project(object):
 
             # Convert all outline tables to inline tables.
             for section in ('packages', 'dev-packages'):
-                for package in data.get(section):
+                for package in data.get(section, {}):
 
                     # Convert things to inline tables — fancy :)
                     if hasattr(data[section][package], 'keys'):
@@ -261,8 +263,16 @@ class Project(object):
         """Returns a list of packages, for pip-tools to consume."""
         ps = {}
         for k, v in self.parsed_pipfile.get('packages', {}).items():
-            # Skip VCS deps.
-            if ('extras' in v) or (not hasattr(v, 'keys')):
+            # Skip editable VCS deps.
+            if hasattr(v, 'keys'):
+                if is_vcs(v):
+                    if 'editable' not in v:
+                        continue
+                    else:
+                        ps.update({k: v})
+                else:
+                    ps.update({k: v})
+            else:
                 ps.update({k: v})
         return ps
 
@@ -271,10 +281,19 @@ class Project(object):
         """Returns a list of dev-packages, for pip-tools to consume."""
         ps = {}
         for k, v in self.parsed_pipfile.get('dev-packages', {}).items():
-            # Skip VCS deps.
-            if ('extras' in v) or (not hasattr(v, 'keys')):
+            # Skip editable VCS deps.
+            if hasattr(v, 'keys'):
+                if is_vcs(v):
+                    if 'editable' not in v:
+                        continue
+                    else:
+                        ps.update({k: v})
+                else:
+                    ps.update({k: v})
+            else:
                 ps.update({k: v})
         return ps
+
 
     def touch_pipfile(self):
         """Simply touches the Pipfile, for later use."""
