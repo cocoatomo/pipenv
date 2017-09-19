@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 6.2.7\n"
+"Project-Id-Version: pipenv 7.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 08:52+0900\n"
+"POT-Creation-Date: 2017-09-19 09:17+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgid "This guide is written for Python 3, however, these instructions should wo
 msgstr ""
 
 #: ../../basics.rst:23
-msgid "Make sure you've got Python & pip"
+msgid "☤  Make sure you've got Python & pip"
 msgstr ""
 
 #: ../../basics.rst:25
@@ -61,7 +61,7 @@ msgid "If you installed Python from source, with an installer from `python.org`_
 msgstr ""
 
 #: ../../basics.rst:68
-msgid "Installing Pipenv"
+msgid "☤ Installing Pipenv"
 msgstr ""
 
 #: ../../basics.rst:70
@@ -77,7 +77,7 @@ msgid "This does a `user installation`_ to prevent breaking any system-wide pack
 msgstr ""
 
 #: ../../basics.rst:101
-msgid "Installing packages for your project"
+msgid "☤ Installing packages for your project"
 msgstr ""
 
 #: ../../basics.rst:103
@@ -89,7 +89,7 @@ msgid "Pipenv will install the excellent `Requests`_ library and create a ``Pipf
 msgstr ""
 
 #: ../../basics.rst:149
-msgid "Using installed packages"
+msgid "☤ Using installed packages"
 msgstr ""
 
 #: ../../basics.rst:151
@@ -109,7 +109,7 @@ msgid "Using ``$ pipenv run`` ensures that your installed packages are available
 msgstr ""
 
 #: ../../basics.rst:180
-msgid "Next steps"
+msgid "☤ Next steps"
 msgstr ""
 
 #: ../../basics.rst:182
