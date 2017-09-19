@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 7.3.0\n"
+"Project-Id-Version: pipenv 7.3.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-19 09:17+0900\n"
+"POT-Creation-Date: 2017-09-20 08:41+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -332,7 +332,7 @@ msgstr ""
 
 #: ../../advanced.rst:301
 msgid ""
-"``--skip-lock`` — Ignore the ``Pipfile.ock`` and install from the "
+"``--skip-lock`` — Ignore the ``Pipfile.lock`` and install from the "
 "``Pipfile``. In addition, do not write out a ``Pipfile.lock`` reflecting "
 "changes to the ``Pipfile``."
 msgstr ""
@@ -368,7 +368,7 @@ msgstr "$ pipenv lock"
 #: ../../advanced.rst:320
 msgid ""
 "``$ pipenv lock`` is used to create a ``Pipfile.lock``, which declares "
-"**all** dependencies (and sub-depdendencies) of your project, their latest "
+"**all** dependencies (and sub-dependencies) of your project, their latest "
 "available versions, and the current hashes for the downloaded files. This "
 "ensures repeatable, and most importantly *deterministic*, builds."
 msgstr ""
@@ -378,7 +378,7 @@ msgstr ""
 
 #: ../../advanced.rst:323
 msgid "☤ About Shell Configuration"
-msgstr ""
+msgstr "☤ シェルの設定について"
 
 #: ../../advanced.rst:325
 msgid ""
@@ -387,6 +387,9 @@ msgid ""
 "-c``, which uses \"compatibility mode\", and will attempt to spawn a "
 "subshell despite misconfiguration."
 msgstr ""
+"シェルはたいていサブシェルを使うのに間違った設定になっていることがあるので、 ``$ pipenv shell`` は予期せぬ状態を引き起こすかもしれません。\n"
+"その場合は、 ``$ pipenv shell -c`` を試してみてください。\n"
+"これは \"互換モード\" を使っていて、間違った設定がされていてもサブシェルを起動しようと試みます。"
 
 #: ../../advanced.rst:327
 msgid ""

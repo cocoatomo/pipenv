@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 7.3.0\n"
+"Project-Id-Version: pipenv 7.3.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-19 09:17+0900\n"
+"POT-Creation-Date: 2017-09-20 08:41+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -108,6 +108,7 @@ msgid ""
 "*Pipenv is the porcelain I always wanted to build for pip. It fits my brain "
 "and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*"
 msgstr ""
+"*pipenvは、私がpipの開発で作り上げたかった磁器だ。私の思考回路にピッタリだし、virtualenvwrapperと手作業でのpipの呼び出しのほとんどを置き換えてくれる。是非使うべきだ。*"
 
 #: ../../index.rst:69
 msgid "**Jhon Crypt**—"
@@ -139,7 +140,7 @@ msgstr "*何をしたいか* を簡単に指定できるのに、真の *決定�
 #: ../../index.rst:78
 msgid ""
 "Automatically generates and checks file hashes for locked dependencies."
-msgstr ""
+msgstr "固定された依存関係のファイルハッシュを自動で生成しチェックします。"
 
 #: ../../index.rst:79
 msgid ""
@@ -274,7 +275,7 @@ msgstr "出力を最小限にします。"
 #: ../../../pipenv lock:1 ../../../pipenv run:1 ../../../pipenv shell:1
 #: ../../../pipenv uninstall:1 ../../../pipenv update:1
 msgid "Use Python 3/2 when creating virtualenv."
-msgstr "仮想環境を作成するときにPython 3およびPython 2を使います。"
+msgstr "仮想環境を作成するときにPython 3あるいはPython 2を使います。"
 
 #: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv install:1
 #: ../../../pipenv lock:1 ../../../pipenv run:1 ../../../pipenv shell:1
@@ -295,22 +296,25 @@ msgid "Show the version and exit."
 msgstr "バージョンを表示して終了します。"
 
 #: ../../../pipenv check:1
-msgid "Checks PEP 508 markers provided in Pipfile."
-msgstr ""
+msgid ""
+"Checks for security vulnerabilities and against PEP 508 markers provided in "
+"Pipfile."
+msgstr "セキュリティの脆弱性とPipfileにあるPEP 508マーカーをチェックします。"
 
 #: ../../../pipenv graph:1
 msgid "Displays currently–installed dependency graph information."
-msgstr ""
+msgstr "現在インストールされている依存パッケージのグラフ情報を表示します。"
 
 #: ../../../pipenv install:1
 msgid ""
 "Installs provided packages and adds them to Pipfile, or (if none is given), "
 "installs all packages."
 msgstr ""
+"引数で与えられたパッケージをインストールして、Pipfileに追加するか、(引数が何も与えられない場合は) 全てのパッケージをインストールします。"
 
 #: ../../../pipenv install:1
 msgid "Install package(s) in [dev-packages]."
-msgstr ""
+msgstr "[dev-packages] にあるパッケージをインストールします。"
 
 #: ../../../pipenv install:1 ../../../pipenv uninstall:1
 msgid "System pip management."
@@ -318,20 +322,20 @@ msgstr ""
 
 #: ../../../pipenv install:1
 msgid "Import a requirements.txt file."
-msgstr ""
+msgstr "requirements.txtファイルをインポートします。"
 
 #: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv
 #: uninstall:1 ../../../pipenv update:1
 msgid "Verbose mode."
-msgstr ""
+msgstr "冗長モード。"
 
 #: ../../../pipenv install:1
 msgid "Ignore Pipfile when installing, using the Pipfile.lock."
-msgstr ""
+msgstr "インストール時にPipfileを無視し、Pipfile.lockを使います。"
 
 #: ../../../pipenv install:1
 msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
-msgstr ""
+msgstr "インストール時にバージョン固定の仕組みを無視し、代わりにPipfileを使います。"
 
 #: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
 msgid "Arguments"
@@ -352,11 +356,11 @@ msgstr "Pipfile.lockを生成します。"
 
 #: ../../../pipenv lock:1
 msgid "Generate output compatible with requirements.txt."
-msgstr ""
+msgstr "requirements.txtと互換な出力を生成します。"
 
 #: ../../../pipenv lock:1 ../../../pipenv update:1
 msgid "Clear the dependency cache."
-msgstr ""
+msgstr "依存関係のキャッシュを削除します。"
 
 #: ../../../pipenv run:1
 msgid "Spawns a command installed into the virtualenv."
@@ -368,19 +372,19 @@ msgstr "必須の引数"
 
 #: ../../../pipenv shell:1
 msgid "Spawns a shell within the virtualenv."
-msgstr ""
+msgstr "仮想環境内でシェルを起動します。"
 
 #: ../../../pipenv shell:1
 msgid "Run in shell compatibility mode (for misconfigured shells)."
-msgstr ""
+msgstr "(シェルが間違った設定になっているため) シェル互換モードで実行します。"
 
 #: ../../../pipenv shell:1
 msgid "Always spawn a subshell, even if one is already spawned."
-msgstr ""
+msgstr "サブシェルを既に起動している場合でも、常にサブシェルを起動します。"
 
 #: ../../../pipenv uninstall:1
 msgid "Un-installs a provided package and removes it from Pipfile."
-msgstr ""
+msgstr "引数で与えられたパッケージをアンインストールし、Pipfileから削除します。"
 
 #: ../../../pipenv uninstall:1
 msgid "Lock afterwards."
@@ -388,11 +392,13 @@ msgstr ""
 
 #: ../../../pipenv uninstall:1
 msgid "Un-install all package from [dev-packages]."
-msgstr ""
+msgstr "[dev-packages] にある全てのパッケージをアンインストールします。"
 
 #: ../../../pipenv uninstall:1
 msgid "Purge all package(s) from virtualenv. Does not edit Pipfile."
 msgstr ""
+"仮想環境から全てのパッケージを除去します。\n"
+"Pipfileは編集しません。"
 
 #: ../../../pipenv update:1
 msgid ""
@@ -406,7 +412,7 @@ msgstr ""
 
 #: ../../../pipenv update:1
 msgid "Just output outdated packages."
-msgstr ""
+msgstr "最新版でないパッケージの出力のみを行います。"
 
 #: ../../index.rst:126
 msgid "Indices and tables"
