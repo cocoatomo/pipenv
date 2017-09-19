@@ -50,7 +50,7 @@ msgstr ""
 
 #: ../../basics.rst:23
 msgid "☤  Make sure you've got Python & pip"
-msgstr ""
+msgstr "☤  Pythonとpipがあるかの確認"
 
 #: ../../basics.rst:25
 msgid ""
@@ -103,7 +103,7 @@ msgstr ""
 
 #: ../../basics.rst:68
 msgid "☤ Installing Pipenv"
-msgstr ""
+msgstr "☤ Pipenvのインストール"
 
 #: ../../basics.rst:70
 msgid ""
@@ -142,7 +142,7 @@ msgstr ""
 
 #: ../../basics.rst:101
 msgid "☤ Installing packages for your project"
-msgstr ""
+msgstr "☤ プロジェクトで使うパッケージのインストール"
 
 #: ../../basics.rst:103
 msgid ""
@@ -167,7 +167,7 @@ msgstr ""
 
 #: ../../basics.rst:149
 msgid "☤ Using installed packages"
-msgstr ""
+msgstr "☤ インストールされたパッケージを使う"
 
 #: ../../basics.rst:151
 msgid ""
@@ -194,7 +194,7 @@ msgstr ""
 
 #: ../../basics.rst:180
 msgid "☤ Next steps"
-msgstr ""
+msgstr "☤ 次のステップ"
 
 #: ../../basics.rst:182
 msgid ""

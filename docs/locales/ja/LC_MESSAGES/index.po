@@ -29,8 +29,8 @@ msgid ""
 "using-packages/>`_, free (as in freedom)."
 msgstr ""
 "**Pipenv** — `Python.org <https://packaging.python.org/new-tutorials"
-"/installing-and-using-packages/>`_ が正式に推薦するPythonパッケージングツール, free (as in "
-"freedom)"
+"/installing-and-using-packages/>`_ が正式に推薦するPythonパッケージングツール、そして (自由としての) "
+"フリー。"
 
 #: ../../index.rst:31
 msgid ""
@@ -217,7 +217,7 @@ msgstr "他のコマンド"
 #: ../../index.rst:103
 msgid ""
 "``graph`` will show you a dependency graph, of your installed dependencies."
-msgstr ""
+msgstr "``graph`` はインストールされた依存パッケージの依存関係グラフを表示します。"
 
 #: ../../index.rst:104
 msgid "``shell`` will spawn a shell with the virtualenv activated."
@@ -228,12 +228,13 @@ msgid ""
 "``run`` will run a given command from the virtualenv, with any arguments "
 "forwarded (e.g. ``$ pipenv run python``)."
 msgstr ""
+"``run`` は仮想環境から与えられたコマンドを、それに続く任意の引数で実行します (例えば ``$ pipenv run python``)。"
 
 #: ../../index.rst:106
 msgid ""
 "``check`` asserts that PEP 508 requirements are being met by the current "
 "environment."
-msgstr ""
+msgstr "``check`` は現在の環境がPEP 508の要求仕様を満たしていることを表明します。"
 
 #: ../../index.rst:110
 msgid "Further Documentation Guides"
@@ -273,7 +274,7 @@ msgstr "出力を最小限にします。"
 #: ../../../pipenv lock:1 ../../../pipenv run:1 ../../../pipenv shell:1
 #: ../../../pipenv uninstall:1 ../../../pipenv update:1
 msgid "Use Python 3/2 when creating virtualenv."
-msgstr "仮想環境を作成するときにPython 3/2を使います。"
+msgstr "仮想環境を作成するときにPython 3およびPython 2を使います。"
 
 #: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv install:1
 #: ../../../pipenv lock:1 ../../../pipenv run:1 ../../../pipenv shell:1
@@ -334,20 +335,20 @@ msgstr ""
 
 #: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
 msgid "Arguments"
-msgstr ""
+msgstr "引数"
 
 #: ../../../pipenv install:1 ../../../pipenv uninstall:1
 msgid "Optional argument"
-msgstr ""
+msgstr "オプションの引数"
 
 #: ../../../pipenv install:1 ../../../pipenv run:1 ../../../pipenv shell:1
 #: ../../../pipenv uninstall:1
 msgid "Optional argument(s)"
-msgstr ""
+msgstr "オプションの引数"
 
 #: ../../../pipenv lock:1
 msgid "Generates Pipfile.lock."
-msgstr ""
+msgstr "Pipfile.lockを生成します。"
 
 #: ../../../pipenv lock:1
 msgid "Generate output compatible with requirements.txt."
@@ -363,7 +364,7 @@ msgstr ""
 
 #: ../../../pipenv run:1
 msgid "Required argument"
-msgstr ""
+msgstr "必須の引数"
 
 #: ../../../pipenv shell:1
 msgid "Spawns a shell within the virtualenv."
