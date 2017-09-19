@@ -9,7 +9,8 @@ msgstr ""
 "Project-Id-Version: pipenv 6.2.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-13 08:52+0900\n"
-"PO-Revision-Date: 2017-09-14 11:21+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +53,9 @@ msgid ""
 "If you only have a ``requirements.txt`` file available when running ``pipenv"
 " install``, pipenv will automatically import the contents of this file and "
 "create a ``Pipfile`` for you."
-msgstr "``pipenv install`` を実行したときに ``requirements.txt`` ファイルしか無い場合は、pipenvは自動でそのファイルの内容をインポートし ``Pipfile`` を作成します。"
+msgstr ""
+"``pipenv install`` を実行したときに ``requirements.txt`` "
+"ファイルしか無い場合は、pipenvは自動でそのファイルの内容をインポートし ``Pipfile`` を作成します。"
 
 #: ../../advanced.rst:119
 msgid "☤ Specifying Versions"
@@ -78,7 +81,9 @@ msgstr "☤ pipenvの高度なインストール方法"
 msgid ""
 "To install pipenv in a fancy way, we recommend using `pipsi "
 "<https://github.com/mitsuhiko/pipsi>`_."
-msgstr "高度な方法でpipenvをインストールするには、 `pipsi <https://github.com/mitsuhiko/pipsi>`_ をオススメします。"
+msgstr ""
+"高度な方法でpipenvをインストールするには、 `pipsi <https://github.com/mitsuhiko/pipsi>`_ "
+"をオススメします。"
 
 #: ../../advanced.rst:137
 msgid ""
@@ -96,11 +101,11 @@ msgstr "指示に従って ``PATH`` を更新する必要があります。"
 
 #: ../../advanced.rst:145
 msgid "Then, simply run::"
-msgstr ""
+msgstr "そして、次のコマンドを実行します::"
 
 #: ../../advanced.rst:150 ../../advanced.rst:173
 msgid "To upgrade pipenv at any time::"
-msgstr ""
+msgstr "いつでもpipenvをアップグレードするには次のコマンドを実行します::"
 
 #: ../../advanced.rst:155
 msgid ""
@@ -108,10 +113,12 @@ msgid ""
 "an isolated virtualenv, so it doesn't interfere with the rest of your Python"
 " installation!"
 msgstr ""
+"これは ``pipenv`` と (依存ライブラリの1つである) ``pew`` "
+"を隔離された仮想環境にインストールするので、他のインストールされているPython環境に干渉することはありません。"
 
 #: ../../advanced.rst:161
 msgid "☤ Pragmatic Installation of Pipenv"
-msgstr ""
+msgstr "☤ pipenvの実用的なインストール方法"
 
 #: ../../advanced.rst:163
 msgid ""
@@ -123,10 +130,12 @@ msgid ""
 "installed in this way to basic building blocks for a Python workflow like "
 "virtualenv, pipenv, tox, and similar software."
 msgstr ""
+"もしインストールされた今も使っているpipがあって、ある \"ツール群\" タイプのPythonモジュールをどの環境でも使うユーティリティとしてメンテナンスしている場合は、pip の `ユーザーインストール <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を使うとホームディレクトリにインストールできます。\n"
+"依存関係どうしの影響の関係で、この方法でインストールするツールは、virtualenv、pipenv、toxのようなPythonを使う作業の工程のための基本要素となるソフトウェアだけに制限すべきという点に注意してください。"
 
 #: ../../advanced.rst:165
 msgid "To install::"
-msgstr ""
+msgstr "次のコマンドでインストールします:"
 
 #: ../../advanced.rst:169
 msgid ""
@@ -135,40 +144,45 @@ msgid ""
 "installed cli tools from a pip user install to your path, add the output "
 "of::"
 msgstr ""
+"さらに詳しいことは `ユーザーインストールの説明 <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を参照してください。\n"
+"pipのユーザーインストールでインストールしたCLIツールをパスに追加するには、次のコマンドで出力されるディレクトリを追加してください::"
 
 #: ../../advanced.rst:180
 msgid "☤ Crude Installation of Pipenv"
-msgstr ""
+msgstr "☤ 大雑把なpipenvのインストール方法"
 
 #: ../../advanced.rst:182
 msgid ""
 "If you don't even have pip installed, you can use this crude installation "
 "method, which will boostrap your whole system::"
-msgstr ""
+msgstr "もしpipをまだインストールしていなくても、この大雑把なインストール方法を使って、pipenvのシステム全体を立ち上げられます::"
 
 #: ../../advanced.rst:186
 msgid "Congratulations, you now have pip and Pipenv installed!"
-msgstr ""
+msgstr "おめでとう、これでpipとPipenvがインストールされました!"
 
 #: ../../advanced.rst:191
 msgid "☤ Environment Management with Pipenv"
-msgstr ""
+msgstr "☤ pipenvによる環境管理"
 
 #: ../../advanced.rst:193
 msgid ""
 "The three primary commands you'll use in managing your pipenv environment "
 "are ``$ pipenv install``, ``$ pipenv uninstall``, and ``$ pipenv lock``."
 msgstr ""
+"pipenvの環境管理で使うであろう主要な3つのコマンドは ``$ pipenv install`` 、 ``$ pipenv uninstall`` "
+"、 ``$ pipenv lock`` です。"
 
 #: ../../advanced.rst:199
 msgid "$ pipenv install"
-msgstr ""
+msgstr "$ pipenv install"
 
 #: ../../advanced.rst:201
 msgid ""
 "``$ pipenv install`` is used for installing packages into the pipenv virtual"
 " environment and updating your Pipfile."
 msgstr ""
+"``$ pipenv install`` は、pipenvの仮想環境にパッケージをインストールしたり、Pipfileを更新したりするのに使います。"
 
 #: ../../advanced.rst:204
 msgid "Along with the basic install command, which takes the form::"
