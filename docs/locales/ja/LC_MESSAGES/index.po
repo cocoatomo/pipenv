@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 6.2.7\n"
+"Project-Id-Version: pipenv 7.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 08:52+0900\n"
+"POT-Creation-Date: 2017-09-19 09:17+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -105,8 +105,8 @@ msgstr "**Jannis Leidel**、前pipメンテナー—"
 
 #: ../../index.rst:66
 msgid ""
-"*Pipenv is the porcelain I always wanted built for pip. It fits my brain and"
-" mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*"
+"*Pipenv is the porcelain I always wanted to build for pip. It fits my brain "
+"and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*"
 msgstr ""
 
 #: ../../index.rst:69
@@ -215,26 +215,31 @@ msgid "Other Commands"
 msgstr "他のコマンド"
 
 #: ../../index.rst:103
+msgid ""
+"``graph`` will show you a dependency graph, of your installed dependencies."
+msgstr ""
+
+#: ../../index.rst:104
 msgid "``shell`` will spawn a shell with the virtualenv activated."
 msgstr "``shell`` は仮想環境が有効化されたシェルを起動します。"
 
-#: ../../index.rst:104
+#: ../../index.rst:105
 msgid ""
 "``run`` will run a given command from the virtualenv, with any arguments "
 "forwarded (e.g. ``$ pipenv run python``)."
 msgstr ""
 
-#: ../../index.rst:105
+#: ../../index.rst:106
 msgid ""
 "``check`` asserts that PEP 508 requirements are being met by the current "
 "environment."
 msgstr ""
 
-#: ../../index.rst:109
+#: ../../index.rst:110
 msgid "Further Documentation Guides"
 msgstr "より進んだ内容のドキュメントガイド"
 
-#: ../../index.rst:118
+#: ../../index.rst:119
 msgid "☤ Pipenv Usage"
 msgstr "☤ Pipenvの使い方"
 
@@ -314,7 +319,8 @@ msgstr ""
 msgid "Import a requirements.txt file."
 msgstr ""
 
-#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv update:1
+#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv
+#: uninstall:1 ../../../pipenv update:1
 msgid "Verbose mode."
 msgstr ""
 
@@ -347,6 +353,10 @@ msgstr ""
 msgid "Generate output compatible with requirements.txt."
 msgstr ""
 
+#: ../../../pipenv lock:1 ../../../pipenv update:1
+msgid "Clear the dependency cache."
+msgstr ""
+
 #: ../../../pipenv run:1
 msgid "Spawns a command installed into the virtualenv."
 msgstr ""
@@ -361,6 +371,10 @@ msgstr ""
 
 #: ../../../pipenv shell:1
 msgid "Run in shell compatibility mode (for misconfigured shells)."
+msgstr ""
+
+#: ../../../pipenv shell:1
+msgid "Always spawn a subshell, even if one is already spawned."
 msgstr ""
 
 #: ../../../pipenv uninstall:1
@@ -393,18 +407,18 @@ msgstr ""
 msgid "Just output outdated packages."
 msgstr ""
 
-#: ../../index.rst:125
+#: ../../index.rst:126
 msgid "Indices and tables"
 msgstr "索引と一覧表"
 
-#: ../../index.rst:127
+#: ../../index.rst:128
 msgid ":ref:`genindex`"
 msgstr ":ref:`genindex`"
 
-#: ../../index.rst:128
+#: ../../index.rst:129
 msgid ":ref:`modindex`"
 msgstr ":ref:`modindex`"
 
-#: ../../index.rst:129
+#: ../../index.rst:130
 msgid ":ref:`search`"
 msgstr ":ref:`search`"

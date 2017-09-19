@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 6.2.7\n"
+"Project-Id-Version: pipenv 7.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 08:52+0900\n"
+"POT-Creation-Date: 2017-09-19 09:17+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -49,8 +49,8 @@ msgstr ""
 "このガイドはPython 3向けに書かれていますが、とある理由でまだPython 2.7を使っている場合でも、それぞれの指示はきちんと動くでしょう。"
 
 #: ../../basics.rst:23
-msgid "Make sure you've got Python & pip"
-msgstr "Pythonとpipがあるかの確認"
+msgid "☤  Make sure you've got Python & pip"
+msgstr ""
 
 #: ../../basics.rst:25
 msgid ""
@@ -102,8 +102,8 @@ msgstr ""
 "Linuxを使っていて、OSのパッケージマネージャーを使ってインストールした場合には、それとは別に `pipのインストール <https://pip.pypa.io/en/stable/installing/>`_ をしなければならないかもしれません。"
 
 #: ../../basics.rst:68
-msgid "Installing Pipenv"
-msgstr "Pipenvのインストール"
+msgid "☤ Installing Pipenv"
+msgstr ""
 
 #: ../../basics.rst:70
 msgid ""
@@ -141,8 +141,8 @@ msgstr ""
 "Windowsでは `コントロールパネル <https://msdn.microsoft.com/en-us/library/windows/desktop/bb776899(v=vs.85).aspx>`_ から、永続的なユーザーの ``PATH`` の設定を行います。"
 
 #: ../../basics.rst:101
-msgid "Installing packages for your project"
-msgstr "プロジェクトで使うパッケージのインストール"
+msgid "☤ Installing packages for your project"
+msgstr ""
 
 #: ../../basics.rst:103
 msgid ""
@@ -166,8 +166,8 @@ msgstr ""
 "これに似た出力が表示されるはずです (もっとも、表示されている正確なパスは異なるでしょう):"
 
 #: ../../basics.rst:149
-msgid "Using installed packages"
-msgstr "インストールされたパッケージを使う"
+msgid "☤ Using installed packages"
+msgstr ""
 
 #: ../../basics.rst:151
 msgid ""
@@ -193,8 +193,8 @@ msgstr ""
 "インストールしたパッケージに全てのコマンドがアクセスできることが保証された新しいシェルの起動もできます。"
 
 #: ../../basics.rst:180
-msgid "Next steps"
-msgstr "次のステップ"
+msgid "☤ Next steps"
+msgstr ""
 
 #: ../../basics.rst:182
 msgid ""
