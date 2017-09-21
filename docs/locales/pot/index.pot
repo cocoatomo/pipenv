@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 7.3.6\n"
+"Project-Id-Version: pipenv 7.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-20 08:41+0900\n"
+"POT-Creation-Date: 2017-09-21 09:18+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,80 +20,92 @@ msgstr ""
 msgid "Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv"
 msgstr ""
 
-#: ../../index.rst:29
+#: ../../index.rst:26
 msgid "**Pipenv** — the officially recommended Python packaging tool from `Python.org <https://packaging.python.org/new-tutorials/installing-and-using-packages/>`_, free (as in freedom)."
 msgstr ""
 
-#: ../../index.rst:31
+#: ../../index.rst:28
 msgid "Pipenv is a project that aims to bring the best of all packaging worlds to the Python world. It harnesses `Pipfile <https://github.com/pypa/pipfile>`_, `pip <https://github.com/pypa/pip>`_, and `virtualenv <https://github.com/pypa/virtualenv>`_ into one single toolchain. It features very pretty terminal colors. *Windows is a first–class citizen, in our world.*"
 msgstr ""
 
-#: ../../index.rst:33
+#: ../../index.rst:30
 msgid "It automatically creates and manages a virtualenv for your projects, as well as adds/removes packages from your ``Pipfile`` as you install/uninstall packages. The ``lock`` command generates a lockfile (``Pipfile.lock``)."
 msgstr ""
 
-#: ../../index.rst:40
+#: ../../index.rst:37
 msgid "The problems that Pipenv seeks to solve are multi-faceted:"
 msgstr ""
 
-#: ../../index.rst:42
-msgid "When using Pipenv, you no longer need to use ``pip`` and ``virtualenv`` separately. They work together."
+#: ../../index.rst:39
+msgid "You no longer need to use ``pip`` and ``virtualenv`` separately. They work together."
 msgstr ""
 
-#: ../../index.rst:43
+#: ../../index.rst:40
 msgid "Managing a ``requirements.txt`` file `can be problematic <https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv uses the upcoming ``Pipfile`` and ``Pipfile.lock`` instead, which is superior for basic use cases."
 msgstr ""
 
-#: ../../index.rst:44
-msgid "Hashes are used everywhere, always. Security."
+#: ../../index.rst:41
+msgid "Hashes are used everywhere, always. Security. Automatically expose security vulnerabilities."
 msgstr ""
 
-#: ../../index.rst:48
+#: ../../index.rst:42
+msgid "Give you insight into your dependency graph (e.g. ``$ pipenv graph``)."
+msgstr ""
+
+#: ../../index.rst:43
+msgid "Streamline development workflow by loading ``.env`` files."
+msgstr ""
+
+#: ../../index.rst:47
 msgid "Install Pipenv Today!"
 msgstr ""
 
-#: ../../index.rst:55
+#: ../../index.rst:54
 msgid "If you have excellent taste, there's also a  `fancy installation method <http://docs.pipenv.org/en/latest/advanced.html#fancy-installation-of-pipenv>`_."
 msgstr ""
 
-#: ../../index.rst:63
+#: ../../index.rst:62
 msgid "User Testimonials"
 msgstr ""
 
-#: ../../index.rst:66
+#: ../../index.rst:65
 msgid "**Jannis Leidel**, former pip maintainer—"
 msgstr ""
 
-#: ../../index.rst:66
+#: ../../index.rst:65
 msgid "*Pipenv is the porcelain I always wanted to build for pip. It fits my brain and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*"
 msgstr ""
 
-#: ../../index.rst:69
+#: ../../index.rst:68
 msgid "**Jhon Crypt**—"
 msgstr ""
 
-#: ../../index.rst:69
+#: ../../index.rst:68
 msgid "*Pipenv is the best thing since pip, thank you!*"
 msgstr ""
 
-#: ../../index.rst:72
+#: ../../index.rst:71
 msgid "**Isaac Sanders**—"
 msgstr ""
 
-#: ../../index.rst:72
+#: ../../index.rst:71
 msgid "*Pipenv is literally the best thing about my day today. Thanks, Kenneth!*"
 msgstr ""
 
-#: ../../index.rst:75
+#: ../../index.rst:74
 msgid "☤ Pipenv Features"
 msgstr ""
 
+#: ../../index.rst:76
+msgid "Enables truly *deterministic builds*, while easily specifying *only what you want*."
+msgstr ""
+
 #: ../../index.rst:77
-msgid "Enables truly *deterministic builds*, while easily specifying *what you want*."
+msgid "Generates and checks file hashes for locked dependencies."
 msgstr ""
 
 #: ../../index.rst:78
-msgid "Automatically generates and checks file hashes for locked dependencies."
+msgid "Automatically install required Pythons, if ``pyenv`` is available."
 msgstr ""
 
 #: ../../index.rst:79
@@ -105,78 +117,70 @@ msgid "Automatically generates a ``Pipfile``, if one doesn't exist."
 msgstr ""
 
 #: ../../index.rst:81
-msgid "Automatically generates a ``Pipfile.lock``, if one doesn't exist."
-msgstr ""
-
-#: ../../index.rst:82
 msgid "Automatically creates a virtualenv in a standard location."
 msgstr ""
 
-#: ../../index.rst:83
-msgid "Automatically adds packages to a Pipfile when they are installed."
+#: ../../index.rst:82
+msgid "Automatically adds/removes packages to a ``Pipfile`` when they are un/installed."
 msgstr ""
 
-#: ../../index.rst:84
-msgid "Automatically removes packages from a Pipfile when they are un-installed."
+#: ../../index.rst:83
+msgid "Automatically loads ``.env`` files, if they exist."
 msgstr ""
 
 #: ../../index.rst:85
-msgid "Also automatically updates pip and itself, when asked."
-msgstr ""
-
-#: ../../index.rst:87
 msgid "The main commands are ``install``, ``uninstall``, and ``lock``, which generates a ``Pipfile.lock``. These are intended to replace ``$ pip install`` usage, as well as manual virtualenv management (to activate a virtualenv, run ``$ pipenv shell``)."
 msgstr ""
 
-#: ../../index.rst:90
+#: ../../index.rst:88
 msgid "Basic Concepts"
 msgstr ""
 
-#: ../../index.rst:92
+#: ../../index.rst:90
 msgid "A virtualenv will automatically be created, when one doesn't exist."
 msgstr ""
 
-#: ../../index.rst:93
+#: ../../index.rst:91
 msgid "When no parameters are passed to ``install``, all packages ``[packages]`` specified will be installed."
 msgstr ""
 
-#: ../../index.rst:94
+#: ../../index.rst:92
 msgid "To initialize a Python 3 virtual environment, run ``$ pipenv --three``."
 msgstr ""
 
-#: ../../index.rst:95
+#: ../../index.rst:93
 msgid "To initialize a Python 2 virtual environment, run ``$ pipenv --two``."
 msgstr ""
 
-#: ../../index.rst:96
+#: ../../index.rst:94
 msgid "Otherwise, whatever virtualenv defaults to will be the default."
 msgstr ""
 
-#: ../../index.rst:101
+#: ../../index.rst:99
 msgid "Other Commands"
 msgstr ""
 
-#: ../../index.rst:103
+#: ../../index.rst:101
 msgid "``graph`` will show you a dependency graph, of your installed dependencies."
 msgstr ""
 
-#: ../../index.rst:104
+#: ../../index.rst:102
 msgid "``shell`` will spawn a shell with the virtualenv activated."
 msgstr ""
 
-#: ../../index.rst:105
+#: ../../index.rst:103
 msgid "``run`` will run a given command from the virtualenv, with any arguments forwarded (e.g. ``$ pipenv run python``)."
 msgstr ""
 
-#: ../../index.rst:106
-msgid "``check`` asserts that PEP 508 requirements are being met by the current environment."
+#: ../../index.rst:104
+msgid "``check`` checks for security vulnerabilities and asserts that PEP 508 requirements are being met by the current environment."
 msgstr ""
 
-#: ../../index.rst:110
+#: ../../index.rst:108
 msgid "Further Documentation Guides"
 msgstr ""
 
-#: ../../index.rst:119
+#: ../../index.rst:117
 msgid "☤ Pipenv Usage"
 msgstr ""
 
@@ -202,6 +206,10 @@ msgstr ""
 
 #: ../../../pipenv:1
 msgid "Output virtualenv information."
+msgstr ""
+
+#: ../../../pipenv:1
+msgid "Output Python interpreter information."
 msgstr ""
 
 #: ../../../pipenv:1
@@ -254,6 +262,10 @@ msgstr ""
 
 #: ../../../pipenv graph:1
 msgid "Displays currently–installed dependency graph information."
+msgstr ""
+
+#: ../../../pipenv graph:1
+msgid "Output JSON."
 msgstr ""
 
 #: ../../../pipenv install:1
@@ -357,7 +369,7 @@ msgid "Purge all package(s) from virtualenv. Does not edit Pipfile."
 msgstr ""
 
 #: ../../../pipenv update:1
-msgid "Updates Pipenv & pip to latest, uninstalls all packages, and re-installs package(s) in [packages] to latest compatible versions."
+msgid "Uninstalls all packages, and re-installs package(s) in [packages] to latest compatible versions."
 msgstr ""
 
 #: ../../../pipenv update:1
@@ -368,19 +380,19 @@ msgstr ""
 msgid "Just output outdated packages."
 msgstr ""
 
-#: ../../index.rst:126
+#: ../../index.rst:124
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../index.rst:128
+#: ../../index.rst:126
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../index.rst:129
+#: ../../index.rst:127
 msgid ":ref:`modindex`"
 msgstr ""
 
-#: ../../index.rst:130
+#: ../../index.rst:128
 msgid ":ref:`search`"
 msgstr ""
 
