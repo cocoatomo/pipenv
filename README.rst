@@ -7,9 +7,6 @@ Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv
 .. image:: https://img.shields.io/pypi/l/pipenv.svg
     :target: https://pypi.python.org/pypi/pipenv
 
-.. image:: https://img.shields.io/pypi/wheel/pipenv.svg
-    :target: https://pypi.python.org/pypi/pipenv
-
 .. image:: https://img.shields.io/pypi/pyversions/pipenv.svg
     :target: https://pypi.python.org/pypi/pipenv
 
@@ -34,9 +31,11 @@ Pipenv automatically creates and manages the virtualenvs of your projects, as we
 
 The problems that Pipenv seeks to solve are multi-faceted:
 
-- When using Pipenv, you no longer need to use ``pip`` and ``virtualenv`` separately. They work together.
+- You no longer need to use ``pip`` and ``virtualenv`` separately. They work together.
 - Managing a ``requirements.txt`` file `can be problematic <https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv uses the upcoming ``Pipfile`` and ``Pipfile.lock`` instead, which is superior for basic use cases.
-- Hashes are used everywhere, always. Security.
+- Hashes are used everywhere, always. Security. Automatically expose security vulnerabilities.
+- Give you insight into your dependency graph (e.g. ``$ pipenv graph``).
+- Streamline development workflow by loading ``.env`` files.
 
 Installation
 ------------
@@ -64,15 +63,14 @@ Installation
 ☤ Features
 ----------
 
-- Enables truly *deterministic builds*, while easily specifying *what you want*.
-- Generates and checks file hashes for locked dependencies (via ``--hashes``).
+- Enables truly *deterministic builds*, while easily specifying *only what you want*.
+- Generates and checks file hashes for locked dependencies.
+- Automatically install required Pythons, if ``pyenv`` is available.
 - Automatically finds your project home, recursively, by looking for a ``Pipfile``.
 - Automatically generates a ``Pipfile``, if one doesn't exist.
-- Automatically generates a ``Pipfile.lock``, if one doesn't exist.
 - Automatically creates a virtualenv in a standard location.
-- Automatically adds packages to a Pipfile when they are installed.
-- Automatically removes packages from a Pipfile when they are un-installed.
-- Also automatically updates pip.
+- Automatically adds/removes packages to a ``Pipfile`` when they are un/installed.
+- Automatically loads ``.env`` files, if they exist.
 
 The main commands are ``install``, ``uninstall``, and ``lock``, which generates a ``Pipfile.lock``. These are intended to replace ``$ pip install`` usage, as well as manual virtualenv management (to activate a virtualenv, run ``$ pipenv shell``).
 
@@ -117,11 +115,11 @@ Fish is the best shell. You should use it.
       --update         Update Pipenv & pip to latest.
       --where          Output project home information.
       --venv           Output virtualenv information.
+      --py             Output Python interpreter information.
       --rm             Remove the virtualenv.
       --bare           Minimal output.
       --three / --two  Use Python 3/2 when creating virtualenv.
-      --python TEXT    Specify which version of Python virtualenv
-                       should use.
+      --python TEXT    Specify which version of Python virtualenv should use.
       -h, --help       Show this message then exit.
       -j, --jumbotron  An easter egg, effectively.
       --version        Show the version and exit.
@@ -131,27 +129,44 @@ Fish is the best shell. You should use it.
        Create a new project using Python 3:
        $ pipenv --three
 
+       Create a new project using Python 3.6, specifically:
+       $ pipenv --python 3.6
+
        Install all dependencies for a project (including dev):
        $ pipenv install --dev
 
        Create a lockfile:
        $ pipenv lock
 
+       Show a graph of your installed dependencies:
+       $ pipenv graph
+
     Commands:
-      check      Checks PEP 508 markers provided in Pipfile.
+      check      Checks for security vulnerabilities and...
       graph      Displays currently–installed dependency graph...
       install    Installs provided packages and adds them to...
       lock       Generates Pipfile.lock.
       run        Spawns a command installed into the...
       shell      Spawns a shell within the virtualenv.
       uninstall  Un-installs a provided package and removes it...
-      update     Updates Pipenv & pip to latest, uninstalls...
+      update     Uninstalls all packages, and re-installs...
+
+
+Locate the project::
+
+    $ pipenv --where
+    /Users/kennethreitz/Library/Mobile Documents/com~apple~CloudDocs/repos/kr/pipenv/test
 
 Locate the virtualenv::
 
-    $ pipenv --where
-    Pipfile found at /Users/kennethreitz/repos/kr/pip2/test/Pipfile. Considering this to be the project home.
+   $ pipenv --venv
+   /Users/kennethreitz/.local/share/virtualenvs/test-Skyy4vre
+   
+Locate the Python interpreter::
 
+    $ pipenv --py
+    /Users/kennethreitz/.local/share/virtualenvs/test-Skyy4vre/bin/python
+    
 Install packages::
 
     $ pipenv install
@@ -175,15 +190,11 @@ Install a dev dependency::
 Show a dependency graph::
 
     $ pipenv graph
-    pip==9.0.1
-    regex==2017.7.28
     requests==2.18.4
       - certifi [required: >=2017.4.17, installed: 2017.7.27.1]
       - chardet [required: >=3.0.2,<3.1.0, installed: 3.0.4]
       - idna [required: >=2.5,<2.7, installed: 2.6]
       - urllib3 [required: <1.23,>=1.21.1, installed: 1.22]
-    setuptools==36.4.0
-    wheel==0.29.0
 
 Generate a lockfile::
 
@@ -214,10 +225,9 @@ Uninstall everything::
 Use the shell::
 
     $ pipenv shell
-    Spawning virtualenv shell (/bin/zsh).
-    (test)$
-
-
+    Loading .env environment variables…
+    Launching subshell in virtual environment. Type 'exit' or 'Ctrl+D' to return.
+    $ ▯
 
 ☤ Documentation
 ---------------

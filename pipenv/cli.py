@@ -14,6 +14,7 @@ import background
 import click
 import click_completion
 import crayons
+import dotenv
 import delegator
 import pexpect
 import requests
@@ -22,6 +23,7 @@ import pipfile
 import pipdeptree
 import requirements
 import semver
+
 from blindspin import spinner
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from pip.req.req_file import parse_requirements
@@ -30,7 +32,7 @@ from .project import Project
 from .utils import (
     convert_deps_from_pip, convert_deps_to_pip, is_required_version,
     proper_case, pep423_name, split_vcs, resolve_deps, shellquote, is_vcs,
-    python_version
+    python_version, suggest_package
 )
 from .__version__ import __version__
 from . import pep508checker, progress
@@ -38,7 +40,7 @@ from .environments import (
     PIPENV_COLORBLIND, PIPENV_NOSPIN, PIPENV_SHELL_COMPAT,
     PIPENV_VENV_IN_PROJECT, PIPENV_USE_SYSTEM, PIPENV_TIMEOUT,
     PIPENV_SKIP_VALIDATION, PIPENV_HIDE_EMOJIS, PIPENV_INSTALL_TIMEOUT,
-    PYENV_INSTALLED
+    PYENV_INSTALLED, PIPENV_YES
 )
 
 # Backport required for earlier versions of Python.
@@ -86,9 +88,11 @@ if not PIPENV_HIDE_EMOJIS:
         INSTALL_LABEL = '🐍   '
 
     INSTALL_LABEL2 = crayons.white('☤  ', bold=True)
+    STARTING_LABEL = '    '
 else:
     INSTALL_LABEL = '   '
     INSTALL_LABEL2 = '   '
+    STARTING_LABEL = '   '
 
 # Enable shell completion.
 click_completion.init()
@@ -107,6 +111,13 @@ if PIPENV_NOSPIN:
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 project = Project()
+
+
+def load_dot_env():
+    denv = dotenv.find_dotenv(os.sep.join([project.project_directory, '.env']))
+    if os.path.isfile(denv):
+        click.echo(crayons.white('Loading .env environment variables…', bold=True), err=True)
+    dotenv.load_dotenv(denv, override=True)
 
 
 def add_to_path(p):
@@ -410,7 +421,7 @@ def ensure_python(three=None, python=None):
             )
 
             # Prompt the user to continue...
-            if not click.confirm(s, default=True):
+            if not (PIPENV_YES or click.confirm(s, default=True)):
                 abort()
             else:
 
@@ -600,7 +611,8 @@ def do_where(virtualenv=False, bare=True):
         location = project.pipfile_location
 
         # Shorten the virual display of the path to the virtualenv.
-        location = shorten_path(location)
+        if not bare:
+            location = shorten_path(location)
 
         if not location:
             click.echo(
@@ -613,7 +625,7 @@ def do_where(virtualenv=False, bare=True):
                 ''.format(crayons.green(location)), err=True)
             pass
         else:
-            click.echo(location)
+            click.echo(project.project_directory)
 
     else:
         location = project.virtualenv_location
@@ -622,7 +634,6 @@ def do_where(virtualenv=False, bare=True):
             click.echo('Virtualenv location: {0}'.format(crayons.green(location)), err=True)
         else:
             click.echo(location)
-
 
 def do_install_dependencies(
     dev=False, only=False, bare=False, requirements=False, allow_global=False,
@@ -677,8 +688,12 @@ def do_install_dependencies(
         click.echo('\n'.join(d[0] for d in deps_list))
         sys.exit(0)
 
+    procs = []
     # pip install:
-    for dep, ignore_hash in progress.bar(deps_list, label=INSTALL_LABEL if os.name != 'nt' else ''):
+    if os.name == 'nt':
+        deps_list = progress.bar(deps_list, label=STARTING_LABEL if os.name != 'nt' else '')
+
+    for dep, ignore_hash in deps_list:
 
         # Install the module.
         c = pip_install(
@@ -686,8 +701,16 @@ def do_install_dependencies(
             ignore_hashes=ignore_hash,
             allow_global=allow_global,
             no_deps=no_deps,
-            verbose=verbose
+            verbose=verbose,
+            block=False
         )
+        procs.append(c)
+
+    for c in progress.bar(procs, label=INSTALL_LABEL if os.name != 'nt' else ''):
+        try:
+            c.block()
+        except ValueError:
+            pass
 
         # The Installtion failed...
         if c.return_code != 0:
@@ -1060,6 +1083,8 @@ def do_purge(bare=False, downloads=False, allow_global=False, verbose=False):
         click.echo(crayons.green('Environment now purged and fresh!'))
 
 
+
+
 def do_init(
     dev=False, requirements=False, allow_global=False, ignore_pipfile=False,
     skip_lock=False, verbose=False, system=False
@@ -1108,8 +1133,12 @@ def do_init(
 
 def pip_install(
     package_name=None, r=None, allow_global=False, ignore_hashes=False,
-    no_deps=True, verbose=False
+    no_deps=True, verbose=False, block=True
 ):
+
+    # Block is always true on windows, for there be bugs.
+    if os.name == 'nt':
+        block=True
 
     # Create files for hash mode.
     if (not ignore_hashes) and (r is None):
@@ -1154,8 +1183,7 @@ def pip_install(
         if verbose:
             click.echo('$ {0}'.format(pip_command), err=True)
 
-        c = delegator.run(pip_command)
-
+        c = delegator.run(pip_command, block=block)
         if c.return_code == 0:
             break
 
@@ -1321,6 +1349,7 @@ def kr_easter_egg(package_name):
 @click.option('--update', is_flag=True, default=False, help="Update Pipenv & pip to latest.")
 @click.option('--where', is_flag=True, default=False, help="Output project home information.")
 @click.option('--venv', is_flag=True, default=False, help="Output virtualenv information.")
+@click.option('--py', is_flag=True, default=False, help="Output Python interpreter information.")
 @click.option('--rm', is_flag=True, default=False, help="Remove the virtualenv.")
 @click.option('--bare', is_flag=True, default=False, help="Minimal output.")
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
@@ -1331,7 +1360,7 @@ def kr_easter_egg(package_name):
 @click.pass_context
 def cli(
     ctx, where=False, venv=False, rm=False, bare=False, three=False,
-    python=False, help=False, update=False, jumbotron=False
+    python=False, help=False, update=False, jumbotron=False, py=False
 ):
 
     if jumbotron:
@@ -1364,8 +1393,12 @@ def cli(
     if ctx.invoked_subcommand is None:
         # --where was passed...
         if where:
-            do_where(bare=bare)
+            do_where(bare=True)
             sys.exit(0)
+
+        elif py:
+            do_py()
+            sys.exit()
 
         # --venv was passed...
         elif venv:
@@ -1413,6 +1446,13 @@ def cli(
         click.echo(format_help(ctx.get_help()))
 
 
+def do_py(system=False):
+    click.echo(which('python', allow_global=system))
+
+
+
+
+
 @click.command(help="Installs provided packages and adds them to Pipfile, or (if none is given), installs all packages.", context_settings=dict(
     ignore_unknown_options=True,
     allow_extra_args=True
@@ -1451,6 +1491,21 @@ def install(
 
     # Allow more than one package to be provided.
     package_names = [package_name, ] + more_packages
+
+    # Suggest a better package name, if appropriate.
+    if len(package_names) == 1:
+        # This can be False...
+        if package_names[0]:
+            suggested_package = suggest_package(package_names[0])
+            if suggested_package:
+                if str(package_names[0].lower()) != str(suggested_package.lower()):
+                    if PIPENV_YES or click.confirm(
+                        'Did you mean {0}?'.format(
+                            crayons.white(suggested_package, bold=True)
+                        ),
+                        default=True
+                    ):
+                        package_names[0] = package_name
 
     # Install all dependencies, if none was provided.
     if package_name is False:
@@ -1726,6 +1781,9 @@ def shell(three=None, python=False, compat=False, shell_args=None, anyway=False)
 
             sys.exit(1)
 
+    # Load .env file.
+    load_dot_env()
+
     do_shell(three=three, python=python, compat=compat, shell_args=shell_args)
 
 
@@ -1756,6 +1814,8 @@ def run(command, args, three=None, python=False):
 
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python, validate=False)
+
+    load_dot_env()
 
     # Seperate out things that were passed in as a string.
     _c = list(command.split())
@@ -1873,7 +1933,8 @@ def check(three=None, python=False):
 
 @click.command(help=u"Displays currently–installed dependency graph information.")
 @click.option('--bare', is_flag=True, default=False, help="Minimal output.")
-def graph(bare=False):
+@click.option('--json', is_flag=True, default=False, help="Output JSON.")
+def graph(bare=False, json=False):
     try:
         python_path = which('python')
     except AttributeError:
@@ -1886,9 +1947,15 @@ def graph(bare=False):
         )
         sys.exit(1)
 
-    cmd = '"{0}" {1}'.format(
+    if json:
+        bare = True
+
+    j = '--json' if json else ''
+
+    cmd = '"{0}" {1} {2}'.format(
         python_path,
-        shellquote(pipdeptree.__file__.rstrip('cdo'))
+        shellquote(pipdeptree.__file__.rstrip('cdo')),
+        j
     )
 
     # Run dep-tree.
@@ -1916,7 +1983,7 @@ def graph(bare=False):
     sys.exit(c.return_code)
 
 
-@click.command(help="Updates Pipenv & pip to latest, uninstalls all packages, and re-installs package(s) in [packages] to latest compatible versions.")
+@click.command(help="Uninstalls all packages, and re-installs package(s) in [packages] to latest compatible versions.")
 @click.option('--verbose', '-v', is_flag=True, default=False, help="Verbose mode.")
 @click.option('--dev', '-d', is_flag=True, default=False, help="Additionally install package(s) in [dev-packages].")
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")

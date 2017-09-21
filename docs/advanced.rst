@@ -112,6 +112,11 @@ Example Pipfile.lock
 If you only have a ``requirements.txt`` file available when running ``pipenv install``,
 pipenv will automatically import the contents of this file and create a ``Pipfile`` for you.
 
+You can also specify ``$ pipenv install -r path/to/requirements.txt`` to import a requirements file.
+
+Note, that when importing a requirements file, they often have version numbers pinned, which you likely won't want
+in your ``Pipfile``, so you'll have to manually update your ``Pipfile`` afterwards to reflect this.
+
 
 .. _specifying_versions:
 
@@ -158,10 +163,58 @@ Note the inclusion of ``[requires] python_version = "3.6"``. This specifies that
 of Python, and will be used automatically when running ``pipenv install`` against this ``Pipfile`` in the future
 (e.g. on other machines). If this is not true, feel free to simply remove this section.
 
-If you don't specify a Python version on the command–line, either the ``[requires]`` ``python_version`` will be selected
-automatically, or whatever your system's default ``python`` installation is, at time of execution.
+If you don't specify a Python version on the command–line, either the ``[requires]`` ``python_full_version`` or ``python_version`` will be selected
+automatically, falling back to whatever your system's default ``python`` installation is, at time of execution.
 
 
+☤ Detection of Security Vulnerabilities
+---------------------------------------
+
+Pipenv includes the `safety <https://github.com/pyupio/safety>`_ package, and will use it to scan your dependency graph
+for known security vulnerabilities!
+
+Example::
+
+    $ cat Pipfile
+    [packages]
+    django = "==1.10.1"
+
+    $ pipenv check
+    Checking PEP 508 requirements…
+    Passed!
+    Checking installed package safety…
+
+    33075: django >=1.10,<1.10.3 resolved (1.10.1 installed)!
+    Django before 1.8.x before 1.8.16, 1.9.x before 1.9.11, and 1.10.x before 1.10.3, when settings.DEBUG is True, allow remote attackers to conduct DNS rebinding attacks by leveraging failure to validate the HTTP Host header against settings.ALLOWED_HOSTS.
+
+    33076: django >=1.10,<1.10.3 resolved (1.10.1 installed)!
+    Django 1.8.x before 1.8.16, 1.9.x before 1.9.11, and 1.10.x before 1.10.3 use a hardcoded password for a temporary database user created when running tests with an Oracle database, which makes it easier for remote attackers to obtain access to the database server by leveraging failure to manually specify a password in the database settings TEST dictionary.
+
+    33300: django >=1.10,<1.10.7 resolved (1.10.1 installed)!
+    CVE-2017-7233: Open redirect and possible XSS attack via user-supplied numeric redirect URLs
+    ============================================================================================
+
+    Django relies on user input in some cases  (e.g.
+    :func:`django.contrib.auth.views.login` and :doc:`i18n </topics/i18n/index>`)
+    to redirect the user to an "on success" URL. The security check for these
+    redirects (namely ``django.utils.http.is_safe_url()``) considered some numeric
+    URLs (e.g. ``http:999999999``) "safe" when they shouldn't be.
+
+    Also, if a developer relies on ``is_safe_url()`` to provide safe redirect
+    targets and puts such a URL into a link, they could suffer from an XSS attack.
+
+    CVE-2017-7234: Open redirect vulnerability in ``django.views.static.serve()``
+    =============================================================================
+
+    A maliciously crafted URL to a Django site using the
+    :func:`~django.views.static.serve` view could redirect to any other domain. The
+    view no longer does any redirects as they don't provide any known, useful
+    functionality.
+
+    Note, however, that this view has always carried a warning that it is not
+    hardened for production use and should be used only as a development aid.
+
+✨🍰✨
 
 ☤ Automatic Python Installation
 -------------------------------
@@ -199,7 +252,29 @@ This is a very fancy feature, and we're very proud of it::
     To activate this project's virtualenv, run the following:
      $ pipenv shell
 
+Pipenv automatically honors both the ``python_full_version`` and ``python_version`` `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ specifiers.
+
 💫✨🍰✨💫
+
+☤ Automatic Loading of ``.env``
+-------------------------------
+
+If a ``.env`` file is present in your project, ``$ pipenv shell`` and ``$ pipenv run`` will automatically load it, for you::
+
+    $ cat .env
+    HELLO=WORLD⏎
+
+    $ pipenv run python
+    Loading .env environment variables…
+    Python 2.7.13 (default, Jul 18 2017, 09:17:00)
+    [GCC 4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.42)] on darwin
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> import os
+    >>> os.environ['HELLO']
+    'WORLD'
+
+This is very useful for keeping production credentials out of your codebase.
+We do not recommend comitting ``.env`` files into source control!
 
 .. _proper_installation:
 
@@ -309,7 +384,7 @@ $ pipenv uninstall
 as well as one additonal, ``--all``.
 
     - ``--all`` — This parameter will purge all files from the virtual environment,
-                  but leave the Pipfile untouched.
+      but leave the Pipfile untouched.
 
 
 .. _pipenv_lock
@@ -345,23 +420,34 @@ will detect it.
     - ``PIPENV_SHELL_COMPAT`` — Always use compatibility mode when invoking ``pipenv shell``.
 
     - ``PIPENV_VENV_IN_PROJECT`` — If set, use ``.venv`` in your project directory
-                                    instead of the global virtualenv manager ``pew``.
+      instead of the global virtualenv manager ``pew``.
 
     - ``PIPENV_COLORBLIND`` — Disable terminal colors, for some reason.
 
     - ``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs.
 
     - ``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of directories to resursively
-                               search for a Pipfile.
+      search for a Pipfile.
 
     - ``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds Pipenv will
-                            wait for virtualenv creation to complete.  Defaults to 120 seconds.
+      wait for virtualenv creation to complete.  Defaults to 120 seconds.
 
     - ``PIPENV_IGNORE_VIRTUALENVS`` — Set to disable automatically using an activated virtualenv over
-                                      the current project's own virtual environment.
+      the current project's own virtual environment.
 
 
 Also note that `pip itself supports environment variables <https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you need additional customization.
+
+
+☤ A Note about VCS Dependencies
+-------------------------------
+
+Pipenv will resolve the sub–depencies of VCS dependencies, but only if they are editable, like so::
+
+    [packages]
+    requests = {git = "https://github.com/requests/requests.git", editable=true}
+
+If editable is not true, sub–dependencies will not get resolved.
 
 ☤ Custom Virtual Environment Location
 -------------------------------------
@@ -371,13 +457,13 @@ variable, if you have it set — so you can tell pipenv to store your virtual e
 
     export WORKON_HOME=~/.venvs
 
+In addition, you can also have Pipenv stick the virtualenv in ``project/.venv`` by setting the ``PIPENV_VENV_IN_PROJECT`` environment variable.
+
 
 ☤ Testing Projects
 ------------------
 
-While pipenv is still a relatively new project, it's already being used in
-projects like `Requests`_. Specifically for transitioning to the new Pipfile
-format and running the test suite.
+Pipenv is being used in projects like `Requests`_ for declaring development dependencies and running the test suite.
 
 We've currently tested deployments with both `Travis-CI`_ and `tox`_ with success.
 

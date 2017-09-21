@@ -1,3 +1,20 @@
+7.4.3:
+ - Download/install things concurrently.
+7.4.2:
+ - Fix a nasty pyenv bug.
+7.4.1:
+ - `graph --json`.
+7.4.0:
+ - `pipenv --where` fix.
+ - Other general improvements.
+7.3.9:
+ - Packaging fix.
+7.3.8:
+ - Packaging fix.
+7.3.7:
+ - Automatic support for .env files!
+ - Fuzzy finding of popular package names, for typos. Auto-suggested corrections for popular packages.
+ - Bug fixes.
 7.3.6:
  - Fix VCS dependency resolution.
 7.3.5:

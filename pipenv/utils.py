@@ -7,6 +7,7 @@ import delegator
 import pip
 import parse
 import requirements
+import fuzzywuzzy.process
 import requests
 import six
 
@@ -15,12 +16,70 @@ from piptools.repositories.pypi import PyPIRepository
 from piptools.scripts.compile import get_pip_command
 from piptools import logging
 
+from .environments import PIPENV_DONT_EAT_EDITABLES
+
 # List of version control systems we support.
 VCS_LIST = ('git', 'svn', 'hg', 'bzr')
 FILE_LIST = ('http://', 'https://', 'ftp://', 'file:///')
 
 requests = requests.Session()
 
+# import requests
+# from pyquery import PyQuery as pq
+# r = requests.get('https://python3wos.appspot.com')
+# d = pq(r.content)
+# collected = []
+# for td in [pq(t) for t in d('td')]:
+#     if td('a').text():
+#         collected.append(td('a').text().strip().split()[0])
+# print(collected)
+
+packages = [
+    'simplejson', 'setuptools', 'six', 'requests', 'pip', 'python-dateutil',
+    'virtualenv', 'boto', 'pyasn1', 'pbr', 'docutils', 'distribute', 'pytz',
+    'certifi', 'botocore', 'rsa', 'PyYAML', 'jmespath', 'awscli', 'colorama',
+    'Jinja2', 'wincertstore', 'nose', 'MarkupSafe', 'lxml', 'cffi', 'selenium',
+    'paramiko', 'pycrypto', 'argparse', 'pycparser', 'coverage', 'Django', 'ecdsa',
+    'mock', 'psycopg2', 'pika', 'wheel', 'httplib2', 'pep8', 'Pygments', 'enum34',
+    'redis', 'SQLAlchemy', 'futures', 'Werkzeug', 'psutil', 'pymongo', 'cryptography',
+    'Pillow', 'Flask', 'supervisor', 'greenlet', 'pyOpenSSL', 'Babel', 'bcdoc', 'numpy',
+    'py', 'meld3', 'MySQL-python', 'ipaddress', 'kombu', 'docopt', 'zc.buildout',
+    'urllib3', 'Paste', 'pyparsing', 'pyflakes', 'Sphinx', 'tornado', 'carbon',
+    'jsonschema', 'zope.interface', 'anyjson', 'itsdangerous', 'decorator',
+    'beautifulsoup4', 'idna', 'PasteDeploy', 'Mako', 'ssl', 'flake8', 'mccabe',
+    'amqp', 'graphite-web', 'unittest2', 'pytest', 'ordereddict', 'stevedore',
+    'celery', 'backports.ssl_match_hostname', 'gunicorn', 'Fabric', 'ipython',
+    'awscli-cwlogs', 'iso8601', 'gevent', 'setuptools-git', 'PrettyTable',
+    'netaddr', 'WebOb', 'billiard', 'msgpack-python', 'setuptools_scm',
+    'pylint', 'Twisted', 'blessings', 'vcversioner', 'oslo.config',
+    'oauth2client', 'pyasn1-modules', 'ujson', 'funcsigs', 'logilab-common',
+    'South', 'oauthlib', 's3transfer', 'html5lib', 'google-api-python-client',
+    'traceback2', 'linecache2', 'click', 'lockfile', 'astroid', 'tox',
+    'Markdown', 'websocket-client', 'pandas', 'Cython', 'raven', 'mozrunner',
+    'pytest-runner', 'python-keystoneclient', 'moznetwork', 'python-memcached',
+    'netifaces', 'functools32', 'mozdevice', 'mozprocess', 'mozprofile',
+    'mozfile', 'mozinfo', 'pycurl', 'mozlog', 'elasticsearch', 'mozcrash',
+    'oslo.utils', 'djangorestframework', 'ndg-httpsclient', 'scikit-learn',
+    'oslo.i18n', 'sqlparse', 'boto3', 'oslo.serialization', 'python-mimeparse',
+    'python-daemon', 'scipy', 'pyzmq', 'suds', 'wrapt', 'statsd',
+    'python-novaclient', 'protobuf', 'isodate', 'ply', 'uritemplate',
+    'requests-oauthlib', 'python-gflags', 'PyMySQL', 'testtools', 'repoze.lru',
+    'cmd2', 'thrift', 'alembic', 'configobj', 'pexpect', 'cliff', 'coveralls',
+    'docker-py', 'passlib', 'pytest-cov', 'extras', 'sphinx_rtd_theme',
+    'matplotlib', 'Unidecode', 'retrying', 'newrelic', 'snowballstemmer',
+    'BeautifulSoup', 'python-swiftclient', 'eventlet', 'django-debug-toolbar',
+    'alabaster', 'django-extensions', 'fixtures', 'oauth2', 'WebTest',
+    'networkx', 'waitress', 'pystache'
+]
+
+
+def suggest_package(package):
+    """Suggests a package name, given a package name."""
+    THRESHOLD = 90
+    results = fuzzywuzzy.process.extract(package, packages, limit=1)
+    for result in results:
+        if result[1] > THRESHOLD:
+            return result[0]
 
 def python_version(path_to_python):
     if not path_to_python:
@@ -84,28 +143,31 @@ def best_matches_from(path, which, which_pip, project):
                 yield line.split('for')[1].strip()
 
     setup_py_path = os.path.abspath(os.sep.join([path, 'setup.py']))
-    if os.path.isfile(setup_py_path):
+    if os.path.isfile(setup_py_path) and not PIPENV_DONT_EAT_EDITABLES:
         return list(gen(setup_py_path, which))
     else:
-        destination = os.path.abspath(os.sep.join([project.virtualenv_location, 'src']))
+        if not PIPENV_DONT_EAT_EDITABLES:
+            destination = os.path.abspath(os.sep.join([project.virtualenv_location, 'src']))
 
-        # Install the package into the virtualenvironment tree.
-        c = delegator.run(
-            '{0} install -e {1} --no-deps --src {2} -v'.format(
-                which_pip(),
-                path,
-                shellquote(destination)
+            # Install the package into the virtualenvironment tree.
+            c = delegator.run(
+                '{0} install -e {1} --no-deps --src {2} -v'.format(
+                    which_pip(),
+                    path,
+                    shellquote(destination)
+                )
             )
-        )
-        result = None
-        for line in c.out.split('\n'):
-            line = line.strip()
-            if line.startswith('Installed'):
-                result = line[len('Installed '):].strip()
+            result = None
+            for line in c.out.split('\n'):
+                line = line.strip()
+                if line.startswith('Installed'):
+                    result = line[len('Installed '):].strip()
 
-        setup_py_path = os.path.abspath(os.sep.join([result, 'setup.py']))
+            setup_py_path = os.path.abspath(os.sep.join([(result or ''), 'setup.py']))
 
-        return list(gen(setup_py_path, which))
+            return list(gen(setup_py_path, which))
+        else:
+            return []
 
 
 def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, python=False, clear=False):
