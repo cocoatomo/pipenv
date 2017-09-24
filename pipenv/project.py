@@ -16,8 +16,13 @@ from .utils import (
     find_requirements, is_file, is_vcs, python_version
 )
 from .environments import PIPENV_MAX_DEPTH, PIPENV_VENV_IN_PROJECT
-from .environments import PIPENV_USE_SYSTEM
+from .environments import PIPENV_USE_SYSTEM, PIPENV_PIPFILE
 
+if PIPENV_PIPFILE:
+    if not os.path.isfile(PIPENV_PIPFILE):
+        raise RuntimeError('Given PIPENV_PIPFILE is not found!')
+    else:
+        PIPENV_PIPFILE = os.path.abspath(PIPENV_PIPFILE)
 
 class Project(object):
     """docstring for Project"""
@@ -69,7 +74,12 @@ class Project(object):
     def virtualenv_exists(self):
         # TODO: Decouple project from existence of Pipfile.
         if self.pipfile_exists:
-            return os.path.isdir(self.virtualenv_location)
+            if os.name == 'nt':
+                extra = ['Scripts', 'activate.bat']
+            else:
+                extra = ['bin', 'activate']
+            return os.path.isfile(os.sep.join([self.virtualenv_location] + extra))
+
         return False
 
     @property
@@ -119,6 +129,12 @@ class Project(object):
         return loc
 
     @property
+    def virtualenv_src_location(self):
+        loc = os.sep.join([self.virtualenv_location, 'src'])
+        mkdir_p(loc)
+        return loc
+
+    @property
     def download_location(self):
         if self._download_location is None:
             loc = os.sep.join([self.virtualenv_location, 'downloads'])
@@ -152,6 +168,9 @@ class Project(object):
 
     @property
     def pipfile_location(self):
+        if PIPENV_PIPFILE:
+            return PIPENV_PIPFILE
+
         if self._pipfile_location is None:
             try:
                 loc = pipfile.Pipfile.find(max_depth=PIPENV_MAX_DEPTH)
@@ -194,9 +213,17 @@ class Project(object):
                         data[section][package].update(_data)
 
             # We lose comments here, but it's for the best.)
-            return contoml.loads(toml.dumps(data, preserve=True))
+            try:
+                return contoml.loads(toml.dumps(data, preserve=True))
+            except RuntimeError:
+                return toml.loads(toml.dumps(data, preserve=True))
+
         else:
-            return contoml.loads(contents)
+            # Fallback to toml parser, for large files.
+            try:
+                return contoml.loads(contents)
+            except Exception:
+                return toml.loads(contents)
 
     @property
     def _pipfile(self):
@@ -303,18 +330,21 @@ class Project(object):
 
     @property
     def pipfile_is_empty(self):
-        self.touch_pipfile()
+        if not self.pipfile_exists:
+            return True
 
         with open('Pipfile', 'r') as f:
             if not f.read():
                 return True
+
+        return False
 
     def create_pipfile(self, python=None):
         """Creates the Pipfile, filled with juicy defaults."""
         data = {
             # Default source.
             u'source': [
-                {u'url': u'https://pypi.python.org/simple', u'verify_ssl': True}
+                {u'url': u'https://pypi.python.org/simple', u'verify_ssl': True, 'name': 'pypi'}
             ],
 
             # Default packages.
@@ -335,9 +365,8 @@ class Project(object):
             path = self.pipfile_location
 
         try:
-            formatted_data = contoml.dumps(data)
-        except RuntimeError:
-            import toml
+            formatted_data = contoml.dumps(data).rstrip()
+        except Exception:
             for section in ('packages', 'dev-packages'):
                 for package in data[section]:
 
@@ -347,11 +376,7 @@ class Project(object):
                         data[section][package] = toml._get_empty_inline_table(dict)
                         data[section][package].update(_data)
 
-            formatted_data = toml.dumps(data)
-        else:
-            pass
-        finally:
-            pass
+            formatted_data = toml.dumps(data).rstrip()
 
         with open(path, 'w') as f:
             f.write(formatted_data)
@@ -366,7 +391,23 @@ class Project(object):
         if 'source' in self.parsed_pipfile:
             return self.parsed_pipfile['source']
         else:
-            return [{u'url': u'https://pypi.python.org/simple', u'verify_ssl': True}]
+            return [{u'url': u'https://pypi.python.org/simple', u'verify_ssl': True, 'name': 'pypi'}]
+
+    def get_source(self, name=None, url=None):
+        for source in self.sources:
+            if name:
+                if source.get('name') == name:
+                    return source
+            elif url:
+                if source.get('url') in url:
+                    return source
+
+    def destroy_lockfile(self):
+        """Deletes the lockfile."""
+        try:
+            return os.remove(self.lockfile_location)
+        except OSError:
+            pass
 
     def remove_package_from_pipfile(self, package_name, dev=False):
 
@@ -388,8 +429,11 @@ class Project(object):
         # Read and append Pipfile.
         p = self._pipfile
 
-        # Don't re-capitalize file URLs.
-        if not is_file(package_name):
+        # Don't re-capitalize file URLs or VCSs.
+        converted = convert_deps_from_pip(package_name)
+        converted = converted[[k for k in converted.keys()][0]]
+
+        if not (is_file(package_name) or is_vcs(converted) or 'path' in converted):
             package_name = pep423_name(package_name)
 
         key = 'dev-packages' if dev else 'packages'
@@ -403,6 +447,24 @@ class Project(object):
 
         # Add the package to the group.
         p[key][package_name] = package[package_name]
+
+        # Write Pipfile.
+        self.write_toml(p)
+
+    def add_index_to_pipfile(self, index):
+        """Adds a given index to the Pipfile."""
+
+        # Read and append Pipfile.
+        p = self._pipfile
+
+        source = {'url': index, 'verify_ssl': True}
+
+        # Add the package to the group.
+        if 'source' not in p:
+            p['source'] = [source]
+
+        else:
+            p['source'].append(source)
 
         # Write Pipfile.
         self.write_toml(p)

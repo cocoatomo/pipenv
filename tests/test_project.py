@@ -3,13 +3,7 @@ from pipenv.vendor import delegator
 
 
 class TestProject():
-
-    def test_project(self):
-        proj = pipenv.project.Project()
-
-        assert proj.pipfile_exists
-        assert proj.virtualenv_exists
-
+    
     def test_proper_names(self):
         proj = pipenv.project.Project()
         assert proj.virtualenv_location in proj.proper_names_location
@@ -115,7 +109,7 @@ class TestProject():
         with open('test_internal_pipfile/Pipfile', 'w') as f:
             f.write('[[source]]\nurl = \'https://pypi.python.org/simple\'\n'
                     'verify_ssl = true\n\n\n[packages]\n'
-                    'Requests = { extras = [\'socks\'] }\nFlask_Auth = \'*\'\n\n\n'
+                    'requests = { extras = [\'socks\'] }\nFlask_Auth = \'*\'\n\n\n'
                     '[dev-packages]\nclick = \'*\'\nDjango = {git = '
                     '"https://github.com/django/django.git", ref="1.10"}\n')
 

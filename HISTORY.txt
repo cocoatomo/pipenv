@@ -1,3 +1,104 @@
+7.8.8:
+ - Make resolver use client python for setup.py egg_info (very fancy).
+ - Fix a nasty windows bug.
+7.8.6:
+ - Don't import code automatically, only use -c ..
+7.8.5:
+ - Edge case.
+7.8.4:
+ - Flake8 checking with check --style!
+7.8.3:
+ - $ pipenv check --unused.
+7.8.2:
+ - Fallback to toml parser for absurdly large files.
+7.8.1:
+ - Catch all exceptions in pipreqs.
+7.8.0:
+ - Packaging fix.
+7.7.9:
+ - Ignore bad packages with -c.
+7.7.8:
+ - Minor bug fix.
+7.7.7:
+ - $ pipenv install -c .
+7.7.6:
+ - Fix a very very minor UX bug.
+7.7.5:
+ - No longer eat editables, as pip-tools does it for us now.
+7.7.4:
+ - Install VCS deps into the virtualenv's src directory, not into the current directory.
+7.7.3:
+ - Fix --three on Windows.
+7.7.2:
+ - Bug fixes.
+7.7.1:
+ - Bug fixes.
+ - Improvements to --index support for requirements imports.
+7.7.0:
+ - Improved update caching mechanism.
+ - Only prompt for spelling correction in interactive sessions.
+ - Cleanup -e.
+7.6.9:
+ - Change --two, and --three to use --python 2 and --python 3 under the hood.
+ - This restores --two / --three usage on windows.
+7.6.8:
+ - `pipenv intall -r requirements.txt --dev` now works.
+7.6.7:
+ - New less-fancy progress bars (for linux users, specifically).
+ - Suport --python 3.
+7.6.6:
+ - Packaging problem.
+7.6.5:
+ - Patched vendored 'safety' package to remove yaml dependency — should work on all Pythons now.
+7.6.4:
+ - Extensive integration test suite.
+ - Don't suggest autocurrections as often.
+ - Cleanups.
+ - Don't depend on setuptools anymore.
+7.6.3:
+ - Cleanups.
+7.6.2:
+ - Support for install/lock --pre.
+7.6.1:
+ - Fix a nasty bug.
+7.6.0:
+ - PEP 508 marker support for packages!
+ - Better verbose mode for install.
+ - Fix a nasty bug.
+7.5.1:
+ - Skip the resolver for pinned versions (this comes up a lot).
+ - Maximum subprocesses (configurable) is now 8.
+7.5.0:
+ - Deprecate shell -c mode.
+ - Make a new shell --fancy mode (old default mode).
+ - Introduce PIPENV_SHELL_FANCY.
+ - Introduce `pipenv --envs`.
+7.4.9:
+ - Improvements to PIPENV_DEFAULT_PYTHON_VERSION.
+ - Improvements to auto-suggestions.
+ - Fix nasty bug with failing dependencies.
+7.4.8:
+ - PIPENV_DEFAULT_PYTHON_VERSION
+7.4.7:
+ - install --sequential, for boring people.
+ - PIPENV_DONT_LOAD_ENV.
+ - Fix for prettytoml.
+ - Don't add -e reqs to lockfile, as they're already present.
+7.4.6:
+ - Specify a specific index for a specific dependency.
+7.4.5:
+ - Support for custom indexes!
+ - Random bugfixes.
+7.4.4:
+ - PIPENV_PIPFILE environment variable support.
+ - --site-packages flag, for the crazy at heart.
+ - Installation conccurency on Windows.
+ - make `graph --json` consistient with `graph`.
+ - Much better support for suggesting package names.
+ - Updated to pipfile spec 4, support for path= for relative package names.
+ - Import sources from requirements files.
+ - Cleanup stderr/stdout.
+ - 'pipenv check' only reports saftey now for Python 3.
 7.4.3:
  - Download/install things concurrently.
 7.4.2:
@@ -20,7 +121,7 @@
 7.3.5:
  - Fix packaging.
 7.3.4:
- - An error occured.
+ - An error occurred.
 7.3.3:
  - Pipenv check now includes security vulnerability disclosures!
 7.3.2:
@@ -76,7 +177,7 @@
 7.0.3:
  - Windows fixes.
 7.0.2:
- - Tell pip we're using the requied Python version, with trickery, for dependency resolution.
+ - Tell pip we're using the required Python version, with trickery, for dependency resolution.
  - Dev dependencies are now read from a lockfile before default dependencies, so
    any mismatches will prefer default to develop.
  - Add support for extras_require in Pipfile for vcs urls.

@@ -1,4 +1,5 @@
 import os
+import sys
 
 
 # Prevent invalid shebangs with Homebrew-installed Python:
@@ -7,9 +8,9 @@ os.environ.pop('__PYVENV_LAUNCHER__', None)
 
 
 # Shell compatibility mode, for mis-configured shells.
-PIPENV_SHELL_COMPAT = bool(os.environ.get('PIPENV_SHELL_COMPAT'))
+PIPENV_SHELL_FANCY = bool(os.environ.get('PIPENV_SHELL_FANCY'))
 
-# Create the virtualenv in the project, isntead of with pew.
+# Create the virtualenv in the project, instead of with pew.
 PIPENV_VENV_IN_PROJECT = bool(os.environ.get('PIPENV_VENV_IN_PROJECT'))
 
 # No color mode, for unfun people.
@@ -18,11 +19,20 @@ PIPENV_COLORBLIND = bool(os.environ.get('PIPENV_COLORBLIND'))
 # Disable spinner for better test and deploy logs (for the unworthy).
 PIPENV_NOSPIN = bool(os.environ.get('PIPENV_NOSPIN'))
 
-# Tells pipenv to not try to install -e dependencies to get their dependency information.
-PIPENV_DONT_EAT_EDITABLES = bool(os.environ.get('PIPENV_DONT_EAT_EDITABLES'))
+# Specify a custom Pipfile location.
+PIPENV_PIPFILE = os.environ.get('PIPENV_PIPFILE')
+
+# Tells Pipenv which Python to default to, when none is provided.
+PIPENV_DEFAULT_PYTHON_VERSION = os.environ.get('PIPENV_DEFAULT_PYTHON_VERSION')
+
+# Tells Pipenv to not load .env files.
+PIPENV_DONT_LOAD_ENV = bool(os.environ.get('PIPENV_DONT_LOAD_ENV'))
 
 # Tell Pipenv to default to yes at all prompts.
 PIPENV_YES = bool(os.environ.get('PIPENV_YES'))
+
+# Tells Pipenv how many subprocesses to use when installing.
+PIPENV_MAX_SUBPROCESS = int(os.environ.get('PIPENV_MAX_SUBPROCESS', '8'))
 
 # User-configuraable max-depth for Pipfile searching.
 # Note: +1 because of a temporary bug in Pipenv.
@@ -37,7 +47,7 @@ if 'PIPENV_ACTIVE' not in os.environ:
 # Tells Pipenv to use hashing mode.
 PIPENV_USE_HASHES = True
 
-# Tells pipenv to skip case-checking (slow internet connections).
+# Tells Pipenv to skip case-checking (slow internet connections).
 PIPENV_SKIP_VALIDATION = True
 
 # Use shell compatibility mode when using venv in project mode.
@@ -56,9 +66,13 @@ PIPENV_HIDE_EMOJIS = bool(os.environ.get('PIPENV_HIDE_EMOJIS'))
 if os.name == 'nt':
     PIPENV_HIDE_EMOJIS = True
 
-# Tells pipenv how long to wait for virtualenvs to be created in seconds
+# Tells Pipenv how long to wait for virtualenvs to be created in seconds.
 PIPENV_TIMEOUT = int(os.environ.get('PIPENV_TIMEOUT', 120))
 
 PIPENV_INSTALL_TIMEOUT = 60 * 15
 
+PIPENV_DONT_USE_PYENV = os.environ.get('PIPENV_DONT_USE_PYENV')
+
 PYENV_INSTALLED = (bool(os.environ.get('PYENV_SHELL')) or bool(os.environ.get('PYENV_ROOT')))
+
+SESSION_IS_INTERACTIVE = bool(os.isatty(sys.stdout.fileno()))

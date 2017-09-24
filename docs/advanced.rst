@@ -5,7 +5,7 @@ Advanced Usage of Pipenv
 
 .. image:: https://farm4.staticflickr.com/3672/33231486560_bff4124c9a_k_d.jpg
 
-This document covers some of pipenv's more advanced features.
+This document covers some of Pipenv's more glorious and advanced features.
 
 ☤ Example Pipfile & Pipfile.lock
 --------------------------------
@@ -19,11 +19,18 @@ Example Pipfile
 
 ::
 
-    [dev-packages]
-    pytest = "*"
+    [[source]]
+    url = "https://pypi.python.org/simple"
+    verify_ssl = true
+    name = "pypi"
 
     [packages]
     requests = "*"
+
+
+    [dev-packages]
+    pytest = "*"
+
 
 Example Pipfile.lock
 ////////////////////
@@ -33,25 +40,26 @@ Example Pipfile.lock
     {
         "_meta": {
             "hash": {
-                "sha256": "08e3181df84d04301c9d435357ec9cf43c4a491d79a1ada682cce8936c492f49"
+                "sha256": "8d14434df45e0ef884d6c3f6e8048ba72335637a8631cc44792f52fd20b6f97a"
             },
             "host-environment-markers": {
                 "implementation_name": "cpython",
-                "implementation_version": "3.6.2",
+                "implementation_version": "3.6.1",
                 "os_name": "posix",
                 "platform_machine": "x86_64",
                 "platform_python_implementation": "CPython",
                 "platform_release": "16.7.0",
                 "platform_system": "Darwin",
                 "platform_version": "Darwin Kernel Version 16.7.0: Thu Jun 15 17:36:27 PDT 2017; root:xnu-3789.70.16~2/RELEASE_X86_64",
-                "python_full_version": "3.6.2",
+                "python_full_version": "3.6.1",
                 "python_version": "3.6",
                 "sys_platform": "darwin"
             },
-            "pipfile-spec": 2,
+            "pipfile-spec": 5,
             "requires": {},
             "sources": [
                 {
+                    "name": "pypi",
                     "url": "https://pypi.python.org/simple",
                     "verify_ssl": true
                 }
@@ -96,10 +104,18 @@ Example Pipfile.lock
         },
         "develop": {
             "py": {
+                "hashes": [
+                    "sha256:2ccb79b01769d99115aa600d7eed99f524bf752bba8f041dc1c184853514655a",
+                    "sha256:0f2d585d22050e90c7d293b6451c83db097df77871974d90efd5a30dc12fcde3"
+                ],
                 "version": "==1.4.34"
             },
             "pytest": {
-                "version": "==3.2.1"
+                "hashes": [
+                    "sha256:b84f554f8ddc23add65c411bf112b2d88e2489fd45f753b1cae5936358bdf314",
+                    "sha256:f46e49e0340a532764991c498244a60e3a37d7424a532b3ff1a6a7653f1a403a"
+                ],
+                "version": "==3.2.2"
             }
         }
     }
@@ -136,13 +152,17 @@ This will update your ``Pipfile`` to reflect this requirement, automatically.
 To create a new virtualenv, using a specific version of Python you have installed (and
 on your ``PATH``), use the ``--python VERSION`` flag, like so:
 
-Use Python 3.6::
+Use Python 3::
+
+   $ pipenv --python 3
+
+Use Python3.6::
 
    $ pipenv --python 3.6
 
-Use Python 2.7::
+Use Python 2.7.14::
 
-    $ pipenv --python 2.7
+    $ pipenv --python 2.7.14
 
 When given a Python version, like this, Pipenv will automatically scan your system for a Python that matches that given version.
 
@@ -166,6 +186,111 @@ of Python, and will be used automatically when running ``pipenv install`` agains
 If you don't specify a Python version on the command–line, either the ``[requires]`` ``python_full_version`` or ``python_version`` will be selected
 automatically, falling back to whatever your system's default ``python`` installation is, at time of execution.
 
+☤ Specifying Package Indexes
+----------------------------
+
+If you'd like a specific package to be installed with a specific package index, you can do the following::
+
+    [[source]]
+    url = "https://pypi.python.org/simple"
+    verify_ssl = true
+    name = "pypi"
+
+    [[source]]
+    url = "http://pypi.home.kennethreitz.org/simple"
+    verify_ssl = false
+    name = "home"
+
+    [dev-packages]
+
+    [packages]
+    requests = {version="*", index="home"}
+    maya = {version="*", index="pypi"}
+    records = "*"
+
+Very fancy.
+
+☤ Specifying Basically Anything
+-------------------------------
+
+If you'd like to specify that a specific package only be installed on certain systems,
+you can use `PEP 508 specifiers <https://www.python.org/dev/peps/pep-0508/>`_ to accomplish this.
+
+Here's an example ``Pipfile``, which will only install ``pywinusb`` on Windows systems::
+
+    [[source]]
+    url = "https://pypi.python.org/simple"
+    verify_ssl = true
+    name = "pypi"
+
+    [packages]
+    requests = "*"
+    pywinusb = {version = "*", os_name = "== 'windows'"}
+
+Voilà!
+
+Here's a more complex example::
+
+    [[source]]
+    url = "https://pypi.python.org/simple"
+    verify_ssl = true
+
+    [packages]
+    unittest2 = {version = ">=1.0,<3.0", markers="python_version < '2.7.9' or (python_version >= '3.0' and python_version < '3.4')"}
+
+Magic. Pure, unalderated magic.
+
+
+
+☤ Editable Dependencies (e.g. ``-e .`` )
+----------------------------------------
+
+You can tell Pipenv to install a path as editable — often this is useful for
+the current working directory when working on packages::
+
+    $ pipenv install '-e .' --dev
+
+    $ cat Pipfile
+    [dev-packages]
+    "e1839a8" = {path = ".", editable = true}
+
+Note that all sub-dependencies will get added to the ``Pipfile.lock`` as well.
+
+
+☤ Managing System Dependencies
+------------------------------
+
+You can tell Pipenv to install things into it's parent system with the ``--system`` flag::
+
+    $ pipenv install --system
+
+This is useful for Docker containers, and deployment infrastructure (e.g. Heroku does this).
+
+
+☤ Generating a ``requirements.txt``
+-----------------------------------
+
+You can convert a ``Pipfile`` and ``Pipenv.lock`` into a ``requirements.txt`` file very easily, and get all the benefits of hashes, extras, and other goodies we have included.
+
+Let's take this ``Pipfile``::
+
+    [[source]]
+    url = "https://pypi.python.org/simple"
+    verify_ssl = true
+
+    [packages]
+    requests = {version="*"}
+
+And generate a ``requirements.txt`` out of it::
+
+    $ pipenv lock -r
+    chardet==3.0.4 --hash=sha256:fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691  --hash=sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae
+    requests==2.18.4 --hash=sha256:6a1b267aa90cac58ac3a765d067950e7dbbf75b1da07e895d1f594193a40a38b  --hash=sha256:9c443e7324ba5b85070c4a818ade28bfabedf16ea10206da1132edaa6dda237e
+    certifi==2017.7.27.1 --hash=sha256:54a07c09c586b0e4c619f02a5e94e36619da8e2b053e20f594348c0611803704  --hash=sha256:40523d2efb60523e113b44602298f0960e900388cf3bb6043f645cf57ea9e3f5
+    idna==2.6 --hash=sha256:8c7309c718f94b3a625cb648ace320157ad16ff131ae0af362c9f21b80ef6ec4  --hash=sha256:2c6a5de3089009e3da7c5dde64a141dbc8551d5b7f6cf4ed7c2568d0cc520a8f
+    urllib3==1.22 --hash=sha256:06330f386d6e4b195fbfc736b297f58c5a892e4440e54d294d7004e3a9bbea1b  --hash=sha256:cc44da8e1145637334317feebd728bd869a35285b93cbb4cca2577da7e62db4f
+
+Very fancy.
 
 ☤ Detection of Security Vulnerabilities
 ---------------------------------------
@@ -417,14 +542,16 @@ You should do this for your shell too, in your ``~/.profile`` or ``~/.bashrc`` o
 variables. To activate them, simply create the variable in your shell and pipenv
 will detect it.
 
-    - ``PIPENV_SHELL_COMPAT`` — Always use compatibility mode when invoking ``pipenv shell``.
+    - ``PIPENV_DEFAULT_PYTHON_VERSION`` — Use this version of Python when creating new virtual environments, by default (e.g. ``3.6``).
+
+    - ``PIPENV_SHELL_FANCY`` — Always use fancy mode when invoking ``pipenv shell``.
 
     - ``PIPENV_VENV_IN_PROJECT`` — If set, use ``.venv`` in your project directory
       instead of the global virtualenv manager ``pew``.
 
     - ``PIPENV_COLORBLIND`` — Disable terminal colors, for some reason.
 
-    - ``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs.
+    - ``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs. Automatically set in CI environments.
 
     - ``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of directories to resursively
       search for a Pipfile.
