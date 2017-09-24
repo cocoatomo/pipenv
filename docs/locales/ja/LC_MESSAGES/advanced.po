@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 7.4.3\n"
+"Project-Id-Version: pipenv 7.8.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-21 09:18+0900\n"
+"POT-Creation-Date: 2017-09-25 08:48+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -23,8 +23,9 @@ msgid "Advanced Usage of Pipenv"
 msgstr "pipenvの進んだ使い方"
 
 #: ../../advanced.rst:8
-msgid "This document covers some of pipenv's more advanced features."
-msgstr "このドキュメントではpipenvのより進んだ機能を対象としています。"
+msgid ""
+"This document covers some of Pipenv's more glorious and advanced features."
+msgstr ""
 
 #: ../../advanced.rst:11
 msgid "☤ Example Pipfile & Pipfile.lock"
@@ -40,15 +41,15 @@ msgstr "``Pipfile`` とそこから生成された ``Pipfile.lock`` の簡単な
 msgid "Example Pipfile"
 msgstr "Pipfileの例"
 
-#: ../../advanced.rst:29
+#: ../../advanced.rst:36
 msgid "Example Pipfile.lock"
 msgstr "Pipfile.lockの例"
 
-#: ../../advanced.rst:110
+#: ../../advanced.rst:126
 msgid "☤ Importing from requirements.txt"
 msgstr "☤ requirements.txtからのインポート"
 
-#: ../../advanced.rst:112
+#: ../../advanced.rst:128
 msgid ""
 "If you only have a ``requirements.txt`` file available when running ``pipenv"
 " install``, pipenv will automatically import the contents of this file and "
@@ -57,40 +58,40 @@ msgstr ""
 "``pipenv install`` を実行したときに ``requirements.txt`` "
 "ファイルしか無い場合は、pipenvは自動でそのファイルの内容をインポートし ``Pipfile`` を作成します。"
 
-#: ../../advanced.rst:115
+#: ../../advanced.rst:131
 msgid ""
 "You can also specify ``$ pipenv install -r path/to/requirements.txt`` to "
 "import a requirements file."
 msgstr ""
 
-#: ../../advanced.rst:117
+#: ../../advanced.rst:133
 msgid ""
 "Note, that when importing a requirements file, they often have version "
 "numbers pinned, which you likely won't want in your ``Pipfile``, so you'll "
 "have to manually update your ``Pipfile`` afterwards to reflect this."
 msgstr ""
 
-#: ../../advanced.rst:124
+#: ../../advanced.rst:140
 msgid "☤ Specifying Versions of a Package"
 msgstr "☤ パッケージのバージョンを指定する"
 
-#: ../../advanced.rst:126
+#: ../../advanced.rst:142
 msgid ""
 "To tell pipenv to install a specific version of a library, the usage is "
 "simple::"
 msgstr "ライブラリの特定のバージョンをインストールするようにpipenvに教える方法はとても簡潔です::"
 
-#: ../../advanced.rst:130
+#: ../../advanced.rst:146
 msgid ""
 "This will update your ``Pipfile`` to reflect this requirement, "
 "automatically."
 msgstr "このコマンドを実行することで、バージョン指定を反映するように ``Pipfile`` が自動で更新されます。"
 
-#: ../../advanced.rst:134
+#: ../../advanced.rst:150
 msgid "☤ Specifying Versions of Python"
 msgstr "☤ Pythonのバージョンを指定する"
 
-#: ../../advanced.rst:136
+#: ../../advanced.rst:152
 msgid ""
 "To create a new virtualenv, using a specific version of Python you have "
 "installed (and on your ``PATH``), use the ``--python VERSION`` flag, like "
@@ -99,27 +100,31 @@ msgstr ""
 "インストール済みの (そして ``PATH`` 上にある) 特定のバージョンのPythonを使って、新しく仮想環境を作るには、 ``--python "
 "VERSION`` フラグを次のように使います:"
 
-#: ../../advanced.rst:139
-msgid "Use Python 3.6::"
-msgstr "Python 3.6を使うには:"
+#: ../../advanced.rst:155
+msgid "Use Python 3::"
+msgstr ""
 
-#: ../../advanced.rst:143
-msgid "Use Python 2.7::"
-msgstr "Python 2.7を使うには:"
+#: ../../advanced.rst:159
+msgid "Use Python3.6::"
+msgstr ""
 
-#: ../../advanced.rst:147
+#: ../../advanced.rst:163
+msgid "Use Python 2.7.14::"
+msgstr ""
+
+#: ../../advanced.rst:167
 msgid ""
 "When given a Python version, like this, Pipenv will automatically scan your "
 "system for a Python that matches that given version."
 msgstr "このようにPythonのバージョンが与えられたときは、pipenvはそのバージョンに合うPythonをシステムから自動で探しに行きます。"
 
-#: ../../advanced.rst:149
+#: ../../advanced.rst:169
 msgid ""
 "If a ``Pipfile`` hasn't been created yet, one will be created for you, that "
 "looks like this::"
 msgstr "``Pipfile`` がまだ作成されていなかった場合は、次のような内容で作成されます::"
 
-#: ../../advanced.rst:162
+#: ../../advanced.rst:182
 msgid ""
 "Note the inclusion of ``[requires] python_version = \"3.6\"``. This "
 "specifies that your application requires this version of Python, and will be"
@@ -131,7 +136,7 @@ msgstr ""
 "これは、アプリケーションがこのバージョンのPythonを要求していることを示し、将来 (例えば他のマシンで) この ``Pipfile`` に対して ``pipenv install`` を実行するときに自動で使われます。\n"
 "この指定が間違っている場合は、気にせずこのセクションを削除してください。"
 
-#: ../../advanced.rst:166
+#: ../../advanced.rst:186
 msgid ""
 "If you don't specify a Python version on the command–line, either the "
 "``[requires]`` ``python_full_version`` or ``python_version`` will be "
@@ -139,30 +144,124 @@ msgid ""
 "``python`` installation is, at time of execution."
 msgstr ""
 
-#: ../../advanced.rst:171
+#: ../../advanced.rst:190
+msgid "☤ Specifying Package Indexes"
+msgstr ""
+
+#: ../../advanced.rst:192
+msgid ""
+"If you'd like a specific package to be installed with a specific package "
+"index, you can do the following::"
+msgstr ""
+
+#: ../../advanced.rst:211 ../../advanced.rst:293
+msgid "Very fancy."
+msgstr ""
+
+#: ../../advanced.rst:214
+msgid "☤ Specifying Basically Anything"
+msgstr ""
+
+#: ../../advanced.rst:216
+msgid ""
+"If you'd like to specify that a specific package only be installed on "
+"certain systems, you can use `PEP 508 specifiers "
+"<https://www.python.org/dev/peps/pep-0508/>`_ to accomplish this."
+msgstr ""
+
+#: ../../advanced.rst:219
+msgid ""
+"Here's an example ``Pipfile``, which will only install ``pywinusb`` on "
+"Windows systems::"
+msgstr ""
+
+#: ../../advanced.rst:230
+msgid "Voilà!"
+msgstr ""
+
+#: ../../advanced.rst:232
+msgid "Here's a more complex example::"
+msgstr ""
+
+#: ../../advanced.rst:241
+msgid "Magic. Pure, unalderated magic."
+msgstr ""
+
+#: ../../advanced.rst:246
+msgid "☤ Editable Dependencies (e.g. ``-e .`` )"
+msgstr ""
+
+#: ../../advanced.rst:248
+msgid ""
+"You can tell Pipenv to install a path as editable — often this is useful for"
+" the current working directory when working on packages::"
+msgstr ""
+
+#: ../../advanced.rst:257
+msgid ""
+"Note that all sub-dependencies will get added to the ``Pipfile.lock`` as "
+"well."
+msgstr ""
+
+#: ../../advanced.rst:261
+msgid "☤ Managing System Dependencies"
+msgstr ""
+
+#: ../../advanced.rst:263
+msgid ""
+"You can tell Pipenv to install things into it's parent system with the "
+"``--system`` flag::"
+msgstr ""
+
+#: ../../advanced.rst:267
+msgid ""
+"This is useful for Docker containers, and deployment infrastructure (e.g. "
+"Heroku does this)."
+msgstr ""
+
+#: ../../advanced.rst:271
+msgid "☤ Generating a ``requirements.txt``"
+msgstr ""
+
+#: ../../advanced.rst:273
+msgid ""
+"You can convert a ``Pipfile`` and ``Pipenv.lock`` into a "
+"``requirements.txt`` file very easily, and get all the benefits of hashes, "
+"extras, and other goodies we have included."
+msgstr ""
+
+#: ../../advanced.rst:275
+msgid "Let's take this ``Pipfile``::"
+msgstr ""
+
+#: ../../advanced.rst:284
+msgid "And generate a ``requirements.txt`` out of it::"
+msgstr ""
+
+#: ../../advanced.rst:296
 msgid "☤ Detection of Security Vulnerabilities"
 msgstr ""
 
-#: ../../advanced.rst:173
+#: ../../advanced.rst:298
 msgid ""
 "Pipenv includes the `safety <https://github.com/pyupio/safety>`_ package, "
 "and will use it to scan your dependency graph for known security "
 "vulnerabilities!"
 msgstr ""
 
-#: ../../advanced.rst:176
+#: ../../advanced.rst:301
 msgid "Example::"
 msgstr ""
 
-#: ../../advanced.rst:217 ../../advanced.rst:566
+#: ../../advanced.rst:342 ../../advanced.rst:693
 msgid "✨🍰✨"
 msgstr ""
 
-#: ../../advanced.rst:220
+#: ../../advanced.rst:345
 msgid "☤ Automatic Python Installation"
 msgstr "☤ Pythonの自動インストール"
 
-#: ../../advanced.rst:222
+#: ../../advanced.rst:347
 msgid ""
 "If you have `pyenv <https://github.com/pyenv/pyenv#simple-python-version-"
 "management-pyenv>`_ installed and configured, Pipenv will automatically ask "
@@ -173,42 +272,42 @@ msgstr ""
 "pyenv>`_ "
 "のインストールと設定が済んでいて、必要とするバージョンのPythonがまだ利用できる状態になっていない場合、pipenvは自動でそのバージョンのPythonをインストールしたいかどうかを尋ねます。"
 
-#: ../../advanced.rst:224
+#: ../../advanced.rst:349
 msgid "This is a very fancy feature, and we're very proud of it::"
 msgstr "これは非常に高度な機能で、自慢の機能です::"
 
-#: ../../advanced.rst:255
+#: ../../advanced.rst:380
 msgid ""
 "Pipenv automatically honors both the ``python_full_version`` and "
 "``python_version`` `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ "
 "specifiers."
 msgstr ""
 
-#: ../../advanced.rst:257
+#: ../../advanced.rst:382
 msgid "💫✨🍰✨💫"
 msgstr "💫✨🍰✨💫"
 
-#: ../../advanced.rst:260
+#: ../../advanced.rst:385
 msgid "☤ Automatic Loading of ``.env``"
 msgstr ""
 
-#: ../../advanced.rst:262
+#: ../../advanced.rst:387
 msgid ""
 "If a ``.env`` file is present in your project, ``$ pipenv shell`` and ``$ "
 "pipenv run`` will automatically load it, for you::"
 msgstr ""
 
-#: ../../advanced.rst:276
+#: ../../advanced.rst:401
 msgid ""
 "This is very useful for keeping production credentials out of your codebase."
 " We do not recommend comitting ``.env`` files into source control!"
 msgstr ""
 
-#: ../../advanced.rst:282
+#: ../../advanced.rst:407
 msgid "☤ Fancy Installation of Pipenv"
 msgstr "☤ pipenvの高度なインストール方法"
 
-#: ../../advanced.rst:284
+#: ../../advanced.rst:409
 msgid ""
 "To install pipenv in a fancy way, we recommend using `pipsi "
 "<https://github.com/mitsuhiko/pipsi>`_."
@@ -216,29 +315,29 @@ msgstr ""
 "高度な方法でpipenvをインストールするには、 `pipsi <https://github.com/mitsuhiko/pipsi>`_ "
 "をオススメします。"
 
-#: ../../advanced.rst:286
+#: ../../advanced.rst:411
 msgid ""
 "Pipsi is a powerful tool which allows you to install Python scripts into "
 "isolated virtual environments."
 msgstr "pipsiは、Pythonスクリプトを隔離された仮想環境にインストールできるようにする強力なツールです。"
 
-#: ../../advanced.rst:288
+#: ../../advanced.rst:413
 msgid "To install pipsi, first run this::"
 msgstr "pipsiをインストールするには、まずこれを実行します::"
 
-#: ../../advanced.rst:292
+#: ../../advanced.rst:417
 msgid "Follow the instructions, you'll have to update your ``PATH``."
 msgstr "指示に従って ``PATH`` を更新する必要があります。"
 
-#: ../../advanced.rst:294
+#: ../../advanced.rst:419
 msgid "Then, simply run::"
 msgstr "そして、次のコマンドを実行します::"
 
-#: ../../advanced.rst:299 ../../advanced.rst:322
+#: ../../advanced.rst:424 ../../advanced.rst:447
 msgid "To upgrade pipenv at any time::"
 msgstr "いつでもpipenvをアップグレードするには次のコマンドを実行します::"
 
-#: ../../advanced.rst:304
+#: ../../advanced.rst:429
 msgid ""
 "This will install both ``pipenv`` and ``pew`` (one of our dependencies) in "
 "an isolated virtualenv, so it doesn't interfere with the rest of your Python"
@@ -247,11 +346,11 @@ msgstr ""
 "これは ``pipenv`` と (依存ライブラリの1つである) ``pew`` "
 "を隔離された仮想環境にインストールするので、他のインストールされているPython環境に干渉することはありません。"
 
-#: ../../advanced.rst:310
+#: ../../advanced.rst:435
 msgid "☤ Pragmatic Installation of Pipenv"
 msgstr "☤ pipenvの実用的なインストール方法"
 
-#: ../../advanced.rst:312
+#: ../../advanced.rst:437
 msgid ""
 "If you have a working installation of pip, and maintain certain "
 "\"toolchain\" type Python modules as global utilities in your user "
@@ -264,11 +363,11 @@ msgstr ""
 "もしインストールされた今も使っているpipがあって、ある \"ツール群\" タイプのPythonモジュールをどの環境でも使うユーティリティとしてメンテナンスしている場合は、pip の `ユーザーインストール <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を使うとホームディレクトリにインストールできます。\n"
 "依存関係どうしの影響の関係で、この方法でインストールするツールは、virtualenv、pipenv、toxのようなPythonを使う作業の工程のための基本要素となるソフトウェアだけに制限すべきという点に注意してください。"
 
-#: ../../advanced.rst:314
+#: ../../advanced.rst:439
 msgid "To install::"
 msgstr "次のコマンドでインストールします:"
 
-#: ../../advanced.rst:318
+#: ../../advanced.rst:443
 msgid ""
 "For more information see the `user installs documentation "
 "<https://pip.pypa.io/en/stable/user_guide/#user-installs>`_, but to add the "
@@ -278,25 +377,25 @@ msgstr ""
 "さらに詳しいことは `ユーザーインストールの説明 <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を参照してください。\n"
 "pipのユーザーインストールでインストールしたCLIツールをパスに追加するには、次のコマンドで出力されるディレクトリを追加してください::"
 
-#: ../../advanced.rst:329
+#: ../../advanced.rst:454
 msgid "☤ Crude Installation of Pipenv"
 msgstr "☤ 大雑把なpipenvのインストール方法"
 
-#: ../../advanced.rst:331
+#: ../../advanced.rst:456
 msgid ""
 "If you don't even have pip installed, you can use this crude installation "
 "method, which will boostrap your whole system::"
 msgstr "もしpipをまだインストールしていなくても、この大雑把なインストール方法を使って、pipenvのシステム全体を立ち上げられます::"
 
-#: ../../advanced.rst:335
+#: ../../advanced.rst:460
 msgid "Congratulations, you now have pip and Pipenv installed!"
 msgstr "おめでとう、これでpipとPipenvがインストールされました!"
 
-#: ../../advanced.rst:340
+#: ../../advanced.rst:465
 msgid "☤ Environment Management with Pipenv"
 msgstr "☤ pipenvによる環境管理"
 
-#: ../../advanced.rst:342
+#: ../../advanced.rst:467
 msgid ""
 "The three primary commands you'll use in managing your pipenv environment "
 "are ``$ pipenv install``, ``$ pipenv uninstall``, and ``$ pipenv lock``."
@@ -304,44 +403,44 @@ msgstr ""
 "pipenvの環境管理で使うであろう主要な3つのコマンドは ``$ pipenv install`` 、 ``$ pipenv uninstall`` "
 "、 ``$ pipenv lock`` です。"
 
-#: ../../advanced.rst:348
+#: ../../advanced.rst:473
 msgid "$ pipenv install"
 msgstr "$ pipenv install"
 
-#: ../../advanced.rst:350
+#: ../../advanced.rst:475
 msgid ""
 "``$ pipenv install`` is used for installing packages into the pipenv virtual"
 " environment and updating your Pipfile."
 msgstr ""
 "``$ pipenv install`` は、pipenvの仮想環境にパッケージをインストールしたり、Pipfileを更新したりするのに使います。"
 
-#: ../../advanced.rst:353
+#: ../../advanced.rst:478
 msgid "Along with the basic install command, which takes the form::"
 msgstr "次の形式の基本的なインストールコマンドと一緒に::"
 
-#: ../../advanced.rst:357
+#: ../../advanced.rst:482
 msgid "The user can provide these additional parameters:"
 msgstr "ユーザーは以下の追加のパラメータを渡せます:"
 
-#: ../../advanced.rst:359
+#: ../../advanced.rst:484
 msgid ""
 "``--two`` — Performs the installation in a virtualenv using the system "
 "``python2`` link."
 msgstr "``--two`` — システムのシンボリックリンク ``python2`` を使い、仮想環境へのインストールを行います。"
 
-#: ../../advanced.rst:360
+#: ../../advanced.rst:485
 msgid ""
 "``--three`` — Performs the installation in a virtualenv using the system "
 "``python3`` link."
 msgstr "``--three`` — システムのシンボリックリンク ``python3`` を使い、仮想環境へのインストールを行います。"
 
-#: ../../advanced.rst:361
+#: ../../advanced.rst:486
 msgid ""
 "``--python`` — Performs the installation in a virtualenv using the provided "
 "Python intepreter."
 msgstr "``--python`` — 引数で与えられたPythonインタプリタを使い、仮想環境へのインストールを行います。"
 
-#: ../../advanced.rst:363
+#: ../../advanced.rst:488
 msgid ""
 "None of the above commands should be used together. They are also "
 "**destructive** and will delete your current virtualenv before replacing it "
@@ -350,7 +449,7 @@ msgstr ""
 "上のコマンドは一緒に使ってはいけません。\n"
 "これらのコマンドは *破壊的* であり、現在の仮想環境を削除してから、適切なバージョンが使われた仮想環境に置き換えられます。"
 
-#: ../../advanced.rst:367
+#: ../../advanced.rst:492
 msgid ""
 "The virtualenv created by Pipenv may be different from what you were "
 "expecting. Dangerous characters (i.e. ``$`!*@\"`` as well as space, line "
@@ -362,7 +461,7 @@ msgstr ""
 "危険な文字 (つまり、空白、ラインフィード、キャリッジリターン、タブだけでなく ``$`!*@\"`` も) はアンダースコアに変換されます。\n"
 "さらに、現在のフォルダのフルパスは \"スラッグ値\" にエンコードされ、仮想環境名が一意になるように末尾に追加されます。"
 
-#: ../../advanced.rst:373
+#: ../../advanced.rst:498
 msgid ""
 "``--dev`` — Install both ``develop`` and ``default`` packages from "
 "``Pipfile.lock``."
@@ -370,20 +469,20 @@ msgstr ""
 "``--dev`` — ``Pipfile.lock`` の ``develop`` パッケージと ``default`` "
 "パッケージの両方をインストールします。"
 
-#: ../../advanced.rst:374
+#: ../../advanced.rst:499
 msgid ""
 "``--system`` — Use the system ``pip`` command rather than the one from your "
 "virtualenv."
 msgstr "``--system`` — 仮想環境ではなく、システムの ``pip`` コマンドを使用します。"
 
-#: ../../advanced.rst:375
+#: ../../advanced.rst:500
 msgid ""
 "``--ignore-pipfile`` — Ignore the ``Pipfile`` and install from the "
 "``Pipfile.lock``."
 msgstr ""
 "``--ignore-pipfile`` — ``Pipfile`` を無視し、 ``Pipfile.lock`` を使ってインストールします。"
 
-#: ../../advanced.rst:376
+#: ../../advanced.rst:501
 msgid ""
 "``--skip-lock`` — Ignore the ``Pipfile.lock`` and install from the "
 "``Pipfile``. In addition, do not write out a ``Pipfile.lock`` reflecting "
@@ -392,11 +491,11 @@ msgstr ""
 "``--skip-lock`` — ``Pipfile.lock`` を無視し、 ``Pipfile`` を使ってインストールします。\n"
 "加えて、 ``Pipfile`` へ加えた変更を、 ``Pipfile.lock`` へは反映しません。"
 
-#: ../../advanced.rst:381
+#: ../../advanced.rst:506
 msgid "$ pipenv uninstall"
 msgstr "$ pipenv uninstall"
 
-#: ../../advanced.rst:383
+#: ../../advanced.rst:508
 msgid ""
 "``$ pipenv uninstall`` supports all of the parameters in `pipenv install "
 "<#pipenv-install>`_, as well as one additonal, ``--all``."
@@ -404,17 +503,17 @@ msgstr ""
 "``$ pipenv uninstall`` は `pipenv install <#pipenv-install>`_ の全てのパラメータに加えて、 "
 "``--all`` もサポートしています。"
 
-#: ../../advanced.rst:386
+#: ../../advanced.rst:511
 msgid ""
 "``--all`` — This parameter will purge all files from the virtual "
 "environment, but leave the Pipfile untouched."
 msgstr "``--all`` — このパラメータを付けると、仮想環境から全てのファイルを除去しますが、Pipfileだけは触らずに残します。"
 
-#: ../../advanced.rst:393
+#: ../../advanced.rst:518
 msgid "$ pipenv lock"
 msgstr "$ pipenv lock"
 
-#: ../../advanced.rst:395
+#: ../../advanced.rst:520
 msgid ""
 "``$ pipenv lock`` is used to create a ``Pipfile.lock``, which declares "
 "**all** dependencies (and sub-dependencies) of your project, their latest "
@@ -425,11 +524,11 @@ msgstr ""
 "このファイルにはプロジェクトの *全ての* 依存パッケージ (とさらにその依存パッケージ) と、それらの利用可能な最新のバージョン、ダウンロード済みのファイルの現在のハッシュが宣言されています。\n"
 "このファイルのおかげで、繰り返し可能かつ、最も重要な機能である *決定論的な* ビルドが保証されています。"
 
-#: ../../advanced.rst:398
+#: ../../advanced.rst:523
 msgid "☤ About Shell Configuration"
 msgstr "☤ シェルの設定について"
 
-#: ../../advanced.rst:400
+#: ../../advanced.rst:525
 msgid ""
 "Shells are typically misconfigured for subshell use, so ``$ pipenv shell`` "
 "may produce unexpected results. If this is the case, try ``$ pipenv shell "
@@ -440,24 +539,24 @@ msgstr ""
 "その場合は、 ``$ pipenv shell -c`` を試してみてください。\n"
 "これは \"互換モード\" を使っていて、間違った設定がされていてもサブシェルを起動しようと試みます。"
 
-#: ../../advanced.rst:402
+#: ../../advanced.rst:527
 msgid ""
 "A proper shell configuration only sets environment variables like ``PATH`` "
 "during a login session, not during every subshell spawn (as they are "
 "typically configured to do). In fish, this looks like this::"
 msgstr ""
 
-#: ../../advanced.rst:410
+#: ../../advanced.rst:535
 msgid ""
 "You should do this for your shell too, in your ``~/.profile`` or "
 "``~/.bashrc`` or wherever appropriate."
 msgstr "各自のシェルに対して、 ``~/.profile`` や ``~/.bashrc`` などの適切なファイルで同様の設定をしてください。"
 
-#: ../../advanced.rst:414
+#: ../../advanced.rst:539
 msgid "☤ Configuration With Environment Variables"
 msgstr "☤ 環境変数による設定"
 
-#: ../../advanced.rst:416
+#: ../../advanced.rst:541
 msgid ""
 "``pipenv`` comes with a handful of options that can be enabled via shell "
 "environment variables. To activate them, simply create the variable in your "
@@ -466,135 +565,145 @@ msgstr ""
 "``pipenv`` には、シェル環境変数で有効にできるオプションが少しだけあります。\n"
 "オプションを有効にするには、シェルでその変数を作成すればpipevnが見付けてくれます。"
 
-#: ../../advanced.rst:420
+#: ../../advanced.rst:545
 msgid ""
-"``PIPENV_SHELL_COMPAT`` — Always use compatibility mode when invoking "
-"``pipenv shell``."
+"``PIPENV_DEFAULT_PYTHON_VERSION`` — Use this version of Python when creating"
+" new virtual environments, by default (e.g. ``3.6``)."
 msgstr ""
 
-#: ../../advanced.rst:422
+#: ../../advanced.rst:547
+msgid ""
+"``PIPENV_SHELL_FANCY`` — Always use fancy mode when invoking ``pipenv "
+"shell``."
+msgstr ""
+
+#: ../../advanced.rst:549
 msgid ""
 "``PIPENV_VENV_IN_PROJECT`` — If set, use ``.venv`` in your project directory"
 " instead of the global virtualenv manager ``pew``."
 msgstr ""
+"``PIPENV_VENV_IN_PROJECT`` — 設定すると、システムグローバルな仮想環境マネージャーの ``pew`` "
+"ではなく、プロジェクトディレクトリの ``.venv`` を使います。"
 
-#: ../../advanced.rst:425
+#: ../../advanced.rst:552
 msgid "``PIPENV_COLORBLIND`` — Disable terminal colors, for some reason."
+msgstr "``PIPENV_COLORBLIND`` — 何らかの理由があるときのために、ターミナルの色付けをしません。"
+
+#: ../../advanced.rst:554
+msgid ""
+"``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs. "
+"Automatically set in CI environments."
 msgstr ""
 
-#: ../../advanced.rst:427
-msgid "``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs."
-msgstr ""
-
-#: ../../advanced.rst:429
+#: ../../advanced.rst:556
 msgid ""
 "``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of "
 "directories to resursively search for a Pipfile."
 msgstr ""
 
-#: ../../advanced.rst:432
+#: ../../advanced.rst:559
 msgid ""
 "``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds Pipenv "
 "will wait for virtualenv creation to complete.  Defaults to 120 seconds."
 msgstr ""
 
-#: ../../advanced.rst:435
+#: ../../advanced.rst:562
 msgid ""
 "``PIPENV_IGNORE_VIRTUALENVS`` — Set to disable automatically using an "
 "activated virtualenv over the current project's own virtual environment."
 msgstr ""
 
-#: ../../advanced.rst:439
+#: ../../advanced.rst:566
 msgid ""
 "Also note that `pip itself supports environment variables "
 "<https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you "
 "need additional customization."
 msgstr ""
 
-#: ../../advanced.rst:443
+#: ../../advanced.rst:570
 msgid "☤ A Note about VCS Dependencies"
 msgstr ""
 
-#: ../../advanced.rst:445
+#: ../../advanced.rst:572
 msgid ""
 "Pipenv will resolve the sub–depencies of VCS dependencies, but only if they "
 "are editable, like so::"
 msgstr ""
 
-#: ../../advanced.rst:450
+#: ../../advanced.rst:577
 msgid "If editable is not true, sub–dependencies will not get resolved."
 msgstr ""
 
-#: ../../advanced.rst:453
+#: ../../advanced.rst:580
 msgid "☤ Custom Virtual Environment Location"
 msgstr ""
 
-#: ../../advanced.rst:455
+#: ../../advanced.rst:582
 msgid ""
 "Pipenv's underlying ``pew`` dependency will automatically honor the "
 "``WORKON_HOME`` environment variable, if you have it set — so you can tell "
 "pipenv to store your virtual environments wherever you want, e.g.::"
 msgstr ""
 
-#: ../../advanced.rst:460
+#: ../../advanced.rst:587
 msgid ""
 "In addition, you can also have Pipenv stick the virtualenv in "
 "``project/.venv`` by setting the ``PIPENV_VENV_IN_PROJECT`` environment "
 "variable."
 msgstr ""
 
-#: ../../advanced.rst:464
+#: ../../advanced.rst:591
 msgid "☤ Testing Projects"
 msgstr ""
 
-#: ../../advanced.rst:466
+#: ../../advanced.rst:593
 msgid ""
 "Pipenv is being used in projects like `Requests`_ for declaring development "
 "dependencies and running the test suite."
 msgstr ""
 
-#: ../../advanced.rst:468
+#: ../../advanced.rst:595
 msgid ""
 "We've currently tested deployments with both `Travis-CI`_ and `tox`_ with "
 "success."
 msgstr ""
 
-#: ../../advanced.rst:471
+#: ../../advanced.rst:598
 msgid "Travis CI"
 msgstr ""
 
-#: ../../advanced.rst:473
+#: ../../advanced.rst:600
 msgid ""
 "An example Travis CI setup can be found in `Requests`_. The project uses a "
 "Makefile to define common functions such as its ``init`` and ``tests`` "
 "commands. Here is a stripped down example ``.travis.yml``::"
 msgstr ""
 
-#: ../../advanced.rst:494
+#: ../../advanced.rst:621
 msgid "and the corresponding Makefile::"
 msgstr ""
 
-#: ../../advanced.rst:505
+#: ../../advanced.rst:632
 msgid "Tox Automation Project"
 msgstr ""
 
-#: ../../advanced.rst:507
+#: ../../advanced.rst:634
 msgid ""
 "Alternatively, you can configure a ``tox.ini`` like the one below for both "
 "local and external testing::"
 msgstr ""
 
-#: ../../advanced.rst:529
+#: ../../advanced.rst:656
 msgid ""
 "With Pipenv's default configuration, you'll need to use tox's ``passenv`` "
 "parameter to pass your shell's ``HOME`` variable."
 msgstr ""
 
-#: ../../advanced.rst:537
+#: ../../advanced.rst:664
 msgid "☤ Pipfile.lock Security Features"
 msgstr ""
 
-#: ../../advanced.rst:539
+#: ../../advanced.rst:666
 msgid ""
 "``Pipfile.lock`` takes advantage of some great new security improvements in "
 "``pip``. By default, the ``Pipfile.lock`` will be generated with the sha256 "
@@ -603,7 +712,7 @@ msgid ""
 "downloading dependencies from an untrusted PyPI endpoint."
 msgstr ""
 
-#: ../../advanced.rst:544
+#: ../../advanced.rst:671
 msgid ""
 "We highly recommend approaching deployments with promoting projects from a "
 "development environment into production. You can use ``pipenv lock`` to "
@@ -612,17 +721,17 @@ msgid ""
 "reproducible builds."
 msgstr ""
 
-#: ../../advanced.rst:556
+#: ../../advanced.rst:683
 msgid "☤ Shell Completion"
 msgstr ""
 
-#: ../../advanced.rst:558
+#: ../../advanced.rst:685
 msgid ""
 "Set ``_PIPENV_COMPLETE`` and then source the output of the program. For "
 "example, with ``fish``, put this in your "
 "``~/.config/fish/completions/pipenv.fish``::"
 msgstr ""
 
-#: ../../advanced.rst:564
+#: ../../advanced.rst:691
 msgid "Magic shell completions are now enabled!"
 msgstr ""
