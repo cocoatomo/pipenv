@@ -25,7 +25,7 @@ msgstr "pipenvの進んだ使い方"
 #: ../../advanced.rst:8
 msgid ""
 "This document covers some of Pipenv's more glorious and advanced features."
-msgstr ""
+msgstr "このドキュメントではpipenvのより輝かしい進んだ機能を対象としています。"
 
 #: ../../advanced.rst:11
 msgid "☤ Example Pipfile & Pipfile.lock"
@@ -63,6 +63,8 @@ msgid ""
 "You can also specify ``$ pipenv install -r path/to/requirements.txt`` to "
 "import a requirements file."
 msgstr ""
+"requirements ファイルをインポートするのに、 ``$ pipenv install -r "
+"path/to/requirements.txt`` と指定することもできます。"
 
 #: ../../advanced.rst:133
 msgid ""
@@ -70,6 +72,8 @@ msgid ""
 "numbers pinned, which you likely won't want in your ``Pipfile``, so you'll "
 "have to manually update your ``Pipfile`` afterwards to reflect this."
 msgstr ""
+"1つ注意ですが、requirementsファイルをインポートするときに、バージョン番号が固定されているけれど、それを ``Pipfile`` に含めたくないことがよくあります。\n"
+"そのため、requirementsファイルの内容を反映した後に ``Pipfile`` を手作業で修正する必要があります。"
 
 #: ../../advanced.rst:140
 msgid "☤ Specifying Versions of a Package"
@@ -102,15 +106,15 @@ msgstr ""
 
 #: ../../advanced.rst:155
 msgid "Use Python 3::"
-msgstr ""
+msgstr "Python 3を使うには::"
 
 #: ../../advanced.rst:159
 msgid "Use Python3.6::"
-msgstr ""
+msgstr "Python 3.6を使うには::"
 
 #: ../../advanced.rst:163
 msgid "Use Python 2.7.14::"
-msgstr ""
+msgstr "Python 2.7.14を使うには::"
 
 #: ../../advanced.rst:167
 msgid ""
@@ -143,24 +147,26 @@ msgid ""
 "selected automatically, falling back to whatever your system's default "
 "``python`` installation is, at time of execution."
 msgstr ""
+"コマンドラインでも ``[requires]`` でもPythonのバージョンを指定しなかった場合は、 ``python_full_version`` "
+"や ``python_version`` は自動で選ばれ、システムのデフォルトとしてインストールされている ``python`` が実行時に選ばれます。"
 
 #: ../../advanced.rst:190
 msgid "☤ Specifying Package Indexes"
-msgstr ""
+msgstr "☤ パッケージの一覧を指定する"
 
 #: ../../advanced.rst:192
 msgid ""
 "If you'd like a specific package to be installed with a specific package "
 "index, you can do the following::"
-msgstr ""
+msgstr "特定のパッケージ一覧で特定のパッケージをインストールしたい場合は、次のように指定できます::"
 
 #: ../../advanced.rst:211 ../../advanced.rst:293
 msgid "Very fancy."
-msgstr ""
+msgstr "めっちゃ高機能。"
 
 #: ../../advanced.rst:214
 msgid "☤ Specifying Basically Anything"
-msgstr ""
+msgstr "☤ 基本的な事項の指定"
 
 #: ../../advanced.rst:216
 msgid ""
@@ -168,20 +174,22 @@ msgid ""
 "certain systems, you can use `PEP 508 specifiers "
 "<https://www.python.org/dev/peps/pep-0508/>`_ to accomplish this."
 msgstr ""
+"ある特定のパッケージをあるシステムだけにインストールしたい場合は、 `PEP 508 指示子 "
+"<https://www.python.org/dev/peps/pep-0508/>`_ を使って実現できます。"
 
 #: ../../advanced.rst:219
 msgid ""
 "Here's an example ``Pipfile``, which will only install ``pywinusb`` on "
 "Windows systems::"
-msgstr ""
+msgstr "これが、 Windowsシステムだけに ``pywinusb`` をインストールする ``Pipfile`` の例です::"
 
 #: ../../advanced.rst:230
 msgid "Voilà!"
-msgstr ""
+msgstr "ほら、見て!"
 
 #: ../../advanced.rst:232
 msgid "Here's a more complex example::"
-msgstr ""
+msgstr "これがもっと複雑な例です::"
 
 #: ../../advanced.rst:241
 msgid "Magic. Pure, unalderated magic."
@@ -189,7 +197,7 @@ msgstr ""
 
 #: ../../advanced.rst:246
 msgid "☤ Editable Dependencies (e.g. ``-e .`` )"
-msgstr ""
+msgstr "☤ 編集可能な依存関係 (例。 ``-e .`` )"
 
 #: ../../advanced.rst:248
 msgid ""
@@ -221,7 +229,7 @@ msgstr ""
 
 #: ../../advanced.rst:271
 msgid "☤ Generating a ``requirements.txt``"
-msgstr ""
+msgstr "☤ ``requirements.txt`` の生成"
 
 #: ../../advanced.rst:273
 msgid ""
@@ -229,18 +237,20 @@ msgid ""
 "``requirements.txt`` file very easily, and get all the benefits of hashes, "
 "extras, and other goodies we have included."
 msgstr ""
+"``Pipfile`` や ``Pipenv.lock`` は ``requirements.txt`` "
+"に非常に簡単に変換でき、ハッシュ、追加機能、素敵な機能など既に実装された機能全ての恩恵を受けられます。"
 
 #: ../../advanced.rst:275
 msgid "Let's take this ``Pipfile``::"
-msgstr ""
+msgstr "この ``Pipfile`` から::"
 
 #: ../../advanced.rst:284
 msgid "And generate a ``requirements.txt`` out of it::"
-msgstr ""
+msgstr "``requirements.txt`` を生成しましょう::"
 
 #: ../../advanced.rst:296
 msgid "☤ Detection of Security Vulnerabilities"
-msgstr ""
+msgstr "☤ セキュリティの脆弱性の検知"
 
 #: ../../advanced.rst:298
 msgid ""
@@ -248,14 +258,16 @@ msgid ""
 "and will use it to scan your dependency graph for known security "
 "vulnerabilities!"
 msgstr ""
+"pipenv は `safety <https://github.com/pyupio/safety>`_ "
+"パッケージを含んでいて、既知のセキュリティの脆弱性が無いか依存関係グラフを走査するのに使われます。"
 
 #: ../../advanced.rst:301
 msgid "Example::"
-msgstr ""
+msgstr "例::"
 
 #: ../../advanced.rst:342 ../../advanced.rst:693
 msgid "✨🍰✨"
-msgstr ""
+msgstr "✨🍰✨"
 
 #: ../../advanced.rst:345
 msgid "☤ Automatic Python Installation"
@@ -282,6 +294,8 @@ msgid ""
 "``python_version`` `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ "
 "specifiers."
 msgstr ""
+"pipenv は `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ が規定する "
+"``python_full_version`` と ``python_version`` のどちらも考慮します。"
 
 #: ../../advanced.rst:382
 msgid "💫✨🍰✨💫"
@@ -289,30 +303,34 @@ msgstr "💫✨🍰✨💫"
 
 #: ../../advanced.rst:385
 msgid "☤ Automatic Loading of ``.env``"
-msgstr ""
+msgstr "☤ ``.env`` の自動読み込み"
 
 #: ../../advanced.rst:387
 msgid ""
 "If a ``.env`` file is present in your project, ``$ pipenv shell`` and ``$ "
 "pipenv run`` will automatically load it, for you::"
 msgstr ""
+"プロジェクトに ``.env`` ファイルが存在する場合は、 ``$ pipenv shell`` および ``$ pipenv run`` "
+"は自動で読み込みます::"
 
 #: ../../advanced.rst:401
 msgid ""
 "This is very useful for keeping production credentials out of your codebase."
 " We do not recommend comitting ``.env`` files into source control!"
 msgstr ""
+"この機能は、本番環境の証明書をコードベースから避けておくのに非常に便利です。\n"
+"``.env`` ファイルをソースコード管理にコミットするのはお薦めしません!"
 
 #: ../../advanced.rst:407
 msgid "☤ Fancy Installation of Pipenv"
-msgstr "☤ pipenvの高度なインストール方法"
+msgstr "☤ pipenvの高機能なインストール方法"
 
 #: ../../advanced.rst:409
 msgid ""
 "To install pipenv in a fancy way, we recommend using `pipsi "
 "<https://github.com/mitsuhiko/pipsi>`_."
 msgstr ""
-"高度な方法でpipenvをインストールするには、 `pipsi <https://github.com/mitsuhiko/pipsi>`_ "
+"高機能な方法でpipenvをインストールするには、 `pipsi <https://github.com/mitsuhiko/pipsi>`_ "
 "をオススメします。"
 
 #: ../../advanced.rst:411
