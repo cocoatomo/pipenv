@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 7.8.6\n"
+"Project-Id-Version: pipenv 8.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-25 08:48+0900\n"
+"POT-Creation-Date: 2017-09-26 10:45+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -197,29 +197,31 @@ msgstr ""
 
 #: ../../advanced.rst:246
 msgid "☤ Editable Dependencies (e.g. ``-e .`` )"
-msgstr "☤ 編集可能な依存関係 (例。 ``-e .`` )"
+msgstr "☤ 編集可能な依存関係 (例えば ``-e .`` )"
 
 #: ../../advanced.rst:248
 msgid ""
 "You can tell Pipenv to install a path as editable — often this is useful for"
 " the current working directory when working on packages::"
 msgstr ""
+"pipenvに編集可能なパスとしてインストールするよう指示できます — "
+"この機能は、パッケージの開発作業をしているときに、現在の作業ディレクトリを指すのに便利なことが多いです::"
 
 #: ../../advanced.rst:257
 msgid ""
 "Note that all sub-dependencies will get added to the ``Pipfile.lock`` as "
 "well."
-msgstr ""
+msgstr "全ての依存関係が ``Pipfile.lock`` にも追加されることに注意してください。"
 
 #: ../../advanced.rst:261
 msgid "☤ Managing System Dependencies"
-msgstr ""
+msgstr "☤ システム環境の依存関係管理"
 
 #: ../../advanced.rst:263
 msgid ""
 "You can tell Pipenv to install things into it's parent system with the "
 "``--system`` flag::"
-msgstr ""
+msgstr "``--system`` フラグを使って、pipenvに親システムにイストールするよう指示できます::"
 
 #: ../../advanced.rst:267
 msgid ""
@@ -265,7 +267,7 @@ msgstr ""
 msgid "Example::"
 msgstr "例::"
 
-#: ../../advanced.rst:342 ../../advanced.rst:693
+#: ../../advanced.rst:342 ../../advanced.rst:689
 msgid "✨🍰✨"
 msgstr "✨🍰✨"
 
@@ -548,14 +550,11 @@ msgstr "☤ シェルの設定について"
 
 #: ../../advanced.rst:525
 msgid ""
-"Shells are typically misconfigured for subshell use, so ``$ pipenv shell`` "
-"may produce unexpected results. If this is the case, try ``$ pipenv shell "
-"-c``, which uses \"compatibility mode\", and will attempt to spawn a "
-"subshell despite misconfiguration."
+"Shells are typically misconfigured for subshell use, so ``$ pipenv shell "
+"--fancy`` may produce unexpected results. If this is the case, try ``$ "
+"pipenv shell``, which uses \"compatibility mode\", and will attempt to spawn"
+" a subshell despite misconfiguration."
 msgstr ""
-"シェルはたいていサブシェルを使うのに間違った設定になっていることがあるので、 ``$ pipenv shell`` は予期せぬ状態を引き起こすかもしれません。\n"
-"その場合は、 ``$ pipenv shell -c`` を試してみてください。\n"
-"これは \"互換モード\" を使っていて、間違った設定がされていてもサブシェルを起動しようと試みます。"
 
 #: ../../advanced.rst:527
 msgid ""
@@ -564,17 +563,17 @@ msgid ""
 "typically configured to do). In fish, this looks like this::"
 msgstr ""
 
-#: ../../advanced.rst:535
+#: ../../advanced.rst:533
 msgid ""
 "You should do this for your shell too, in your ``~/.profile`` or "
 "``~/.bashrc`` or wherever appropriate."
 msgstr "各自のシェルに対して、 ``~/.profile`` や ``~/.bashrc`` などの適切なファイルで同様の設定をしてください。"
 
-#: ../../advanced.rst:539
+#: ../../advanced.rst:537
 msgid "☤ Configuration With Environment Variables"
 msgstr "☤ 環境変数による設定"
 
-#: ../../advanced.rst:541
+#: ../../advanced.rst:539
 msgid ""
 "``pipenv`` comes with a handful of options that can be enabled via shell "
 "environment variables. To activate them, simply create the variable in your "
@@ -583,19 +582,19 @@ msgstr ""
 "``pipenv`` には、シェル環境変数で有効にできるオプションが少しだけあります。\n"
 "オプションを有効にするには、シェルでその変数を作成すればpipevnが見付けてくれます。"
 
-#: ../../advanced.rst:545
+#: ../../advanced.rst:543
 msgid ""
 "``PIPENV_DEFAULT_PYTHON_VERSION`` — Use this version of Python when creating"
 " new virtual environments, by default (e.g. ``3.6``)."
 msgstr ""
 
-#: ../../advanced.rst:547
+#: ../../advanced.rst:545
 msgid ""
 "``PIPENV_SHELL_FANCY`` — Always use fancy mode when invoking ``pipenv "
 "shell``."
 msgstr ""
 
-#: ../../advanced.rst:549
+#: ../../advanced.rst:547
 msgid ""
 "``PIPENV_VENV_IN_PROJECT`` — If set, use ``.venv`` in your project directory"
 " instead of the global virtualenv manager ``pew``."
@@ -603,125 +602,125 @@ msgstr ""
 "``PIPENV_VENV_IN_PROJECT`` — 設定すると、システムグローバルな仮想環境マネージャーの ``pew`` "
 "ではなく、プロジェクトディレクトリの ``.venv`` を使います。"
 
-#: ../../advanced.rst:552
+#: ../../advanced.rst:550
 msgid "``PIPENV_COLORBLIND`` — Disable terminal colors, for some reason."
 msgstr "``PIPENV_COLORBLIND`` — 何らかの理由があるときのために、ターミナルの色付けをしません。"
 
-#: ../../advanced.rst:554
+#: ../../advanced.rst:552
 msgid ""
 "``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs. "
 "Automatically set in CI environments."
 msgstr ""
 
-#: ../../advanced.rst:556
+#: ../../advanced.rst:554
 msgid ""
 "``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of "
 "directories to resursively search for a Pipfile."
 msgstr ""
 
-#: ../../advanced.rst:559
+#: ../../advanced.rst:557
 msgid ""
 "``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds Pipenv "
 "will wait for virtualenv creation to complete.  Defaults to 120 seconds."
 msgstr ""
 
-#: ../../advanced.rst:562
+#: ../../advanced.rst:560
 msgid ""
 "``PIPENV_IGNORE_VIRTUALENVS`` — Set to disable automatically using an "
 "activated virtualenv over the current project's own virtual environment."
 msgstr ""
 
-#: ../../advanced.rst:566
+#: ../../advanced.rst:564
 msgid ""
 "Also note that `pip itself supports environment variables "
 "<https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you "
 "need additional customization."
 msgstr ""
 
-#: ../../advanced.rst:570
+#: ../../advanced.rst:568
 msgid "☤ A Note about VCS Dependencies"
 msgstr ""
 
-#: ../../advanced.rst:572
+#: ../../advanced.rst:570
 msgid ""
 "Pipenv will resolve the sub–depencies of VCS dependencies, but only if they "
 "are editable, like so::"
 msgstr ""
 
-#: ../../advanced.rst:577
+#: ../../advanced.rst:575
 msgid "If editable is not true, sub–dependencies will not get resolved."
 msgstr ""
 
-#: ../../advanced.rst:580
+#: ../../advanced.rst:578
 msgid "☤ Custom Virtual Environment Location"
 msgstr ""
 
-#: ../../advanced.rst:582
+#: ../../advanced.rst:580
 msgid ""
 "Pipenv's underlying ``pew`` dependency will automatically honor the "
 "``WORKON_HOME`` environment variable, if you have it set — so you can tell "
 "pipenv to store your virtual environments wherever you want, e.g.::"
 msgstr ""
 
-#: ../../advanced.rst:587
+#: ../../advanced.rst:585
 msgid ""
 "In addition, you can also have Pipenv stick the virtualenv in "
 "``project/.venv`` by setting the ``PIPENV_VENV_IN_PROJECT`` environment "
 "variable."
 msgstr ""
 
-#: ../../advanced.rst:591
+#: ../../advanced.rst:589
 msgid "☤ Testing Projects"
 msgstr ""
 
-#: ../../advanced.rst:593
+#: ../../advanced.rst:591
 msgid ""
 "Pipenv is being used in projects like `Requests`_ for declaring development "
 "dependencies and running the test suite."
 msgstr ""
 
-#: ../../advanced.rst:595
+#: ../../advanced.rst:593
 msgid ""
 "We've currently tested deployments with both `Travis-CI`_ and `tox`_ with "
 "success."
 msgstr ""
 
-#: ../../advanced.rst:598
+#: ../../advanced.rst:596
 msgid "Travis CI"
 msgstr ""
 
-#: ../../advanced.rst:600
+#: ../../advanced.rst:598
 msgid ""
 "An example Travis CI setup can be found in `Requests`_. The project uses a "
 "Makefile to define common functions such as its ``init`` and ``tests`` "
 "commands. Here is a stripped down example ``.travis.yml``::"
 msgstr ""
 
-#: ../../advanced.rst:621
+#: ../../advanced.rst:619
 msgid "and the corresponding Makefile::"
 msgstr ""
 
-#: ../../advanced.rst:632
+#: ../../advanced.rst:630
 msgid "Tox Automation Project"
 msgstr ""
 
-#: ../../advanced.rst:634
+#: ../../advanced.rst:632
 msgid ""
 "Alternatively, you can configure a ``tox.ini`` like the one below for both "
 "local and external testing::"
 msgstr ""
 
-#: ../../advanced.rst:656
+#: ../../advanced.rst:654
 msgid ""
 "With Pipenv's default configuration, you'll need to use tox's ``passenv`` "
 "parameter to pass your shell's ``HOME`` variable."
 msgstr ""
 
-#: ../../advanced.rst:664
+#: ../../advanced.rst:662
 msgid "☤ Pipfile.lock Security Features"
 msgstr ""
 
-#: ../../advanced.rst:666
+#: ../../advanced.rst:664
 msgid ""
 "``Pipfile.lock`` takes advantage of some great new security improvements in "
 "``pip``. By default, the ``Pipfile.lock`` will be generated with the sha256 "
@@ -730,7 +729,7 @@ msgid ""
 "downloading dependencies from an untrusted PyPI endpoint."
 msgstr ""
 
-#: ../../advanced.rst:671
+#: ../../advanced.rst:669
 msgid ""
 "We highly recommend approaching deployments with promoting projects from a "
 "development environment into production. You can use ``pipenv lock`` to "
@@ -739,17 +738,14 @@ msgid ""
 "reproducible builds."
 msgstr ""
 
-#: ../../advanced.rst:683
+#: ../../advanced.rst:681
 msgid "☤ Shell Completion"
 msgstr ""
 
-#: ../../advanced.rst:685
-msgid ""
-"Set ``_PIPENV_COMPLETE`` and then source the output of the program. For "
-"example, with ``fish``, put this in your "
-"``~/.config/fish/completions/pipenv.fish``::"
+#: ../../advanced.rst:683
+msgid "To enable completion in fish, add this to your config::"
 msgstr ""
 
-#: ../../advanced.rst:691
+#: ../../advanced.rst:687
 msgid "Magic shell completions are now enabled!"
 msgstr ""
