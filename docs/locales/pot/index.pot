@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 7.8.6\n"
+"Project-Id-Version: pipenv 8.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-26 10:36+0900\n"
+"POT-Creation-Date: 2017-09-26 10:45+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,11 +77,11 @@ msgid "*Pipenv is the porcelain I always wanted to build for pip. It fits my bra
 msgstr ""
 
 #: ../../index.rst:68
-msgid "**Jhon Crypt**—"
+msgid "**Justin Myles Holmes**—"
 msgstr ""
 
 #: ../../index.rst:68
-msgid "*Pipenv is the best thing since pip, thank you!*"
+msgid "*Pipenv is finally an abstraction meant to engage the mind instead of merely the filesystem.*"
 msgstr ""
 
 #: ../../index.rst:71
@@ -227,6 +227,14 @@ msgid "Minimal output."
 msgstr ""
 
 #: ../../../pipenv:1
+msgid "Output completion (to be eval'd)."
+msgstr ""
+
+#: ../../../pipenv:1
+msgid "Display manpage."
+msgstr ""
+
+#: ../../../pipenv:1
 #: ../../../pipenv check:1
 #: ../../../pipenv install:1
 #: ../../../pipenv lock:1
@@ -329,7 +337,7 @@ msgid "Ignore Pipfile when installing, using the Pipfile.lock."
 msgstr ""
 
 #: ../../../pipenv install:1
-msgid "Install dependencies one-at-a-time, isntead of concurrently."
+msgid "Install dependencies one-at-a-time, instead of concurrently."
 msgstr ""
 
 #: ../../../pipenv install:1
