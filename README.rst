@@ -52,8 +52,8 @@ Installation
 **Jannis Leidel**, former pip maintainer—
     *Pipenv is the porcelain I always wanted to build for pip. It fits my brain and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*
 
-**Jhon Crypt**—
-    *Pipenv is the best thing since pip, thank you!*
+**Justin Myles Holmes**—
+    *Pipenv is finally an abstraction meant to engage the mind instead of merely the filesystem.*
 
 **Isaac Sanders**—
     *Pipenv is literally the best thing about my day today. Thanks, Kenneth!*
@@ -97,7 +97,7 @@ Shell Completion
 Set ``_PIPENV_COMPLETE`` and then source the output of the program. For example, with fish, put this
 in your ``~/.config/fish/completions/pipenv.fish``::
 
-    eval (env _PIPENV_COMPLETE=source-fish pipenv)
+    eval (pipenv --completion)
 
 Magic shell completions are now enabled! There is also a `fish plugin <https://github.com/fisherman/pipenv>`_, which will automatically activate your subshells for you!
 
@@ -161,12 +161,12 @@ Locate the virtualenv::
 
    $ pipenv --venv
    /Users/kennethreitz/.local/share/virtualenvs/test-Skyy4vre
-   
+
 Locate the Python interpreter::
 
     $ pipenv --py
     /Users/kennethreitz/.local/share/virtualenvs/test-Skyy4vre/bin/python
-    
+
 Install packages::
 
     $ pipenv install

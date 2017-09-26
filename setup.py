@@ -26,8 +26,9 @@ required = [
     'pew>=0.1.26',
     'pip>=9.0.1',
     'pip-tools>=1.9.0',
-    'requests>2.0.0',
-    'flake8'
+    'requests>2.18.0',
+    'flake8',
+    'urllib3'
 ]
 
 if sys.version_info < (2, 7):
@@ -80,7 +81,7 @@ setup(
     author='Kenneth Reitz',
     author_email='me@kennethreitz.org',
     url='https://github.com/kennethreitz/pipenv',
-    packages=find_packages(exclude=['tests', 'tests_windows']),
+    packages=find_packages(exclude=['tests']),
     entry_points={
         'console_scripts': ['pipenv=pipenv:cli'],
     },
