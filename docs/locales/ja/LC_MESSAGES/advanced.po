@@ -297,7 +297,7 @@ msgid ""
 "specifiers."
 msgstr ""
 "pipenv は `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ が規定する "
-"``python_full_version`` と ``python_version`` のどちらも考慮します。"
+"``python_full_version`` と ``python_version`` の両方に従います。"
 
 #: ../../advanced.rst:382
 msgid "💫✨🍰✨💫"
@@ -555,6 +555,9 @@ msgid ""
 "pipenv shell``, which uses \"compatibility mode\", and will attempt to spawn"
 " a subshell despite misconfiguration."
 msgstr ""
+"シェルはたいていサブシェルを使うのに間違った設定になっていることがあるので、 ``$ pipenv shell --fancy`` は予期せぬ状態を引き起こすかもしれません。\n"
+"その場合は、 ``$ pipenv shell`` を試してみてください。\n"
+"これは \"互換モード\" を使っていて、間違った設定がされていてもサブシェルを起動しようと試みます。"
 
 #: ../../advanced.rst:527
 msgid ""
@@ -562,6 +565,8 @@ msgid ""
 "during a login session, not during every subshell spawn (as they are "
 "typically configured to do). In fish, this looks like this::"
 msgstr ""
+"適切なシェル設定では、(たいていはこの設定になっていますが) 全てのサブシェルが起動している間ではなく、あるログインセッションが起動している間だけ ``PATH`` のような環境変数を設定します。\n"
+"fishでは、適切な設定は次のようになります::"
 
 #: ../../advanced.rst:533
 msgid ""
@@ -587,12 +592,14 @@ msgid ""
 "``PIPENV_DEFAULT_PYTHON_VERSION`` — Use this version of Python when creating"
 " new virtual environments, by default (e.g. ``3.6``)."
 msgstr ""
+"``PIPENV_DEFAULT_PYTHON_VERSION`` — 新しい仮想環境を作るときに、デフォルトでこのバージョンのPython (例えば "
+"``3.6``) が使われます。"
 
 #: ../../advanced.rst:545
 msgid ""
 "``PIPENV_SHELL_FANCY`` — Always use fancy mode when invoking ``pipenv "
 "shell``."
-msgstr ""
+msgstr "``PIPENV_SHELL_FANCY`` — ``pipenv shell`` を呼び出すときに常に高機能モードを使用します。"
 
 #: ../../advanced.rst:547
 msgid ""
@@ -611,18 +618,21 @@ msgid ""
 "``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs. "
 "Automatically set in CI environments."
 msgstr ""
+"``PIPENV_NOSPIN`` — ログを綺麗にするために、端末のスピナーを無効にします。\n"
+"CI環境では自動で設定されます。"
 
 #: ../../advanced.rst:554
 msgid ""
 "``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of "
 "directories to resursively search for a Pipfile."
-msgstr ""
+msgstr "``PIPENV_MAX_DEPTH`` — Pipfileを再帰的に探しに行くディレクトリ数の最大値を整数で設定します。"
 
 #: ../../advanced.rst:557
 msgid ""
 "``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds Pipenv "
 "will wait for virtualenv creation to complete.  Defaults to 120 seconds."
 msgstr ""
+"``PIPENV_TIMEOUT`` — 仮想環境の作成が完了するのを、pipenvが待つ秒数の最大値を整数で設定します。デフォルトは120秒です。"
 
 #: ../../advanced.rst:560
 msgid ""
@@ -639,21 +649,21 @@ msgstr ""
 
 #: ../../advanced.rst:568
 msgid "☤ A Note about VCS Dependencies"
-msgstr ""
+msgstr "☤ バージョン管理システムについての但し書き"
 
 #: ../../advanced.rst:570
 msgid ""
 "Pipenv will resolve the sub–depencies of VCS dependencies, but only if they "
 "are editable, like so::"
-msgstr ""
+msgstr "pipenvはバージョン管理システムで指定した依存関係の子依存関係も解決しますが、それは次のように編集可能な場合だけです::"
 
 #: ../../advanced.rst:575
 msgid "If editable is not true, sub–dependencies will not get resolved."
-msgstr ""
+msgstr "編集可能でない場合は、子依存関係は解決されません。"
 
 #: ../../advanced.rst:578
 msgid "☤ Custom Virtual Environment Location"
-msgstr ""
+msgstr "☤ 仮想環境の独自の配置場所"
 
 #: ../../advanced.rst:580
 msgid ""
@@ -661,6 +671,8 @@ msgid ""
 "``WORKON_HOME`` environment variable, if you have it set — so you can tell "
 "pipenv to store your virtual environments wherever you want, e.g.::"
 msgstr ""
+"pipenvの依存パッケージである ``pew`` は ``WORKON_HOME`` が設定してあれば自動でそれに従います。\n"
+"これにより、どこでも好きなところを指定して、pipenvに仮想環境を保存するよう指示できます。"
 
 #: ../../advanced.rst:585
 msgid ""
@@ -668,26 +680,28 @@ msgid ""
 "``project/.venv`` by setting the ``PIPENV_VENV_IN_PROJECT`` environment "
 "variable."
 msgstr ""
+"さらに、 ``PIPENV_VENV_IN_PROJECT`` 環境変数を設定することで、 ``project/.venv`` "
+"にある仮想環境をpipenvに使わせることができます。"
 
 #: ../../advanced.rst:589
 msgid "☤ Testing Projects"
-msgstr ""
+msgstr "☤ プロジェクトのテスト"
 
 #: ../../advanced.rst:591
 msgid ""
 "Pipenv is being used in projects like `Requests`_ for declaring development "
 "dependencies and running the test suite."
-msgstr ""
+msgstr "pipenvは `Requests`_ のようなプロジェクトで開発用の依存関係の宣言とテストスイートの実行に使われています。"
 
 #: ../../advanced.rst:593
 msgid ""
 "We've currently tested deployments with both `Travis-CI`_ and `tox`_ with "
 "success."
-msgstr ""
+msgstr "現時点では `Travis-CI`_ と `tox`_ の両方で上手くデプロイをテストできています。"
 
 #: ../../advanced.rst:596
 msgid "Travis CI"
-msgstr ""
+msgstr "Travis CI"
 
 #: ../../advanced.rst:598
 msgid ""

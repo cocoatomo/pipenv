@@ -125,7 +125,7 @@ msgstr ""
 
 #: ../../index.rst:68
 msgid "**Justin Myles Holmes**—"
-msgstr ""
+msgstr "**Justin Myles Holmes**—"
 
 #: ../../index.rst:68
 msgid ""
@@ -296,7 +296,7 @@ msgstr ""
 
 #: ../../../pipenv:1
 msgid "Display manpage."
-msgstr ""
+msgstr "マニュアルページを表示します。"
 
 #: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv install:1
 #: ../../../pipenv lock:1 ../../../pipenv run:1 ../../../pipenv shell:1
@@ -312,7 +312,7 @@ msgstr "どのバージョンのPython仮想環境を使うかを指定します
 
 #: ../../../pipenv:1
 msgid "Enable site-packages for the virtualenv."
-msgstr ""
+msgstr "仮想環境のsite-packagesを有効にします。"
 
 #: ../../../pipenv:1
 msgid "An easter egg, effectively."
@@ -352,7 +352,7 @@ msgstr "現在インストールされている依存パッケージのグラフ
 
 #: ../../../pipenv graph:1
 msgid "Output JSON."
-msgstr ""
+msgstr "JSONを出力します。"
 
 #: ../../../pipenv install:1
 msgid ""
@@ -388,7 +388,7 @@ msgstr "インストール時にPipfileを無視し、Pipfile.lockを使いま�
 
 #: ../../../pipenv install:1
 msgid "Install dependencies one-at-a-time, instead of concurrently."
-msgstr ""
+msgstr "並列ではなく、一度に一つずつ依存パッケージをインストールします。"
 
 #: ../../../pipenv install:1
 msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
@@ -396,7 +396,7 @@ msgstr "インストール時にバージョン固定の仕組みを無視し、
 
 #: ../../../pipenv install:1 ../../../pipenv lock:1
 msgid "Allow pre–releases."
-msgstr ""
+msgstr "プレリリースバージョンのパッケージを許可します。"
 
 #: ../../../pipenv install:1 ../../../pipenv uninstall:1
 msgid "Optional argument"
@@ -416,7 +416,7 @@ msgstr "依存関係のキャッシュを削除します。"
 
 #: ../../../pipenv run:1
 msgid "Spawns a command installed into the virtualenv."
-msgstr ""
+msgstr "仮想環境にインストールされたコマンドを起動します。"
 
 #: ../../../pipenv run:1
 msgid "Required argument"
@@ -432,7 +432,7 @@ msgstr ""
 
 #: ../../../pipenv shell:1
 msgid "Always spawn a subshell, even if one is already spawned."
-msgstr ""
+msgstr "サブシェルを既に起動している場合でも、常にサブシェルを起動します。"
 
 #: ../../../pipenv uninstall:1
 msgid "Un-installs a provided package and removes it from Pipfile."
@@ -456,11 +456,11 @@ msgstr ""
 msgid ""
 "Uninstalls all packages, and re-installs package(s) in [packages] to latest "
 "compatible versions."
-msgstr ""
+msgstr "[packages] にあるパッケージをアンインストールしてから再インストールし、互換性のある最新のバージョンにします。"
 
 #: ../../../pipenv update:1
 msgid "Additionally install package(s) in [dev-packages]."
-msgstr ""
+msgstr "追加で [dev-packages] にあるパッケージをインストールします。"
 
 #: ../../../pipenv update:1
 msgid "Just output outdated packages."
