@@ -17,3 +17,8 @@ file_filter = <lang>/LC_MESSAGES/index.po
 source_file = pot/index.pot
 source_lang = en
 
+[pipenv.install]
+file_filter = <lang>/LC_MESSAGES/install.po
+source_file = pot/install.pot
+source_lang = en
+
