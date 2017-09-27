@@ -20,7 +20,7 @@ msgstr ""
 
 #: ../../index.rst:7
 msgid "Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv"
-msgstr "Pipenv: Pipfile、Pip、Virtulaenvの神聖な結婚"
+msgstr "Pipenv: Pipfile、Pip、Virtualenvの聖なるマリアージュ"
 
 #: ../../index.rst:26
 msgid ""
@@ -216,7 +216,7 @@ msgstr "Python 3の仮想環境を初期化するには、 ``$ pipenv --three`` 
 
 #: ../../index.rst:93
 msgid "To initialize a Python 2 virtual environment, run ``$ pipenv --two``."
-msgstr "Python 3の仮想環境を初期化するには、 ``$ pipenv --two`` を実行します。"
+msgstr "Python 2の仮想環境を初期化するには、 ``$ pipenv --two`` を実行します。"
 
 #: ../../index.rst:94
 msgid "Otherwise, whatever virtualenv defaults to will be the default."
@@ -375,7 +375,7 @@ msgstr "requirements.txtファイルをインポートします。"
 
 #: ../../../pipenv install:1
 msgid "Import from codebase."
-msgstr ""
+msgstr "コードからインポートします。"
 
 #: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv
 #: uninstall:1 ../../../pipenv update:1

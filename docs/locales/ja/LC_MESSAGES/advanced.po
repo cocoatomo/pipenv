@@ -646,6 +646,9 @@ msgid ""
 "<https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you "
 "need additional customization."
 msgstr ""
+"さらにカスタマイズする必要がある場合は、 `pip自身も環境変数をサポートしている "
+"<https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_ "
+"ことに着目してください。"
 
 #: ../../advanced.rst:568
 msgid "☤ A Note about VCS Dependencies"
@@ -697,7 +700,7 @@ msgstr "pipenvは `Requests`_ のようなプロジェクトで開発用の依�
 msgid ""
 "We've currently tested deployments with both `Travis-CI`_ and `tox`_ with "
 "success."
-msgstr "現時点では `Travis-CI`_ と `tox`_ の両方で上手くデプロイをテストできています。"
+msgstr "現時点では `Travis-CI`_ と `tox`_ の両方で上手くデプロイのテストを行えています。"
 
 #: ../../advanced.rst:596
 msgid "Travis CI"
@@ -709,30 +712,34 @@ msgid ""
 "Makefile to define common functions such as its ``init`` and ``tests`` "
 "commands. Here is a stripped down example ``.travis.yml``::"
 msgstr ""
+"Travis CIの設定例は `Requests`_ にあります。\n"
+"このプロジェクトではMakefileによく使う関数を ``init`` コマンドや ``tests`` コマンドとして定義してあります。\n"
+"以下が ``.travis.yml`` の本質的なところを抜き出したものです::"
 
 #: ../../advanced.rst:619
 msgid "and the corresponding Makefile::"
-msgstr ""
+msgstr "そして対応するMakefileは以下の通りです::"
 
 #: ../../advanced.rst:630
 msgid "Tox Automation Project"
-msgstr ""
+msgstr "ToX自動化プロジェクト"
 
 #: ../../advanced.rst:632
 msgid ""
 "Alternatively, you can configure a ``tox.ini`` like the one below for both "
 "local and external testing::"
-msgstr ""
+msgstr "または、 ``tox.ini`` を次のようにローカル環境でのテストと外部環境でのテストの両方に対して設定できます::"
 
 #: ../../advanced.rst:654
 msgid ""
 "With Pipenv's default configuration, you'll need to use tox's ``passenv`` "
 "parameter to pass your shell's ``HOME`` variable."
 msgstr ""
+"pipenvのデフォルトの設定では、シェルの ``HOME`` 変数を渡すのにtoxの ``passenv`` パラメータを使う必要があります。"
 
 #: ../../advanced.rst:662
 msgid "☤ Pipfile.lock Security Features"
-msgstr ""
+msgstr "☤ セキュリティ機能 Pipfile.lock"
 
 #: ../../advanced.rst:664
 msgid ""
@@ -754,12 +761,12 @@ msgstr ""
 
 #: ../../advanced.rst:681
 msgid "☤ Shell Completion"
-msgstr ""
+msgstr "☤ シェルの補完"
 
 #: ../../advanced.rst:683
 msgid "To enable completion in fish, add this to your config::"
-msgstr ""
+msgstr "fishで補完を有効にするには、次の設定を追加してください::"
 
 #: ../../advanced.rst:687
 msgid "Magic shell completions are now enabled!"
-msgstr ""
+msgstr "魔法のシェル補完が使えるようになりました!"
