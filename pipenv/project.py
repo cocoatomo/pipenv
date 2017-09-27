@@ -16,7 +16,7 @@ from .utils import (
     find_requirements, is_file, is_vcs, python_version
 )
 from .environments import PIPENV_MAX_DEPTH, PIPENV_VENV_IN_PROJECT
-from .environments import PIPENV_USE_SYSTEM, PIPENV_PIPFILE
+from .environments import PIPENV_VIRTUALENV, PIPENV_PIPFILE
 
 if PIPENV_PIPFILE:
     if not os.path.isfile(PIPENV_PIPFILE):
@@ -27,7 +27,7 @@ if PIPENV_PIPFILE:
 class Project(object):
     """docstring for Project"""
 
-    def __init__(self):
+    def __init__(self, chdir=True):
         super(Project, self).__init__()
         self._name = None
         self._virtualenv_location = None
@@ -35,13 +35,21 @@ class Project(object):
         self._proper_names_location = None
         self._pipfile_location = None
         self._requirements_location = None
+        self._original_dir = os.path.abspath(os.curdir)
 
-        # Hack to skip this during pipenv run.
-        if 'run' not in sys.argv:
+        # Hack to skip this during pipenv run, or -r.
+        if ('run' not in sys.argv) and chdir:
             try:
                 os.chdir(self.project_directory)
             except (TypeError, AttributeError):
                 pass
+
+    def path_to(self, p):
+        """Returns the absolute path to a given relative path."""
+        if os.path.isabs(p):
+            return p
+
+        return os.sep.join([self._original_dir, p])
 
     @property
     def name(self):
@@ -110,8 +118,8 @@ class Project(object):
     def virtualenv_location(self):
 
         # if VIRTUAL_ENV is set, use that.
-        if PIPENV_USE_SYSTEM:
-            return PIPENV_USE_SYSTEM
+        if PIPENV_VIRTUALENV:
+            return PIPENV_VIRTUALENV
 
         # Use cached version, if available.
         if self._virtualenv_location:
@@ -354,7 +362,7 @@ class Project(object):
         if not self.pipfile_exists:
             return True
 
-        with open('Pipfile', 'r') as f:
+        with open(self.pipfile_location, 'r') as f:
             if not f.read():
                 return True
 

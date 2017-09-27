@@ -39,16 +39,21 @@ PIPENV_MAX_SUBPROCESS = int(os.environ.get('PIPENV_MAX_SUBPROCESS', '8'))
 PIPENV_MAX_DEPTH = int(os.environ.get('PIPENV_MAX_DEPTH', '3')) + 1
 
 # Tells Pipenv to use the virtualenv-provided pip instead.
+PIPENV_VIRTUALENV = None
 PIPENV_USE_SYSTEM = False
 if 'PIPENV_ACTIVE' not in os.environ:
     if 'PIPENV_IGNORE_VIRTUALENVS' not in os.environ:
-        PIPENV_USE_SYSTEM = os.environ.get('VIRTUAL_ENV')
+        PIPENV_VIRTUALENV = os.environ.get('VIRTUAL_ENV')
+        PIPENV_USE_SYSTEM = bool(os.environ.get('VIRTUAL_ENV'))
 
 # Tells Pipenv to use hashing mode.
 PIPENV_USE_HASHES = True
 
 # Tells Pipenv to skip case-checking (slow internet connections).
 PIPENV_SKIP_VALIDATION = True
+
+# Tells Pipenv where to load .env from.
+PIPENV_DOTENV_LOCATION = os.environ.get('PIPENV_DOTENV_LOCATION')
 
 # Use shell compatibility mode when using venv in project mode.
 if PIPENV_VENV_IN_PROJECT:
@@ -73,6 +78,10 @@ PIPENV_INSTALL_TIMEOUT = 60 * 15
 
 PIPENV_DONT_USE_PYENV = os.environ.get('PIPENV_DONT_USE_PYENV')
 
-PYENV_INSTALLED = (bool(os.environ.get('PYENV_SHELL')) or bool(os.environ.get('PYENV_ROOT')))
+PYENV_ROOT = os.environ.get('PYENV_ROOT')
+
+PYENV_INSTALLED = (bool(os.environ.get('PYENV_SHELL')) or bool(PYENV_ROOT))
 
 SESSION_IS_INTERACTIVE = bool(os.isatty(sys.stdout.fileno()))
+
+PIPENV_SHELL = os.environ.get('SHELL') or os.environ.get('PYENV_SHELL')

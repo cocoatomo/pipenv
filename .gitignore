@@ -12,4 +12,5 @@ build
 test_project
 Pipfile.lock
 /.vscode/
+.idea
 docs/**/*.mo

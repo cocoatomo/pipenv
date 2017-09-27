@@ -132,7 +132,7 @@ packages = [
     'multi-key-dict', 'fuzzywuzzy', 'fasteners', 'youtube-dl',
     'pycryptodome', 'smmap', 'gitdb', 'setuptools-git', 'pager',
     'python-subunit', 'warlock', 'extras', 'capstone', 'httpretty',
-    'factory-boy', 'webtest', 'django-cors-headers', 'codeintel', 'suds',
+    'factory_boy', 'webtest', 'django-cors-headers', 'codeintel', 'suds',
     'pyodbc', 'geoip2', 'filechunkio', 'fixtures', 'pysocks', 'statsmodels',
     'google-auth-httplib2', 'kafka-python', 'applicationinsights', 'yarl',
     'cassandra-driver', 'azure-mgmt-compute', 'pathlib', 'python-jwt', 'sh',
@@ -410,7 +410,8 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
 
         pip_options, _ = pip_command.parse_args(pip_args)
 
-        pypi = PyPIRepository(pip_options=pip_options, session=requests)
+        session = pip_command._build_session(pip_options)
+        pypi = PyPIRepository(pip_options=pip_options, session=session)
 
         if verbose:
             logging.log.verbose = True

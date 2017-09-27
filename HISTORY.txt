@@ -1,3 +1,32 @@
+8.1.3:
+ - Further improve patched pip, for crazy setup.py files.
+8.1.2:
+ - chdir option for project, for really stubborn people.
+8.1.1:
+ - Better exception handling when a corrupt virtualenv is being used.
+8.1.0:
+ - Better path handling.
+8.0.9:
+ - Bug when -r is passed in a subdirectory.
+8.0.8:
+ - Add verbose mode to Pip.
+8.0.7:
+ - Fix --skip-lock when verify_ssl = false.
+ - Always quote pip path.
+ - Fix --update.
+8.0.6:
+ - Fix indexes.
+8.0.5:
+ - $ pipenv open :module
+8.0.4:
+ - $ pipenv install --deploy.
+8.0.3:
+ - Improvements to dependency resolution against various versions of Python.
+ - Fix issue with nested directories all containing Pipfiles.
+ - Fix issue with --py when run outside of a project.
+ - Refactoring of virtualenv detection.
+ - Improvements to crayons library.
+ - PIPENV_DOTENV_LOCATION.
 8.0.1:
  - Fix weird edge case with ramuel.ordereddict.
 8.0.0:
