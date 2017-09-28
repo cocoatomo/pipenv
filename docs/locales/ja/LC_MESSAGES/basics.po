@@ -369,6 +369,8 @@ msgid ""
 "default looks for a ``~/.bashrc`` configuration file for interactive mode), "
 "then you'll need to modify (or create) this file."
 msgstr ""
+"シェルは対話モードで起動します。\n"
+"つまり、シェルが対話モード用の設定をあるファイルから読み込む (例えば、bashはデフォルトで対話モード用の設定ファイル ``~/.bashrc`` を探しに行きます) 場合は、その設定ファイルを編集 (もしくは作成) する必要があります。"
 
 #: ../../basics.rst:323
 msgid "☤ A Note about VCS Dependencies"

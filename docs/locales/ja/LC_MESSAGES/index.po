@@ -57,7 +57,7 @@ msgstr ""
 
 #: ../../index.rst:37
 msgid "The problems that Pipenv seeks to solve are multi-faceted:"
-msgstr "Pipenvが解決しようとしている問題は多面的なものです:"
+msgstr "Pipenvは様々な側面を持つ問題を解決しようとしています:"
 
 #: ../../index.rst:39
 msgid ""
@@ -150,7 +150,7 @@ msgstr "☤ Pipenvの特徴"
 msgid ""
 "Enables truly *deterministic builds*, while easily specifying *only what you"
 " want*."
-msgstr "*何をしたいかだけ* を簡単に指定するだけで、真の *決定論的ビルド* が可能です。"
+msgstr "*何をしたいか* を簡単に指定するだけで、真の *決定論的ビルド* が可能です。"
 
 #: ../../index.rst:77
 msgid "Generates and checks file hashes for locked dependencies."
@@ -246,7 +246,7 @@ msgstr ""
 msgid ""
 "``check`` checks for security vulnerabilities and asserts that PEP 508 "
 "requirements are being met by the current environment."
-msgstr ""
+msgstr "``check`` はセキュリティの脆弱性をチェックし、現在の環境がPEP 508の要求仕様を満たしていることを表明します。"
 
 #: ../../index.rst:108
 msgid "Further Documentation Guides"

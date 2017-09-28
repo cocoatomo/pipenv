@@ -74,13 +74,13 @@ msgstr ""
 
 #: ../../advanced.rst:66
 msgid "☤ Deploying System Dependencies"
-msgstr ""
+msgstr "☤ システム環境への依存関係のデプロイ"
 
 #: ../../advanced.rst:68
 msgid ""
 "You can tell Pipenv to install things into its parent system with the "
 "``--system`` flag::"
-msgstr ""
+msgstr "``--system`` フラグを使って、pipenvに親システムにイストールするよう指示できます::"
 
 #: ../../advanced.rst:72
 msgid ""
@@ -142,17 +142,19 @@ msgstr "✨🍰✨"
 
 #: ../../advanced.rst:156
 msgid "☤ Code Style Checking"
-msgstr ""
+msgstr "☤ コードスタイルのチェック"
 
 #: ../../advanced.rst:158
 msgid ""
 "Pipenv has `Flake 8 <http://flake8.pycqa.org/en/latest/>`_ built into it. "
 "You can check the style of your code like so, without installing anything::"
 msgstr ""
+"pipenvには `Flake 8 <http://flake8.pycqa.org/en/latest/>`_ が備え付けてあります。\n"
+"何もインストールしなくても、このようにコードスタイルをチェックできます。"
 
 #: ../../advanced.rst:167
 msgid "Super useful :)"
-msgstr ""
+msgstr "めちゃくちゃ便利 :)"
 
 #: ../../advanced.rst:170
 msgid "☤ Open a Module in Your Editor"
