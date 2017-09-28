@@ -3,6 +3,7 @@ import os
 import hashlib
 import tempfile
 import sys
+import logging
 
 import click
 import crayons
@@ -13,6 +14,8 @@ import requirements
 import fuzzywuzzy.process
 import requests
 import six
+
+logging.basicConfig(level=logging.ERROR)
 
 try:
     from urllib.parse import urlparse
@@ -37,16 +40,6 @@ VCS_LIST = ('git', 'svn', 'hg', 'bzr')
 FILE_LIST = ('http://', 'https://', 'ftp://', 'file:///')
 
 requests = requests.Session()
-
-# import requests
-# from pyquery import PyQuery as pq
-# r = requests.get('https://python3wos.appspot.com')
-# d = pq(r.content)
-# collected = []
-# for td in [pq(t) for t in d('td')]:
-#     if td('a').text():
-#         collected.append(td('a').text().strip().split()[0])
-# print(collected)
 
 packages = [
     'simplejson', 'six', 'botocore', 'python-dateutil', 'pyasn1', 'setuptools',
@@ -441,7 +434,11 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
             name = pep423_name(result.name)
             version = clean_pkg_version(result.specifier)
             index = index_lookup.get(result.name)
-            markers = markers_lookup.get(result.name)
+
+            if not markers_lookup.get(result.name):
+                markers = str(result.markers) if result.markers else None
+            else:
+                markers = markers_lookup.get(result.name)
 
             collected_hashes = []
             if 'python.org' in '|'.join([source['url'] for source in sources]):
