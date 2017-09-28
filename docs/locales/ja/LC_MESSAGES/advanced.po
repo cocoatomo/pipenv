@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 8.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-28 09:54+0900\n"
+"POT-Creation-Date: 2017-09-29 00:41+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -408,3 +408,24 @@ msgstr "fishで補完を有効にするには、次の設定を追加してく�
 #: ../../advanced.rst:377
 msgid "Magic shell completions are now enabled!"
 msgstr "魔法のシェル補完が使えるようになりました!"
+
+#: ../../advanced.rst:382
+msgid "☤ Working with platform-provided Python components"
+msgstr ""
+
+#: ../../advanced.rst:384
+msgid ""
+"It's reasonably common for platform specific Python bindings for operating "
+"system interfaces to only be available through the system package manager, "
+"and hence unavailable for installation into virtual environments with `pip`."
+" In these cases, the virtual environment can be created with access to the "
+"system `site-packages` directory::"
+msgstr ""
+
+#: ../../advanced.rst:392
+msgid ""
+"To ensure that all `pip`-installable components actually are installed into "
+"the virtual environment and system packages are only used for interfaces "
+"that don't participate in Python-level dependency resolution at all, use the"
+" `PIP_IGNORE_INSTALLED` setting::"
+msgstr ""
