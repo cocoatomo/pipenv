@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 8.1.3\n"
+"Project-Id-Version: pipenv 8.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-28 00:31+0900\n"
+"POT-Creation-Date: 2017-09-28 09:54+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,7 +110,7 @@ msgid "Example::"
 msgstr ""
 
 #: ../../advanced.rst:153
-#: ../../advanced.rst:375
+#: ../../advanced.rst:379
 msgid "✨🍰✨"
 msgstr ""
 
@@ -139,7 +139,7 @@ msgid "This allows you to easily read the code you're consuming, instead of look
 msgstr ""
 
 #: ../../advanced.rst:184
-msgid "The ``EDITOR`` environment variable is used for this. If you're using Sublime Text, for example, you'll want to ``export EDITOR=subl`` (once you've installed the command-line utility)."
+msgid "The standard ``EDITOR`` environment variable is used for this. If you're using Sublime Text, for example, you'll want to ``export EDITOR=subl`` (once you've installed the command-line utility)."
 msgstr ""
 
 #: ../../advanced.rst:187
@@ -222,63 +222,67 @@ msgstr ""
 msgid "Also note that `pip itself supports environment variables <https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you need additional customization."
 msgstr ""
 
-#: ../../advanced.rst:283
+#: ../../advanced.rst:281
+msgid "For example::"
+msgstr ""
+
+#: ../../advanced.rst:287
 msgid "☤ Custom Virtual Environment Location"
 msgstr ""
 
-#: ../../advanced.rst:285
+#: ../../advanced.rst:289
 msgid "Pipenv's underlying ``pew`` dependency will automatically honor the ``WORKON_HOME`` environment variable, if you have it set — so you can tell pipenv to store your virtual environments wherever you want, e.g.::"
 msgstr ""
 
-#: ../../advanced.rst:290
+#: ../../advanced.rst:294
 msgid "In addition, you can also have Pipenv stick the virtualenv in ``project/.venv`` by setting the ``PIPENV_VENV_IN_PROJECT`` environment variable."
 msgstr ""
 
-#: ../../advanced.rst:294
+#: ../../advanced.rst:298
 msgid "☤ Testing Projects"
 msgstr ""
 
-#: ../../advanced.rst:296
+#: ../../advanced.rst:300
 msgid "Pipenv is being used in projects like `Requests`_ for declaring development dependencies and running the test suite."
 msgstr ""
 
-#: ../../advanced.rst:298
+#: ../../advanced.rst:302
 msgid "We've currently tested deployments with both `Travis-CI`_ and `tox`_ with success."
 msgstr ""
 
-#: ../../advanced.rst:301
+#: ../../advanced.rst:305
 msgid "Travis CI"
 msgstr ""
 
-#: ../../advanced.rst:303
+#: ../../advanced.rst:307
 msgid "An example Travis CI setup can be found in `Requests`_. The project uses a Makefile to define common functions such as its ``init`` and ``tests`` commands. Here is a stripped down example ``.travis.yml``::"
 msgstr ""
 
-#: ../../advanced.rst:324
+#: ../../advanced.rst:328
 msgid "and the corresponding Makefile::"
 msgstr ""
 
-#: ../../advanced.rst:335
+#: ../../advanced.rst:339
 msgid "Tox Automation Project"
 msgstr ""
 
-#: ../../advanced.rst:337
+#: ../../advanced.rst:341
 msgid "Alternatively, you can configure a ``tox.ini`` like the one below for both local and external testing::"
 msgstr ""
 
-#: ../../advanced.rst:359
+#: ../../advanced.rst:363
 msgid "With Pipenv's default configuration, you'll need to use tox's ``passenv`` parameter to pass your shell's ``HOME`` variable."
 msgstr ""
 
-#: ../../advanced.rst:367
+#: ../../advanced.rst:371
 msgid "☤ Shell Completion"
 msgstr ""
 
-#: ../../advanced.rst:369
+#: ../../advanced.rst:373
 msgid "To enable completion in fish, add this to your config::"
 msgstr ""
 
-#: ../../advanced.rst:373
+#: ../../advanced.rst:377
 msgid "Magic shell completions are now enabled!"
 msgstr ""
 
