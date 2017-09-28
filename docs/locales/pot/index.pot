@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 8.1.4\n"
+"Project-Id-Version: pipenv 8.1.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-28 09:54+0900\n"
+"POT-Creation-Date: 2017-09-29 06:44+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -289,6 +289,7 @@ msgstr ""
 #: ../../index.rst:0
 #: ../../index.rst:0
 #: ../../index.rst:0
+#: ../../index.rst:0
 msgid "Arguments"
 msgstr ""
 
@@ -349,7 +350,7 @@ msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
 msgstr ""
 
 #: ../../../pipenv install:1
-msgid "Abort if the Pipfile.lock is out–of–date."
+msgid "Abort if the Pipfile.lock is out–of–date, or Python version is wrong."
 msgstr ""
 
 #: ../../../pipenv install:1
@@ -359,6 +360,7 @@ msgstr ""
 
 #: ../../../pipenv install:1
 #: ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
 msgid "Optional argument"
 msgstr ""
 
