@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv
-=====================================================
+Pipenv: Python Dev Workflow for Humans
+======================================
 
 .. image:: https://img.shields.io/pypi/v/pipenv.svg
     :target: https://pypi.python.org/pypi/pipenv
@@ -15,9 +15,6 @@ Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv
 .. image:: https://img.shields.io/pypi/pyversions/pipenv.svg
     :target: https://pypi.python.org/pypi/pipenv
 
-.. image:: https://travis-ci.org/kennethreitz/pipenv.svg?branch=master
-    :target: https://travis-ci.org/kennethreitz/pipenv
-
 .. image:: https://img.shields.io/badge/Say%20Thanks!-🦉-1EAEDB.svg
     :target: https://saythanks.io/to/kennethreitz
 
@@ -25,9 +22,9 @@ Pipenv: Sacred Marriage of Pipfile, Pip, & Virtualenv
 
 **Pipenv** — the officially recommended Python packaging tool from `Python.org <https://packaging.python.org/new-tutorials/installing-and-using-packages/>`_, free (as in freedom).
 
-Pipenv is a project that aims to bring the best of all packaging worlds to the Python world. It harnesses `Pipfile <https://github.com/pypa/pipfile>`_, `pip <https://github.com/pypa/pip>`_, and `virtualenv <https://github.com/pypa/virtualenv>`_ into one single toolchain. It features very pretty terminal colors. *Windows is a first–class citizen, in our world.*
+Pipenv is a tool that aims to bring the best of all packaging worlds (bundler, composer, npm, cargo, yarn, etc.) to the Python world. *Windows is a first–class citizen, in our world.*
 
-It automatically creates and manages a virtualenv for your projects, as well as adds/removes packages from your ``Pipfile`` as you install/uninstall packages. The ``lock`` command generates a lockfile (``Pipfile.lock``).
+It automatically creates and manages a virtualenv for your projects, as well as adds/removes packages from your ``Pipfile`` as you install/uninstall packages. It also generates the ever–important ``Pipfile.lock``, which is used to produce deterministic builds.
 
 
 .. raw:: html
@@ -51,7 +48,7 @@ Install Pipenv Today!
     $ pip install pipenv
     ✨🍰✨
 
-If you have excellent taste, there's also a  `fancy installation method <http://docs.pipenv.org/en/latest/advanced.html#fancy-installation-of-pipenv>`_.
+If you have excellent taste, there's also a  `fancy installation method <https://docs.pipenv.org/install.html#fancy-installation-of-pipenv>`_.
 
 .. toctree::
    :maxdepth: 2
