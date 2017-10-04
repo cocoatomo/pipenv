@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 8.1.4\n"
+"Project-Id-Version: pipenv 8.2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-28 09:54+0900\n"
+"POT-Creation-Date: 2017-10-04 23:16+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -333,7 +333,7 @@ msgid "Given a code path, show Flake8 errors."
 msgstr "コードのパスが与えられると、Flake8のエラーを表示します。"
 
 #: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
-#: ../../index.rst:0 ../../index.rst:0
+#: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
 msgid "Arguments"
 msgstr "引数"
 
@@ -382,7 +382,7 @@ msgstr "冗長モード。"
 msgid "Ignore Pipfile when installing, using the Pipfile.lock."
 msgstr "インストール時にPipfileを無視し、Pipfile.lockを使います。"
 
-#: ../../../pipenv install:1
+#: ../../../pipenv install:1 ../../../pipenv update:1
 msgid "Install dependencies one-at-a-time, instead of concurrently."
 msgstr "並列ではなく、一度に一つずつ依存パッケージをインストールします。"
 
@@ -391,14 +391,15 @@ msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
 msgstr "インストール時にバージョン固定の仕組みを無視し、代わりにPipfileを使います。"
 
 #: ../../../pipenv install:1
-msgid "Abort if the Pipfile.lock is out–of–date."
-msgstr "Pipfile.lockが古い場合、異常終了します。"
+msgid "Abort if the Pipfile.lock is out–of–date, or Python version is wrong."
+msgstr ""
 
 #: ../../../pipenv install:1 ../../../pipenv lock:1
 msgid "Allow pre–releases."
 msgstr "プレリリースバージョンのパッケージを許可します。"
 
-#: ../../../pipenv install:1 ../../../pipenv uninstall:1
+#: ../../../pipenv install:1 ../../../pipenv uninstall:1 ../../../pipenv
+#: update:1
 msgid "Optional argument"
 msgstr "オプションの引数"
 

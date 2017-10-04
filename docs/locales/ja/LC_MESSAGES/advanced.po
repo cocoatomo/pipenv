@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 8.1.4\n"
+"Project-Id-Version: pipenv 8.2.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-29 00:41+0900\n"
+"POT-Creation-Date: 2017-10-04 23:16+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -95,10 +95,8 @@ msgstr "それと ``--deploy`` フラグもデプロイで役に立ちます::"
 #: ../../advanced.rst:78
 msgid ""
 "This will fail a build if the ``Pipfile.lock`` is out–of–date, instead of "
-"genreating a new one."
+"generating a new one."
 msgstr ""
-"このフラグを立てると、 ``Pipfile.lock`` が古くなっている場合に、 ``Pipfile.lock`` "
-"を新しく生成するのではなくビルドが失敗します。"
 
 #: ../../advanced.rst:82
 msgid "☤ Generating a ``requirements.txt``"
@@ -410,7 +408,7 @@ msgid "Magic shell completions are now enabled!"
 msgstr "魔法のシェル補完が使えるようになりました!"
 
 #: ../../advanced.rst:382
-msgid "☤ Working with platform-provided Python components"
+msgid "☤ Working with Platform-Provided Python Components"
 msgstr ""
 
 #: ../../advanced.rst:384
