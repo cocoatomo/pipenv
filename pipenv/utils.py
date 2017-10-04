@@ -31,7 +31,7 @@ from pip.exceptions import DistributionNotFound
 from requests.exceptions import HTTPError
 
 from .pep508checker import lookup
-from .environments import SESSION_IS_INTERACTIVE
+from .environments import SESSION_IS_INTERACTIVE, PIPENV_MAX_ROUNDS
 
 specifiers = [k for k in lookup.keys()]
 
@@ -307,6 +307,9 @@ def python_version(path_to_python):
 
 def shellquote(s):
     """Prepares a string for the shell (on Windows too!)"""
+    if s is None:
+        return None
+
     return '"' + s.replace("'", "'\\''") + '"'
 
 
@@ -415,7 +418,7 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
         resolver = Resolver(constraints=constraints, repository=pypi, clear_caches=clear, prereleases=pre)
         # pre-resolve instead of iterating to avoid asking pypi for hashes of editable packages
         try:
-            resolved_tree.update(resolver.resolve())
+            resolved_tree.update(resolver.resolve(max_rounds=PIPENV_MAX_ROUNDS))
         except (NoCandidateFound, DistributionNotFound, HTTPError) as e:
             click.echo(
                 '{0}: Your dependencies could not be resolved. You likely have a mismatch in your sub-dependencies.\n  '
@@ -436,7 +439,7 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
             index = index_lookup.get(result.name)
 
             if not markers_lookup.get(result.name):
-                markers = str(result.markers) if result.markers else None
+                markers = str(result.markers) if result.markers and 'extra' not in str(result.markers) else None
             else:
                 markers = markers_lookup.get(result.name)
 
@@ -469,7 +472,7 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
                 d.update({'index': index})
 
             if markers:
-                d.update({'markers': markers})
+                d.update({'markers': markers.replace('"', "'")})
 
             results.append(d)
 
@@ -501,7 +504,10 @@ def convert_deps_from_pip(dep):
         req.name = req.name[len(req.name) - 7:]
 
         # {path: uri} TOML (spec 4 I guess...)
-        dependency[req.name] = {'path': hashable_path}
+        if req.uri:
+            dependency[req.name] = {'file': hashable_path}
+        else:
+            dependency[req.name] = {'path': hashable_path}
 
         # Add --editable if applicable
         if req.editable:
@@ -630,7 +636,7 @@ def convert_deps_to_pip(deps, project=None, r=True, include_index=False):
                 dep = ''
 
         # Support for paths.
-        if 'path' in deps[dep]:
+        elif 'path' in deps[dep]:
             extra = '{1}{0}'.format(extra, deps[dep]['path']).strip()
 
             # Flag the file as editable if it is a local relative path
@@ -708,6 +714,8 @@ def is_vcs(pipfile_entry):
 
     if hasattr(pipfile_entry, 'keys'):
         return any(key for key in pipfile_entry.keys() if key in VCS_LIST)
+    elif isinstance(pipfile_entry, six.string_types):
+        return pipfile_entry.startswith(VCS_LIST)
     return False
 
 
@@ -732,8 +740,11 @@ def pep440_version(version):
 
 def pep423_name(name):
     """Normalize package name to PEP 423 style standard."""
-
-    return name.lower().replace('_', '-')
+    name = name.lower()
+    if any(i not in name for i in (VCS_LIST+FILE_LIST)):
+        return name.replace('_', '-')
+    else:
+        return name
 
 
 def proper_case(package_name):

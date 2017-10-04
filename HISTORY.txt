@@ -1,3 +1,27 @@
+8.2.7:
+ - Add update --sequential.
+ - Fix unicode decode error on windows.
+ - Fix bug with non-editable installs.
+ - Update vendored setuptools.
+8.2.6:
+ - Fix for some git remotes.
+ - Increased the default number of max rounds for pip-tools, made it user-configurable.
+ - Fix self-updating.
+8.2.5:
+ - Fixed bad attribute call on date checks.
+8.2.4:
+ - Enhanced sha messaging — lockfile short shas are now displayed.
+ - Improve Windows unicode output.
+ - General UX and other improvements.
+8.2.3:
+ - Don't show activation instructions when --deploy is used.
+8.2.2:
+ - Improve system pip detection.
+8.2.1:
+ - Enhanced pip resolver — hopefully that won't blow up in our faces.
+ - Fixed file links.
+8.2.0:
+ - Made things nicer.
 8.1.9:
  - Fix logging bug.
 8.1.8:

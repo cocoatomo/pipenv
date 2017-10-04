@@ -12,6 +12,7 @@ from pipenv.project import Project
 
 os.environ['PIPENV_DONT_USE_PYENV'] = '1'
 
+
 class PipenvInstance():
     """An instance of a Pipenv Project..."""
     def __init__(self, pipfile=True, chdir=False):
@@ -326,6 +327,44 @@ tpfd = "*"
             c = p.pipenv('run python -c "import requests; import idna; import certifi; import records; import tpfd; import parse;"')
             assert c.return_code == 0
 
+    @pytest.mark.sequential
+    @pytest.mark.install
+    @pytest.mark.update
+    def test_sequential_update_mode(self):
+
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+requests = "*"
+records = "*"
+                """.strip()
+                f.write(contents)
+
+            c = p.pipenv('install')
+            assert c.return_code == 0
+
+            assert 'requests' in p.lockfile['default']
+            assert 'idna' in p.lockfile['default']
+            assert 'urllib3' in p.lockfile['default']
+            assert 'certifi' in p.lockfile['default']
+            assert 'records' in p.lockfile['default']
+
+            c = p.pipenv('run python -c "import requests; import idna; import certifi; import records;"')
+            assert c.return_code == 0
+
+            c = p.pipenv('update --sequential')
+            assert c.return_code == 0
+
+            assert 'requests' in p.lockfile['default']
+            assert 'idna' in p.lockfile['default']
+            assert 'urllib3' in p.lockfile['default']
+            assert 'certifi' in p.lockfile['default']
+            assert 'records' in p.lockfile['default']
+
+            c = p.pipenv('run python -c "import requests; import idna; import certifi; import records;"')
+            assert c.return_code == 0
+
     @pytest.mark.run
     @pytest.mark.markers
     @pytest.mark.install
@@ -442,7 +481,6 @@ requests = {version = "*"}
             assert 'path' in p.pipfile['dev-packages'][key]
             assert 'requests' in p.lockfile['develop']
 
-
     @pytest.mark.code
     @pytest.mark.install
     def test_code_import_manual(self):
@@ -544,7 +582,6 @@ pytest = "==3.1.1"
             for req in req_list:
                 assert req in c.out
 
-
     @pytest.mark.lock
     @pytest.mark.requirements
     @pytest.mark.complex
@@ -591,3 +628,22 @@ requests = "==2.14.0"
 
             c = p.pipenv('install --deploy')
             assert c.return_code > 0
+
+    @pytest.mark.install
+    @pytest.mark.files
+    @pytest.mark.urls
+    def test_urls_work(self):
+
+        with PipenvInstance() as p:
+
+            c = p.pipenv('install https://github.com/divio/django-cms/archive/release/3.4.x.zip')
+            key = [k for k in p.pipfile['packages'].keys()][0]
+            dep = p.pipfile['packages'][key]
+
+            assert 'file' in dep
+            assert c.return_code == 0
+
+            key = [k for k in p.lockfile['default'].keys()][0]
+            dep = p.lockfile['default'][key]
+
+            assert 'file' in dep

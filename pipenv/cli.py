@@ -44,9 +44,9 @@ from . import pep508checker, progress
 from . import environments
 from .environments import (
     PIPENV_COLORBLIND, PIPENV_NOSPIN, PIPENV_SHELL_FANCY,
-    PIPENV_VENV_IN_PROJECT, PIPENV_USE_SYSTEM, PIPENV_TIMEOUT,
-    PIPENV_SKIP_VALIDATION, PIPENV_HIDE_EMOJIS, PIPENV_INSTALL_TIMEOUT,
-    PYENV_ROOT, PYENV_INSTALLED, PIPENV_YES, PIPENV_DONT_LOAD_ENV,
+    PIPENV_VENV_IN_PROJECT, PIPENV_TIMEOUT, PIPENV_SKIP_VALIDATION,
+    PIPENV_HIDE_EMOJIS, PIPENV_INSTALL_TIMEOUT, PYENV_ROOT,
+    PYENV_INSTALLED, PIPENV_YES, PIPENV_DONT_LOAD_ENV,
     PIPENV_DEFAULT_PYTHON_VERSION, PIPENV_MAX_SUBPROCESS,
     PIPENV_DONT_USE_PYENV, SESSION_IS_INTERACTIVE, PIPENV_USE_SYSTEM,
     PIPENV_DOTENV_LOCATION, PIPENV_SHELL
@@ -86,11 +86,11 @@ if not PIPENV_HIDE_EMOJIS:
     now = time.localtime()
 
     # Halloween easter-egg.
-    if ((now.tm_mon == 10) and (now.tm_day == 30)) or ((now.tm_mon == 10) and (now.tm_day == 31)):
+    if ((now.tm_mon == 10) and (now.tm_mday == 30)) or ((now.tm_mon == 10) and (now.tm_mday == 31)):
         INSTALL_LABEL = '🎃   '
 
     # Christmas easter-egg.
-    elif ((now.tm_mon == 12) and (now.tm_day == 24)) or ((now.tm_mon == 12) and (now.tm_day == 25)):
+    elif ((now.tm_mon == 12) and (now.tm_mday == 24)) or ((now.tm_mon == 12) and (now.tm_mday == 25)):
         INSTALL_LABEL = '🎅   '
 
     else:
@@ -178,6 +178,9 @@ def ensure_latest_self(user=False):
             args = ['install', '--user', '--upgrade', 'pipenv', '--no-cache']
         else:
             args = ['install', '--upgrade', 'pipenv', '--no-cache']
+
+        os.environ['PIP_PYTHON_VERSION'] = str('.'.join(map(str, sys.version_info[:3])))
+        os.environ['PIP_PYTHON_PATH'] = str(sys.executable)
 
         sys.modules['pip'].main(args)
 
@@ -405,7 +408,6 @@ def ensure_python(three=None, python=None):
                         crayons.red('Warning', bold=True),
                     ), err=True
                 )
-
 
     global USING_DEFAULT_PYTHON
 
@@ -713,7 +715,7 @@ def do_install_dependencies(
                 c.block()
 
             if 'Ignoring' in c.out:
-                click.echo(crayons.yellow(c.out))
+                click.echo(crayons.yellow(c.out.strip()))
 
             if verbose:
                 click.echo(crayons.blue(c.out or c.err))
@@ -743,10 +745,18 @@ def do_install_dependencies(
             click.echo(crayons.normal(u'Installing dependencies from Pipfile…', bold=True))
             lockfile = split_vcs(project._lockfile)
     else:
-        if not bare:
-            click.echo(crayons.normal(u'Installing dependencies from Pipfile.lock…', bold=True))
         with open(project.lockfile_location) as f:
             lockfile = split_vcs(simplejson.load(f))
+
+        if not bare:
+            click.echo(
+                crayons.normal(
+                    u'Installing dependencies from Pipfile.lock ({0})…'.format(
+                        lockfile['_meta'].get('hash', {}).get('sha256')[-6:]
+                    ),
+                    bold=True
+                )
+            )
 
     # Allow pip to resolve dependencies when in skip-lock mode.
     no_deps = (not skip_lock)
@@ -1116,14 +1126,23 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
         click.echo('Please run $ {0} to re-create your environment.'.crayons.red('pipenv --rm'))
         sys.exit(1)
 
-
     # Write out the lockfile.
     with open(project.lockfile_location, 'w') as f:
         simplejson.dump(lockfile, f, indent=4, separators=(',', ': '), sort_keys=True)
         # Write newline at end of document. GH Issue #319.
         f.write('\n')
 
-    click.echo('{0}'.format(crayons.normal('Updated Pipfile.lock!', bold=True)), err=True)
+    click.echo(
+        '{0}'.format(
+            crayons.normal(
+                'Updated Pipfile.lock ({0})!'.format(
+                    lockfile['_meta'].get('hash', {}).get('sha256')[-6:]
+                ),
+                bold=True
+            )
+        ),
+        err=True
+    )
 
 
 def activate_virtualenv(source=True):
@@ -1133,11 +1152,11 @@ def activate_virtualenv(source=True):
     suffix = ''
 
     # Support for fish shell.
-    if 'fish' in PIPENV_SHELL:
+    if PIPENV_SHELL and 'fish' in PIPENV_SHELL:
         suffix = '.fish'
 
     # Support for csh shell.
-    if 'csh' in PIPENV_SHELL:
+    if PIPENV_SHELL and 'csh' in PIPENV_SHELL:
         suffix = '.csh'
 
     # Escape any spaces located within the virtualenv path to allow
@@ -1238,11 +1257,30 @@ def do_init(
 
         # Check that the hash of the Lockfile matches the lockfile's hash.
         if not lockfile['_meta'].get('hash', {}).get('sha256') == p.hash:
+
+            old_hash = lockfile['_meta'].get('hash', {}).get('sha256')[-6:]
+            new_hash = p.hash[-6:]
             if deploy:
-                click.echo(crayons.red('Your Pipfile.lock is out of date. Aborting deploy.'))
+                click.echo(
+                    crayons.red(
+                        'Your Pipfile.lock ({0}) is out of date. Expected: ({1}).'.format(
+                            old_hash,
+                            new_hash
+                        )
+                    )
+                )
+                click.echo(crayons.normal('Aborting deploy.', bold=True), err=True)
                 sys.exit(1)
             else:
-                click.echo(crayons.red(u'Pipfile.lock out of date, updating…', bold=True), err=True)
+                click.echo(
+                    crayons.red(
+                        u'Pipfile.lock ({0}) out of date, updating to ({1})…'.format(
+                            old_hash,
+                            new_hash
+                        ),
+                        bold=True),
+                    err=True
+                )
 
                 do_lock(system=system)
 
@@ -1255,7 +1293,7 @@ def do_init(
                             skip_lock=skip_lock, verbose=verbose, concurrent=concurrent)
 
     # Activate virtualenv instructions.
-    if not allow_global:
+    if not allow_global and not deploy:
         do_activate_virtualenv()
 
 
@@ -1375,7 +1413,11 @@ def which_pip(allow_global=False):
     if allow_global:
         if 'VIRTUAL_ENV' in os.environ:
             return which('pip', location=os.environ['VIRTUAL_ENV'])
-        return system_which('pip')
+
+        for p in ('pip', 'pip2', 'pip3'):
+            where = system_which(p)
+            if where:
+                return where
 
     return which('pip')
 
@@ -1500,14 +1542,15 @@ def warn_in_virtualenv():
                 ), err=True
             )
 
+
 def kr_easter_egg(package_name):
     if package_name in ['requests', 'maya', 'crayons', 'delegator.py', 'records', 'tablib', 'background', 'clint']:
 
         # Windows built-in terminal lacks proper emoji taste.
         if PIPENV_HIDE_EMOJIS:
-            click.echo(u'P.S. You have excellent taste!')
+            click.echo(u'  PS: You have excellent taste!')
         else:
-            click.echo(u'P.S. You have excellent taste! ✨ 🍰 ✨')
+            click.echo(u'  PS: You have excellent taste! ✨ 🍰 ✨')
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -1552,9 +1595,9 @@ def cli(
         sys.exit()
 
     if completion:
-        try:
+        if PIPENV_SHELL:
             os.environ['_PIPENV_COMPLETE'] = 'source-{0}'.format(PIPENV_SHELL.split(os.sep)[-1])
-        except KeyError:
+        else:
             click.echo(
                 'Please ensure that the {0} environment variable '
                 'is set.'.format(crayons.normal('SHELL', bold=True)), err=True)
@@ -1755,7 +1798,7 @@ def install(
             # Warn if --editable wasn't passed.
             converted = convert_deps_from_pip(package_name)
             key = [k for k in converted.keys()][0]
-            if is_vcs(converted[key]) and not converted[key].get('editable'):
+            if is_vcs(key) or is_vcs(converted[key]) and not converted[key].get('editable'):
                 click.echo(
                     '{0}: You installed a VCS dependency in non–editable mode. '
                     'This will work fine, but sub-depdendencies will not be resolved by {1}.'
@@ -1780,16 +1823,15 @@ def install(
             click.echo(crayons.blue(format_pip_error(c.err)), err=True)
             sys.exit(1)
 
-        if dev:
-            click.echo(crayons.normal(u'Adding {0} to Pipfile\'s {1}…'.format(
-                crayons.green(package_name),
-                crayons.red('[dev-packages]')
-            )))
-        else:
-            click.echo(crayons.normal(u'Adding {0} to Pipfile\'s {1}…'.format(
-                crayons.green(package_name),
-                crayons.red('[packages]')
-            )))
+        click.echo(
+            '{0} {1} {2} {3}{4}'.format(
+                crayons.normal('Adding', bold=True),
+                crayons.green(package_name, bold=True),
+                crayons.normal("to Pipfile's", bold=True),
+                crayons.red('[dev-packages]' if dev else '[packages]', bold=True),
+                crayons.normal('…', bold=True),
+            )
+        )
 
         # Add the package to the Pipfile.
         try:
@@ -1924,7 +1966,6 @@ def lock(three=None, python=False, verbose=False, requirements=False, clear=Fals
     if not pre:
         pre = project.settings.get('pre')
 
-
     if requirements:
         do_init(dev=True, requirements=requirements)
 
@@ -1944,9 +1985,9 @@ def do_shell(three=None, python=False, fancy=False, shell_args=None):
 
     # Compatibility mode:
     if compat:
-        try:
+        if PIPENV_SHELL:
             shell = os.path.abspath(PIPENV_SHELL)
-        except KeyError:
+        else:
             click.echo(
                 crayons.red(
                     'Please ensure that the {0} environment variable '
@@ -2226,7 +2267,6 @@ def check(three=None, python=False, unused=False, style=False, args=None):
         sys.exit(1)
 
 
-
 @click.command(help=u"Displays currently–installed dependency graph information.")
 @click.option('--bare', is_flag=True, default=False, help="Minimal output.")
 @click.option('--json', is_flag=True, default=False, help="Output JSON.")
@@ -2285,6 +2325,7 @@ def graph(bare=False, json=False):
     # Return its return code.
     sys.exit(c.return_code)
 
+
 @click.command(help="View a given module in your editor.", name="open")
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
 @click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
@@ -2312,7 +2353,6 @@ def run_open(module, three=None, python=None):
     sys.exit(0)
 
 
-
 @click.command(help="Uninstalls all packages, and re-installs package(s) in [packages] to latest compatible versions.")
 @click.argument('package_name', default=False)
 @click.option('--verbose', '-v', is_flag=True, default=False, help="Verbose mode.")
@@ -2322,11 +2362,14 @@ def run_open(module, three=None, python=None):
 @click.option('--dry-run', is_flag=True, default=False, help="Just output outdated packages.")
 @click.option('--bare', is_flag=True, default=False, help="Minimal output.")
 @click.option('--clear', is_flag=True, default=False, help="Clear the dependency cache.")
+@click.option('--sequential', is_flag=True, default=False, help="Install dependencies one-at-a-time, instead of concurrently.")
 @click.pass_context
-def update(ctx, dev=False, three=None, python=None, dry_run=False, bare=False, dont_upgrade=False, user=False, verbose=False, clear=False, unused=False, package_name=None):
+def update(ctx, dev=False, three=None, python=None, dry_run=False, bare=False, dont_upgrade=False, user=False, verbose=False, clear=False, unused=False, package_name=None, sequential=False):
 
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python, validate=False)
+
+    concurrent = (not sequential)
 
     # --dry-run:
     if dry_run:
@@ -2395,7 +2438,7 @@ def update(ctx, dev=False, three=None, python=None, dry_run=False, bare=False, d
         do_lock(pre=pre)
 
         # Install everything.
-        do_init(dev=dev, verbose=verbose)
+        do_init(dev=dev, verbose=verbose, concurrent=concurrent)
 
         click.echo(
             crayons.green('All dependencies are now up-to-date!')
@@ -2430,7 +2473,6 @@ def update(ctx, dev=False, three=None, python=None, dry_run=False, bare=False, d
                     crayons.normal('Pipfile', bold=True)
                 )
             )
-
 
 
 # Install click commands.

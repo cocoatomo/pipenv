@@ -24,6 +24,7 @@ if PIPENV_PIPFILE:
     else:
         PIPENV_PIPFILE = os.path.abspath(PIPENV_PIPFILE)
 
+
 class Project(object):
     """docstring for Project"""
 
@@ -50,6 +51,26 @@ class Project(object):
             return p
 
         return os.sep.join([self._original_dir, p])
+
+    def _build_package_list(self, package_section):
+        """Returns a list of packages for pip-tools to consume."""
+        ps = {}
+        for k, v in self.parsed_pipfile.get(package_section, {}).items():
+            # Skip editable VCS deps.
+            if hasattr(v, 'keys'):
+                # When a vcs url is gven without editable it only appears as a key
+                if is_vcs(v) or is_vcs(k):
+                    if 'editable' not in v:
+                        continue
+                    else:
+                        ps.update({k: v})
+                else:
+                    if 'file' not in v and not is_vcs(v) and not is_vcs(k):
+                        ps.update({k: v})
+            else:
+                if not is_vcs(k):
+                    ps.update({k: v})
+        return ps
 
     @property
     def name(self):
@@ -98,7 +119,7 @@ class Project(object):
         # 42 = 127 - len('/home//.local/share/virtualenvs//bin/python2') - 32 - len('-HASHHASH')
         #
         #      127 : BINPRM_BUF_SIZE - 1
-        #       32 : Maxmimum length of username
+        #       32 : Maximum length of username
         #
         # References:
         #   https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
@@ -301,7 +322,7 @@ class Project(object):
         """Returns a list of VCS packages, for not pip-tools to consume."""
         ps = {}
         for k, v in self.parsed_pipfile.get('packages', {}).items():
-            if is_vcs(v):
+            if is_vcs(v) or is_vcs(k):
                 ps.update({k: v})
         return ps
 
@@ -310,7 +331,7 @@ class Project(object):
         """Returns a list of VCS packages, for not pip-tools to consume."""
         ps = {}
         for k, v in self.parsed_pipfile.get('dev-packages', {}).items():
-            if is_vcs(v):
+            if is_vcs(v) or is_vcs(k):
                 ps.update({k: v})
         return ps
 
@@ -324,40 +345,12 @@ class Project(object):
     @property
     def packages(self):
         """Returns a list of packages, for pip-tools to consume."""
-        ps = {}
-        for k, v in self.parsed_pipfile.get('packages', {}).items():
-            # Skip editable VCS deps.
-            if hasattr(v, 'keys'):
-                if is_vcs(v):
-                    if 'editable' not in v:
-                        continue
-                    else:
-                        ps.update({k: v})
-                else:
-                    if 'file' not in v:
-                        ps.update({k: v})
-            else:
-                ps.update({k: v})
-        return ps
+        return self._build_package_list('packages')
 
     @property
     def dev_packages(self):
         """Returns a list of dev-packages, for pip-tools to consume."""
-        ps = {}
-        for k, v in self.parsed_pipfile.get('dev-packages', {}).items():
-            # Skip editable VCS deps.
-            if hasattr(v, 'keys'):
-                if is_vcs(v):
-                    if 'editable' not in v:
-                        continue
-                    else:
-                        ps.update({k: v})
-                else:
-                    if 'file' not in v:
-                        ps.update({k: v})
-            else:
-                ps.update({k: v})
-        return ps
+        return self._build_package_list('dev-packages')
 
     def touch_pipfile(self):
         """Simply touches the Pipfile, for later use."""

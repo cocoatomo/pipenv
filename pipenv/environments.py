@@ -19,6 +19,9 @@ PIPENV_COLORBLIND = bool(os.environ.get('PIPENV_COLORBLIND'))
 # Disable spinner for better test and deploy logs (for the unworthy).
 PIPENV_NOSPIN = bool(os.environ.get('PIPENV_NOSPIN'))
 
+# Tells Pipenv how many rounds of resolving to do for Pip-Tools.
+PIPENV_MAX_ROUNDS = int(os.environ.get('PIPENV_MAX_ROUNDS', '16'))
+
 # Specify a custom Pipfile location.
 PIPENV_PIPFILE = os.environ.get('PIPENV_PIPFILE')
 
@@ -34,7 +37,7 @@ PIPENV_YES = bool(os.environ.get('PIPENV_YES'))
 # Tells Pipenv how many subprocesses to use when installing.
 PIPENV_MAX_SUBPROCESS = int(os.environ.get('PIPENV_MAX_SUBPROCESS', '8'))
 
-# User-configuraable max-depth for Pipfile searching.
+# User-configurable max-depth for Pipfile searching.
 # Note: +1 because of a temporary bug in Pipenv.
 PIPENV_MAX_DEPTH = int(os.environ.get('PIPENV_MAX_DEPTH', '3')) + 1
 
