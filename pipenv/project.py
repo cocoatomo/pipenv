@@ -13,7 +13,7 @@ import toml
 
 from .utils import (
     mkdir_p, convert_deps_from_pip, pep423_name, recase_file,
-    find_requirements, is_file, is_vcs, python_version
+    find_requirements, is_file, is_vcs, python_version, cleanup_toml
 )
 from .environments import PIPENV_MAX_DEPTH, PIPENV_VENV_IN_PROJECT
 from .environments import PIPENV_VIRTUALENV, PIPENV_PIPFILE
@@ -60,15 +60,16 @@ class Project(object):
             if hasattr(v, 'keys'):
                 # When a vcs url is gven without editable it only appears as a key
                 if is_vcs(v) or is_vcs(k):
+                    # Non-editable VCS entries can't be resolved by piptools
                     if 'editable' not in v:
                         continue
                     else:
                         ps.update({k: v})
                 else:
-                    if 'file' not in v and not is_vcs(v) and not is_vcs(k):
+                    if not is_file(v) and not is_file(k):
                         ps.update({k: v})
             else:
-                if not is_vcs(k):
+                if not is_vcs(k) and not is_file(k) and not is_vcs(v):
                     ps.update({k: v})
         return ps
 
@@ -407,6 +408,7 @@ class Project(object):
 
             formatted_data = toml.dumps(data).rstrip()
 
+        formatted_data = cleanup_toml(formatted_data)
         with open(path, 'w') as f:
             f.write(formatted_data)
 

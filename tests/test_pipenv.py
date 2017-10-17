@@ -502,13 +502,17 @@ requests = {version = "*"}
         with PipenvInstance() as p:
 
             with PipenvInstance(chdir=True) as p:
+                with open('t.py', 'w') as f:
+                    f.write('import git')
 
+                p.pipenv('install GitPython')
                 p.pipenv('install requests')
                 p.pipenv('install tablib')
 
                 assert 'requests' in p.pipfile['packages']
 
                 c = p.pipenv('check --unused .')
+                assert 'GitPython' not in c.out
                 assert 'tablib' in c.out
 
     @pytest.mark.check
@@ -583,6 +587,38 @@ pytest = "==3.1.1"
                 assert req in c.out
 
     @pytest.mark.lock
+    @pytest.mark.complex
+    def test_complex_lock_with_vcs_deps(self):
+
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+click = "==6.7"
+
+[dev-packages]
+requests = {git = "https://github.com/requests/requests", egg = "requests"}
+                """.strip()
+                f.write(contents)
+
+            c = p.pipenv('install')
+            assert c.return_code == 0
+            lock = p.lockfile
+            assert 'requests' in lock['develop']
+            assert 'click' in lock['default']
+
+            c = p.pipenv('run pip install -e git+https://github.com/dateutil/dateutil#egg=python_dateutil')
+            assert c.return_code == 0
+
+            c = p.pipenv('lock')
+            assert c.return_code == 0
+            lock = p.lockfile
+            assert 'requests' in lock['develop']
+            assert 'click' in lock['default']
+            assert 'python_dateutil' not in lock['default']
+            assert 'python_dateutil' not in lock['develop']
+
+    @pytest.mark.lock
     @pytest.mark.requirements
     @pytest.mark.complex
     @pytest.mark.maya
@@ -647,3 +683,27 @@ requests = "==2.14.0"
             dep = p.lockfile['default'][key]
 
             assert 'file' in dep
+
+    @pytest.mark.install
+    @pytest.mark.files
+    def test_local_zipfiles(self):
+        file_name = 'tablib-0.12.1.tar.gz'
+        # Not sure where travis/appveyor run tests from
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        source_path = os.path.abspath(os.path.join(test_dir, 'test_artifacts', file_name))
+
+        with PipenvInstance() as p:
+            # This tests for a bug when installing a zipfile in the current dir
+            shutil.copy(source_path, os.path.join(p.path, file_name))
+
+            c = p.pipenv('install {}'.format(file_name))
+            key = [k for k in p.pipfile['packages'].keys()][0]
+            dep = p.pipfile['packages'][key]
+
+            assert 'file' in dep or 'path' in dep
+            assert c.return_code == 0
+
+            key = [k for k in p.lockfile['default'].keys()][0]
+            dep = p.lockfile['default'][key]
+
+            assert 'file' in dep or 'path' in dep

@@ -68,7 +68,8 @@ class Resolver(object):
         """
         Finds acceptable hashes for all of the given InstallRequirements.
         """
-        return {ireq: self.repository.get_hashes(ireq) for ireq in ireqs}
+        with self.repository.allow_all_wheels():
+            return {ireq: self.repository.get_hashes(ireq) for ireq in ireqs}
 
     def resolve(self, max_rounds=12):
         """
@@ -248,7 +249,6 @@ class Resolver(object):
             # NOTE: it's much quicker to immediately return instead of
             # hitting the index server
             best_match = ireq
-
         elif is_pinned_requirement(ireq):
             # NOTE: it's much quicker to immediately return instead of
             # hitting the index server
@@ -276,9 +276,12 @@ class Resolver(object):
             return
         elif ireq.markers:
             for dependency in self.repository.get_dependencies(ireq):
+                dependency.prepared = False
                 yield dependency
+            return
         elif ireq.extras:
             for dependency in self.repository.get_dependencies(ireq):
+                dependency.prepared = False
                 yield dependency
             return
         elif not is_pinned_requirement(ireq):

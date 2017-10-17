@@ -262,6 +262,37 @@ packages = [
 ]
 
 
+def cleanup_toml(tml):
+    toml = tml.split('\n')
+    new_toml = []
+
+    # Remove all empty lines from TOML.
+    for line in toml:
+        if line.strip():
+            new_toml.append(line)
+
+    toml = '\n'.join(new_toml)
+    new_toml = []
+
+    # Add newlines between TOML sections.
+    for i, line in enumerate(toml.split('\n')):
+        after = False
+        # Skip the first line.
+        if line.startswith('['):
+            if i > 0:
+                # Insert a newline before the heading.
+                new_toml.append('\n')
+            after = True
+
+        new_toml.append(line)
+        # Insert a newline after the heading.
+        if after:
+            new_toml.append('')
+
+    toml = '\n'.join(new_toml)
+    return toml
+
+
 def suggest_package(package):
     """Suggests a package name, given a package name."""
     if SESSION_IS_INTERACTIVE:
@@ -447,7 +478,7 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
             if 'python.org' in '|'.join([source['url'] for source in sources]):
                 try:
                     # Grab the hashes from the new warehouse API.
-                    r = requests.get('https://pypi.org/pypi/{0}/json'.format(name))
+                    r = requests.get('https://pypi.org/pypi/{0}/json'.format(name), timeout=10)
                     api_releases = r.json()['releases']
 
                     cleaned_releases = {}
@@ -464,7 +495,8 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
                         collected_hashes = list(list(resolver.resolve_hashes([result]).items())[0][1])
 
                 except (ValueError, KeyError):
-                    pass
+                    if verbose:
+                        print('Error fetching {}'.format(name))
 
             d = {'name': name, 'version': version, 'hashes': collected_hashes}
 
@@ -496,9 +528,14 @@ def convert_deps_from_pip(dep):
     req = [r for r in requirements.parse(dep)][0]
     extras = {'extras': req.extras}
 
+
     # File installs.
-    if (req.uri or (os.path.exists(req.path) if req.path else False)) and not req.vcs:
+    if (req.uri or (os.path.exists(req.path) if req.path else False) or
+            os.path.exists(req.name)) and not req.vcs:
         # Assign a package name to the file, last 7 of it's sha256 hex digest.
+        if not req.uri and not req.path:
+            req.path = os.path.abspath(req.name)
+
         hashable_path = req.uri if req.uri else req.path
         req.name = hashlib.sha256(hashable_path.encode('utf-8')).hexdigest()
         req.name = req.name[len(req.name) - 7:]
@@ -513,8 +550,8 @@ def convert_deps_from_pip(dep):
         if req.editable:
             dependency[req.name].update({'editable': True})
 
-    # VCS Installs.
-    if req.vcs:
+    # VCS Installs. Extra check for unparsed git over SSH
+    if req.vcs or is_vcs(req.path):
         if req.name is None:
             raise ValueError('pipenv requires an #egg fragment for version controlled '
                              'dependencies. Please install remote dependency '
@@ -523,6 +560,12 @@ def convert_deps_from_pip(dep):
         # Extras: e.g. #egg=requests[security]
         if req.extras:
             dependency[req.name] = extras
+
+        # Set up this requirement as a proper VCS requirement if it was not
+        if not req.vcs and req.path.startswith(VCS_LIST):
+            req.vcs = [vcs for vcs in VCS_LIST if req.path.startswith(vcs)][0]
+            req.uri = '{0}'.format(req.path)
+            req.path = None
 
         # Crop off the git+, etc part.
         dependency.setdefault(req.name, {}).update({req.vcs: req.uri[len(req.vcs) + 1:]})
@@ -544,7 +587,7 @@ def convert_deps_from_pip(dep):
         specs = None
         # Comparison operators: e.g. Django>1.10
         if req.specs:
-            r = multi_split(dep, '!=<>')
+            r = multi_split(dep, '!=<>~')
             specs = dep[len(r[0]):]
             dependency[req.name] = specs
 
@@ -721,6 +764,9 @@ def is_vcs(pipfile_entry):
 
 def is_file(package):
     """Determine if a package name is for a File dependency."""
+    if hasattr(package, 'keys'):
+        return any(key for key in package.keys() if key in ['file', 'path'])
+
     if os.path.exists(str(package)):
         return True
 

@@ -141,7 +141,7 @@ def check_for_updates():
     """Background thread -- beautiful, isn't it?"""
     try:
         r = requests.get('https://pypi.python.org/pypi/pipenv/json', timeout=0.5)
-        latest = sorted([semver.parse_version_info(v) for v in list(r.json()['releases'].keys())])[-1]
+        latest = max(map(semver.parse_version_info, r.json()['releases'].keys()))
         current = semver.parse_version_info(__version__)
 
         if latest > current:
@@ -161,7 +161,7 @@ def ensure_latest_self(user=False):
     except requests.RequestException as e:
         click.echo(crayons.red(e))
         sys.exit(1)
-    latest = sorted([semver.parse_version_info(v) for v in list(r.json()['releases'].keys())])[-1]
+    latest = max(map(semver.parse_version_info, r.json()['releases'].keys()))
     current = semver.parse_version_info(__version__)
 
     if current < latest:
@@ -287,7 +287,8 @@ def import_from_code(path='.'):
         for r in pipreqs.get_all_imports(path):
             if r not in BAD_PACKAGES:
                 rs.append(r)
-        return [proper_case(r) for r in rs]
+        pkg_names = pipreqs.get_pkg_names(rs)
+        return [proper_case(r) for r in pkg_names]
     except Exception:
         return []
 
@@ -455,7 +456,7 @@ def ensure_python(three=None, python=None):
                     '3.3': '3.3.6',
                     '3.4': '3.4.7',
                     '3.5': '3.5.4',
-                    '3.6': '3.6.2',
+                    '3.6': '3.6.3',
                 }
                 try:
                     if len(python.split('.')) == 2:
@@ -1046,8 +1047,13 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
     vcs_deps = convert_deps_to_pip(project.vcs_dev_packages, project, r=False)
     pip_freeze = delegator.run('{0} freeze'.format(which_pip())).out
 
-    for dep in vcs_deps:
+    if vcs_deps:
         for line in pip_freeze.strip().split('\n'):
+            # if the line doesn't match a vcs dependency in the Pipfile,
+            # ignore it
+            if not any(dep in line for dep in vcs_deps):
+                continue
+
             try:
                 installed = convert_deps_from_pip(line)
                 name = list(installed.keys())[0]
@@ -1761,11 +1767,7 @@ def install(
         if package_names[0]:
             if not package_names[0].startswith('-e '):
                 if not is_file(package_names[0]):
-                    if not (
-                        ('==' in package_names[0]) or
-                        ('>=' in package_names[0]) or
-                        ('<=' in package_names[0])
-                    ):
+                    if not any(op in package_names[0] for op in '!=<>~'):
                         suggested_package = suggest_package(package_names[0])
                         if suggested_package:
                             if str(package_names[0].lower()) != str(suggested_package.lower()):
@@ -1801,7 +1803,7 @@ def install(
             if is_vcs(key) or is_vcs(converted[key]) and not converted[key].get('editable'):
                 click.echo(
                     '{0}: You installed a VCS dependency in non–editable mode. '
-                    'This will work fine, but sub-depdendencies will not be resolved by {1}.'
+                    'This will work fine, but sub-dependencies will not be resolved by {1}.'
                     '\n  To enable this sub–dependency functionality, specify that this dependency is editable.'
                     ''.format(
                         crayons.red('Warning', bold=True),
@@ -2183,7 +2185,7 @@ def check(three=None, python=False, unused=False, style=False, args=None):
 
     if unused:
         deps_required = [k for k in project.packages.keys()]
-        deps_needed = [k.lower() for k in import_from_code(unused)]
+        deps_needed = import_from_code(unused)
 
         for dep in deps_needed:
             try:
@@ -2399,10 +2401,10 @@ def update(ctx, dev=False, three=None, python=None, dry_run=False, bare=False, d
         for result in resolve_deps(deps, sources=project.sources, clear=clear, which=which, which_pip=which_pip, project=project):
 
             name = result['name']
-            installed = result['version']
+            latest = result['version']
 
             try:
-                latest = installed_packages[name]
+                installed = installed_packages[name]
                 if installed != latest:
                     if not bare:
                         click.echo(
