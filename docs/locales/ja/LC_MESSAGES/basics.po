@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 8.2.6\n"
+"Project-Id-Version: pipenv 8.2.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-04 23:16+0900\n"
+"POT-Creation-Date: 2017-10-17 13:00+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo <cocoatomo77@gmail.com>, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -265,7 +265,7 @@ msgid ""
 "changes to the ``Pipfile``."
 msgstr ""
 "``--skip-lock`` — ``Pipfile.lock`` を無視し、 ``Pipfile`` を使ってインストールします。\n"
-"加えて、 ``Pipfile`` へ加えた変更を、 ``Pipfile.lock`` へは反映しません。"
+"それに加えて、 ``Pipfile`` の変更部分を ``Pipfile.lock`` へは反映しません。"
 
 #: ../../basics.rst:250
 msgid "$ pipenv uninstall"
@@ -346,8 +346,8 @@ msgstr "☤ バージョン管理システムについての但し書き"
 
 #: ../../basics.rst:285
 msgid ""
-"Pipenv will resolve the sub–depencies of VCS dependencies, but only if they "
-"are editable, like so::"
+"Pipenv will resolve the sub–dependencies of VCS dependencies, but only if "
+"they are editable, like so::"
 msgstr "pipenvはバージョン管理システムで指定した依存関係の子依存関係も解決しますが、それは次のように編集可能な場合だけです::"
 
 #: ../../basics.rst:290
