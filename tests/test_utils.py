@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import pytest
 from mock import patch, Mock
 
@@ -123,8 +124,10 @@ class TestUtils:
         ({'some_value': 5, 'other_value': object()}, False),
         ('package', False),
         ('git+https://github.com/requests/requests.git#egg=requests', True),
-        ('git+git@github.com:requests/requests.git#egg=requests', True)
+        ('git+git@github.com:requests/requests.git#egg=requests', True),
+        ('gitdb2', False)
     ])
+    @pytest.mark.vcs
     def test_is_vcs(self, entry, expected):
         assert pipenv.utils.is_vcs(entry) is expected
 
@@ -165,3 +168,59 @@ class TestUtils:
         run_ret.out = version_output
         mocked_delegator.return_value = run_ret
         assert pipenv.utils.python_version('some/path') == version
+
+    @pytest.mark.windows
+    @pytest.mark.skipif(os.name != 'nt', reason='Windows test only')
+    def test_windows_shellquote(self):
+        test_path = 'C:\Program Files\Python36\python.exe'
+        expected_path = '"C:\\\\Program Files\\\\Python36\\\\python.exe"'
+        assert pipenv.utils.shellquote(test_path) == expected_path
+
+    def test_is_valid_url(self):
+        url = "https://github.com/kennethreitz/requests.git"
+        not_url = "something_else"
+        assert pipenv.utils.is_valid_url(url)
+        assert pipenv.utils.is_valid_url(not_url) is False
+
+    @pytest.mark.parametrize('input_path, expected', [
+        ('artifacts/file.zip', './artifacts/file.zip'),
+        ('./artifacts/file.zip', './artifacts/file.zip'),
+        ('../otherproject/file.zip', './../otherproject/file.zip')
+    ])
+    @pytest.mark.skipif(os.name == 'nt', reason='Nix-based file paths tested')
+    def test_nix_converted_relative_path(self, input_path, expected):
+        assert pipenv.utils.get_converted_relative_path(input_path) == expected
+
+    @pytest.mark.parametrize('input_path, expected', [
+        ('artifacts/file.zip', '.\\artifacts\\file.zip'),
+        ('./artifacts/file.zip', '.\\artifacts\\file.zip'),
+        ('../otherproject/file.zip', '.\\..\\otherproject\\file.zip')
+    ])
+    @pytest.mark.skipif(os.name != 'nt', reason='Windows-based file paths tested')
+    def test_win_converted_relative_path(self, input_path, expected):
+        assert pipenv.utils.get_converted_relative_path(input_path) == expected
+
+    def test_download_file(self):
+        url = "https://github.com/kennethreitz/pipenv/blob/master/README.rst"
+        output = "test_download.rst"
+        pipenv.utils.download_file(url, output)
+        assert os.path.exists(output)
+        os.remove(output)
+
+    def test_new_line_end_of_toml_file(this):
+        # toml file that needs clean up
+        toml = """
+[dev-packages]
+
+"flake8" = ">=3.3.0,<4"
+pytest = "*"
+mock = "*"
+sphinx = "<=1.5.5"
+"-e ." = "*"
+twine = "*"
+"sphinx-click" = "*"
+"pytest-xdist" = "*"
+        """
+        new_toml = pipenv.utils.cleanup_toml(toml)
+        # testing if the end of the generated file contains a newline
+        assert new_toml[-1] == '\n'

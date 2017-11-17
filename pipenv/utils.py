@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from collections import namedtuple
 import os
 import hashlib
 import tempfile
 import sys
+import shutil
 import logging
 
 import click
@@ -14,6 +16,7 @@ import requirements
 import fuzzywuzzy.process
 import requests
 import six
+from time import time
 
 logging.basicConfig(level=logging.ERROR)
 
@@ -21,7 +24,13 @@ try:
     from urllib.parse import urlparse
 except ImportError:
     from urlparse import urlparse
+try:
+    from pathlib import Path
+except ImportError:
+    from pathlib2 import Path
 
+from distutils.spawn import find_executable
+from contextlib import contextmanager
 from piptools.resolver import Resolver
 from piptools.repositories.pypi import PyPIRepository
 from piptools.scripts.compile import get_pip_command
@@ -31,13 +40,13 @@ from pip.exceptions import DistributionNotFound
 from requests.exceptions import HTTPError
 
 from .pep508checker import lookup
-from .environments import SESSION_IS_INTERACTIVE, PIPENV_MAX_ROUNDS
+from .environments import SESSION_IS_INTERACTIVE, PIPENV_MAX_ROUNDS, PIPENV_CACHE_DIR
 
 specifiers = [k for k in lookup.keys()]
 
 # List of version control systems we support.
 VCS_LIST = ('git', 'svn', 'hg', 'bzr')
-FILE_LIST = ('http://', 'https://', 'ftp://', 'file:///')
+SCHEME_LIST = ('http://', 'https://', 'ftp://', 'file://')
 
 requests = requests.Session()
 
@@ -262,6 +271,35 @@ packages = [
 ]
 
 
+def get_requirement(dep):
+    """Pre-clean requirement strings passed to the requirements parser.
+
+    Ensures that we can accept both local and relative paths, file and VCS URIs,
+    remote URIs, and package names, and that we pass only valid requirement strings
+    to the requirements parser. Performs necessary modifications to requirements
+    object if the user input was a local relative path.
+    """
+    path = None
+    # Only operate on local, existing, non-URI formatted paths
+    if (is_file(dep) and isinstance(dep, six.string_types) and
+            not any(dep.startswith(uri_prefix) for uri_prefix in SCHEME_LIST)):
+        dep_path = Path(dep)
+        # Only parse if it is a file or an installable dir
+        if dep_path.is_file() or (dep_path.is_dir() and pip.utils.is_installable_dir(dep)):
+            if dep_path.is_absolute():
+                path = dep
+            else:
+                path = get_converted_relative_path(dep)
+            dep = dep_path.resolve().as_uri()
+    req = [r for r in requirements.parse(dep)][0]
+    # If the result is a local file with a URI and we have a local path, unset the URI
+    # and set the path instead
+    if req.local_file and req.uri and not req.path and path:
+        req.path = path
+        req.uri = None
+    return req
+
+
 def cleanup_toml(tml):
     toml = tml.split('\n')
     new_toml = []
@@ -289,6 +327,8 @@ def cleanup_toml(tml):
         if after:
             new_toml.append('')
 
+    # adding new line at the end of the TOML file
+    new_toml.append('')
     toml = '\n'.join(new_toml)
     return toml
 
@@ -340,6 +380,9 @@ def shellquote(s):
     """Prepares a string for the shell (on Windows too!)"""
     if s is None:
         return None
+    # Additional escaping for windows paths
+    if os.name == 'nt':
+        s = "{}".format(s.replace("\\", "\\\\"))
 
     return '"' + s.replace("'", "'\\''") + '"'
 
@@ -351,6 +394,9 @@ def clean_pkg_version(version):
 
 class HackedPythonVersion(object):
     """A Beautiful hack, which allows us to tell pip which version of Python we're using."""
+
+    PatchedSysVersion = namedtuple('PatchedSysVersion', ['major', 'minor', 'micro'])
+
     def __init__(self, python_version, python_path):
         self.python_version = python_version
         self.python_path = python_path
@@ -358,10 +404,13 @@ class HackedPythonVersion(object):
     def __enter__(self):
         os.environ['PIP_PYTHON_VERSION'] = str(self.python_version)
         os.environ['PIP_PYTHON_PATH'] = str(self.python_path)
+        self.backup_version_info = sys.version_info
+        sys.version_info = self.PatchedSysVersion(*map(int, self.python_version.split('.')))
 
     def __exit__(self, *args):
         # Restore original Python version information.
         del os.environ['PIP_PYTHON_VERSION']
+        sys.version_info = self.backup_version_info
 
 
 def prepare_pip_source_args(sources, pip_args=None):
@@ -388,6 +437,78 @@ def prepare_pip_source_args(sources, pip_args=None):
     return pip_args
 
 
+def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, verbose, clear, pre):
+
+    class PipCommand(pip.basecommand.Command):
+        """Needed for pip-tools."""
+        name = 'PipCommand'
+
+    constraints = []
+
+    for dep in deps:
+        t = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt')[1]
+        with open(t, 'w') as f:
+            f.write(dep)
+
+        if dep.startswith('-e '):
+            constraint = pip.req.InstallRequirement.from_editable(dep[len('-e '):])
+        else:
+            constraint = [c for c in pip.req.parse_requirements(t, session=pip._vendor.requests)][0]
+            # extra_constraints = []
+
+        if ' -i ' in dep:
+            index_lookup[constraint.name] = project.get_source(url=dep.split(' -i ')[1]).get('name')
+
+        if constraint.markers:
+            markers_lookup[constraint.name] = str(constraint.markers).replace('"', "'")
+
+        constraints.append(constraint)
+
+    pip_command = get_pip_command()
+
+    pip_args = []
+
+    if sources:
+        pip_args = prepare_pip_source_args(sources, pip_args)
+
+    if verbose:
+        print('Using pip: {0}'.format(' '.join(pip_args)))
+
+    pip_options, _ = pip_command.parse_args(pip_args)
+
+    session = pip_command._build_session(pip_options)
+    pypi = PyPIRepository(pip_options=pip_options, session=session)
+
+    if verbose:
+        logging.log.verbose = True
+
+
+    resolved_tree = set()
+
+    resolver = Resolver(constraints=constraints, repository=pypi, clear_caches=clear, prereleases=pre)
+    # pre-resolve instead of iterating to avoid asking pypi for hashes of editable packages
+    try:
+        resolved_tree.update(resolver.resolve(max_rounds=PIPENV_MAX_ROUNDS))
+    except (NoCandidateFound, DistributionNotFound, HTTPError) as e:
+        click.echo(
+            '{0}: Your dependencies could not be resolved. You likely have a mismatch in your sub-dependencies.\n  '
+            'You can use {1} to bypass this mechanism, then run {2} to inspect the situation.'
+            ''.format(
+                crayons.red('Warning', bold=True),
+                crayons.red('$ pipenv install --skip-lock'),
+                crayons.red('$ pipenv graph')
+            ),
+            err=True)
+
+        click.echo(crayons.blue(e))
+
+        if 'no version found at all' in str(e):
+            click.echo(crayons.blue('Please check your version specifier and version number. See PEP440 for more information.'))
+
+        raise RuntimeError
+
+    return resolved_tree
+
 def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, python=False, clear=False, pre=False):
     """Given a list of dependencies, return a resolved list of dependencies,
     using pip-tools -- and their hashes, using the warehouse API / pip.
@@ -397,71 +518,31 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
     markers_lookup = {}
 
     python_path = which('python')
+    backup_python_path = shellquote(sys.executable)
 
+    results = []
+
+    # First (proper) attempt:
     with HackedPythonVersion(python_version=python, python_path=python_path):
 
-        class PipCommand(pip.basecommand.Command):
-            """Needed for pip-tools."""
-            name = 'PipCommand'
-
-        constraints = []
-
-        for dep in deps:
-            t = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt')[1]
-            with open(t, 'w') as f:
-                f.write(dep)
-
-            if dep.startswith('-e '):
-                constraint = pip.req.InstallRequirement.from_editable(dep[len('-e '):])
-            else:
-                constraint = [c for c in pip.req.parse_requirements(t, session=pip._vendor.requests)][0]
-                # extra_constraints = []
-
-            if ' -i ' in dep:
-                index_lookup[constraint.name] = project.get_source(url=dep.split(' -i ')[1]).get('name')
-
-            if constraint.markers:
-                markers_lookup[constraint.name] = str(constraint.markers).replace('"', "'")
-
-            constraints.append(constraint)
-
-        pip_command = get_pip_command()
-
-        pip_args = []
-
-        if sources:
-            pip_args = prepare_pip_source_args(sources, pip_args)
-
-        if verbose:
-            print('Using pip: {0}'.format(' '.join(pip_args)))
-
-        pip_options, _ = pip_command.parse_args(pip_args)
-
-        session = pip_command._build_session(pip_options)
-        pypi = PyPIRepository(pip_options=pip_options, session=session)
-
-        if verbose:
-            logging.log.verbose = True
-
-        results = []
-        resolved_tree = set()
-
-        resolver = Resolver(constraints=constraints, repository=pypi, clear_caches=clear, prereleases=pre)
-        # pre-resolve instead of iterating to avoid asking pypi for hashes of editable packages
         try:
-            resolved_tree.update(resolver.resolve(max_rounds=PIPENV_MAX_ROUNDS))
-        except (NoCandidateFound, DistributionNotFound, HTTPError) as e:
-            click.echo(
-                '{0}: Your dependencies could not be resolved. You likely have a mismatch in your sub-dependencies.\n  '
-                'You can use {1} to bypass this mechanism, then run {2} to inspect the situation.'
-                ''.format(
-                    crayons.red('Warning', bold=True),
-                    crayons.red('$ pipenv install --skip-lock'),
-                    crayons.red('$ pipenv graph')
-                ),
-                err=True)
-            click.echo(crayons.blue(e))
-            sys.exit(1)
+            resolved_tree = actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, verbose, clear, pre)
+        except RuntimeError:
+            # Don't exit here, like usual.
+            resolved_tree = None
+
+    # Second (last-resort) attempt:
+    if resolved_tree is None:
+        with HackedPythonVersion(python_version='.'.join([str(s) for s in sys.version_info[:3]]), python_path=backup_python_path):
+
+            try:
+                # Attempt to resolve again, with different Python version information,
+                # particularly for particularly particular packages.
+                resolved_tree = actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, verbose, clear, pre)
+            except RuntimeError:
+                sys.exit(1)
+
+
 
     for result in resolved_tree:
         if not result.editable:
@@ -525,13 +606,11 @@ def convert_deps_from_pip(dep):
 
     dependency = {}
 
-    req = [r for r in requirements.parse(dep)][0]
+    req = get_requirement(dep)
     extras = {'extras': req.extras}
 
-
     # File installs.
-    if (req.uri or (os.path.exists(req.path) if req.path else False) or
-            os.path.exists(req.name)) and not req.vcs:
+    if (req.uri or req.path or (os.path.isfile(req.name) if req.name else False)) and not req.vcs:
         # Assign a package name to the file, last 7 of it's sha256 hex digest.
         if not req.uri and not req.path:
             req.path = os.path.abspath(req.name)
@@ -758,8 +837,22 @@ def is_vcs(pipfile_entry):
     if hasattr(pipfile_entry, 'keys'):
         return any(key for key in pipfile_entry.keys() if key in VCS_LIST)
     elif isinstance(pipfile_entry, six.string_types):
-        return pipfile_entry.startswith(VCS_LIST)
+        # Add scheme for parsing purposes, this is also what pip does
+        if pipfile_entry.startswith('git+') and '://' not in pipfile_entry:
+            pipfile_entry = pipfile_entry.replace('git+', 'git+ssh://')
+        return bool(requirements.requirement.VCS_REGEX.match(pipfile_entry))
     return False
+
+
+def is_installable_file(path):
+    """Determine if a path can potentially be installed"""
+    if hasattr(path, 'keys') and any(key for key in path.keys() if key in ['file', 'path']):
+        path = urlparse(path['file']).path if 'file' in path else path['path']
+    if not isinstance(path, six.string_types) or path == '*':
+        return False
+    lookup_path = Path(path)
+    return lookup_path.is_file() or (lookup_path.is_dir() and
+            pip.utils.is_installable_dir(lookup_path.resolve().as_posix()))
 
 
 def is_file(package):
@@ -770,7 +863,7 @@ def is_file(package):
     if os.path.exists(str(package)):
         return True
 
-    for start in FILE_LIST:
+    for start in SCHEME_LIST:
         if str(package).startswith(start):
             return True
 
@@ -787,7 +880,7 @@ def pep440_version(version):
 def pep423_name(name):
     """Normalize package name to PEP 423 style standard."""
     name = name.lower()
-    if any(i not in name for i in (VCS_LIST+FILE_LIST)):
+    if any(i not in name for i in (VCS_LIST+SCHEME_LIST)):
         return name.replace('_', '-')
     else:
         return name
@@ -850,8 +943,7 @@ def get_windows_path(*args):
     """Sanitize a path for windows environments
 
     Accepts an arbitrary list of arguments and makes a clean windows path"""
-    clean_path = os.path.join(*args)
-    return os.path.normpath(clean_path)
+    return os.path.normpath(os.path.join(*args))
 
 
 def find_windows_executable(bin_path, exe_name):
@@ -865,7 +957,14 @@ def find_windows_executable(bin_path, exe_name):
     files = ['{0}.{1}'.format(exe_name, ext) for ext in ['', 'py', 'exe', 'bat']]
     exec_paths = [get_windows_path(bin_path, f) for f in files]
     exec_files = [filename for filename in exec_paths if os.path.isfile(filename)]
-    return exec_files[0]
+    if exec_files:
+        return exec_files[0]
+    return find_executable(exe_name)
+
+
+def get_converted_relative_path(path, relative_to=os.curdir):
+    """Given a vague relative path, return the path relative to the given location"""
+    return os.path.join('.', os.path.relpath(path, start=relative_to))
 
 
 def walk_up(bottom):
@@ -913,3 +1012,55 @@ def find_requirements(max_depth=3):
                 if os.path.isfile(r):
                     return r
     raise RuntimeError('No requirements.txt found!')
+
+
+# Borrowed from pew to avoid importing pew which imports psutil
+# See https://github.com/berdario/pew/blob/master/pew/_utils.py#L82
+@contextmanager
+def temp_environ():
+    """Allow the ability to set os.environ temporarily"""
+    environ = dict(os.environ)
+    try:
+        yield
+    finally:
+        os.environ.clear()
+        os.environ.update(environ)
+
+def is_valid_url(url):
+    """Checks if a given string is an url"""
+    pieces = urlparse(url)
+    return all([pieces.scheme, pieces.netloc])
+
+
+def download_file(url, filename):
+    """Downloads file from url to a path with filename"""
+    r = requests.get(url, stream=True)
+    if not r.ok:
+        raise IOError('Unable to download file')
+
+    with open(filename, 'wb') as f:
+        f.write(r.content)
+
+
+def need_update_check():
+    """Determines whether we need to check for updates."""
+    mkdir_p(PIPENV_CACHE_DIR)
+    p = os.sep.join((PIPENV_CACHE_DIR, '.pipenv_update_check'))
+    if not os.path.exists(p):
+        return True
+    out_of_date_time = time() - (24 * 60 * 60)
+    if os.path.isfile(p) and os.path.getmtime(p) <= out_of_date_time:
+        return True
+    else:
+        return False
+
+
+def touch_update_stamp():
+    """Touches PIPENV_CACHE_DIR/.pipenv_update_check"""
+    mkdir_p(PIPENV_CACHE_DIR)
+    p = os.sep.join((PIPENV_CACHE_DIR, '.pipenv_update_check'))
+    try:
+        os.utime(p)
+    except FileNotFoundError:
+        with open(p, 'w') as fh:
+            fh.write('')

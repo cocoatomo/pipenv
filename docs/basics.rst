@@ -121,6 +121,26 @@ Example Pipfile.lock
     }
 
 
+☤ Example Pipenv workflow
+-------------------------
+
+Install from Pipfile::
+
+    $ pipenv install
+
+Add a module::
+
+    $ pipenv install <module>
+
+Create a Pipfile.lock from the installed versions::
+
+    $ pipenv lock
+
+Install from that Pipfile.lock::
+
+    $ pipenv install --ignore-pipfile
+
+
 .. _initialization:
 
 ☤ Importing from requirements.txt
@@ -250,10 +270,13 @@ $ pipenv uninstall
 //////////////////
 
 ``$ pipenv uninstall`` supports all of the parameters in `pipenv install <#pipenv-install>`_,
-as well as one additonal, ``--all``.
+as well as two additonal options, ``--all`` and ``--all-dev``.
 
     - ``--all`` — This parameter will purge all files from the virtual environment,
       but leave the Pipfile untouched.
+
+    - ``--all-dev`` — This parameter will remove all of the development packages from
+      the virtual environment, and remove them from the Pipfile.
 
 
 .. _pipenv_lock:

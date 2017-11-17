@@ -44,6 +44,12 @@ Installation
 
     $ pip install pipenv
 
+Or if you are on macOS, you can install Pipenv via `Homebrew <https://brew.sh/>`_ with:
+
+::
+
+    $ brew install pipenv
+
 ✨🍰✨
 
 ☤ User Testimonials
@@ -97,6 +103,10 @@ Shell Completion
 For example, with fish, put this in your ``~/.config/fish/completions/pipenv.fish``::
 
     eval (pipenv --completion)
+
+Alternatively, with bash, put this in your ``.bashrc`` or ``.bash_profile``::
+
+    eval "$(pipenv --completion)"
 
 Magic shell completions are now enabled! There is also a `fish plugin <https://github.com/fisherman/pipenv>`_, which will automatically activate your subshells for you!
 

@@ -1,3 +1,24 @@
+8.3.3
+ - Added enhancement for pip-tools to resolve dependecies with specific versions of python
+8.3.2:
+ - Moved automated update check to once every 24 hours. 
+ - Better default for PYENV_ROOT.
+ - Correctly support all pip --index specifiers.
+ - Fix bug where pre-releases of Python were chosen over finals.
+8.3.1:
+ - Fixed issues with calling block too many times on single subprocess.
+ - Updated vendored delegator.py.         
+ - Changed --dev flag for the uninstall command to --all-dev to better represent what it does.
+8.3.0:
+ - Add support for installation from remote requiments file.
+ - Add --reverse to pipenv graph, displaying inverted dependency graph.
+ - VCS dependencies now install sequentially to avoid write lock conflicts.
+ - Allow PIPENV_IGNORE_VIRTUALENVS to work with pipenv shell on Windows.
+ - Enforce newline termination of Pipfile.
+ - More robust requirements.txt conversion experience.
+ - Respect allow_prereleases in all locking scenarios.
+ - Seperated default and development dependency output when using lock -r and lock -r -d respectively.
+ - Print whole help message with pipenv --help.
 8.2.7:
  - Add update --sequential.
  - Fix unicode decode error on windows.
