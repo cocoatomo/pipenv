@@ -20,7 +20,7 @@ msgstr ""
 
 #: ../../install.rst:4
 msgid "Pipenv & Virtual Environments"
-msgstr "pipenvと仮想環境"
+msgstr "Pipenvと仮想環境"
 
 #: ../../install.rst:8
 msgid "This tutorial walks you through installing and using Python packages."
@@ -217,14 +217,14 @@ msgstr "おめでとうございます、Pythonのパッケージをインスト
 
 #: ../../install.rst:202
 msgid "☤ Fancy Installation of Pipenv"
-msgstr "☤ pipenvの高機能なインストール方法"
+msgstr "☤ Pipenvの高機能なインストール方法"
 
 #: ../../install.rst:204
 msgid ""
 "To install pipenv in a fancy way, we recommend using `pipsi "
 "<https://github.com/mitsuhiko/pipsi>`_."
 msgstr ""
-"高機能な方法でpipenvをインストールするには、 `pipsi <https://github.com/mitsuhiko/pipsi>`_ "
+"高機能な方法でPipenvをインストールするには、 `pipsi <https://github.com/mitsuhiko/pipsi>`_ "
 "をオススメします。"
 
 #: ../../install.rst:206
@@ -247,7 +247,7 @@ msgstr "そして、次のコマンドを実行します::"
 
 #: ../../install.rst:219 ../../install.rst:252 ../../install.rst:271
 msgid "To upgrade pipenv at any time::"
-msgstr "いつでもpipenvをアップグレードするには次のコマンドを実行します::"
+msgstr "いつでもPipenvをアップグレードするには次のコマンドを実行します::"
 
 #: ../../install.rst:224
 msgid ""
@@ -274,7 +274,7 @@ msgstr ""
 
 #: ../../install.rst:240
 msgid "☤ Pragmatic Installation of Pipenv"
-msgstr "☤ pipenvの実用的なインストール方法"
+msgstr "☤ Pipenvの実用的なインストール方法"
 
 #: ../../install.rst:242
 msgid ""
@@ -287,7 +287,7 @@ msgid ""
 "virtualenv, pipenv, tox, and similar software."
 msgstr ""
 "もしインストールされた今も使っているpipがあって、ある \"ツール群\" タイプのPythonモジュールをどの環境でも使うユーティリティとしてメンテナンスしている場合は、pip の `ユーザーインストール <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を使うとホームディレクトリにインストールできます。\n"
-"依存関係どうしの影響の関係で、この方法でインストールするツールは、virtualenv、pipenv、toxのようなPythonを使う作業の工程のための基本要素となるソフトウェアだけに制限すべきという点に注意してください。"
+"依存関係どうしの影響の関係で、この方法でインストールするツールは、virtualenv、Pipenv、toxのようなPythonを使う作業の工程のための基本要素となるソフトウェアだけに制限すべきという点に注意してください。"
 
 #: ../../install.rst:244
 msgid "To install::"
@@ -324,13 +324,13 @@ msgstr ""
 
 #: ../../install.rst:276
 msgid "☤ Crude Installation of Pipenv"
-msgstr "☤ 大雑把なpipenvのインストール方法"
+msgstr "☤ 大雑把なPipenvのインストール方法"
 
 #: ../../install.rst:278
 msgid ""
 "If you don't even have pip installed, you can use this crude installation "
 "method, which will bootstrap your whole system::"
-msgstr "もしpipをまだインストールしていなくても、この大雑把なインストール方法を使って、pipenvのシステム全体を立ち上げられます::"
+msgstr "もしpipをまだインストールしていなくても、この大雑把なインストール方法を使って、Pipenvのシステム全体を立ち上げられます::"
 
 #: ../../install.rst:282
 msgid "Congratulations, you now have pip and Pipenv installed!"

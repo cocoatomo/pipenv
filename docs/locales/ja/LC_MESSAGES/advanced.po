@@ -20,12 +20,12 @@ msgstr ""
 
 #: ../../advanced.rst:4
 msgid "Advanced Usage of Pipenv"
-msgstr "pipenvの進んだ使い方"
+msgstr "Pipenvの進んだ使い方"
 
 #: ../../advanced.rst:8
 msgid ""
 "This document covers some of Pipenv's more glorious and advanced features."
-msgstr "このドキュメントではpipenvのより輝かしい進んだ機能を対象としています。"
+msgstr "このドキュメントではPipenvのより輝かしい進んだ機能を対象としています。"
 
 #: ../../advanced.rst:11
 msgid "☤ Specifying Package Indexes"
@@ -80,7 +80,7 @@ msgstr "☤ システム環境への依存関係のデプロイ"
 msgid ""
 "You can tell Pipenv to install things into its parent system with the "
 "``--system`` flag::"
-msgstr "``--system`` フラグを使って、pipenvに親システムにイストールするよう指示できます::"
+msgstr "``--system`` フラグを使って、Pipenvに親システムにイストールするよう指示できます::"
 
 #: ../../advanced.rst:72
 msgid ""
@@ -137,7 +137,7 @@ msgid ""
 "and will use it to scan your dependency graph for known security "
 "vulnerabilities!"
 msgstr ""
-"pipenv は `safety <https://github.com/pyupio/safety>`_ "
+"Pipenv は `safety <https://github.com/pyupio/safety>`_ "
 "パッケージを含んでいて、既知のセキュリティの脆弱性が無いか依存関係グラフを走査するのに使われます。"
 
 #: ../../advanced.rst:127
@@ -157,7 +157,7 @@ msgid ""
 "Pipenv has `Flake 8 <http://flake8.pycqa.org/en/latest/>`_ built into it. "
 "You can check the style of your code like so, without installing anything::"
 msgstr ""
-"pipenvには `Flake 8 <http://flake8.pycqa.org/en/latest/>`_ が備え付けてあります。\n"
+"Pipenvには `Flake 8 <http://flake8.pycqa.org/en/latest/>`_ が備え付けてあります。\n"
 "何もインストールしなくても、このようにコードスタイルをチェックできます。"
 
 #: ../../advanced.rst:182
@@ -173,7 +173,7 @@ msgid ""
 "Pipenv allows you to open any Python module that is installed (including "
 "ones in your codebase), with the ``$ pipenv open`` command::"
 msgstr ""
-"pipenvを使うと ``$ pipenv open`` コマンドで、(自分で書いたコードベースを含め) "
+"Pipenvを使うと ``$ pipenv open`` コマンドで、(自分で書いたコードベースを含め) "
 "インストールされているどんなPythonモジュールも開けます::"
 
 #: ../../advanced.rst:197
@@ -204,7 +204,7 @@ msgid ""
 msgstr ""
 "`pyenv <https://github.com/pyenv/pyenv#simple-python-version-management-"
 "pyenv>`_ "
-"のインストールと設定が済んでいて、必要とするバージョンのPythonがまだ利用できる状態になっていない場合、pipenvは自動でそのバージョンのPythonをインストールしたいかどうかを尋ねます。"
+"のインストールと設定が済んでいて、必要とするバージョンのPythonがまだ利用できる状態になっていない場合、Pipenvは自動でそのバージョンのPythonをインストールしたいかどうかを尋ねます。"
 
 #: ../../advanced.rst:206
 msgid "This is a very fancy feature, and we're very proud of it::"
@@ -216,7 +216,7 @@ msgid ""
 "``python_version`` `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ "
 "specifiers."
 msgstr ""
-"pipenv は `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ が規定する "
+"Pipenv は `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ が規定する "
 "``python_full_version`` と ``python_version`` の両方に従います。"
 
 #: ../../advanced.rst:239
@@ -314,7 +314,7 @@ msgid ""
 "``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds Pipenv "
 "will wait for virtualenv creation to complete.  Defaults to 120 seconds."
 msgstr ""
-"``PIPENV_TIMEOUT`` — 仮想環境の作成が完了するのを、pipenvが待つ秒数の最大値を整数で設定します。デフォルトは120秒です。"
+"``PIPENV_TIMEOUT`` — 仮想環境の作成が完了するのを、Pipenvが待つ秒数の最大値を整数で設定します。デフォルトは120秒です。"
 
 #: ../../advanced.rst:293
 msgid ""
@@ -353,8 +353,8 @@ msgid ""
 "``WORKON_HOME`` environment variable, if you have it set — so you can tell "
 "pipenv to store your virtual environments wherever you want, e.g.::"
 msgstr ""
-"pipenvの依存パッケージである ``pew`` は ``WORKON_HOME`` が設定してあれば自動でそれに従います。\n"
-"これにより、どこでも好きなところを指定して、pipenvに仮想環境を保存するよう指示できます。"
+"Pipenvの依存パッケージである ``pew`` は ``WORKON_HOME`` が設定してあれば自動でそれに従います。\n"
+"これにより、どこでも好きなところを指定して、Pipenvに仮想環境を保存するよう指示できます。"
 
 #: ../../advanced.rst:313
 msgid ""
@@ -363,7 +363,7 @@ msgid ""
 "variable."
 msgstr ""
 "さらに、 ``PIPENV_VENV_IN_PROJECT`` 環境変数を設定することで、 ``project/.venv`` "
-"にある仮想環境をpipenvに使わせることができます。"
+"にある仮想環境をPipenvに使わせることができます。"
 
 #: ../../advanced.rst:317
 msgid "☤ Testing Projects"
@@ -373,7 +373,7 @@ msgstr "☤ プロジェクトのテスト"
 msgid ""
 "Pipenv is being used in projects like `Requests`_ for declaring development "
 "dependencies and running the test suite."
-msgstr "pipenvは `Requests`_ のようなプロジェクトで開発用の依存関係の宣言とテストスイートの実行に使われています。"
+msgstr "Pipenvは `Requests`_ のようなプロジェクトで開発用の依存関係の宣言とテストスイートの実行に使われています。"
 
 #: ../../advanced.rst:321
 msgid ""
@@ -414,7 +414,7 @@ msgid ""
 "With Pipenv's default configuration, you'll need to use tox's ``passenv`` "
 "parameter to pass your shell's ``HOME`` variable."
 msgstr ""
-"pipenvのデフォルトの設定では、シェルの ``HOME`` 変数を渡すのにtoxの ``passenv`` パラメータを使う必要があります。"
+"Pipenvのデフォルトの設定では、シェルの ``HOME`` 変数を渡すのにtoxの ``passenv`` パラメータを使う必要があります。"
 
 #: ../../advanced.rst:390
 msgid "☤ Shell Completion"

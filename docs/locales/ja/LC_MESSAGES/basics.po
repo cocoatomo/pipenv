@@ -20,11 +20,11 @@ msgstr ""
 
 #: ../../basics.rst:4
 msgid "Basic Usage of Pipenv"
-msgstr "pipenvの基本的な使い方"
+msgstr "Pipenvの基本的な使い方"
 
 #: ../../basics.rst:8
 msgid "This document covers some of Pipenv's more basic features."
-msgstr "このドキュメントではpipenvのより基本的な機能を対象としています。"
+msgstr "このドキュメントではPipenvのより基本的な機能を対象としています。"
 
 #: ../../basics.rst:11
 msgid "☤ Example Pipfile & Pipfile.lock"
@@ -75,7 +75,7 @@ msgid ""
 "create a ``Pipfile`` for you."
 msgstr ""
 "``pipenv install`` を実行したときに ``requirements.txt`` "
-"ファイルしか無い場合は、pipenvは自動でそのファイルの内容をインポートし ``Pipfile`` を作成します。"
+"ファイルしか無い場合は、Pipenvは自動でそのファイルの内容をインポートし ``Pipfile`` を作成します。"
 
 #: ../../basics.rst:152
 msgid ""
@@ -102,7 +102,7 @@ msgstr "☤ パッケージのバージョンを指定する"
 msgid ""
 "To tell pipenv to install a specific version of a library, the usage is "
 "simple::"
-msgstr "ライブラリの特定のバージョンをインストールするようにpipenvに教える方法はとても簡潔です::"
+msgstr "ライブラリの特定のバージョンをインストールするようにPipenvに教える方法はとても簡潔です::"
 
 #: ../../basics.rst:167
 msgid ""
@@ -139,7 +139,7 @@ msgstr "Python 2.7.14を使うには::"
 msgid ""
 "When given a Python version, like this, Pipenv will automatically scan your "
 "system for a Python that matches that given version."
-msgstr "このようにPythonのバージョンが与えられたときは、pipenvはそのバージョンに合うPythonをシステムから自動で探しに行きます。"
+msgstr "このようにPythonのバージョンが与えられたときは、Pipenvはそのバージョンに合うPythonをシステムから自動で探しに行きます。"
 
 #: ../../basics.rst:190
 msgid ""
@@ -178,7 +178,7 @@ msgid ""
 "You can tell Pipenv to install a path as editable — often this is useful for"
 " the current working directory when working on packages::"
 msgstr ""
-"pipenvに編集可能なパスとしてインストールするよう指示できます — "
+"Pipenvに編集可能なパスとしてインストールするよう指示できます — "
 "この機能は、パッケージの開発作業をしているときに、現在の作業ディレクトリを指すのに便利なことが多いです::"
 
 #: ../../basics.rst:223
@@ -189,14 +189,14 @@ msgstr "全ての依存関係が ``Pipfile.lock`` にも追加されることに
 
 #: ../../basics.rst:229
 msgid "☤ Environment Management with Pipenv"
-msgstr "☤ pipenvによる環境管理"
+msgstr "☤ Pipenvによる環境管理"
 
 #: ../../basics.rst:231
 msgid ""
 "The three primary commands you'll use in managing your pipenv environment "
 "are ``$ pipenv install``, ``$ pipenv uninstall``, and ``$ pipenv lock``."
 msgstr ""
-"pipenvの環境管理で使うであろう主要な3つのコマンドは ``$ pipenv install`` 、 ``$ pipenv uninstall`` "
+"Pipenvの環境管理で使うであろう主要な3つのコマンドは ``$ pipenv install`` 、 ``$ pipenv uninstall`` "
 "、 ``$ pipenv lock`` です。"
 
 #: ../../basics.rst:237
@@ -208,7 +208,7 @@ msgid ""
 "``$ pipenv install`` is used for installing packages into the pipenv virtual"
 " environment and updating your Pipfile."
 msgstr ""
-"``$ pipenv install`` は、pipenvの仮想環境にパッケージをインストールしたり、Pipfileを更新したりするのに使います。"
+"``$ pipenv install`` は、Pipenvの仮想環境にパッケージをインストールしたり、Pipfileを更新したりするのに使います。"
 
 #: ../../basics.rst:242
 msgid "Along with the basic install command, which takes the form::"
@@ -253,7 +253,7 @@ msgid ""
 "the full path to the current folder is encoded into a \"slug value\" and "
 "appended to ensure the virtualenv name is unique."
 msgstr ""
-"pipenvで作成された仮想環境は、予想したものと異なっているかもしれません。\n"
+"Pipenvで作成された仮想環境は、予想したものと異なっているかもしれません。\n"
 "危険な文字 (つまり、空白、ラインフィード、キャリッジリターン、タブだけでなく ``$`!*@\"`` も) はアンダースコアに変換されます。\n"
 "さらに、現在のフォルダのフルパスは \"スラッグ値\" にエンコードされ、仮想環境名が一意になるように末尾に追加されます。"
 
@@ -373,7 +373,7 @@ msgstr "☤ バージョン管理システムについての但し書き"
 msgid ""
 "Pipenv will resolve the sub–dependencies of VCS dependencies, but only if "
 "they are editable, like so::"
-msgstr "pipenvはバージョン管理システムで指定した依存関係の子依存関係も解決しますが、それは次のように編集可能な場合だけです::"
+msgstr "Pipenvはバージョン管理システムで指定した依存関係の子依存関係も解決しますが、それは次のように編集可能な場合だけです::"
 
 #: ../../basics.rst:313
 msgid "If editable is not true, sub–dependencies will not get resolved."
