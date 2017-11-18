@@ -106,6 +106,8 @@ msgid ""
 "If you plan to install pipenv using Homebrew you can skip this step. The "
 "Homebrew installer takes care of pip for you."
 msgstr ""
+"Homebrewを使ってPipenvをインストールするつもりの場合は、この手順はスキップできます。\n"
+"Homebrewのインストーラはpipの面倒も見てくれます。"
 
 #: ../../install.rst:72
 msgid "☤ Installing Pipenv"

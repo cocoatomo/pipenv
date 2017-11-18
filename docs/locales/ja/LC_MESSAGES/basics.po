@@ -46,23 +46,23 @@ msgstr "Pipfile.lockの例"
 
 #: ../../basics.rst:125
 msgid "☤ Example Pipenv workflow"
-msgstr ""
+msgstr "☤ Pipenvのワークフローの例"
 
 #: ../../basics.rst:127
 msgid "Install from Pipfile::"
-msgstr ""
+msgstr "Pipfileの内容でインストールする::"
 
 #: ../../basics.rst:131
 msgid "Add a module::"
-msgstr ""
+msgstr "モジュールを追加する::"
 
 #: ../../basics.rst:135
 msgid "Create a Pipfile.lock from the installed versions::"
-msgstr ""
+msgstr "インストールされているバージョンでPipfile.lockを作成する::"
 
 #: ../../basics.rst:139
 msgid "Install from that Pipfile.lock::"
-msgstr ""
+msgstr "さっきのPipfile.lockの内容でインストールする::"
 
 #: ../../basics.rst:147
 msgid "☤ Importing from requirements.txt"
@@ -297,6 +297,8 @@ msgid ""
 "<#pipenv-install>`_, as well as two additonal options, ``--all`` and "
 "``--all-dev``."
 msgstr ""
+"``$ pipenv uninstall`` は `pipenv install <#pipenv-install>`_ の全てのパラメータに加えて、 "
+"``--all`` と ``--all-dev`` もサポートしています。"
 
 #: ../../basics.rst:275
 msgid ""
@@ -308,7 +310,7 @@ msgstr "``--all`` — このパラメータを付けると、仮想環境から�
 msgid ""
 "``--all-dev`` — This parameter will remove all of the development packages "
 "from the virtual environment, and remove them from the Pipfile."
-msgstr ""
+msgstr "``--all-dev`` — このパラメータを付けると、開発環境の全てのパッケージを仮想環境から除去し、Pipfileからも削除します。"
 
 #: ../../basics.rst:285
 msgid "$ pipenv lock"
