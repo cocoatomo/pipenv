@@ -20,7 +20,9 @@ msgstr ""
 
 #: ../../index.rst:7
 msgid "Pipenv: Python Dev Workflow for Humans"
-msgstr "Pipenv: 人間のためのPython開発ワークフロー"
+msgstr ""
+"Pipenv: 人間のためのPython開発ワークフロー\n"
+"(日本語訳: cocoatomo)"
 
 #: ../../index.rst:23
 msgid ""
@@ -98,7 +100,7 @@ msgstr "さぁ今日これからPipenvをインストール!"
 msgid ""
 "Pipenv is a python package and so can be installed using ``pip`` as you "
 "would expect. ::"
-msgstr ""
+msgstr "Pipenvはpythonのパッケージなので、普通に ``pip`` を使ってインストールできます。 ::"
 
 #: ../../index.rst:52
 msgid ""
@@ -110,6 +112,8 @@ msgid ""
 "installation-of-pipenv>`_ and `Homebrew "
 "<https://docs.pipenv.org/install.html#homebrew-installation-of-pipenv>`_."
 msgstr ""
+"もし素晴しいセンスをお持ちなら、この方法以外にもPipenvとその依存パッケージと他のインストールされているPythonが干渉しないインストール方法も色々選べます。\n"
+"例えば `Pipsi <https://docs.pipenv.org/install.html#fancy-installation-of-pipenv>`_ 、 `Nix <https://docs.pipenv.org/install.html#referentially-transparent-installation-of-pipenv>`_ 、 `Homebrew <https://docs.pipenv.org/install.html#homebrew-installation-of-pipenv>`_ などの方法があります。"
 
 #: ../../index.rst:65
 msgid "User Testimonials"
@@ -351,7 +355,7 @@ msgstr "JSONを出力します。"
 
 #: ../../../pipenv graph:1
 msgid "Reversed dependency graph."
-msgstr ""
+msgstr "逆向きの依存関係グラフ。"
 
 #: ../../../pipenv install:1
 msgid "Install package(s) in [dev-packages]."
@@ -388,7 +392,7 @@ msgstr "インストール時にバージョン固定の仕組みを無視し、
 
 #: ../../../pipenv install:1
 msgid "Abort if the Pipfile.lock is out–of–date, or Python version is wrong."
-msgstr ""
+msgstr "Pipfile.lockが古い、もしくはPythonバージョンが間違っている場合に、異常終了します。"
 
 #: ../../../pipenv install:1 ../../../pipenv lock:1
 msgid "Allow pre–releases."
@@ -407,7 +411,7 @@ msgstr "requirements.txtと互換な出力を生成します。"
 msgid ""
 "Generate output compatible with requirements.txt for the development "
 "dependencies."
-msgstr ""
+msgstr "開発用の依存パッケージのrequirements.txtと互換な出力を生成します。"
 
 #: ../../../pipenv lock:1 ../../../pipenv update:1
 msgid "Clear the dependency cache."
