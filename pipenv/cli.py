@@ -220,7 +220,7 @@ def ensure_latest_pip():
 
             windows = '-m' if os.name == 'nt' else ''
 
-            c = delegator.run('"{0}" install {1} pip --upgrade'.format(which_pip()), windows, block=False)
+            c = delegator.run('"{0}" install {1} pip --upgrade'.format(which_pip(), windows), block=False)
             click.echo(crayons.blue(c.out))
     except AttributeError:
         pass
@@ -544,6 +544,9 @@ def ensure_python(three=None, python=None):
 def ensure_virtualenv(three=None, python=None, site_packages=False):
     """Creates a virtualenv, if one doesn't exist."""
 
+    def abort():
+        sys.exit(1)
+
     global USING_DEFAULT_PYTHON
 
     if not project.virtualenv_exists:
@@ -580,6 +583,12 @@ def ensure_virtualenv(three=None, python=None, site_packages=False):
         ensure_python(three=three, python=python)
 
         click.echo(crayons.red('Virtualenv already exists!'), err=True)
+        # If VIRTUAL_ENV is set, there is a possibility that we are
+        # going to remove the active virtualenv that the user cares
+        # about, so confirm first.
+        if 'VIRTUAL_ENV' in os.environ:
+            if not (PIPENV_YES or click.confirm('Remove existing virtualenv?', default=True)):
+                abort()
         click.echo(crayons.normal(u'Removing existing virtualenv…', bold=True), err=True)
 
         # Remove the virtualenv.
@@ -937,7 +946,7 @@ def do_create_virtualenv(python=None, site_packages=False):
             crayons.normal('Using', bold=True),
             crayons.red(python, bold=True),
             crayons.normal(u'to create virtualenv…', bold=True)
-        ))
+        ), err=True)
 
     # Use virtualenv's -p python.
     if python:
@@ -1162,7 +1171,7 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
     try:
         lockfile['_meta']['host-environment-markers'] = simplejson.loads(c.out)
     except ValueError:
-        click.echo(crayons.red("An unexpected error occured while accessing your virtualenv's python installation!"))
+        click.echo(crayons.red("An unexpected error occurred while accessing your virtualenv's python installation!"))
         click.echo('Please run $ {0} to re-create your environment.'.format(crayons.red('pipenv --rm')))
         sys.exit(1)
 
@@ -1535,7 +1544,7 @@ Usage Examples:
    Show a graph of your installed dependencies:
    $ {4}
 
-   Check your installed dependencies for security vulnerabilties:
+   Check your installed dependencies for security vulnerabilities:
    $ {7}
 
    Install a local setup.py into your virtual environment/Pipfile:

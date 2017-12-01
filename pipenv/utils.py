@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from collections import namedtuple
 import os
 import hashlib
 import tempfile
@@ -37,7 +36,7 @@ from piptools.scripts.compile import get_pip_command
 from piptools import logging
 from piptools.exceptions import NoCandidateFound
 from pip.exceptions import DistributionNotFound
-from requests.exceptions import HTTPError
+from requests.exceptions import HTTPError, ConnectionError
 
 from .pep508checker import lookup
 from .environments import SESSION_IS_INTERACTIVE, PIPENV_MAX_ROUNDS, PIPENV_CACHE_DIR
@@ -278,15 +277,33 @@ def get_requirement(dep):
     remote URIs, and package names, and that we pass only valid requirement strings
     to the requirements parser. Performs necessary modifications to requirements
     object if the user input was a local relative path.
+    
+    :param str dep: A requirement line
+    :returns: :class:`requirements.Requirement` object
     """
     path = None
+    # Split out markers if they are present - similar to how pip does it
+    # See pip.req.req_install.InstallRequirement.from_line
+    if not any(dep.startswith(uri_prefix) for uri_prefix in SCHEME_LIST):
+        marker_sep = ';'
+    else:
+        marker_sep = '; '
+    if marker_sep in dep:
+        dep, markers = dep.split(marker_sep, 1)
+        markers = markers.strip()
+        if not markers:
+            markers = None
+    else:
+        markers = None
+    # Strip extras from the requirement so we can make a properly parseable req
+    dep, extras = pip.req.req_install._strip_extras(dep)
     # Only operate on local, existing, non-URI formatted paths
     if (is_file(dep) and isinstance(dep, six.string_types) and
             not any(dep.startswith(uri_prefix) for uri_prefix in SCHEME_LIST)):
         dep_path = Path(dep)
         # Only parse if it is a file or an installable dir
         if dep_path.is_file() or (dep_path.is_dir() and pip.utils.is_installable_dir(dep)):
-            if dep_path.is_absolute():
+            if dep_path.is_absolute() or dep_path.as_posix() == '.':
                 path = dep
             else:
                 path = get_converted_relative_path(dep)
@@ -297,6 +314,11 @@ def get_requirement(dep):
     if req.local_file and req.uri and not req.path and path:
         req.path = path
         req.uri = None
+    if markers:
+        req.markers = markers
+    if extras:
+        # Bizarrely this is also what pip does...
+        req.extras = [r for r in requirements.parse('fakepkg{0}'.format(extras))][0].extras
     return req
 
 
@@ -394,9 +416,6 @@ def clean_pkg_version(version):
 
 class HackedPythonVersion(object):
     """A Beautiful hack, which allows us to tell pip which version of Python we're using."""
-
-    PatchedSysVersion = namedtuple('PatchedSysVersion', ['major', 'minor', 'micro'])
-
     def __init__(self, python_version, python_path):
         self.python_version = python_version
         self.python_path = python_path
@@ -404,13 +423,10 @@ class HackedPythonVersion(object):
     def __enter__(self):
         os.environ['PIP_PYTHON_VERSION'] = str(self.python_version)
         os.environ['PIP_PYTHON_PATH'] = str(self.python_path)
-        self.backup_version_info = sys.version_info
-        sys.version_info = self.PatchedSysVersion(*map(int, self.python_version.split('.')))
 
     def __exit__(self, *args):
         # Restore original Python version information.
         del os.environ['PIP_PYTHON_VERSION']
-        sys.version_info = self.backup_version_info
 
 
 def prepare_pip_source_args(sources, pip_args=None):
@@ -575,7 +591,7 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
                     if not collected_hashes:
                         collected_hashes = list(list(resolver.resolve_hashes([result]).items())[0][1])
 
-                except (ValueError, KeyError):
+                except (ValueError, KeyError, ConnectionError):
                     if verbose:
                         print('Error fetching {}'.format(name))
 
@@ -618,27 +634,25 @@ def convert_deps_from_pip(dep):
         hashable_path = req.uri if req.uri else req.path
         req.name = hashlib.sha256(hashable_path.encode('utf-8')).hexdigest()
         req.name = req.name[len(req.name) - 7:]
-
         # {path: uri} TOML (spec 4 I guess...)
         if req.uri:
             dependency[req.name] = {'file': hashable_path}
         else:
             dependency[req.name] = {'path': hashable_path}
 
+        if req.extras:
+            dependency[req.name].update(extras)
+
         # Add --editable if applicable
         if req.editable:
             dependency[req.name].update({'editable': True})
 
     # VCS Installs. Extra check for unparsed git over SSH
-    if req.vcs or is_vcs(req.path):
+    elif req.vcs or is_vcs(req.path):
         if req.name is None:
             raise ValueError('pipenv requires an #egg fragment for version controlled '
                              'dependencies. Please install remote dependency '
                              'in the form {0}#egg=<package-name>.'.format(req.uri))
-
-        # Extras: e.g. #egg=requests[security]
-        if req.extras:
-            dependency[req.name] = extras
 
         # Set up this requirement as a proper VCS requirement if it was not
         if not req.vcs and req.path.startswith(VCS_LIST):
@@ -647,7 +661,9 @@ def convert_deps_from_pip(dep):
             req.path = None
 
         # Crop off the git+, etc part.
-        dependency.setdefault(req.name, {}).update({req.vcs: req.uri[len(req.vcs) + 1:]})
+        if req.uri.startswith('{0}+'.format(req.vcs)):
+            req.uri = req.uri[len(req.vcs) + 1:]
+        dependency.setdefault(req.name, {}).update({req.vcs: req.uri})
 
         # Add --editable, if it's there.
         if req.editable:
@@ -660,6 +676,10 @@ def convert_deps_from_pip(dep):
         # Add the specifier, if it was provided.
         if req.revision:
             dependency[req.name].update({'ref': req.revision})
+
+        # Extras: e.g. #egg=requests[security]
+        if req.extras:
+            dependency[req.name].update({'extras': req.extras})
 
     elif req.extras or req.specs:
 
@@ -686,7 +706,6 @@ def convert_deps_from_pip(dep):
         for key in dependency.copy():
             if not hasattr(dependency[key], 'keys'):
                 del dependency[key]
-
     return dependency
 
 
@@ -1060,7 +1079,7 @@ def touch_update_stamp():
     mkdir_p(PIPENV_CACHE_DIR)
     p = os.sep.join((PIPENV_CACHE_DIR, '.pipenv_update_check'))
     try:
-        os.utime(p)
-    except FileNotFoundError:
+        os.utime(p, None)
+    except OSError:
         with open(p, 'w') as fh:
             fh.write('')

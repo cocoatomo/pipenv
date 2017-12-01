@@ -334,6 +334,39 @@ class TestPipenv:
             assert 'urllib3' in p.lockfile['default']
             assert 'pysocks' in p.lockfile['default']
 
+    @pytest.mark.extras
+    @pytest.mark.install
+    @pytest.mark.local
+    def test_local_extras_install(self):
+        with PipenvInstance() as p:
+            setup_py = os.path.join(p.path, 'setup.py')
+            with open(setup_py, 'w') as fh:
+                contents = """
+from setuptools import setup, find_packages
+
+setup(
+    name='test_pipenv',
+    version='0.1',
+    description='Pipenv Test Package',
+    author='Pipenv Test',
+    author_email='test@pipenv.package',
+    license='PIPENV',
+    packages=find_packages(),
+    install_requires=['tablib'],
+    extras_require={'dev': ['flake8', 'pylint']},
+    zip_safe=False
+)
+                """.strip()
+                fh.write(contents)
+            c = p.pipenv('install .[dev]')
+            assert c.return_code == 0
+            key = [k for k in p.pipfile['packages'].keys()][0]
+            dep = p.pipfile['packages'][key]
+            assert dep['path'] == '.'
+            assert dep['extras'] == ['dev']
+            assert key in p.lockfile['default']
+            assert 'dev' in p.lockfile['default'][key]['extras']
+
     @pytest.mark.vcs
     @pytest.mark.install
     def test_basic_vcs_install(self):
@@ -503,6 +536,19 @@ requests = {version = "*", os_name = "== 'splashwear'"}
 
             c = p.pipenv('run python -c "import requests;"')
             assert c.return_code == 1
+
+    @pytest.mark.install
+    @pytest.mark.vcs
+    @pytest.mark.tablib
+    def test_install_editable_git_tag(self):
+        with PipenvInstance() as p:
+            c = p.pipenv('install -e git+git://github.com/kennethreitz/tablib.git@v0.12.1#egg=tablib')
+            assert c.return_code == 0
+            assert 'tablib' in p.pipfile['packages']
+            assert 'tablib' in p.lockfile['default']
+            assert 'git' in p.lockfile['default']['tablib']
+            assert p.lockfile['default']['tablib']['git'] == 'git://github.com/kennethreitz/tablib.git'
+            assert 'ref' in p.lockfile['default']['tablib']            
 
     @pytest.mark.run
     @pytest.mark.alt
@@ -861,7 +907,7 @@ requests = "==2.14.0"
     @pytest.mark.install
     @pytest.mark.files
     @pytest.mark.urls
-    def test_install_remote_requirments(self):
+    def test_install_remote_requirements(self):
         with PipenvInstance() as p:
             # using a github hosted requirements.txt file
             c = p.pipenv('install -r https://raw.githubusercontent.com/kennethreitz/pipenv/3688148ac7cfecefb085c474b092c31d791952c1/tests/test_artifacts/requirements.txt')
