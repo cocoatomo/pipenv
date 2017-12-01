@@ -20,9 +20,7 @@ msgstr ""
 
 #: ../../index.rst:7
 msgid "Pipenv: Python Dev Workflow for Humans"
-msgstr ""
-"Pipenv: 人間のためのPython開発ワークフロー\n"
-"(日本語訳: cocoatomo)"
+msgstr "Pipenv: 人間のためのPython開発ワークフロー"
 
 #: ../../index.rst:23
 msgid ""
