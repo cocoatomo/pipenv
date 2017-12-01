@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 8.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-18 00:46+0900\n"
+"POT-Creation-Date: 2017-12-01 20:18+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,7 @@ msgid "``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs. Automat
 msgstr ""
 
 #: ../../advanced.rst:287
-msgid "``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of directories to resursively search for a Pipfile."
+msgid "``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of directories to recursively search for a Pipfile."
 msgstr ""
 
 #: ../../advanced.rst:290

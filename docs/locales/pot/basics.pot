@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 8.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-18 00:46+0900\n"
+"POT-Creation-Date: 2017-12-01 20:18+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -201,7 +201,7 @@ msgid "$ pipenv uninstall"
 msgstr ""
 
 #: ../../basics.rst:272
-msgid "``$ pipenv uninstall`` supports all of the parameters in `pipenv install <#pipenv-install>`_, as well as two additonal options, ``--all`` and ``--all-dev``."
+msgid "``$ pipenv uninstall`` supports all of the parameters in `pipenv install <#pipenv-install>`_, as well as two additional options, ``--all`` and ``--all-dev``."
 msgstr ""
 
 #: ../../basics.rst:275
