@@ -1,4 +1,5 @@
 import os
+import re
 import tempfile
 import shutil
 import json
@@ -6,9 +7,14 @@ import json
 import pytest
 
 from pipenv.cli import activate_virtualenv
+from pipenv.utils import temp_environ, get_windows_path, mkdir_p
 from pipenv.vendor import toml
 from pipenv.vendor import delegator
 from pipenv.project import Project
+try:
+    from pathlib import Path
+except:
+    from pipenv.vendor.pathlib2 import Path
 
 os.environ['PIPENV_DONT_USE_PYENV'] = '1'
 
@@ -108,6 +114,30 @@ class TestPipenv:
             assert 'requests' in p.pipenv('graph --json').out
 
     @pytest.mark.cli
+    def test_pipenv_graph_reverse(self):
+        with PipenvInstance() as p:
+            p.pipenv('install requests==2.18.4')
+            output = p.pipenv('graph --reverse').out
+
+            requests_dependency = [
+                ('certifi', 'certifi>=2017.4.17'),
+                ('chardet', 'chardet(>=3.0.2,<3.1.0|<3.1.0,>=3.0.2)'),
+                ('idna', 'idna(>=2.5,<2.7|<2.7,>=2.5)'),
+                ('urllib3', 'urllib3(>=1.21.1,<1.23|<1.23,>=1.21.1)')
+            ]
+
+            for dep_name, dep_constraint in requests_dependency:
+                dep_match = re.search(r'^{}==[\d.]+$'.format(dep_name), output, flags=re.MULTILINE)
+                dep_requests_match = re.search(r'^  - requests==2.18.4 \[requires: {}\]$'.format(dep_constraint), output, flags=re.MULTILINE)
+                assert dep_match is not None
+                assert dep_requests_match is not None
+                assert dep_requests_match.start() > dep_match.start()
+
+            c = p.pipenv('graph --reverse --json')
+            assert c.return_code == 1
+            assert 'Warning: Using both --reverse and --json together is not supported.' in c.err
+
+    @pytest.mark.cli
     def test_pipenv_check(self):
         with PipenvInstance() as p:
             p.pipenv('install requests==1.0.0')
@@ -143,6 +173,16 @@ class TestPipenv:
         with PipenvInstance() as p:
             c = p.pipenv('--man')
             assert c.return_code == 0 or c.err
+
+    @pytest.mark.cli
+    @pytest.mark.install
+    def test_install_parse_error(self):
+        with PipenvInstance() as p:
+            # Make sure unparseable packages don't wind up in the pipfile
+            # Escape $ for shell input
+            c = p.pipenv('install tablib u/\\/p@r\$34b13+pkg')
+            assert c.return_code != 0
+            assert 'u/\\/p@r$34b13+pkg' not in p.pipfile['packages']
 
     @pytest.mark.install
     @pytest.mark.setup
@@ -227,6 +267,58 @@ class TestPipenv:
             c = p.pipenv('run python -m requests.help')
             assert c.return_code > 0
 
+    @pytest.mark.files
+    @pytest.mark.run
+    @pytest.mark.uninstall
+    def test_uninstall_all_local_files(self):
+        file_name = 'tablib-0.12.1.tar.gz'
+        # Not sure where travis/appveyor run tests from
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        source_path = os.path.abspath(os.path.join(test_dir, 'test_artifacts', file_name))
+
+        with PipenvInstance() as p:
+            shutil.copy(source_path, os.path.join(p.path, file_name))
+            os.mkdir(os.path.join(p.path, "tablib"))
+            c = p.pipenv('install {}'.format(file_name))
+            c = p.pipenv('uninstall --all --verbose')
+            assert c.return_code == 0
+            assert 'tablib' in c.out
+            assert 'tablib' not in p.pipfile['packages']
+
+    @pytest.mark.run
+    @pytest.mark.uninstall
+    def test_uninstall_all_dev(self):
+        with PipenvInstance() as p:
+            c = p.pipenv('install --dev requests pytest')
+            assert c.return_code == 0
+            
+            c = p.pipenv('install tpfd')
+            assert c.return_code == 0
+            
+            assert 'tpfd' in p.pipfile['packages']
+            assert 'requests' in p.pipfile['dev-packages']
+            assert 'pytest' in p.pipfile['dev-packages']
+            assert 'tpfd' in p.lockfile['default']
+            assert 'requests' in p.lockfile['develop']
+            assert 'pytest' in p.lockfile['develop']
+
+
+            c = p.pipenv('uninstall --all-dev')
+            assert c.return_code == 0
+            assert 'requests' not in p.pipfile['dev-packages']
+            assert 'pytest' not in p.pipfile['dev-packages']
+            assert 'requests' not in p.lockfile['develop']
+            assert 'pytest' not in p.lockfile['develop']
+            assert 'tpfd' in p.pipfile['packages']
+            assert 'tpfd' in p.lockfile['default']
+
+
+            c = p.pipenv('run python -m requests.help')
+            assert c.return_code > 0
+            
+            c = p.pipenv('run python -c "import tpfd"')
+            assert c.return_code == 0
+
     @pytest.mark.extras
     @pytest.mark.install
     def test_extras_install(self):
@@ -242,15 +334,52 @@ class TestPipenv:
             assert 'urllib3' in p.lockfile['default']
             assert 'pysocks' in p.lockfile['default']
 
+    @pytest.mark.extras
+    @pytest.mark.install
+    @pytest.mark.local
+    def test_local_extras_install(self):
+        with PipenvInstance() as p:
+            setup_py = os.path.join(p.path, 'setup.py')
+            with open(setup_py, 'w') as fh:
+                contents = """
+from setuptools import setup, find_packages
+
+setup(
+    name='test_pipenv',
+    version='0.1',
+    description='Pipenv Test Package',
+    author='Pipenv Test',
+    author_email='test@pipenv.package',
+    license='PIPENV',
+    packages=find_packages(),
+    install_requires=['tablib'],
+    extras_require={'dev': ['flake8', 'pylint']},
+    zip_safe=False
+)
+                """.strip()
+                fh.write(contents)
+            c = p.pipenv('install .[dev]')
+            assert c.return_code == 0
+            key = [k for k in p.pipfile['packages'].keys()][0]
+            dep = p.pipfile['packages'][key]
+            assert dep['path'] == '.'
+            assert dep['extras'] == ['dev']
+            assert key in p.lockfile['default']
+            assert 'dev' in p.lockfile['default'][key]['extras']
+
     @pytest.mark.vcs
     @pytest.mark.install
     def test_basic_vcs_install(self):
         with PipenvInstance() as p:
             c = p.pipenv('install git+https://github.com/requests/requests.git#egg=requests')
             assert c.return_code == 0
-            assert 'requests' in p.pipfile['packages']
+            # edge case where normal package starts with VCS name shouldn't be flagged as vcs
+            c = p.pipenv('install gitdb2')
+            assert c.return_code == 0
+            assert all(package in p.pipfile['packages'] for package in ['requests', 'gitdb2'])
             assert 'git' in p.pipfile['packages']['requests']
             assert p.lockfile['default']['requests'] == {"git": "https://github.com/requests/requests.git"}
+            assert 'gitdb2' in p.lockfile['default']
 
     @pytest.mark.e
     @pytest.mark.vcs
@@ -271,33 +400,32 @@ class TestPipenv:
     @pytest.mark.run
     @pytest.mark.install
     def test_multiprocess_bug_and_install(self):
-        os.environ['PIPENV_MAX_SUBPROCESS'] = '2'
+        with temp_environ():
+            os.environ['PIPENV_MAX_SUBPROCESS'] = '2'
 
-        with PipenvInstance() as p:
-            with open(p.pipfile_path, 'w') as f:
-                contents = """
+            with PipenvInstance() as p:
+                with open(p.pipfile_path, 'w') as f:
+                    contents = """
 [packages]
 requests = "*"
 records = "*"
 tpfd = "*"
-                """.strip()
-                f.write(contents)
+                    """.strip()
+                    f.write(contents)
 
-            c = p.pipenv('install')
-            assert c.return_code == 0
+                c = p.pipenv('install')
+                assert c.return_code == 0
 
-            assert 'requests' in p.lockfile['default']
-            assert 'idna' in p.lockfile['default']
-            assert 'urllib3' in p.lockfile['default']
-            assert 'certifi' in p.lockfile['default']
-            assert 'records' in p.lockfile['default']
-            assert 'tpfd' in p.lockfile['default']
-            assert 'parse' in p.lockfile['default']
+                assert 'requests' in p.lockfile['default']
+                assert 'idna' in p.lockfile['default']
+                assert 'urllib3' in p.lockfile['default']
+                assert 'certifi' in p.lockfile['default']
+                assert 'records' in p.lockfile['default']
+                assert 'tpfd' in p.lockfile['default']
+                assert 'parse' in p.lockfile['default']
 
-            c = p.pipenv('run python -c "import requests; import idna; import certifi; import records; import tpfd; import parse;"')
-            assert c.return_code == 0
-
-            del os.environ['PIPENV_MAX_SUBPROCESS']
+                c = p.pipenv('run python -c "import requests; import idna; import certifi; import records; import tpfd; import parse;"')
+                assert c.return_code == 0
 
     @pytest.mark.sequential
     @pytest.mark.install
@@ -409,6 +537,19 @@ requests = {version = "*", os_name = "== 'splashwear'"}
             c = p.pipenv('run python -c "import requests;"')
             assert c.return_code == 1
 
+    @pytest.mark.install
+    @pytest.mark.vcs
+    @pytest.mark.tablib
+    def test_install_editable_git_tag(self):
+        with PipenvInstance() as p:
+            c = p.pipenv('install -e git+git://github.com/kennethreitz/tablib.git@v0.12.1#egg=tablib')
+            assert c.return_code == 0
+            assert 'tablib' in p.pipfile['packages']
+            assert 'tablib' in p.lockfile['default']
+            assert 'git' in p.lockfile['default']['tablib']
+            assert p.lockfile['default']['tablib']['git'] == 'git://github.com/kennethreitz/tablib.git'
+            assert 'ref' in p.lockfile['default']['tablib']            
+
     @pytest.mark.run
     @pytest.mark.alt
     @pytest.mark.install
@@ -445,14 +586,60 @@ requests = {version = "*"}
     @pytest.mark.dotvenv
     def test_venv_in_project(self):
 
-        os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
-        with PipenvInstance() as p:
-            c = p.pipenv('install requests')
-            assert c.return_code == 0
+        with temp_environ():
+            os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
+            with PipenvInstance() as p:
+                c = p.pipenv('install requests')
+                assert c.return_code == 0
 
-            assert p.path in p.pipenv('--venv').out
+                assert p.path in p.pipenv('--venv').out
 
-        del os.environ['PIPENV_VENV_IN_PROJECT']
+    @pytest.mark.dotvenv
+    @pytest.mark.install
+    @pytest.mark.complex
+    @pytest.mark.shell
+    @pytest.mark.windows
+    @pytest.mark.pew
+    def test_shell_nested_venv_in_project(self):
+        import subprocess
+        with temp_environ():
+            os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
+            os.environ['PIPENV_IGNORE_VIRTUALENVS'] = '1'
+            os.environ['PIPENV_SHELL_COMPAT'] = '1'
+            with PipenvInstance(chdir=True) as p:
+                # Signal to pew to look in the project directory for the environment
+                os.environ['WORKON_HOME'] = p.path
+                project = Project()
+                c = p.pipenv('install requests')
+                assert c.return_code == 0
+                assert 'requests' in p.pipfile['packages']
+                assert 'requests' in p.lockfile['default']
+                # Check that .venv now shows in pew's managed list
+                pew_list = delegator.run('pew ls')
+                assert '.venv' in pew_list.out
+                # Check for the venv directory
+                c = delegator.run('pew dir .venv')
+                # Compare pew's virtualenv path to what we expect
+                venv_path = get_windows_path(project.project_directory, '.venv')
+                # os.path.normpath will normalize slashes
+                assert venv_path == os.path.normpath(c.out.strip())
+                # Have pew run 'pip freeze' in the virtualenv
+                # This is functionally the same as spawning a subshell
+                # If we can do this we can theoretically amke a subshell
+                # This test doesn't work on *nix
+                if os.name == 'nt':
+                    args = ['pew', 'in', '.venv', 'pip', 'freeze']
+                    process = subprocess.Popen(
+                        args,
+                        shell=True,
+                        universal_newlines=True,
+                        stdin=subprocess.PIPE,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE
+                    )
+                    out, _ = process.communicate()
+                    assert any(req.startswith('requests') for req in out.splitlines()) is True
+
 
     @pytest.mark.run
     @pytest.mark.dotenv
@@ -579,12 +766,20 @@ pytest = "==3.1.1"
                 """.strip()
                 f.write(contents)
 
-            req_list = ("requests==2.14.0", "flask==0.12.2", "pytest==3.1.1")
+            req_list = ("requests==2.14.0", "flask==0.12.2")
+
+            dev_req_list = ("pytest==3.1.1")
 
             c = p.pipenv('lock -r')
+            d = p.pipenv('lock -r -d')
             assert c.return_code == 0
+            assert d.return_code == 0
+
             for req in req_list:
                 assert req in c.out
+
+            for req in dev_req_list:
+                assert req in d.out
 
     @pytest.mark.lock
     @pytest.mark.complex
@@ -707,3 +902,45 @@ requests = "==2.14.0"
             dep = p.lockfile['default'][key]
 
             assert 'file' in dep or 'path' in dep
+
+
+    @pytest.mark.install
+    @pytest.mark.files
+    @pytest.mark.urls
+    def test_install_remote_requirements(self):
+        with PipenvInstance() as p:
+            # using a github hosted requirements.txt file
+            c = p.pipenv('install -r https://raw.githubusercontent.com/kennethreitz/pipenv/3688148ac7cfecefb085c474b092c31d791952c1/tests/test_artifacts/requirements.txt')
+
+            assert c.return_code == 0
+            # check Pipfile with versions
+            assert 'requests' in p.pipfile['packages']
+            assert p.pipfile['packages']['requests'] == u'==2.18.4'
+            assert 'records' in p.pipfile['packages']
+            assert p.pipfile['packages']['records'] == u'==0.5.2'
+
+            # check Pipfile.lock
+            assert 'requests' in p.lockfile['default']
+            assert 'records' in p.lockfile['default']
+
+
+    @pytest.mark.install
+    @pytest.mark.files
+    def test_relative_paths(self):
+        file_name = 'tablib-0.12.1.tar.gz'
+        test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        source_path = os.path.abspath(os.path.join(test_dir, 'test_artifacts', file_name))
+
+        with PipenvInstance() as p:
+            artifact_dir = 'artifacts'
+            artifact_path = os.path.join(p.path, artifact_dir)
+            mkdir_p(artifact_path)
+            shutil.copy(source_path, os.path.join(artifact_path, file_name))
+            # Test installing a relative path in a subdirectory
+            c = p.pipenv('install {}/{}'.format(artifact_dir, file_name))
+            key = [k for k in p.pipfile['packages'].keys()][0]
+            dep = p.pipfile['packages'][key]
+
+            assert 'path' in dep
+            assert Path(os.path.join('.', artifact_dir, file_name)) == Path(dep['path'])
+            assert c.return_code == 0

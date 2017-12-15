@@ -13,7 +13,8 @@ import toml
 
 from .utils import (
     mkdir_p, convert_deps_from_pip, pep423_name, recase_file,
-    find_requirements, is_file, is_vcs, python_version, cleanup_toml
+    find_requirements, is_file, is_vcs, python_version, cleanup_toml,
+    is_installable_file, is_valid_url
 )
 from .environments import PIPENV_MAX_DEPTH, PIPENV_VENV_IN_PROJECT
 from .environments import PIPENV_VIRTUALENV, PIPENV_PIPFILE
@@ -58,7 +59,7 @@ class Project(object):
         for k, v in self.parsed_pipfile.get(package_section, {}).items():
             # Skip editable VCS deps.
             if hasattr(v, 'keys'):
-                # When a vcs url is gven without editable it only appears as a key
+                # When a vcs url is given without editable it only appears as a key
                 if is_vcs(v) or is_vcs(k):
                     # Non-editable VCS entries can't be resolved by piptools
                     if 'editable' not in v:
@@ -66,10 +67,13 @@ class Project(object):
                     else:
                         ps.update({k: v})
                 else:
-                    if not is_file(v) and not is_file(k):
+                    if not (is_installable_file(k) or is_installable_file(v) or
+                            any(file_prefix in v for file_prefix in ['path', 'file'])):
                         ps.update({k: v})
             else:
-                if not is_vcs(k) and not is_file(k) and not is_vcs(v):
+                if not (any(is_vcs(i) for i in [k, v]) or
+                        any(is_installable_file(i) for i in [k, v]) or
+                        any(is_valid_url(i) for i in [k, v])):
                     ps.update({k: v})
         return ps
 
@@ -103,7 +107,7 @@ class Project(object):
     @property
     def virtualenv_exists(self):
         # TODO: Decouple project from existence of Pipfile.
-        if self.pipfile_exists:
+        if self.pipfile_exists and os.path.exists(self.virtualenv_location):
             if os.name == 'nt':
                 extra = ['Scripts', 'activate.bat']
             else:
@@ -178,7 +182,7 @@ class Project(object):
     @property
     def proper_names_location(self):
         if self._proper_names_location is None:
-            loc = os.sep.join([self.virtualenv_location, 'pipenev-proper-names.txt'])
+            loc = os.sep.join([self.virtualenv_location, 'pipenv-proper-names.txt'])
             self._proper_names_location = loc
 
         # Create the database, if it doesn't exist.

@@ -25,19 +25,18 @@ import pipdeptree
 import requirements
 import semver
 import flake8.main.cli
-
 from pipreqs import pipreqs
 from blindspin import spinner
 from urllib3.exceptions import InsecureRequestWarning
 from pip.req.req_file import parse_requirements
 from click_didyoumean import DYMCommandCollection
-
 from .project import Project
 from .utils import (
     convert_deps_from_pip, convert_deps_to_pip, is_required_version,
     proper_case, pep423_name, split_vcs, resolve_deps, shellquote, is_vcs,
     python_version, suggest_package, find_windows_executable, is_file,
-    prepare_pip_source_args
+    prepare_pip_source_args, temp_environ, is_valid_url, download_file,
+    get_requirement, need_update_check, touch_update_stamp
 )
 from .__version__ import __version__
 from . import pep508checker, progress
@@ -140,6 +139,7 @@ def add_to_path(p):
 def check_for_updates():
     """Background thread -- beautiful, isn't it?"""
     try:
+        touch_update_stamp()
         r = requests.get('https://pypi.python.org/pypi/pipenv/json', timeout=0.5)
         latest = max(map(semver.parse_version_info, r.json()['releases'].keys()))
         current = semver.parse_version_info(__version__)
@@ -156,6 +156,7 @@ def check_for_updates():
 
 def ensure_latest_self(user=False):
     """Updates Pipenv to latest version, cleverly."""
+    touch_update_stamp()
     try:
         r = requests.get('https://pypi.python.org/pypi/pipenv/json', timeout=2)
     except requests.RequestException as e:
@@ -219,7 +220,7 @@ def ensure_latest_pip():
 
             windows = '-m' if os.name == 'nt' else ''
 
-            c = delegator.run('"{0}" install {1} pip --upgrade'.format(which_pip()), windows, block=False)
+            c = delegator.run('"{0}" install {1} pip --upgrade'.format(which_pip(), windows), block=False)
             click.echo(crayons.blue(c.out))
     except AttributeError:
         pass
@@ -243,7 +244,7 @@ def import_requirements(r=None, dev=False):
     indexes = []
     # Find and add extra indexes.
     for line in contents.split('\n'):
-        if line.startswith(('-i ', '--index ')):
+        if line.startswith(('-i ', '--index ', '--index-url ')):
             indexes.append(line.split()[1])
 
     reqs = [f for f in parse_requirements(r, session=pip._vendor.requests)]
@@ -394,13 +395,20 @@ def ensure_python(three=None, python=None):
         """Adds all pyenv installations to the PATH."""
         if PYENV_INSTALLED:
             if PYENV_ROOT:
+                pyenv_paths = {}
                 for found in glob(
-                    '{0}{1}versions{1}*{1}bin'.format(
+                    '{0}{1}versions{1}*'.format(
                         PYENV_ROOT,
                         os.sep
                     )
                 ):
-                    add_to_path(found)
+                    pyenv_paths[os.path.split(found)[1]] = '{0}{1}bin'.format(found, os.sep)
+
+                for version_str, pyenv_path in pyenv_paths.items():
+                    version = pip._vendor.packaging.version.parse(version_str)
+                    if version.is_prerelease and pyenv_paths.get(version.base_version):
+                        continue
+                    add_to_path(pyenv_path)
             else:
                 click.echo(
                     '{0}: PYENV_ROOT is not set. New python paths will '
@@ -536,6 +544,9 @@ def ensure_python(three=None, python=None):
 def ensure_virtualenv(three=None, python=None, site_packages=False):
     """Creates a virtualenv, if one doesn't exist."""
 
+    def abort():
+        sys.exit(1)
+
     global USING_DEFAULT_PYTHON
 
     if not project.virtualenv_exists:
@@ -565,10 +576,20 @@ def ensure_virtualenv(three=None, python=None, site_packages=False):
 
     # If --three, --two, or --python were passed...
     elif (python) or (three is not None) or (site_packages is not False):
-        click.echo(crayons.red('Virtualenv already exists!'), err=True)
-        click.echo(crayons.normal(u'Removing existing virtualenv…', bold=True), err=True)
 
         USING_DEFAULT_PYTHON = False
+
+        # Ensure python is installed before deleting existing virtual env
+        ensure_python(three=three, python=python)
+
+        click.echo(crayons.red('Virtualenv already exists!'), err=True)
+        # If VIRTUAL_ENV is set, there is a possibility that we are
+        # going to remove the active virtualenv that the user cares
+        # about, so confirm first.
+        if 'VIRTUAL_ENV' in os.environ:
+            if not (PIPENV_YES or click.confirm('Remove existing virtualenv?', default=True)):
+                abort()
+        click.echo(crayons.normal(u'Removing existing virtualenv…', bold=True), err=True)
 
         # Remove the virtualenv.
         cleanup_virtualenv(bare=True)
@@ -765,10 +786,20 @@ def do_install_dependencies(
     deps = {}
     vcs_deps = {}
 
+    # Store dev only deps for a requirements output
+    dev_deps = {}
+    dev_vcs_deps = {}
+
     # Add development deps if --dev was passed.
     if dev:
         deps.update(lockfile['develop'])
         vcs_deps.update(lockfile.get('develop-vcs', {}))
+
+        # Add only dev deps if requirements was passed
+        if requirements:
+            dev_deps.update(lockfile['develop'])
+            dev_vcs_deps.update(lockfile.get('develop-vcs', {}))
+
 
     # Install default dependencies, always.
     deps.update(lockfile['default'] if not only else {})
@@ -781,22 +812,34 @@ def do_install_dependencies(
                 del v['hash']
 
     # Convert the deps to pip-compatible arguments.
-    deps_list = [(d, ignore_hashes) for d in convert_deps_to_pip(deps, project, r=False, include_index=True)]
+    deps_list = [(d, ignore_hashes, blocking) for d in convert_deps_to_pip(deps, project, r=False, include_index=True)]
     failed_deps_list = []
 
     if len(vcs_deps):
-        deps_list.extend((d, True) for d in convert_deps_to_pip(vcs_deps, project, r=False))
+        deps_list.extend((d, True, True) for d in convert_deps_to_pip(vcs_deps, project, r=False))
 
     # --requirements was passed.
     if requirements:
-        click.echo('\n'.join(d[0] for d in deps_list))
-        sys.exit(0)
+        # Output only default dependencies
+        if not dev:
+            click.echo('\n'.join(d[0] for d in deps_list))
+            sys.exit(0)
+
+        # Output only dev dependencies
+        if dev:
+            dev_deps_list = [(d, ignore_hashes, blocking) for d in convert_deps_to_pip(dev_deps, project, r=False, include_index=True)]
+            if len(dev_vcs_deps):
+                dev_deps_list.extend((d, True, True) for d in convert_deps_to_pip(dev_vcs_deps, project, r=False))
+
+            click.echo('\n'.join(d[0] for d in dev_deps_list))
+            sys.exit(0)
+
 
     procs = []
 
     deps_list_bar = progress.bar(deps_list, label=INSTALL_LABEL if os.name != 'nt' else '')
 
-    for dep, ignore_hash in deps_list_bar:
+    for dep, ignore_hash, block in deps_list_bar:
         if len(procs) < PIPENV_MAX_SUBPROCESS:
             # Use a specific index, if specified.
             index = None
@@ -812,7 +855,7 @@ def do_install_dependencies(
                 allow_global=allow_global,
                 no_deps=no_deps,
                 verbose=verbose,
-                block=blocking,
+                block=block,
                 index=index
             )
 
@@ -903,7 +946,7 @@ def do_create_virtualenv(python=None, site_packages=False):
             crayons.normal('Using', bold=True),
             crayons.red(python, bold=True),
             crayons.normal(u'to create virtualenv…', bold=True)
-        ))
+        ), err=True)
 
     # Use virtualenv's -p python.
     if python:
@@ -1128,8 +1171,8 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
     try:
         lockfile['_meta']['host-environment-markers'] = simplejson.loads(c.out)
     except ValueError:
-        click.echo(crayons.red("An unexpected error occured while accessing your virtualenv's python installation!"))
-        click.echo('Please run $ {0} to re-create your environment.'.crayons.red('pipenv --rm'))
+        click.echo(crayons.red("An unexpected error occurred while accessing your virtualenv's python installation!"))
+        click.echo('Please run $ {0} to re-create your environment.'.format(crayons.red('pipenv --rm')))
         sys.exit(1)
 
     # Write out the lockfile.
@@ -1236,7 +1279,7 @@ def do_purge(bare=False, downloads=False, allow_global=False, verbose=False):
 
 def do_init(
     dev=False, requirements=False, allow_global=False, ignore_pipfile=False,
-    skip_lock=False, verbose=False, system=False, concurrent=True, deploy=False
+    skip_lock=False, verbose=False, system=False, concurrent=True, deploy=False, pre=False
 ):
     """Executes the init functionality."""
 
@@ -1288,12 +1331,12 @@ def do_init(
                     err=True
                 )
 
-                do_lock(system=system)
+                do_lock(system=system, pre=pre)
 
     # Write out the lockfile if it doesn't exist.
     if not project.lockfile_exists and not skip_lock:
         click.echo(crayons.normal(u'Pipfile.lock not found, creating…', bold=True), err=True)
-        do_lock(system=system)
+        do_lock(system=system, pre=pre)
 
     do_install_dependencies(dev=dev, requirements=requirements, allow_global=allow_global,
                             skip_lock=skip_lock, verbose=verbose, concurrent=concurrent)
@@ -1318,7 +1361,22 @@ def pip_install(
             f.write(package_name)
 
     # Install dependencies when a package is a VCS dependency.
-    if [x for x in requirements.parse(package_name.split('--hash')[0].split('--trusted-host')[0])][0].vcs:
+    try:
+        req = get_requirement(package_name.split('--hash')[0].split('--trusted-host')[0]).vcs
+    except (pip._vendor.pyparsing.ParseException, ValueError) as e:
+        click.echo('{0}: {1}'.format(crayons.red('WARNING'), e), err=True)
+        click.echo(
+            '{0}... You will have to reinstall any packages that failed to install.'.format(
+                crayons.red('ABORTING INSTALL')
+            ), err=True
+        )
+        click.echo(
+            'You may have to manually run {0} when you are finished.'.format(
+                crayons.normal('pipenv lock', bold=True)
+            )
+        )
+        sys.exit(1)
+    if req:
         no_deps = False
 
         # Don't specify a source directory when using --system.
@@ -1429,7 +1487,7 @@ def which_pip(allow_global=False):
 
 
 def system_which(command, mult=False):
-    """Emulates the system's which. Returns None is not found."""
+    """Emulates the system's which. Returns None if not found."""
 
     _which = 'which -a' if not os.name == 'nt' else 'where'
 
@@ -1486,7 +1544,7 @@ Usage Examples:
    Show a graph of your installed dependencies:
    $ {4}
 
-   Check your installed dependencies for security vulnerabilties:
+   Check your installed dependencies for security vulnerabilities:
    $ {7}
 
    Install a local setup.py into your virtual environment/Pipfile:
@@ -1589,8 +1647,9 @@ def cli(
         click.echo(crayons.normal(xyzzy, bold=True))
 
     if not update:
-        # Spun off in background thread, not unlike magic.
-        check_for_updates()
+        if need_update_check():
+            # Spun off in background thread, not unlike magic.
+            check_for_updates()
     else:
         # Update pip to latest version.
         ensure_latest_pip()
@@ -1705,7 +1764,7 @@ def do_py(system=False):
         click.echo(crayons.red('No project found!'))
 
 
-@click.command(help="Installs provided packages and adds them to Pipfile, or (if none is given), installs all packages.", context_settings=dict(
+@click.command(short_help="Installs provided packages and adds them to Pipfile, or (if none is given), installs all packages.", context_settings=dict(
     ignore_unknown_options=True,
     allow_extra_args=True
 ))
@@ -1743,9 +1802,48 @@ def install(
     if not pre:
         pre = project.settings.get('allow_prereleases')
 
+    remote = requirements and is_valid_url(requirements)
+    # Check if the file is remote or not
+    if remote:
+        fd, temp_reqs = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt')
+        requirements_url = requirements
+
+        # Download requirements file
+        click.echo(crayons.normal(u'Remote requirements file provided! Downloading…',bold=True),err=True)
+        try:
+            download_file(requirements, temp_reqs)
+        except IOError:
+            click.echo(
+                crayons.red(
+                   u'Unable to find requirements file at {0}.'.format(crayons.normal(requirements))
+                ),
+                err=True
+            )
+            sys.exit(1)
+        # Replace the url with the temporary requirements file
+        requirements = temp_reqs
+        remote = True
+
     if requirements:
         click.echo(crayons.normal(u'Requirements file provided! Importing into Pipfile…', bold=True), err=True)
-        import_requirements(r=project.path_to(requirements), dev=dev)
+        try:
+            import_requirements(r=project.path_to(requirements), dev=dev)
+        except (UnicodeDecodeError, pip.exceptions.PipError) as e:
+            # Don't print the temp file path if remote since it will be deleted.
+            req_path = requirements_url if remote else project.path_to(requirements)
+            click.echo(
+                crayons.red(
+                    u'Unexpected syntax in {0}. Are you sure this is a '
+                     'requirements.txt style file?'.format(req_path)
+                )
+            )
+            click.echo(crayons.blue(str(e)), err=True)
+            sys.exit(1)
+        finally:
+            # If requirements file was provided by remote url delete the temporary file
+            if remote:
+                os.close(fd)  # Close for windows to allow file cleanup.
+                os.remove(project.path_to(temp_reqs))
 
     if code:
         click.echo(crayons.normal(u'Discovering imports from local codebase…', bold=True))
@@ -1757,6 +1855,10 @@ def install(
     more_packages = list(more_packages)
     if package_name == '-e':
         package_name = ' '.join([package_name, more_packages.pop(0)])
+
+    # Capture . argument and assign it to nothing
+    if package_name == '.':
+        package_name = False
 
     # Allow more than one package to be provided.
     package_names = [package_name, ] + more_packages
@@ -1781,12 +1883,11 @@ def install(
 
     # Install all dependencies, if none was provided.
     if package_name is False:
-
-        do_init(dev=dev, allow_global=system, ignore_pipfile=ignore_pipfile, system=system, skip_lock=skip_lock, verbose=verbose, concurrent=concurrent, deploy=deploy)
-
         # Update project settings with pre preference.
         if pre:
             project.update_settings({'allow_prereleases': pre})
+
+        do_init(dev=dev, allow_global=system, ignore_pipfile=ignore_pipfile, system=system, skip_lock=skip_lock, verbose=verbose, concurrent=concurrent, deploy=deploy, pre=pre)
 
         sys.exit(0)
 
@@ -1795,10 +1896,16 @@ def install(
 
         # pip install:
         with spinner():
+
             c = pip_install(package_name, ignore_hashes=True, allow_global=system, no_deps=False, verbose=verbose, pre=pre)
 
             # Warn if --editable wasn't passed.
-            converted = convert_deps_from_pip(package_name)
+            try:
+                converted = convert_deps_from_pip(package_name)
+            except ValueError as e:
+                click.echo('{0}: {1}'.format(crayons.red('WARNING'), e))
+                sys.exit(1)
+
             key = [k for k in converted.keys()][0]
             if is_vcs(key) or is_vcs(converted[key]) and not converted[key].get('editable'):
                 click.echo(
@@ -1852,7 +1959,7 @@ def install(
         do_lock(system=system, pre=pre)
 
 
-@click.command(help="Un-installs a provided package and removes it from Pipfile.")
+@click.command(short_help="Un-installs a provided package and removes it from Pipfile.")
 @click.argument('package_name', default=False)
 @click.argument('more_packages', nargs=-1)
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
@@ -1860,11 +1967,11 @@ def install(
 @click.option('--system', is_flag=True, default=False, help="System pip management.")
 @click.option('--verbose', is_flag=True, default=False, help="Verbose mode.")
 @click.option('--lock', is_flag=True, default=True, help="Lock afterwards.")
-@click.option('--dev', '-d', is_flag=True, default=False, help="Un-install all package from [dev-packages].")
+@click.option('--all-dev', is_flag=True, default=False, help="Un-install all package from [dev-packages].")
 @click.option('--all', is_flag=True, default=False, help="Purge all package(s) from virtualenv. Does not edit Pipfile.")
 def uninstall(
     package_name=False, more_packages=False, three=None, python=False,
-    system=False, lock=False, dev=False, all=False, verbose=False
+    system=False, lock=False, all_dev=False, all=False, verbose=False
 ):
 
     # Automatically use an activated virtualenv.
@@ -1873,6 +1980,9 @@ def uninstall(
 
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python)
+
+    # Load the --pre settings from the Pipfile.
+    pre = project.settings.get('pre')
 
     package_names = (package_name,) + more_packages
     pipfile_remove = True
@@ -1886,7 +1996,7 @@ def uninstall(
         sys.exit(0)
 
     # Uninstall [dev-packages], if --dev was provided.
-    if dev:
+    if all_dev:
         if 'dev-packages' not in project.parsed_pipfile:
             click.echo(
                 crayons.normal('No {0} to uninstall.'.format(
@@ -1903,7 +2013,7 @@ def uninstall(
         package_names = project.parsed_pipfile['dev-packages']
         package_names = package_names.keys()
 
-    if package_name is False and not dev:
+    if package_name is False and not all_dev:
         click.echo(crayons.red('No package provided!'), err=True)
         sys.exit(1)
 
@@ -1949,17 +2059,18 @@ def uninstall(
             project.remove_package_from_pipfile(package_name, dev=False)
 
     if lock:
-        do_lock(system=system)
+        do_lock(system=system, pre=pre)
 
 
-@click.command(help="Generates Pipfile.lock.")
+@click.command(short_help="Generates Pipfile.lock.")
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
 @click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
 @click.option('--verbose', is_flag=True, default=False, help="Verbose mode.")
 @click.option('--requirements', '-r', is_flag=True, default=False, help="Generate output compatible with requirements.txt.")
+@click.option('--dev', '-d', is_flag=True, default=False, help="Generate output compatible with requirements.txt for the development dependencies.")
 @click.option('--clear', is_flag=True, default=False, help="Clear the dependency cache.")
 @click.option('--pre', is_flag=True, default=False, help=u"Allow pre–releases.")
-def lock(three=None, python=False, verbose=False, requirements=False, clear=False, pre=False):
+def lock(three=None, python=False, verbose=False, requirements=False, dev=False, clear=False, pre=False):
 
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python)
@@ -1969,7 +2080,7 @@ def lock(three=None, python=False, verbose=False, requirements=False, clear=Fals
         pre = project.settings.get('pre')
 
     if requirements:
-        do_init(dev=True, requirements=requirements)
+        do_init(dev=dev, requirements=requirements)
 
     do_lock(verbose=verbose, clear=clear, pre=pre)
 
@@ -2012,29 +2123,43 @@ def do_shell(three=None, python=False, fancy=False, shell_args=None):
 
     # Standard (properly configured shell) mode:
     else:
+        if PIPENV_VENV_IN_PROJECT:
+            # use .venv as the target virtualenv name
+            workon_name = '.venv'
+        else:
+            workon_name = project.virtualenv_name
+
         cmd = 'pew'
-        args = ["workon", project.virtualenv_name]
+        args = ["workon", workon_name]
 
     # Grab current terminal dimensions to replace the hardcoded default
     # dimensions of pexpect
     terminal_dimensions = get_terminal_size()
 
     try:
-        c = pexpect.spawn(
-            cmd,
-            args,
-            dimensions=(
-                terminal_dimensions.lines,
-                terminal_dimensions.columns
+        with temp_environ():
+            if PIPENV_VENV_IN_PROJECT:
+                os.environ['WORKON_HOME'] = project.project_directory
+
+            c = pexpect.spawn(
+                cmd,
+                args,
+                dimensions=(
+                    terminal_dimensions.lines,
+                    terminal_dimensions.columns
+                )
             )
-        )
 
     # Windows!
     except AttributeError:
         import subprocess
-        p = subprocess.Popen([cmd] + list(args), shell=True, universal_newlines=True)
-        p.communicate()
-        sys.exit(p.returncode)
+        # Tell pew to use the project directory as its workon_home
+        with temp_environ():
+            if PIPENV_VENV_IN_PROJECT:
+                os.environ['WORKON_HOME'] = project.project_directory
+            p = subprocess.Popen([cmd] + list(args), shell=True, universal_newlines=True)
+            p.communicate()
+            sys.exit(p.returncode)
 
     # Activate the virtualenv if in compatibility mode.
     if compat:
@@ -2058,7 +2183,7 @@ def do_shell(three=None, python=False, fancy=False, shell_args=None):
     sys.exit(c.exitstatus)
 
 
-@click.command(help="Spawns a shell within the virtualenv.", context_settings=dict(
+@click.command(short_help="Spawns a shell within the virtualenv.", context_settings=dict(
     ignore_unknown_options=True,
     allow_extra_args=True
 ))
@@ -2111,16 +2236,20 @@ def inline_activate_virtualenv():
         )
 
 
-@click.command(help="Spawns a command installed into the virtualenv.", context_settings=dict(
-    ignore_unknown_options=True,
-    allow_extra_args=True
-))
+@click.command(
+    add_help_option=False,
+    short_help="Spawns a command installed into the virtualenv.",
+    context_settings=dict(
+        ignore_unknown_options=True,
+        allow_interspersed_args=False,
+        allow_extra_args=True
+    )
+)
 @click.argument('command')
 @click.argument('args', nargs=-1)
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
 @click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
 def run(command, args, three=None, python=False):
-
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python, validate=False)
 
@@ -2161,7 +2290,7 @@ def run(command, args, three=None, python=False):
         pass
 
 
-@click.command(help="Checks for security vulnerabilities and against PEP 508 markers provided in Pipfile.",  context_settings=dict(
+@click.command(short_help="Checks for security vulnerabilities and against PEP 508 markers provided in Pipfile.",  context_settings=dict(
     ignore_unknown_options=True,
     allow_extra_args=True
 ))
@@ -2269,10 +2398,11 @@ def check(three=None, python=False, unused=False, style=False, args=None):
         sys.exit(1)
 
 
-@click.command(help=u"Displays currently–installed dependency graph information.")
+@click.command(short_help=u"Displays currently–installed dependency graph information.")
 @click.option('--bare', is_flag=True, default=False, help="Minimal output.")
 @click.option('--json', is_flag=True, default=False, help="Output JSON.")
-def graph(bare=False, json=False):
+@click.option('--reverse', is_flag=True, default=False, help="Reversed dependency graph.")
+def graph(bare=False, json=False, reverse=False):
     try:
         python_path = which('python')
     except AttributeError:
@@ -2285,12 +2415,26 @@ def graph(bare=False, json=False):
         )
         sys.exit(1)
 
-    j = '--json' if json else ''
+    if reverse and json:
+        click.echo(
+            u'{0}: {1}'.format(
+                crayons.red('Warning', bold=True),
+                u'Using both --reverse and --json together is not supported. '
+                u'Please select one of the two options.',
+            ), err=True
+        )
+        sys.exit(1)
+
+    flag = ''
+    if json:
+        flag = '--json'
+    if reverse:
+        flag = '--reverse'
 
     cmd = '"{0}" {1} {2}'.format(
         python_path,
         shellquote(pipdeptree.__file__.rstrip('cdo')),
-        j
+        flag
     )
 
     # Run dep-tree.
@@ -2310,8 +2454,8 @@ def graph(bare=False, json=False):
         else:
             for line in c.out.split('\n'):
 
-                # Ignore bad packages.
-                if line.split('==')[0] in BAD_PACKAGES:
+                # Ignore bad packages as top level.
+                if line.split('==')[0] in BAD_PACKAGES and not reverse:
                     continue
 
                 # Bold top-level packages.
@@ -2328,7 +2472,7 @@ def graph(bare=False, json=False):
     sys.exit(c.return_code)
 
 
-@click.command(help="View a given module in your editor.", name="open")
+@click.command(short_help="View a given module in your editor.", name="open")
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
 @click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
 @click.argument('module', nargs=1)
@@ -2355,7 +2499,7 @@ def run_open(module, three=None, python=None):
     sys.exit(0)
 
 
-@click.command(help="Uninstalls all packages, and re-installs package(s) in [packages] to latest compatible versions.")
+@click.command(short_help="Uninstalls all packages, and re-installs package(s) in [packages] to latest compatible versions.")
 @click.argument('package_name', default=False)
 @click.option('--verbose', '-v', is_flag=True, default=False, help="Verbose mode.")
 @click.option('--dev', '-d', is_flag=True, default=False, help="Additionally install package(s) in [dev-packages].")
