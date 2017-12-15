@@ -17,6 +17,9 @@ jobs:
 
     working_directory: ~/repo
 
+    branches:
+      only: translate-ja
+
     steps:
       - checkout
 
