@@ -41,7 +41,8 @@ jobs:
           name: generate catalogue templates
           command: |
             cd docs
-            . docs/venv/bin/activate
+            which sphinx-build
+            . venv/bin/activate
             make gettext
             ls locales/pot
 
