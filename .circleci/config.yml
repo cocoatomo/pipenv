@@ -40,10 +40,7 @@ jobs:
       - run:
           name: generate catalogue templates
           command: |
-            pwd
-            ls
             cd docs
-            which sphinx-build
             . venv/bin/activate
             make gettext
             ls locales/pot
