@@ -34,15 +34,16 @@ jobs:
           name: install dependencies
           command: |
             python3 -m venv docs/venv
-            ls
             . docs/venv/bin/activate
-            ls
             pip install -r docs/requirements.txt
 
       - run:
           name: generate catalogue templates
           command: |
-            cat Makefile
+            cd docs
+            . docs/venv/bin/activate
+            make gettext
+            ls locales/pot
 
       - save_cache:
           paths:
