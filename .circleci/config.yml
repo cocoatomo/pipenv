@@ -36,6 +36,7 @@ jobs:
             python3 -m venv docs/venv
             . docs/venv/bin/activate
             pip install -r docs/requirements.txt
+            pip install transifex-client
 
       - run:
           name: generate catalogue templates
@@ -44,6 +45,19 @@ jobs:
             . venv/bin/activate
             make gettext
             ls locales/pot
+
+      - run:
+          name: upload pot files
+          command: |
+            echo <<EOF > ~/.transifexrc
+            [https://www.transifex.com]
+            hostname = https://www.transifex.com
+            password = ${TX_PASSWORD}
+            token = 
+            username = ${TX_USERNAME}
+            EOF
+            cd docs/locales
+            tx push -s
 
       - save_cache:
           paths:
