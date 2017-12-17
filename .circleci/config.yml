@@ -49,7 +49,7 @@ jobs:
       - run:
           name: upload pot files
           command: |
-            echo <<EOF > ~/.transifexrc
+            cat <<EOF > ~/.transifexrc
             [https://www.transifex.com]
             hostname = https://www.transifex.com
             password = ${TX_TOKEN}
