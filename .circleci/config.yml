@@ -27,7 +27,7 @@ jobs:
       - run:
           name: update files
           command: |
-            git remote add upstream https://github.com/kennethreitz/pipenv.git
+            git remote add upstream https://github.com/pypa/pipenv.git
             git remote -v
             git merge upstream/master
 
