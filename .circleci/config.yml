@@ -29,6 +29,7 @@ jobs:
           command: |
             git remote add upstream https://github.com/pypa/pipenv.git
             git remote -v
+            git fetch upstream
             git merge upstream/master
 
       - restore_cache:
