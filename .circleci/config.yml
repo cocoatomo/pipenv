@@ -56,6 +56,7 @@ jobs:
             token = 
             username = ${TX_USERNAME}
             EOF
+            . venv/bin/activate
             cd docs/locales
             tx push -s
 
