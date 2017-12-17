@@ -27,6 +27,8 @@ jobs:
       - run:
           name: update files
           command: |
+            git config --global user.email "circleci-build-bot@example.com"
+            git config --global user.name "Autobuild bot on CircleCI"
             git remote add upstream https://github.com/pypa/pipenv.git
             git remote -v
             git fetch upstream
