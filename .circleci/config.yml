@@ -33,12 +33,7 @@ jobs:
             git remote -v
             git fetch upstream
             git merge --no-ff upstream/master -m "Merge remote-tracking branch 'upstream/master' into translate-ja by Autobuild bot"
-
-      - restore_cache:
-          keys:
-          - v2-dependencies-{{ checksum "docs/requirements.txt" }}
-          # fallback to using the latest cache if no exact match is found
-          - v2-dependencies-
+            git push origin
 
       - run:
           name: install dependencies
@@ -71,8 +66,3 @@ jobs:
             . docs/venv/bin/activate
             cd docs/locales
             tx push -s
-
-      - save_cache:
-          paths:
-            - ./docs/venv
-          key: v2-dependencies-{{ checksum "docs/requirements.txt" }}
