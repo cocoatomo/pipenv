@@ -24,6 +24,13 @@ jobs:
       - checkout
 
       # Download and cache dependencies
+      - run:
+          name: update files
+          command: |
+            git remote add upstream https://github.com/kennethreitz/pipenv.git
+            git remote -v
+            git merge upstream/master
+
       - restore_cache:
           keys:
           - v2-dependencies-{{ checksum "docs/requirements.txt" }}
@@ -37,13 +44,6 @@ jobs:
             . docs/venv/bin/activate
             pip install -r docs/requirements.txt
             pip install transifex-client
-
-      - run:
-          name: update files
-          command: |
-            git remote add upstream https://github.com/kennethreitz/pipenv.git
-            git remote -v
-            git merge upstream/master
 
       - run:
           name: generate catalogue templates
