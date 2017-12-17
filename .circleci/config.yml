@@ -45,6 +45,7 @@ jobs:
           command: |
             python3 -m venv docs/venv
             . docs/venv/bin/activate
+            pip freeze -l
             pip install -r docs/requirements.txt
             pip install transifex-client
 
