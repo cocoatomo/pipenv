@@ -52,8 +52,8 @@ jobs:
             echo <<EOF > ~/.transifexrc
             [https://www.transifex.com]
             hostname = https://www.transifex.com
-            password = 
-            token = ${TX_TOKEN}
+            password = ${TX_TOKEN}
+            token = 
             username = api
             EOF
             . docs/venv/bin/activate
