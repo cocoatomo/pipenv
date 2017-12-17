@@ -41,8 +41,8 @@ jobs:
       - run:
           name: generate catalogue templates
           command: |
+            . docs/venv/bin/activate
             cd docs
-            . venv/bin/activate
             make gettext
             ls locales/pot
 
@@ -56,7 +56,7 @@ jobs:
             token = 
             username = ${TX_USERNAME}
             EOF
-            . venv/bin/activate
+            . docs/venv/bin/activate
             cd docs/locales
             tx push -s
 
