@@ -56,6 +56,7 @@ jobs:
             token = 
             username = api
             EOF
+            wc -l ~/.transifexrc
             . docs/venv/bin/activate
             cd docs/locales
             tx push -s
