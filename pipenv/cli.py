@@ -33,7 +33,7 @@ from click_didyoumean import DYMCommandCollection
 from .project import Project
 from .utils import (
     convert_deps_from_pip, convert_deps_to_pip, is_required_version,
-    proper_case, pep423_name, split_vcs, resolve_deps, shellquote, is_vcs,
+    proper_case, pep423_name, split_file, merge_deps, resolve_deps, shellquote, is_vcs,
     python_version, suggest_package, find_windows_executable, is_file,
     prepare_pip_source_args, temp_environ, is_valid_url, download_file,
     get_requirement, need_update_check, touch_update_stamp
@@ -123,7 +123,10 @@ project = Project()
 
 def load_dot_env():
     if not PIPENV_DONT_LOAD_ENV:
-        denv = dotenv.find_dotenv(PIPENV_DOTENV_LOCATION or os.sep.join([project.project_directory, '.env']))
+        # If the project doesn't exist yet, check current directory for a .env file
+        project_directory = project.project_directory or '.'
+
+        denv = dotenv.find_dotenv(PIPENV_DOTENV_LOCATION or os.sep.join([project_directory, '.env']))
         if os.path.isfile(denv):
             click.echo(crayons.normal('Loading .env environment variables…', bold=True), err=True)
         dotenv.load_dotenv(denv, override=True)
@@ -765,10 +768,10 @@ def do_install_dependencies(
     if skip_lock or only or not project.lockfile_exists:
         if not bare:
             click.echo(crayons.normal(u'Installing dependencies from Pipfile…', bold=True))
-            lockfile = split_vcs(project._lockfile)
+            lockfile = split_file(project._lockfile)
     else:
         with open(project.lockfile_location) as f:
-            lockfile = split_vcs(simplejson.load(f))
+            lockfile = split_file(simplejson.load(f))
 
         if not bare:
             click.echo(
@@ -783,42 +786,16 @@ def do_install_dependencies(
     # Allow pip to resolve dependencies when in skip-lock mode.
     no_deps = (not skip_lock)
 
-    deps = {}
-    vcs_deps = {}
-
-    # Store dev only deps for a requirements output
-    dev_deps = {}
-    dev_vcs_deps = {}
-
-    # Add development deps if --dev was passed.
-    if dev:
-        deps.update(lockfile['develop'])
-        vcs_deps.update(lockfile.get('develop-vcs', {}))
-
-        # Add only dev deps if requirements was passed
-        if requirements:
-            dev_deps.update(lockfile['develop'])
-            dev_vcs_deps.update(lockfile.get('develop-vcs', {}))
-
-
-    # Install default dependencies, always.
-    deps.update(lockfile['default'] if not only else {})
-    vcs_deps.update(lockfile.get('default-vcs', {}))
-
-    if ignore_hashes:
-        # Remove hashes from generated requirements.
-        for k, v in deps.items():
-            if 'hash' in v:
-                del v['hash']
-
-    # Convert the deps to pip-compatible arguments.
-    deps_list = [(d, ignore_hashes, blocking) for d in convert_deps_to_pip(deps, project, r=False, include_index=True)]
+    deps_list, dev_deps_list = merge_deps(
+        lockfile,
+        project,
+        dev=dev,
+        requirements=requirements,
+        ignore_hashes=ignore_hashes,
+        blocking=blocking,
+        only=only
+    )
     failed_deps_list = []
-
-    if len(vcs_deps):
-        deps_list.extend((d, True, True) for d in convert_deps_to_pip(vcs_deps, project, r=False))
-
-    # --requirements was passed.
     if requirements:
         # Output only default dependencies
         if not dev:
@@ -827,13 +804,8 @@ def do_install_dependencies(
 
         # Output only dev dependencies
         if dev:
-            dev_deps_list = [(d, ignore_hashes, blocking) for d in convert_deps_to_pip(dev_deps, project, r=False, include_index=True)]
-            if len(dev_vcs_deps):
-                dev_deps_list.extend((d, True, True) for d in convert_deps_to_pip(dev_vcs_deps, project, r=False))
-
             click.echo('\n'.join(d[0] for d in dev_deps_list))
             sys.exit(0)
-
 
     procs = []
 
@@ -1825,25 +1797,28 @@ def install(
         remote = True
 
     if requirements:
+        error, e = None, None
         click.echo(crayons.normal(u'Requirements file provided! Importing into Pipfile…', bold=True), err=True)
         try:
             import_requirements(r=project.path_to(requirements), dev=dev)
         except (UnicodeDecodeError, pip.exceptions.PipError) as e:
             # Don't print the temp file path if remote since it will be deleted.
             req_path = requirements_url if remote else project.path_to(requirements)
-            click.echo(
-                crayons.red(
-                    u'Unexpected syntax in {0}. Are you sure this is a '
-                     'requirements.txt style file?'.format(req_path)
-                )
-            )
-            click.echo(crayons.blue(str(e)), err=True)
-            sys.exit(1)
+            error = (u'Unexpected syntax in {0}. Are you sure this is a '
+                      'requirements.txt style file?'.format(req_path))
+        except AssertionError as e:
+            error = (u'Requirements file doesn\'t appear to exist. Please ensure the file exists in your '
+                      'project directory or you provided the correct path.')
         finally:
             # If requirements file was provided by remote url delete the temporary file
             if remote:
                 os.close(fd)  # Close for windows to allow file cleanup.
                 os.remove(project.path_to(temp_reqs))
+
+            if error and e:
+                click.echo(crayons.red(error))
+                click.echo(crayons.blue(str(e)), err=True)
+                sys.exit(1)
 
     if code:
         click.echo(crayons.normal(u'Discovering imports from local codebase…', bold=True))
@@ -2087,6 +2062,9 @@ def lock(three=None, python=False, verbose=False, requirements=False, dev=False,
 
 def do_shell(three=None, python=False, fancy=False, shell_args=None):
 
+    # Ensure that virtualenv is available.
+    ensure_project(three=three, python=python, validate=False)
+
     # Set an environment variable, so we know we're in the environment.
     os.environ['PIPENV_ACTIVE'] = '1'
 
@@ -2207,9 +2185,6 @@ def shell(three=None, python=False, fancy=False, shell_args=None, anyway=False):
             ), err=True)
 
             sys.exit(1)
-
-    # Ensure that virtualenv is available.
-    ensure_project(three=three, python=python, validate=False)
 
     # Load .env file.
     load_dot_env()

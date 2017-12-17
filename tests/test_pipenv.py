@@ -1,4 +1,5 @@
 import os
+from pkg_resources import parse_version
 import re
 import tempfile
 import shutil
@@ -242,6 +243,32 @@ class TestPipenv:
             c = p.pipenv('run python -m requests.help')
             assert c.return_code == 0
 
+    @pytest.mark.dev
+    @pytest.mark.install
+    def test_install_without_dev(self):
+        """Ensure that running `pipenv install` doesn't install dev packages"""
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+tablib = "*"
+
+[dev-packages]
+records = "*"
+                """.strip()
+                f.write(contents)
+            c = p.pipenv('install')
+            assert c.return_code == 0
+            assert 'tablib' in p.pipfile['packages']
+            assert 'records' in p.pipfile['dev-packages']
+            assert 'tablib' in p.lockfile['default']
+            assert 'records' in p.lockfile['develop']
+            c = p.pipenv('run python -c "import records"')
+            assert c.return_code != 0
+            c = p.pipenv('run python -c "import tablib"')
+            assert c.return_code == 0
+                
+
     @pytest.mark.run
     @pytest.mark.uninstall
     def test_uninstall(self):
@@ -396,6 +423,22 @@ setup(
             assert 'idna' in p.lockfile['default']
             assert 'urllib3' in p.lockfile['default']
             assert 'certifi' in p.lockfile['default']
+
+    @pytest.mark.install
+    @pytest.mark.pin
+    def test_windows_pinned_pipfile(self):
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+tablib = "<0.12"
+                """.strip()
+                f.write(contents)
+            c = p.pipenv('install')
+            assert c.return_code == 0
+            assert 'tablib' in p.pipfile['packages']
+            assert 'tablib' in p.lockfile['default']
+
 
     @pytest.mark.run
     @pytest.mark.install
@@ -834,6 +877,51 @@ maya = "*"
             assert c.return_code == 0
 
     @pytest.mark.lock
+    @pytest.mark.requirements
+    @pytest.mark.complex
+    def test_complex_lock_changing_candidate(self):
+        # The requests candidate will change from latest to <2.12.
+
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+"docker-compose" = "==1.16.0"
+requests = "*"
+                """.strip()
+                f.write(contents)
+
+            c = p.pipenv('lock')
+            assert c.return_code == 0
+            assert parse_version(p.lockfile['default']['requests']['version'][2:]) < parse_version('2.12')
+
+            c = p.pipenv('install')
+            assert c.return_code == 0
+
+    @pytest.mark.extras
+    @pytest.mark.lock
+    @pytest.mark.requirements
+    @pytest.mark.complex
+    def test_complex_lock_deep_extras(self):
+        # records[pandas] requires tablib[pandas] which requires pandas.
+
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+records = {extras = ["pandas"], version = "==0.5.2"}
+                """.strip()
+                f.write(contents)
+
+            c = p.pipenv('lock')
+            assert c.return_code == 0
+            assert 'tablib' in p.lockfile['default']
+            assert 'pandas' in p.lockfile['default']
+
+            c = p.pipenv('install')
+            assert c.return_code == 0
+
+    @pytest.mark.lock
     @pytest.mark.deploy
     def test_deploy_works(self):
 
@@ -878,6 +966,29 @@ requests = "==2.14.0"
             dep = p.lockfile['default'][key]
 
             assert 'file' in dep
+
+    @pytest.mark.install
+    @pytest.mark.files
+    @pytest.mark.resolver
+    def test_local_package(self):
+        """This test ensures that local packages (directories with a setup.py)
+        installed in editable mode have their dependencies resolved as well"""
+        file_name = 'tablib-0.12.1.tar.gz'
+        package = 'tablib-0.12.1'
+        # Not sure where travis/appveyor run tests from
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        source_path = os.path.abspath(os.path.join(test_dir, 'test_artifacts', file_name))
+        with PipenvInstance() as p:
+            # This tests for a bug when installing a zipfile in the current dir
+            copy_to = os.path.join(p.path, file_name)
+            shutil.copy(source_path, copy_to)
+            import tarfile
+            with tarfile.open(copy_to, 'r:gz') as tgz:
+                tgz.extractall(path=p.path)
+            c = p.pipenv('install -e {0}'.format(package))
+            assert c.return_code == 0
+            assert all(pkg in p.lockfile['default'] for pkg in ['xlrd', 'xlwt', 'pyyaml', 'odfpy'])
+
 
     @pytest.mark.install
     @pytest.mark.files

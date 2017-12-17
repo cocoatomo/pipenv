@@ -32,7 +32,7 @@ jobs:
             git remote add upstream https://github.com/pypa/pipenv.git
             git remote -v
             git fetch upstream
-            git merge upstream/master
+            git merge --no-ff upstream/master -m "Merge remote-tracking branch 'upstream/master' into translate-ja by Autobuild bot"
 
       - restore_cache:
           keys:
