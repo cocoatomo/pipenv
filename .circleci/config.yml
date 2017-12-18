@@ -54,6 +54,8 @@ jobs:
       - run:
           name: upload pot files
           command: |
+            git add docs/locales/pot
+            if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to update"; exit 0; fi
             cat <<EOF > ~/.transifexrc
             [https://www.transifex.com]
             hostname = https://www.transifex.com
@@ -69,7 +71,6 @@ jobs:
       - run:
           name: store commit history
           command: |
-            git add docs/locales/pot
             if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to commit"; exit 0; fi
             git commit -a -m "Update .pot files"
             git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
