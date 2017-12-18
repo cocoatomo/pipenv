@@ -37,8 +37,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
+            python3 -m venv .venv
+            . .venv/bin/activate
             pip freeze -l
             pip install -r docs/requirements.txt
             pip install transifex-client
@@ -46,7 +46,7 @@ jobs:
       - run:
           name: generate catalogue templates
           command: |
-            . venv/bin/activate
+            . .venv/bin/activate
             cd docs
             make gettext
             ls locales/pot
@@ -62,14 +62,14 @@ jobs:
             username = api
             EOF
             wc -l ~/.transifexrc
-            . venv/bin/activate
+            . .venv/bin/activate
             cd docs/locales
             tx push -s
 
       - run:
           name: store commit history
           command: |
-            git add .
+            git add docs/locales/pot
             if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to commit"; exit 0; fi
             git commit -a -m "Update .pot files"
             git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
