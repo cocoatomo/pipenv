@@ -33,7 +33,6 @@ jobs:
             git remote -v
             git fetch upstream
             git merge --no-ff upstream/master -m "Merge remote-tracking branch 'upstream/master' into translate-ja by Autobuild bot"
-            git push origin translate-ja
 
       - run:
           name: install dependencies
@@ -51,6 +50,8 @@ jobs:
             cd docs
             make gettext
             ls locales/pot
+            git commit -a -m "Update .pot files"
+            git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
 
       - run:
           name: upload pot files
