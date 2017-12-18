@@ -1,0 +1,17 @@
+Metadata-Version: 2.0
+Name: resumable-urlretrieve
+Version: 0.1.5
+Summary: Small library to fetch files over HTTP and resuming their download
+Home-page: https://github.com/berdario/resumable-urlretrieve
+Author: Dario Bertini
+Author-email: berdario+pypi@gmail.com
+License: MIT License
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Internet :: WWW/HTTP
+Requires-Dist: requests
+
+UNKNOWN
+
+

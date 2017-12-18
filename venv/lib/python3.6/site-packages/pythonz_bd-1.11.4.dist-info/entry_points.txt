@@ -1,0 +1,4 @@
+[console_scripts]
+pythonz = pythonz:main
+pythonz_install = pythonz.installer:install_pythonz
+

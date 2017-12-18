@@ -1,0 +1,89 @@
+# settings
+PATH_ROOT="$PYTHONZ_ROOT"
+if [ -z "${PATH_ROOT}" ] ; then
+    PATH_ROOT="$HOME/.pythonz"
+fi
+PATH_ETC="$PATH_ROOT/etc"
+
+PATH_HOME="$PYTHONZ_HOME"
+if [ -z "${PATH_HOME}" ] ; then
+    PATH_HOME="$HOME/.pythonz"
+fi
+PATH_HOME_ETC="$PATH_HOME/etc"
+
+# py file
+PY_PYTHONZ="$PATH_ROOT/bin/pythonz"
+
+# completion
+PYTHONZ_COMPLETION="$PATH_ETC/bash_completion.d/pythonz_completion.sh"
+
+# functions
+__pythonz_set_path()
+{
+    export PATH=$PATH_ROOT/bin:$PATH
+}
+
+__pythonz_reload()
+{
+    [[ -s "$PATH_ETC/bashrc" ]] && source "$PATH_ETC/bashrc"
+}
+
+__pythonz_update()
+{
+    $pythonz "$@"
+    [[ $? == 0 ]] && __pythonz_reload
+}
+
+__pythonz_find_command()
+{
+    command_name=""
+    for arg in "$@" ; do
+        case $arg in
+            --*) continue;;
+            -*) continue;;
+            *)
+            command_name=$arg
+            break
+            ;;
+        esac
+    done
+}
+
+__pythonz_run()
+{
+    __pythonz_find_command "$@"
+    case $command_name in
+        update) __pythonz_update "$@" ;;
+        *) $pythonz "$@" ;;
+    esac
+    builtin hash -r
+}
+
+pythonz()
+{
+    pythonz=$PY_PYTHONZ
+    __pythonz_run "$@"
+}
+
+sudo-pythonz()
+{
+    pythonz="sudo PYTHONZ_ROOT=$PATH_ROOT PATH=$PATH_PYTHONZ:$PATH_WITHOUT_PYTHONZ $PY_PYTHONZ"
+    __pythonz_run "$@"
+}
+
+__pythonz_bash_completion()
+{
+	if [ -s "$PYTHONZ_COMPLETION" ];then
+		 . $PYTHONZ_COMPLETION
+	fi
+}
+
+# main
+__pythonz_set_path
+
+# nebale completion on bash >= 4
+if [ ${BASH_VERSION} ] && [ ${BASH_VERSION:0:1} -ge 4 ]; then
+    __pythonz_bash_completion
+    declare -A _pythonz_context
+fi
+
