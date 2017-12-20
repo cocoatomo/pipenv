@@ -17,9 +17,6 @@ jobs:
 
     working_directory: ~/repo
 
-    branches:
-      only: translate-ja
-
     steps:
       - checkout
 
@@ -74,3 +71,16 @@ jobs:
             if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to commit"; exit 0; fi
             git commit -a -m "Update .pot files"
             git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
+
+workflows:
+  version: 2
+  build_job:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - translate-ja
+    jobs:
+      - build
