@@ -73,6 +73,15 @@ jobs:
       - checkout
 
       - run:
+          name: install dependencies
+          command: |
+            python3 -m venv .venv
+            . .venv/bin/activate
+            pip freeze -l
+            pip install -r docs/requirements.txt
+            pip install transifex-client
+
+      - run:
           name: get .po files
           command: |
             cat <<EOF > ~/.transifexrc
@@ -89,6 +98,8 @@ jobs:
       - run:
           name: build document
           command: |
+            git config --global user.email "circleci-build-bot@example.com"
+            git config --global user.name "Autobuild bot on CircleCI"
             git add docs/locales/ja/
             if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to build"; exit 0; fi
             git commit -a -m "Update .po files"
