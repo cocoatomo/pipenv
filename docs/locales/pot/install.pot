@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 9.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-18 00:48+0000\n"
+"POT-Creation-Date: 2017-12-21 00:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,7 +154,6 @@ msgstr ""
 
 #: ../../install.rst:219
 #: ../../install.rst:252
-#: ../../install.rst:271
 msgid "To upgrade pipenv at any time::"
 msgstr ""
 
@@ -191,30 +190,14 @@ msgid "For more information see the `user installs documentation <https://pip.py
 msgstr ""
 
 #: ../../install.rst:259
-msgid "☤ Homebrew Installation of Pipenv"
-msgstr ""
-
-#: ../../install.rst:261
-msgid "Homebrew is a popular open-source package management system for macOS."
-msgstr ""
-
-#: ../../install.rst:263
-msgid "Installing pipenv via Homebrew will keep pipenv and all of its dependencies in an isolated virtual environment so it doesn't interfere with the rest of your Python installation."
-msgstr ""
-
-#: ../../install.rst:267
-msgid "Once you have installed `Homebrew <https://brew.sh/>`_ simply run::"
-msgstr ""
-
-#: ../../install.rst:276
 msgid "☤ Crude Installation of Pipenv"
 msgstr ""
 
-#: ../../install.rst:278
+#: ../../install.rst:261
 msgid "If you don't even have pip installed, you can use this crude installation method, which will bootstrap your whole system::"
 msgstr ""
 
-#: ../../install.rst:282
+#: ../../install.rst:265
 msgid "Congratulations, you now have pip and Pipenv installed!"
 msgstr ""
 
