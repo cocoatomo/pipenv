@@ -786,7 +786,7 @@ def do_install_dependencies(
     # Allow pip to resolve dependencies when in skip-lock mode.
     no_deps = (not skip_lock)
 
-    deps_list, dev_deps_list = merge_deps(
+    deps_list, requirements_deps_list = merge_deps(
         lockfile,
         project,
         dev=dev,
@@ -797,15 +797,8 @@ def do_install_dependencies(
     )
     failed_deps_list = []
     if requirements:
-        # Output only default dependencies
-        if not dev:
-            click.echo('\n'.join(d[0] for d in deps_list))
-            sys.exit(0)
-
-        # Output only dev dependencies
-        if dev:
-            click.echo('\n'.join(d[0] for d in dev_deps_list))
-            sys.exit(0)
+        click.echo('\n'.join(d[0] for d in requirements_deps_list))
+        sys.exit(0)
 
     procs = []
 
@@ -1038,7 +1031,8 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
         which=which,
         which_pip=which_pip,
         project=project,
-        pre=pre
+        pre=pre,
+        allow_global=system
     )
 
     # Add develop dependencies to lockfile.
@@ -1099,7 +1093,8 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
         which=which,
         which_pip=which_pip,
         project=project,
-        pre=pre
+        pre=pre,
+        allow_global=system
     )
 
     # Add default dependencies to lockfile.
@@ -1353,7 +1348,7 @@ def pip_install(
 
         # Don't specify a source directory when using --system.
         if not allow_global and ('PIP_SRC' not in os.environ):
-            src = '--src {0}'.format(project.virtualenv_src_location)
+            src = '--src "{0}"'.format(project.virtualenv_src_location)
         else:
             src = ''
     else:
@@ -2046,7 +2041,6 @@ def uninstall(
 @click.option('--clear', is_flag=True, default=False, help="Clear the dependency cache.")
 @click.option('--pre', is_flag=True, default=False, help=u"Allow pre–releases.")
 def lock(three=None, python=False, verbose=False, requirements=False, dev=False, clear=False, pre=False):
-
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python)
 
@@ -2556,7 +2550,7 @@ def update(ctx, dev=False, three=None, python=None, dry_run=False, bare=False, d
         do_purge()
 
         # Lock.
-        do_lock(pre=pre)
+        do_lock(clear=clear, pre=pre)
 
         # Install everything.
         do_init(dev=dev, verbose=verbose, concurrent=concurrent)
