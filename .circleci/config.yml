@@ -4,23 +4,15 @@
 #
 version: 2
 jobs:
-  build:
+  build-catalogue:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.6.1
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
 
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      # Download and cache dependencies
       - run:
           name: update files
           command: |
@@ -60,7 +52,6 @@ jobs:
             token = 
             username = api
             EOF
-            wc -l ~/.transifexrc
             . .venv/bin/activate
             cd docs/locales
             tx push -s
@@ -72,15 +63,57 @@ jobs:
             git commit -a -m "Update .pot files"
             git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
 
+  build-doc:
+    docker:
+      - image: circleci/python:3.6.1
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: get .po files
+          command: |
+            cat <<EOF > ~/.transifexrc
+            [https://www.transifex.com]
+            hostname = https://www.transifex.com
+            password = ${TX_TOKEN}
+            token = 
+            username = api
+            EOF
+            . .venv/bin/activate
+            cd docs/locales
+            tx pull -lja
+
+      - run:
+          name: build document
+          command: |
+            git add docs/locales/ja/
+            if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to build"; exit 0; fi
+            git commit -a -m "Update .po files"
+            git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
+
 workflows:
   version: 2
-  build_job:
+  catalogue:
     triggers:
       - schedule:
-          cron: "0 0 * * *"
+          cron: "0 15 * * *" # 00:00 JST
           filters:
             branches:
               only:
                 - translate-ja
     jobs:
-      - build
+      - build-catalogue
+
+  publish:
+    triggers:
+      - schedule:
+          cron: "0 4,10,16,22 * * *" # 01:00, 07:00, 13:00, 19:00 in JST
+          filters:
+            branches:
+              only:
+                - translate-ja
+    jobs:
+      - build-doc
