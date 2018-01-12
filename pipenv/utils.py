@@ -35,7 +35,9 @@ from piptools.repositories.pypi import PyPIRepository
 from piptools.scripts.compile import get_pip_command
 from piptools import logging
 from piptools.exceptions import NoCandidateFound
+from pip.download import is_archive_file
 from pip.exceptions import DistributionNotFound
+from pip.index import Link
 from requests.exceptions import HTTPError, ConnectionError
 
 from .pep508checker import lookup
@@ -303,17 +305,20 @@ def get_requirement(dep):
         dep_path = Path(dep)
         # Only parse if it is a file or an installable dir
         if dep_path.is_file() or (dep_path.is_dir() and pip.utils.is_installable_dir(dep)):
-            if dep_path.is_absolute() or dep_path.as_posix() == '.':
-                path = dep_path.as_posix()
-            else:
-                path = get_converted_relative_path(dep)
-            dep = dep_path.resolve().as_uri()
+            dep_link = Link(dep_path.absolute().as_uri())
+            if dep_path.is_dir() or dep_link.is_wheel or is_archive_file(dep_path.as_posix()):
+                if dep_path.is_absolute() or dep_path.as_posix() == '.':
+                    path = dep_path.as_posix()
+                else:
+                    path = get_converted_relative_path(dep)
+                dep = dep_link.egg_fragment if dep_link.egg_fragment else dep_link.url_without_fragment
     req = [r for r in requirements.parse(dep)][0]
     # If the result is a local file with a URI and we have a local path, unset the URI
     # and set the path instead
-    if req.local_file and req.uri and not req.path and path:
+    if path and not req.path:
         req.path = path
         req.uri = None
+        req.local_file = True
     if markers:
         req.markers = markers
     if extras:
@@ -439,7 +444,7 @@ def prepare_pip_source_args(sources, pip_args=None):
 
         # Trust the host if it's not verified.
         if not sources[0].get('verify_ssl', True):
-            pip_args.extend(['--trusted-host', urlparse(sources[0]['url']).netloc.split(':')[0]])
+            pip_args.extend(['--trusted-host', urlparse(sources[0]['url']).hostname])
 
         # Add additional sources as extra indexes.
         if len(sources) > 1:
@@ -448,7 +453,7 @@ def prepare_pip_source_args(sources, pip_args=None):
 
                 # Trust the host if it's not verified.
                 if not source.get('verify_ssl', True):
-                    pip_args.extend(['--trusted-host', urlparse(source['url']).netloc.split(':')[0]])
+                    pip_args.extend(['--trusted-host', urlparse(source['url']).hostname])
 
     return pip_args
 
@@ -462,15 +467,16 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
     constraints = []
 
     for dep in deps:
-        t = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt')[1]
-        with open(t, 'w') as f:
-            f.write(dep)
-
         if dep.startswith('-e '):
             constraint = pip.req.InstallRequirement.from_editable(dep[len('-e '):])
         else:
-            constraint = [c for c in pip.req.parse_requirements(t, session=pip._vendor.requests)][0]
-            # extra_constraints = []
+            t = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt')[1]
+            try:
+                with open(t, 'w') as f:
+                    f.write(dep)
+                constraint = [c for c in pip.req.parse_requirements(t, session=pip._vendor.requests)][0]
+            finally:
+                os.remove(t)
 
         if ' -i ' in dep:
             index_lookup[constraint.name] = project.get_source(url=dep.split(' -i ')[1]).get('name')
@@ -516,7 +522,7 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
             ),
             err=True)
 
-        click.echo(crayons.blue(e))
+        click.echo(crayons.blue(str(e)))
 
         if 'no version found at all' in str(e):
             click.echo(crayons.blue('Please check your version specifier and version number. See PEP440 for more information.'))
@@ -535,7 +541,7 @@ def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, p
     markers_lookup = {}
 
     python_path = which('python', allow_global=allow_global)
-    backup_python_path = shellquote(sys.executable)
+    backup_python_path = sys.executable
 
     results = []
 
@@ -626,7 +632,7 @@ def convert_deps_from_pip(dep):
     extras = {'extras': req.extras}
 
     # File installs.
-    if (req.uri or req.path or (os.path.isfile(req.name) if req.name else False)) and not req.vcs:
+    if (req.uri or req.path or (is_installable_file(req.name) if req.name else False)) and not req.vcs:
         # Assign a package name to the file, last 7 of it's sha256 hex digest.
         if not req.uri and not req.path:
             req.path = os.path.abspath(req.name)
@@ -880,8 +886,12 @@ def is_installable_file(path):
         else:
             return False
     lookup_path = Path(path)
-    return lookup_path.is_file() or (lookup_path.is_dir() and
-            pip.utils.is_installable_dir(lookup_path.resolve().as_posix()))
+    if not lookup_path.exists():
+        return False
+    lookup_link = Link(lookup_path.resolve().as_uri())
+    absolute_path = '{0}'.format(lookup_path.absolute())
+    return ((lookup_path.is_file() and (is_archive_file(absolute_path) or lookup_link.is_wheel)) or
+                (lookup_path.is_dir() and pip.utils.is_installable_dir(lookup_path.as_posix())))
 
 
 def is_file(package):
@@ -1185,7 +1195,7 @@ def normalize_drive(path):
 
     See: <https://github.com/pypa/pipenv/issues/1218>
     """
-    if os.name != 'nt':
+    if os.name != 'nt' or not isinstance(path, six.string_types):
         return path
     drive, tail = os.path.splitdrive(path)
     # Only match (lower cased) local drives (e.g. 'c:'), not UNC mounts.

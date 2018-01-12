@@ -8,7 +8,7 @@ import json
 import pytest
 
 from pipenv.cli import activate_virtualenv
-from pipenv.utils import temp_environ, get_windows_path, mkdir_p
+from pipenv.utils import temp_environ, get_windows_path, mkdir_p, normalize_drive
 from pipenv.vendor import toml
 from pipenv.vendor import delegator
 from pipenv.project import Project
@@ -28,6 +28,9 @@ class PipenvInstance():
         self.pipfile_path = None
         self.chdir = chdir
 
+        self.tmpdir = None
+        self._before_tmpdir = None
+
         if pipfile:
             p_path = os.sep.join([self.path, 'Pipfile'])
             with open(p_path, 'a'):
@@ -39,12 +42,21 @@ class PipenvInstance():
     def __enter__(self):
         if self.chdir:
             os.chdir(self.path)
+        self._before_tmpdir = os.environ.pop('TMPDIR', None)
+        self.tmpdir = tempfile.mkdtemp(suffix='tmp', prefix='pipenv')
+        os.environ['TMPDIR'] = self.tmpdir
         return self
 
     def __exit__(self, *args):
         if self.chdir:
             os.chdir(self.original_dir)
 
+        if self._before_tmpdir is None:
+            del os.environ['TMPDIR']
+        else:
+            os.environ['TMPDIR'] = self._before_tmpdir
+
+        shutil.rmtree(self.tmpdir)
         shutil.rmtree(self.path)
 
     def pipenv(self, cmd, block=True):
@@ -84,7 +96,7 @@ class TestPipenv:
     @pytest.mark.cli
     def test_pipenv_where(self):
         with PipenvInstance() as p:
-            assert p.path in p.pipenv('--where').out
+            assert normalize_drive(p.path) in p.pipenv('--where').out
 
     @pytest.mark.cli
     def test_pipenv_venv(self):
@@ -423,6 +435,7 @@ setup(
             assert 'idna' in p.lockfile['default']
             assert 'urllib3' in p.lockfile['default']
             assert 'certifi' in p.lockfile['default']
+            assert os.listdir(p.tmpdir) == []
 
     @pytest.mark.install
     @pytest.mark.pin
@@ -438,6 +451,49 @@ tablib = "<0.12"
             assert c.return_code == 0
             assert 'tablib' in p.pipfile['packages']
             assert 'tablib' in p.lockfile['default']
+
+
+    @pytest.mark.e
+    @pytest.mark.install
+    @pytest.mark.vcs
+    @pytest.mark.resolver
+    def test_editable_vcs_install_in_pipfile_with_dependency_resolution_doesnt_traceback(self):
+        # See https://github.com/pypa/pipenv/issues/1240
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+pypa-docs-theme = {git = "https://github.com/pypa/pypa-docs-theme", editable = true}
+
+# This version of requests depends on idna<2.6, forcing dependency resolution
+# failure
+requests = "==2.16.0"
+idna = "==2.6.0"
+                """.strip()
+                f.write(contents)
+            c = p.pipenv('install')
+            assert c.return_code == 1
+            assert "Your dependencies could not be resolved" in c.err
+            assert 'Traceback' not in c.err
+
+
+    @pytest.mark.run
+    @pytest.mark.install
+    def test_install_doesnt_leave_tmpfiles(self):
+        with temp_environ():
+            os.environ['PIPENV_MAX_SUBPROCESS'] = '2'
+
+            with PipenvInstance() as p:
+                with open(p.pipfile_path, 'w') as f:
+                    contents = """
+[packages]
+records = "*"
+                    """.strip()
+                    f.write(contents)
+
+                c = p.pipenv('install')
+                assert c.return_code == 0
+                assert os.listdir(p.tmpdir) == []
 
 
     @pytest.mark.run
@@ -652,7 +708,7 @@ requests = {version = "*"}
                 c = p.pipenv('install requests')
                 assert c.return_code == 0
 
-                assert p.path in p.pipenv('--venv').out
+                assert normalize_drive(p.path) in p.pipenv('--venv').out
 
     @pytest.mark.dotvenv
     @pytest.mark.install
@@ -682,7 +738,7 @@ requests = {version = "*"}
                 # Compare pew's virtualenv path to what we expect
                 venv_path = get_windows_path(project.project_directory, '.venv')
                 # os.path.normpath will normalize slashes
-                assert venv_path == os.path.normpath(c.out.strip())
+                assert venv_path == normalize_drive(os.path.normpath(c.out.strip()))
                 # Have pew run 'pip freeze' in the virtualenv
                 # This is functionally the same as spawning a subshell
                 # If we can do this we can theoretically amke a subshell
@@ -1102,3 +1158,17 @@ requests = "==2.14.0"
             assert 'path' in dep
             assert Path(os.path.join('.', artifact_dir, file_name)) == Path(dep['path'])
             assert c.return_code == 0
+
+    @pytest.mark.install
+    @pytest.mark.local_file
+    def test_install_local_file_collision(self):
+        with PipenvInstance() as p:
+            target_package = 'ansible'
+            fake_file = os.path.join(p.path, target_package)
+            with open(fake_file, 'w') as f:
+                f.write('')
+            c = p.pipenv('install {}'.format(target_package))
+            assert c.return_code == 0
+            assert 'ansible' in p.pipfile['packages']
+            assert p.pipfile['packages']['ansible'] == '*'
+            assert 'ansible' in p.lockfile['default']
