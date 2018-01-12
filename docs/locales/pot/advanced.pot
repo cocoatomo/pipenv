@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 9.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-18 00:48+0000\n"
+"POT-Creation-Date: 2018-01-12 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,7 +115,7 @@ msgid "Example::"
 msgstr ""
 
 #: ../../advanced.rst:168
-#: ../../advanced.rst:398
+#: ../../advanced.rst:401
 msgid "✨🍰✨"
 msgstr ""
 
@@ -287,27 +287,31 @@ msgstr ""
 msgid "With Pipenv's default configuration, you'll need to use tox's ``passenv`` parameter to pass your shell's ``HOME`` variable."
 msgstr ""
 
-#: ../../advanced.rst:390
+#: ../../advanced.rst:385
+msgid "A 3rd party plugin, `tox-pipenv`_ is also available to use Pipenv natively with tox."
+msgstr ""
+
+#: ../../advanced.rst:393
 msgid "☤ Shell Completion"
 msgstr ""
 
-#: ../../advanced.rst:392
+#: ../../advanced.rst:395
 msgid "To enable completion in fish, add this to your config::"
 msgstr ""
 
-#: ../../advanced.rst:396
+#: ../../advanced.rst:399
 msgid "Magic shell completions are now enabled!"
 msgstr ""
 
-#: ../../advanced.rst:401
+#: ../../advanced.rst:404
 msgid "☤ Working with Platform-Provided Python Components"
 msgstr ""
 
-#: ../../advanced.rst:403
+#: ../../advanced.rst:406
 msgid "It's reasonably common for platform specific Python bindings for operating system interfaces to only be available through the system package manager, and hence unavailable for installation into virtual environments with `pip`. In these cases, the virtual environment can be created with access to the system `site-packages` directory::"
 msgstr ""
 
-#: ../../advanced.rst:411
+#: ../../advanced.rst:414
 msgid "To ensure that all `pip`-installable components actually are installed into the virtual environment and system packages are only used for interfaces that don't participate in Python-level dependency resolution at all, use the `PIP_IGNORE_INSTALLED` setting::"
 msgstr ""
 
