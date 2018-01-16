@@ -28,6 +28,13 @@ try:
 except ImportError:
     from pathlib2 import Path
 
+import lazyload
+for module in [
+    'piptools', 'contetxlib', 'distutils'
+]:
+    lazyload.make_lazy(module)
+
+
 from distutils.spawn import find_executable
 from contextlib import contextmanager
 from piptools.resolver import Resolver
@@ -38,6 +45,7 @@ from piptools.exceptions import NoCandidateFound
 from pip.download import is_archive_file
 from pip.exceptions import DistributionNotFound
 from pip.index import Link
+from pip._vendor.distlib import index
 from requests.exceptions import HTTPError, ConnectionError
 
 from .pep508checker import lookup
@@ -271,6 +279,32 @@ packages = [
     'webcolors'
 ]
 
+
+def	get_default_indexes():
+    """Returns the default Package Index URL."""
+
+    indexes = []
+    
+    # Support for PIP_INDEX_URL.
+    if 'PIP_INDEX_URL' in os.environ:
+        indexes.append(os.environ['PIP_INDEX_URL'])
+    
+    # Support for config file.
+    p = index.PackageIndex()
+    p.read_configuration()
+
+    indexes.append(p.url)
+    
+	# Support for PIP_EXTRA_URL.
+    if 'PIP_EXTRA_INDEX_URL' in os.environ:
+        indexes.append(os.environ['PIP_EXTRA_INDEX_URL'])
+        
+    return indexes
+    
+def name_from_index(url):
+    """Returns an estimated name from a given index URL."""
+    return url.split('//')[1].split('.')[0]
+    
 
 def get_requirement(dep):
     """Pre-clean requirement strings passed to the requirements parser.
