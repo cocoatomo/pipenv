@@ -317,7 +317,7 @@ def ensure_pipfile(validate=True, skip_requirements=False):
 
         # If there's a requirements file, but no Pipfile...
         if project.requirements_exists and not skip_requirements:
-            click.echo(crayons.normal(u'Requirements.txt found, instead of Pipfile! Converting…', bold=True))
+            click.echo(crayons.normal(u'requirements.txt found, instead of Pipfile! Converting…', bold=True))
 
             # Create a Pipfile...
             python = which('python') if not USING_DEFAULT_PYTHON else False
@@ -474,7 +474,7 @@ def ensure_python(three=None, python=None):
                     '2.7': '2.7.14',
                     # '3.1': '3.1.5',
                     # '3.2': '3.2.6',
-                    '3.3': '3.3.6',
+                    '3.3': '3.3.7',
                     '3.4': '3.4.7',
                     '3.5': '3.5.4',
                     '3.6': '3.6.4',
@@ -2042,13 +2042,14 @@ def uninstall(
             crayons.green(package_name))
         )
 
-        command = '"{0}" uninstall {1} -y'.format(
-            which_pip(allow_global=system), package_name
+        cmd = '"{0}" uninstall {1} -y'.format(
+            which_pip(allow_global=system),
+            package_name
         )
         if verbose:
-            click.echo('$ {0}'.format(command))
+            click.echo('$ {0}'.format(cmd))
 
-        c = delegator.run(command)
+        c = delegator.run(cmd)
 
         click.echo(crayons.blue(c.out))
 
