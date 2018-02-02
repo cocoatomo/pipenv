@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 9.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-29 15:00+0000\n"
+"POT-Creation-Date: 2018-02-02 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -252,15 +252,19 @@ msgstr ""
 msgid "If editable is not true, sub–dependencies will not get resolved."
 msgstr ""
 
-#: ../../basics.rst:317
-msgid "☤ Pipfile.lock Security Features"
+#: ../../basics.rst:315
+msgid "For more information about other options available when specifying VCS dependencies, please check the `Pipfile spec <https://github.com/pypa/pipfile>`__."
 msgstr ""
 
 #: ../../basics.rst:319
+msgid "☤ Pipfile.lock Security Features"
+msgstr ""
+
+#: ../../basics.rst:321
 msgid "``Pipfile.lock`` takes advantage of some great new security improvements in ``pip``. By default, the ``Pipfile.lock`` will be generated with the sha256 hashes of each downloaded package. This will allow ``pip`` to guarantee you're installing what you intend to when on a compromised network, or downloading dependencies from an untrusted PyPI endpoint."
 msgstr ""
 
-#: ../../basics.rst:324
+#: ../../basics.rst:326
 msgid "We highly recommend approaching deployments with promoting projects from a development environment into production. You can use ``pipenv lock`` to compile your dependencies on your development environment and deploy the compiled ``Pipfile.lock`` to all of your production environments for reproducible builds."
 msgstr ""
 
