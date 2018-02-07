@@ -7,7 +7,7 @@ import json
 
 import pytest
 
-from pipenv.cli import activate_virtualenv
+from pipenv.core import activate_virtualenv
 from pipenv.utils import temp_environ, get_windows_path, mkdir_p, normalize_drive
 from pipenv.vendor import toml
 from pipenv.vendor import delegator
@@ -279,7 +279,7 @@ records = "*"
             assert c.return_code != 0
             c = p.pipenv('run python -c "import tablib"')
             assert c.return_code == 0
-                
+
 
     @pytest.mark.run
     @pytest.mark.uninstall
@@ -330,10 +330,10 @@ records = "*"
         with PipenvInstance() as p:
             c = p.pipenv('install --dev requests pytest')
             assert c.return_code == 0
-            
+
             c = p.pipenv('install tpfd')
             assert c.return_code == 0
-            
+
             assert 'tpfd' in p.pipfile['packages']
             assert 'requests' in p.pipfile['dev-packages']
             assert 'pytest' in p.pipfile['dev-packages']
@@ -354,7 +354,7 @@ records = "*"
 
             c = p.pipenv('run python -m requests.help')
             assert c.return_code > 0
-            
+
             c = p.pipenv('run python -c "import tpfd"')
             assert c.return_code == 0
 
@@ -664,7 +664,7 @@ requests = {version = "*", os_name = "== 'splashwear'"}
             assert 'tablib' in p.lockfile['default']
             assert 'git' in p.lockfile['default']['tablib']
             assert p.lockfile['default']['tablib']['git'] == 'git://github.com/kennethreitz/tablib.git'
-            assert 'ref' in p.lockfile['default']['tablib']            
+            assert 'ref' in p.lockfile['default']['tablib']
 
     @pytest.mark.run
     @pytest.mark.alt
@@ -1030,7 +1030,7 @@ records = {extras = ["pandas"], version = "==0.5.2"}
     def test_resolve_system_python_no_virtualenv(self):
         """Ensure we don't error out when we are in a folder off of / and doing an install using --system,
         which used to cause the resolver and PIP_PYTHON_PATH to point at /bin/python
-        
+
         Sample dockerfile:
         FROM python:3.6-alpine3.6
 
