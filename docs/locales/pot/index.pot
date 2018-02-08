@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 9.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-29 15:00+0000\n"
+"POT-Creation-Date: 2018-02-08 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,6 +198,225 @@ msgstr ""
 
 #: ../../index.rst:126
 msgid "☤ Pipenv Usage"
+msgstr ""
+
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+msgid "Options"
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Update Pipenv & pip to latest."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output project home information."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output virtualenv information."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output Python interpreter information."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output Environment Variable options."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Remove the virtualenv."
+msgstr ""
+
+#: ../../pipenv:1
+#: ../../pipenv graph:1
+#: ../../pipenv update:1
+msgid "Minimal output."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output completion (to be eval'd)."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Display manpage."
+msgstr ""
+
+#: ../../pipenv:1
+#: ../../pipenv check:1
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv open:1
+#: ../../pipenv run:1
+#: ../../pipenv shell:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Use Python 3/2 when creating virtualenv."
+msgstr ""
+
+#: ../../pipenv:1
+#: ../../pipenv check:1
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv open:1
+#: ../../pipenv run:1
+#: ../../pipenv shell:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Specify which version of Python virtualenv should use."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Enable site-packages for the virtualenv."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "An easter egg, effectively."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Show the version and exit."
+msgstr ""
+
+#: ../../pipenv check:1
+msgid "Given a code path, show potentially unused dependencies."
+msgstr ""
+
+#: ../../pipenv check:1
+msgid "Given a code path, show Flake8 errors."
+msgstr ""
+
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+msgid "Arguments"
+msgstr ""
+
+#: ../../pipenv check:1
+#: ../../pipenv install:1
+#: ../../pipenv run:1
+#: ../../pipenv shell:1
+#: ../../pipenv uninstall:1
+msgid "Optional argument(s)"
+msgstr ""
+
+#: ../../pipenv graph:1
+msgid "Output JSON."
+msgstr ""
+
+#: ../../pipenv graph:1
+msgid "Reversed dependency graph."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv uninstall:1
+msgid "System pip management."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Import a requirements.txt file."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Import from codebase."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Verbose mode."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Ignore Pipfile when installing, using the Pipfile.lock."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv update:1
+msgid "Install dependencies one-at-a-time, instead of concurrently."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Abort if the Pipfile.lock is out–of–date, or Python version is wrong."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+msgid "Allow pre–releases."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Optional argument"
+msgstr ""
+
+#: ../../pipenv lock:1
+msgid "Generate output compatible with requirements.txt."
+msgstr ""
+
+#: ../../pipenv lock:1
+msgid "Generate output compatible with requirements.txt for the development dependencies."
+msgstr ""
+
+#: ../../pipenv lock:1
+#: ../../pipenv update:1
+msgid "Clear the dependency cache."
+msgstr ""
+
+#: ../../pipenv open:1
+#: ../../pipenv run:1
+msgid "Required argument"
+msgstr ""
+
+#: ../../pipenv shell:1
+msgid "Run in shell in fancy mode (for elegantly configured shells)."
+msgstr ""
+
+#: ../../pipenv shell:1
+msgid "Always spawn a subshell, even if one is already spawned."
+msgstr ""
+
+#: ../../pipenv uninstall:1
+msgid "Lock afterwards."
+msgstr ""
+
+#: ../../pipenv uninstall:1
+msgid "Un-install all package from [dev-packages]."
+msgstr ""
+
+#: ../../pipenv uninstall:1
+msgid "Purge all package(s) from virtualenv. Does not edit Pipfile."
+msgstr ""
+
+#: ../../pipenv update:1
+msgid "Additionally install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../pipenv update:1
+msgid "Just output outdated packages."
 msgstr ""
 
 #: ../../index.rst:133
