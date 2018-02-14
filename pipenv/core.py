@@ -31,9 +31,9 @@ from .project import Project
 from .utils import (
     convert_deps_from_pip, convert_deps_to_pip, is_required_version,
     proper_case, pep423_name, split_file, merge_deps, resolve_deps, shellquote, is_vcs,
-    python_version, suggest_package, find_windows_executable, is_file,
-    prepare_pip_source_args, temp_environ, is_valid_url, download_file,
-    get_requirement, need_update_check, touch_update_stamp
+    python_version, find_windows_executable, is_file, prepare_pip_source_args,
+    temp_environ, is_valid_url, download_file, get_requirement, need_update_check,
+    touch_update_stamp
 )
 from .__version__ import __version__
 from . import pep508checker, progress
@@ -893,7 +893,7 @@ def do_create_virtualenv(python=None, site_packages=False):
 
         # Pass site-packages flag to virtualenv, if desired...
         if site_packages:
-            cmd = [cmd] + ['--system-site-packages']
+            cmd.append('--system-site-packages')
     else:
         # Default: use pew.
         cmd = ['pew', 'new', project.virtualenv_name, '-d']
@@ -1173,7 +1173,7 @@ def activate_virtualenv(source=True):
     venv_location = project.virtualenv_location.replace(' ', r'\ ')
 
     if source:
-        return 'source {0}/bin/activate{1}'.format(venv_location, suffix)
+        return '. {0}/bin/activate{1}'.format(venv_location, suffix)
     else:
         return '{0}/bin/activate'.format(venv_location)
 
@@ -1681,24 +1681,6 @@ def do_install(
     # Allow more than one package to be provided.
     package_names = [package_name, ] + more_packages
 
-    # Suggest a better package name, if appropriate.
-    if len(package_names) == 1:
-        # This can be False...
-        if package_names[0]:
-            if not package_names[0].startswith('-e '):
-                if not is_file(package_names[0]):
-                    if not any(op in package_names[0] for op in '!=<>~'):
-                        suggested_package = suggest_package(package_names[0])
-                        if suggested_package:
-                            if str(package_names[0].lower()) != str(suggested_package.lower()):
-                                if PIPENV_YES or click.confirm(
-                                    'Did you mean {0}?'.format(
-                                        crayons.normal(suggested_package, bold=True)
-                                    ),
-                                    default=True
-                                ):
-                                    package_names[0] = suggested_package
-
     # Install all dependencies, if none was provided.
     if package_name is False:
         # Update project settings with pre preference.
@@ -2027,10 +2009,11 @@ def do_run(command, args, three=None, python=False):
         pass
 
 
-def do_check(three=None, python=False, unused=False, style=False, args=None):
+def do_check(three=None, python=False, system=False, unused=False, style=False, args=None):
 
-    # Ensure that virtualenv is available.
-    ensure_project(three=three, python=python, validate=False, warn=False)
+    if not system:
+        # Ensure that virtualenv is available.
+        ensure_project(three=three, python=python, validate=False, warn=False)
 
     if not args:
         args = []
@@ -2062,8 +2045,13 @@ def do_check(three=None, python=False, unused=False, style=False, args=None):
         crayons.normal(u'Checking PEP 508 requirements…', bold=True)
     )
 
+    if system:
+        python = system_which('python')
+    else:
+        python = which('python')
+
     # Run the PEP 508 checker in the virtualenv.
-    c = delegator.run('"{0}" {1}'.format(which('python'), shellquote(pep508checker.__file__.rstrip('cdo'))))
+    c = delegator.run('"{0}" {1}'.format(python, shellquote(pep508checker.__file__.rstrip('cdo'))))
     results = simplejson.loads(c.out)
 
     # Load the pipfile.
@@ -2099,7 +2087,12 @@ def do_check(three=None, python=False, unused=False, style=False, args=None):
     path = pep508checker.__file__.rstrip('cdo')
     path = os.sep.join(__file__.split(os.sep)[:-1] + ['patched', 'safety.zip'])
 
-    c = delegator.run('"{0}" {1} check --json'.format(which('python'), shellquote(path)))
+    if not system:
+        python = which('python')
+    else:
+        python = system_which('python')
+
+    c = delegator.run('"{0}" {1} check --json'.format(python, shellquote(path)))
     try:
         results = simplejson.loads(c.out)
     except ValueError:
