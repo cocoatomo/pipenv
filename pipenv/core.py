@@ -2,9 +2,11 @@
 
 import contextlib
 import codecs
+import logging
 import os
 import sys
 import shutil
+import shlex
 import signal
 import time
 import tempfile
@@ -717,7 +719,10 @@ def do_install_dependencies(
     dev=False, only=False, bare=False, requirements=False, allow_global=False,
     ignore_hashes=False, skip_lock=False, verbose=False, concurrent=True
 ):
-    """"Executes the install functionality."""
+    """"Executes the install functionality.
+
+    If requirements is True, simply spits out a requirements format to stdout.
+    """
 
     def cleanup_procs(procs, concurrent):
         for c in procs:
@@ -782,7 +787,21 @@ def do_install_dependencies(
         only=only
     )
     failed_deps_list = []
+
     if requirements:
+
+        # Comment out packages that shouldn't be included in
+        # requirements.txt, for pip.
+
+        # Additional package selectors, specific to pip's --hash checking mode.
+        EXCLUDED_PACKAGES = list(BAD_PACKAGES) + ['-e .'] + ['-e file://'] + ['file://']
+        for l in (deps_list, dev_deps_list):
+            for i, dep in enumerate(l):
+                for bad_package in EXCLUDED_PACKAGES:
+                    if dep[0].startswith(bad_package):
+                        l[i] = list(l[i])
+                        l[i][0] = '# {0}'.format(l[i][0])
+
         # Output only default dependencies
         if not dev:
             click.echo('\n'.join(d[0] for d in deps_list))
@@ -1316,6 +1335,7 @@ def pip_install(
 
     if verbose:
         click.echo(crayons.normal('Installing {0!r}'.format(package_name), bold=True), err=True)
+        pip.logger.setLevel(logging.INFO)
 
     # Create files for hash mode.
     if (not ignore_hashes) and (r is None):
@@ -1344,7 +1364,7 @@ def pip_install(
 
         # Don't specify a source directory when using --system.
         if not allow_global and ('PIP_SRC' not in os.environ):
-            src = '--src {0}'.format(project.virtualenv_src_location)
+            src = '--src {0}'.format(shellquote(project.virtualenv_src_location))
         else:
             src = ''
     else:
@@ -1616,6 +1636,18 @@ def do_install(
         pre = project.settings.get('allow_prereleases')
 
     remote = requirements and is_valid_url(requirements)
+
+    # Warn and exit if --system is used without a pipfile.
+    if system and package_name:
+        click.echo(
+            '{0}: --system is intended to be used for Pipfile installation, '
+            'not installation of specific packages. Aborting.'.format(
+                crayons.red('Warning', bold=True)
+            ), err=True
+        )
+        click.echo('See also: --deploy flag.', err=True)
+        sys.exit(1)
+
     # Check if the file is remote or not
     if remote:
         fd, temp_reqs = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt')
@@ -1974,6 +2006,10 @@ def do_run(command, args, three=None, python=False):
 
     load_dot_env()
 
+    # Script was found…
+    if command in project.scripts:
+        command = ' '.join(project.scripts[command])
+
     # Separate out things that were passed in as a string.
     _c = list(command.split())
     command = _c.pop(0)
@@ -1995,11 +2031,12 @@ def do_run(command, args, three=None, python=False):
         command_path = system_which(command)
         if not command_path:
             click.echo(
-                '{0}: the command {1} could not be found within {2}.'
+                '{0}: the command {1} could not be found within {2} or Pipfile\'s {3}.'
                 ''.format(
                     crayons.red('Error', bold=True),
                     crayons.red(command),
-                    crayons.normal('PATH', bold=True)
+                    crayons.normal('PATH', bold=True),
+                    crayons.normal('[scripts]', bold=True)
                 ), err=True
             )
             sys.exit(1)
@@ -2019,6 +2056,11 @@ def do_check(three=None, python=False, system=False, unused=False, style=False, 
         args = []
 
     if style:
+        click.echo(
+            '{0}: --style argument is deprecated since 9.1.0 and will be '
+            'removed in 10.0.0.'.format(crayons.red('Warning', bold=True)),
+            err=True
+        )
         sys.argv = ['magic', project.path_to(style)] + list(args)
         flake8.main.cli.main()
         exit()

@@ -13,4 +13,7 @@ test_project
 Pipfile.lock
 /.vscode/
 .idea
-docs/**/*.mo
+
+/.pytest_cache/
+
+/.env

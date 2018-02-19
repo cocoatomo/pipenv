@@ -78,6 +78,14 @@ Also useful for deployment is the ``--deploy`` flag::
 This will fail a build if the ``Pipfile.lock`` is out–of–date, instead of generating a new one.
 
 
+☤ ``pipenv`` and ``conda``
+--------------------------
+
+Conda does not play nicely with virtualenv, so you have to explicitly tell Pipenv
+to use conda's python, like this::
+
+    $ pipenv install --python=$(which python)  # run within activated conda environment
+
 ☤ Generating a ``requirements.txt``
 -----------------------------------
 
@@ -292,6 +300,10 @@ will detect it.
 
     - ``PIPENV_IGNORE_VIRTUALENVS`` — Set to disable automatically using an activated virtualenv over
       the current project's own virtual environment.
+
+    - ``PIPENV_PIPFILE`` — When running pipenv from a $PWD other than the same
+      directory where the Pipfile is located, instruct pipenv to find the
+      Pipfile in the location specified by this environment variable.
 
 If you'd like to set these environment variables on a per-project basis, I recommend utilizing the fantastic `direnv <https://direnv.net>`_ project, in order to do so.
 
