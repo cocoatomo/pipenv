@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 9.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-19 15:00+0000\n"
+"POT-Creation-Date: 2018-02-20 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,7 +66,7 @@ msgid "☤ Deploying System Dependencies"
 msgstr ""
 
 #: ../../advanced.rst:68
-msgid "You can tell Pipenv to install things into its parent system with the ``--system`` flag::"
+msgid "You can tell Pipenv to install a Pipfile's contents into its parent system with the ``--system`` flag::"
 msgstr ""
 
 #: ../../advanced.rst:72
