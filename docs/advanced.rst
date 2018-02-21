@@ -81,8 +81,7 @@ This will fail a build if the ``Pipfile.lock`` is out–of–date, instead of ge
 ☤ ``pipenv`` and ``conda``
 --------------------------
 
-Conda does not play nicely with virtualenv, so you have to explicitly tell Pipenv
-to use conda's python, like this::
+To use Pipenv with a Conda–provided Python, you simply provide the path to the Pyhon binary::
 
     $ pipenv install --python=/path/to/anaconda/python
 
@@ -175,19 +174,6 @@ Example::
 
 ✨🍰✨
 
-☤ Code Style Checking
----------------------
-
-Pipenv has `Flake 8 <http://flake8.pycqa.org/en/latest/>`_ built into it. You can check the style of your code like so, without installing anything::
-
-    $ cat t.py
-    import requests
-
-    $ pipenv check --style t.py
-    t.py:1:1: F401 'requests' imported but unused
-    t.py:1:16: W292 no newline at end of file
-
-Super useful :)
 
 ☤ Open a Module in Your Editor
 ------------------------------
