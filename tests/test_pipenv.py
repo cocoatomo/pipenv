@@ -4,27 +4,49 @@ import re
 import tempfile
 import shutil
 import json
-
 import pytest
-
+import warnings
 from pipenv.core import activate_virtualenv
-from pipenv.utils import temp_environ, get_windows_path, mkdir_p, normalize_drive
+from pipenv.utils import (
+    temp_environ, get_windows_path, mkdir_p, normalize_drive, rmtree, TemporaryDirectory
+)
 from pipenv.vendor import toml
 from pipenv.vendor import delegator
 from pipenv.project import Project
+from pipenv.vendor.six import PY2
+if PY2:
+    class ResourceWarning(Warning):
+        pass
+
 try:
     from pathlib import Path
 except:
     from pipenv.vendor.pathlib2 import Path
 
 os.environ['PIPENV_DONT_USE_PYENV'] = '1'
+os.environ['PIPENV_IGNORE_VIRTUALENVS'] = '1'
+
+
+@pytest.fixture(scope='module')
+def pip_src_dir(request):
+    old_src_dir = os.environ.get('PIP_SRC', '')
+    new_src_dir = TemporaryDirectory(prefix='pipenv-', suffix='-testsrc')
+    os.environ['PIP_SRC'] = new_src_dir.name
+    def finalize():
+        new_src_dir.cleanup()
+        os.environ['PIP_SRC'] = old_src_dir
+    request.addfinalizer(finalize)
+    return request
 
 
 class PipenvInstance():
     """An instance of a Pipenv Project..."""
     def __init__(self, pipfile=True, chdir=False):
+        self.original_umask = os.umask(0o007)
         self.original_dir = os.path.abspath(os.curdir)
-        self.path = tempfile.mkdtemp(suffix='project', prefix='pipenv')
+        self._path = TemporaryDirectory(suffix='project', prefix='pipenv')
+        self.path = self._path.name
+        # set file creation perms
         self.pipfile_path = None
         self.chdir = chdir
 
@@ -48,16 +70,17 @@ class PipenvInstance():
         return self
 
     def __exit__(self, *args):
+        warn_msg = 'Failed to remove resource: {!r}'
         if self.chdir:
             os.chdir(self.original_dir)
-
-        if self._before_tmpdir is None:
-            del os.environ['TMPDIR']
-        else:
-            os.environ['TMPDIR'] = self._before_tmpdir
-
-        shutil.rmtree(self.tmpdir)
-        shutil.rmtree(self.path)
+        self.path = None
+        try:
+            self._path.cleanup()
+        except OSError as e:
+            _warn_msg = warn_msg.format(e)
+            warnings.warn(_warn_msg, ResourceWarning)
+        finally:
+            os.umask(self.original_umask)
 
     def pipenv(self, cmd, block=True):
         if self.pipfile_path:
@@ -160,11 +183,6 @@ class TestPipenv:
     def test_venv_envs(self):
         with PipenvInstance() as p:
             assert p.pipenv('--envs').out
-
-    @pytest.mark.cli
-    def test_venv_jumbotron(self):
-        with PipenvInstance() as p:
-            assert p.pipenv('--jumbotron').out
 
     @pytest.mark.cli
     def test_bare_output(self):
@@ -423,7 +441,7 @@ setup(
     @pytest.mark.e
     @pytest.mark.vcs
     @pytest.mark.install
-    def test_editable_vcs_install(self):
+    def test_editable_vcs_install(self, pip_src_dir):
         with PipenvInstance() as p:
             c = p.pipenv('install -e git+https://github.com/requests/requests.git#egg=requests')
             assert c.return_code == 0
@@ -551,45 +569,6 @@ tpfd = "*"
             assert c.return_code == 0
             assert 'ibm-db-sa-py3' in p.lockfile['default']
 
-
-    @pytest.mark.sequential
-    @pytest.mark.install
-    @pytest.mark.update
-    def test_sequential_update_mode(self):
-
-        with PipenvInstance() as p:
-            with open(p.pipfile_path, 'w') as f:
-                contents = """
-[packages]
-requests = "*"
-records = "*"
-                """.strip()
-                f.write(contents)
-
-            c = p.pipenv('install')
-            assert c.return_code == 0
-
-            assert 'requests' in p.lockfile['default']
-            assert 'idna' in p.lockfile['default']
-            assert 'urllib3' in p.lockfile['default']
-            assert 'certifi' in p.lockfile['default']
-            assert 'records' in p.lockfile['default']
-
-            c = p.pipenv('run python -c "import requests; import idna; import certifi; import records;"')
-            assert c.return_code == 0
-
-            c = p.pipenv('update --sequential')
-            assert c.return_code == 0
-
-            assert 'requests' in p.lockfile['default']
-            assert 'idna' in p.lockfile['default']
-            assert 'urllib3' in p.lockfile['default']
-            assert 'certifi' in p.lockfile['default']
-            assert 'records' in p.lockfile['default']
-
-            c = p.pipenv('run python -c "import requests; import idna; import certifi; import records;"')
-            assert c.return_code == 0
-
     @pytest.mark.run
     @pytest.mark.markers
     @pytest.mark.install
@@ -637,7 +616,7 @@ requests = {version = "*", os_name = "== 'splashwear'"}
     @pytest.mark.install
     @pytest.mark.vcs
     @pytest.mark.tablib
-    def test_install_editable_git_tag(self):
+    def test_install_editable_git_tag(self, pip_src_dir):
         with PipenvInstance() as p:
             c = p.pipenv('install -e git+https://github.com/kennethreitz/tablib.git@v0.12.1#egg=tablib')
             assert c.return_code == 0
@@ -690,6 +669,15 @@ requests = {version = "*"}
                 assert c.return_code == 0
 
                 assert normalize_drive(p.path) in p.pipenv('--venv').out
+
+    @pytest.mark.dotvenv
+    def test_reuse_previous_venv(self):
+        with PipenvInstance(chdir=True) as p:
+            os.mkdir('.venv')
+            c = p.pipenv('install requests')
+            assert c.return_code == 0
+
+            assert normalize_drive(p.path) in p.pipenv('--venv').out
 
     @pytest.mark.dotvenv
     @pytest.mark.install
@@ -753,7 +741,7 @@ requests = {version = "*"}
     @pytest.mark.e
     @pytest.mark.install
     @pytest.mark.skip(reason="this doesn't work on windows")
-    def test_e_dot(self):
+    def test_e_dot(self, pip_src_dir):
 
         with PipenvInstance() as p:
             path = os.path.abspath(os.path.sep.join([os.path.dirname(__file__), '..']))
@@ -784,33 +772,23 @@ requests = {version = "*"}
     def test_check_unused(self):
 
         with PipenvInstance() as p:
-
             with PipenvInstance(chdir=True) as p:
-                with open('t.py', 'w') as f:
-                    f.write('import git')
-
+                with open('__init__.py', 'w') as f:
+                    contents = """
+import tablib
+import records
+                    """.strip()
+                    f.write(contents)
                 p.pipenv('install GitPython')
                 p.pipenv('install requests')
                 p.pipenv('install tablib')
+                p.pipenv('install records')
 
-                assert 'requests' in p.pipfile['packages']
+                assert all(pkg in p.pipfile['packages'] for pkg in ['requests', 'tablib', 'records', 'gitpython'])
 
                 c = p.pipenv('check --unused .')
-                assert 'GitPython' not in c.out
-                assert 'tablib' in c.out
-
-    @pytest.mark.check
-    @pytest.mark.style
-    def test_flake8(self):
-
-        with PipenvInstance() as p:
-
-            with PipenvInstance(chdir=True) as p:
-                with open('t.py', 'w') as f:
-                    f.write('import requests')
-
-                c = p.pipenv('check --style .')
-                assert 'requests' in c.out
+                assert 'gitpython' in c.out
+                assert 'tablib' not in c.out
 
     @pytest.mark.extras
     @pytest.mark.install
@@ -881,7 +859,7 @@ pytest = "==3.1.1"
 
     @pytest.mark.lock
     @pytest.mark.complex
-    def test_complex_lock_with_vcs_deps(self):
+    def test_complex_lock_with_vcs_deps(self, pip_src_dir):
 
         with PipenvInstance() as p:
             with open(p.pipfile_path, 'w') as f:
@@ -1053,7 +1031,7 @@ requests = "==2.14.0"
     @pytest.mark.install
     @pytest.mark.files
     @pytest.mark.resolver
-    def test_local_package(self):
+    def test_local_package(self, pip_src_dir):
         """This test ensures that local packages (directories with a setup.py)
         installed in editable mode have their dependencies resolved as well"""
         file_name = 'tablib-0.12.1.tar.gz'

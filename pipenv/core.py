@@ -25,7 +25,6 @@ import requests
 import pipfile
 import pipdeptree
 import semver
-import flake8.main.cli
 from pipreqs import pipreqs
 from blindspin import spinner
 from urllib3.exceptions import InsecureRequestWarning
@@ -35,7 +34,7 @@ from .utils import (
     proper_case, pep423_name, split_file, merge_deps, resolve_deps, shellquote, is_vcs,
     python_version, find_windows_executable, is_file, prepare_pip_source_args,
     temp_environ, is_valid_url, download_file, get_requirement, need_update_check,
-    touch_update_stamp
+    touch_update_stamp, is_pinned, is_star
 )
 from .__version__ import __version__
 from . import pep508checker, progress
@@ -453,8 +452,8 @@ def ensure_python(three=None, python=None):
                     # '3.1': '3.1.5',
                     # '3.2': '3.2.6',
                     '3.3': '3.3.7',
-                    '3.4': '3.4.7',
-                    '3.5': '3.5.4',
+                    '3.4': '3.4.8',
+                    '3.5': '3.5.5',
                     '3.6': '3.6.4',
                 }
                 try:
@@ -798,13 +797,11 @@ def do_install_dependencies(
         # requirements.txt, for pip.
 
         # Additional package selectors, specific to pip's --hash checking mode.
-        EXCLUDED_PACKAGES = list(BAD_PACKAGES) + ['-e .'] + ['-e file://'] + ['file://']
         for l in (deps_list, dev_deps_list):
             for i, dep in enumerate(l):
-                for bad_package in EXCLUDED_PACKAGES:
-                    if dep[0].startswith(bad_package):
-                        l[i] = list(l[i])
-                        l[i][0] = '# {0}'.format(l[i][0])
+                if '--hash' not in dep[0]:
+                    l[i] = list(l[i])
+                    l[i][0] = '# {0}'.format(l[i][0])
 
         # Output only default dependencies
         if not dev:
@@ -1012,8 +1009,17 @@ def get_downloads_info(names_map, section):
     return info
 
 
-def do_lock(verbose=False, system=False, clear=False, pre=False):
+def do_lock(verbose=False, system=False, clear=False, pre=False, keep_outdated=False):
     """Executes the freeze functionality."""
+
+    cached_lockfile = {}
+    if keep_outdated:
+        if not project.lockfile_exists:
+            click.echo('{0}: Pipfile.lock must exist to use --keep-outdated!'.format(
+                crayons.red('Warning', bold=True)
+            ))
+            sys.exit(1)
+        cached_lockfile = project.lockfile_content
 
     project.destroy_lockfile()
 
@@ -1036,8 +1042,15 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
             if not hasattr(v, 'keys'):
                 del lockfile[section][k]
 
+    # Ensure that develop inherits from default.
+    dev_packages = project.dev_packages.copy()
+
+    for dev_package in project.dev_packages:
+        if dev_package in project.packages:
+            dev_packages[dev_package] = project.packages[dev_package]
+
     # Resolve dev-package dependencies, with pip-tools.
-    deps = convert_deps_to_pip(project.dev_packages, project, r=False, include_index=True)
+    deps = convert_deps_to_pip(dev_packages, project, r=False, include_index=True)
     results = resolve_deps(
         deps,
         sources=project.sources,
@@ -1141,12 +1154,25 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
                 name = list(installed.keys())[0]
 
                 if is_vcs(installed[name]):
-                    # Convert name to PEP 432 name.
+                    # Convert name to PEP 423 name.
                     installed = {pep423_name(name): installed[name]}
 
                     lockfile['default'].update(installed)
             except IndexError:
                 pass
+
+    # Support for --keep-outdated…
+    if keep_outdated:
+        for section_name, section in (('default', project.packages), ('develop', project.dev_packages)):
+            for package_specified in section:
+                norm_name = pep423_name(package_specified)
+                if not is_pinned(section[package_specified]):
+                    lockfile[section_name][norm_name] = cached_lockfile[section_name][norm_name]
+
+    # Overwrite any develop packages with default packages.
+    for default_package in lockfile['default']:
+        if default_package in lockfile['develop']:
+            lockfile['develop'][default_package] = lockfile['default'][default_package]
 
     # Run the PEP 508 checker in the virtualenv, add it to the lockfile.
     cmd = '"{0}" {1}'.format(which('python', allow_global=system), shellquote(pep508checker.__file__.rstrip('cdo')))
@@ -1180,12 +1206,14 @@ def do_lock(verbose=False, system=False, clear=False, pre=False):
 def activate_virtualenv(source=True):
     """Returns the string to activate a virtualenv."""
 
-    # Suffix for other shells.
+    # Suffix and source command for other shells.
     suffix = ''
+    command = '.' if source else ''
 
     # Support for fish shell.
     if PIPENV_SHELL and 'fish' in PIPENV_SHELL:
         suffix = '.fish'
+        command = 'source'
 
     # Support for csh shell.
     if PIPENV_SHELL and 'csh' in PIPENV_SHELL:
@@ -1196,7 +1224,7 @@ def activate_virtualenv(source=True):
     venv_location = project.virtualenv_location.replace(' ', r'\ ')
 
     if source:
-        return '. {0}/bin/activate{1}'.format(venv_location, suffix)
+        return '{2} {0}/bin/activate{1}'.format(venv_location, suffix, command)
     else:
         return '{0}/bin/activate'.format(venv_location)
 
@@ -1264,7 +1292,8 @@ def do_purge(bare=False, downloads=False, allow_global=False, verbose=False):
 
 def do_init(
     dev=False, requirements=False, allow_global=False, ignore_pipfile=False,
-    skip_lock=False, verbose=False, system=False, concurrent=True, deploy=False, pre=False
+    skip_lock=False, verbose=False, system=False, concurrent=True, deploy=False,
+    pre=False, keep_outdated=False
 ):
     """Executes the init functionality."""
 
@@ -1321,7 +1350,7 @@ def do_init(
     # Write out the lockfile if it doesn't exist.
     if not project.lockfile_exists and not skip_lock:
         click.echo(crayons.normal(u'Pipfile.lock not found, creating…', bold=True), err=True)
-        do_lock(system=system, pre=pre)
+        do_lock(system=system, pre=pre, keep_outdated=keep_outdated)
 
     do_install_dependencies(dev=dev, requirements=requirements, allow_global=allow_global,
                             skip_lock=skip_lock, verbose=verbose, concurrent=concurrent)
@@ -1333,7 +1362,8 @@ def do_init(
 
 def pip_install(
     package_name=None, r=None, allow_global=False, ignore_hashes=False,
-    no_deps=True, verbose=False, block=True, index=None, pre=False
+    no_deps=True, verbose=False, block=True, index=None, pre=False,
+    selective_upgrade=False
 ):
     import pip
 
@@ -1342,9 +1372,9 @@ def pip_install(
         pip.logger.setLevel(logging.INFO)
 
     # Create files for hash mode.
-    if (not ignore_hashes) and (r is None):
-        r = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt')[1]
-        with open(r, 'w') as f:
+    if not package_name.startswith('-e ') and (not ignore_hashes) and (r is None):
+        fd, r = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt')
+        with os.fdopen(fd, 'w') as f:
             f.write(package_name)
 
     # Install dependencies when a package is a VCS dependency.
@@ -1381,10 +1411,10 @@ def pip_install(
         sources = project.sources
 
     for source in sources:
-        if r:
-            install_reqs = ' -r {0}'.format(r)
-        elif package_name.startswith('-e '):
+        if package_name.startswith('-e '):
             install_reqs = ' -e "{0}"'.format(package_name.split('-e ')[1])
+        elif r:
+            install_reqs = ' -r {0}'.format(r)
         else:
             install_reqs = ' "{0}"'.format(package_name)
 
@@ -1407,15 +1437,17 @@ def pip_install(
 
         quoted_pip = which_pip(allow_global=allow_global)
         quoted_pip = shellquote(quoted_pip)
+        upgrade_strategy = '--upgrade-strategy=only-if-needed' if selective_upgrade else ''
 
-        pip_command = '{0} install {4} {5} {6} {3} {1} {2} --exists-action w'.format(
+        pip_command = '{0} install {4} {5} {6} {7} {3} {1} {2} --exists-action w'.format(
             quoted_pip,
             install_reqs,
             ' '.join(prepare_pip_source_args([source])),
             no_deps,
             pre,
             src,
-            verbose_flag
+            verbose_flag,
+            upgrade_strategy
         )
 
         if verbose:
@@ -1507,15 +1539,16 @@ def format_help(help):
 
     help = help.replace('Usage: pipenv', str('Usage: {0}'.format(crayons.normal('pipenv', bold=True))))
 
-    help = help.replace('  graph', str(crayons.green('  graph')))
-    help = help.replace('  open', str(crayons.green('  open')))
-    help = help.replace('  check', str(crayons.green('  check')))
-    help = help.replace('  uninstall', str(crayons.yellow('  uninstall', bold=True)))
-    help = help.replace('  install', str(crayons.yellow('  install', bold=True)))
-    help = help.replace('  lock', str(crayons.red('  lock', bold=True)))
-    help = help.replace('  run', str(crayons.blue('  run')))
-    help = help.replace('  shell', str(crayons.blue('  shell', bold=True)))
-    help = help.replace('  update', str(crayons.yellow('  update')))
+    help = help.replace('  check', str(crayons.red('  check', bold=True)))
+    help = help.replace('  clean', str(crayons.red('  clean', bold=True)))
+    help = help.replace('  graph', str(crayons.red('  graph', bold=True)))
+    help = help.replace('  install', str(crayons.magenta('  install', bold=True)))
+    help = help.replace('  lock', str(crayons.green('  lock', bold=True)))
+    help = help.replace('  open', str(crayons.red('  open', bold=True)))
+    help = help.replace('  run', str(crayons.yellow('  run', bold=True)))
+    help = help.replace('  shell', str(crayons.yellow('  shell', bold=True)))
+    help = help.replace('  sync', str(crayons.green('  sync', bold=True)))
+    help = help.replace('  uninstall', str(crayons.magenta('  uninstall', bold=True)))
 
     additional_help = """
 Usage Examples:
@@ -1537,6 +1570,9 @@ Usage Examples:
    Install a local setup.py into your virtual environment/Pipfile:
    $ {5}
 
+   Use a lower-level pip command:
+   $ {8}
+
 Commands:""".format(
         crayons.red('pipenv --three'),
         crayons.red('pipenv --python 3.6'),
@@ -1546,6 +1582,7 @@ Commands:""".format(
         crayons.red('pipenv install -e .'),
         crayons.red('pipenv lock --pre'),
         crayons.red('pipenv check'),
+        crayons.red('pipenv run pip freeze'),
     )
 
     help = help.replace('Commands:', additional_help)
@@ -1594,17 +1631,41 @@ def warn_in_virtualenv():
             )
 
 
-def kr_easter_egg(package_name):
-    if package_name in ['requests', 'maya', 'crayons', 'delegator.py', 'records', 'tablib', 'background', 'clint']:
+def ensure_lockfile(keep_outdated=False):
+    """Ensures that the lockfile is up–to–date."""
+    pre = project.settings.get('allow_prereleases')
+    if not keep_outdated:
+        keep_outdated = project.settings.get('keep_outdated')
 
-        # Windows built-in terminal lacks proper emoji taste.
-        if PIPENV_HIDE_EMOJIS:
-            click.echo(u'  PS: You have excellent taste!')
-        else:
-            click.echo(u'  PS: You have excellent taste! ✨ 🍰 ✨')
+    # Write out the lockfile if it doesn't exist, but not if the Pipfile is being ignored
+    if project.lockfile_exists:
 
+        # Open the lockfile.
+        with codecs.open(project.lockfile_location, 'r') as f:
+            lockfile = simplejson.load(f)
 
+        # Update the lockfile if it is out-of-date.
+        p = pipfile.load(project.pipfile_location)
 
+        # Check that the hash of the Lockfile matches the lockfile's hash.
+        if not lockfile['_meta'].get('hash', {}).get('sha256') == p.hash:
+
+            old_hash = lockfile['_meta'].get('hash', {}).get('sha256')[-6:]
+            new_hash = p.hash[-6:]
+
+            click.echo(
+                crayons.red(
+                    u'Pipfile.lock ({0}) out of date, updating to ({1})…'.format(
+                        old_hash,
+                        new_hash
+                    ),
+                    bold=True),
+                err=True
+            )
+
+            do_lock(pre=pre, keep_outdated=keep_outdated)
+    else:
+        do_lock(pre=pre, keep_outdated=keep_outdated)
 
 
 def do_py(system=False):
@@ -1619,9 +1680,13 @@ def do_install(
     package_name=False, more_packages=False, dev=False, three=False,
     python=False, system=False, lock=True, ignore_pipfile=False,
     skip_lock=False, verbose=False, requirements=False, sequential=False,
-    pre=False, code=False, deploy=False
+    pre=False, code=False, deploy=False, keep_outdated=False,
+    selective_upgrade=False
 ):
     import pip
+
+    if selective_upgrade:
+        keep_outdated = True
 
     # Don't search for requirements.txt files if the user provides one
     skip_requirements = True if requirements else False
@@ -1634,6 +1699,9 @@ def do_install(
     # Load the --pre settings from the Pipfile.
     if not pre:
         pre = project.settings.get('allow_prereleases')
+
+    if not keep_outdated:
+        keep_outdated = project.settings.get('keep_outdated')
 
     remote = requirements and is_valid_url(requirements)
 
@@ -1722,10 +1790,27 @@ def do_install(
         # Update project settings with pre preference.
         if pre:
             project.update_settings({'allow_prereleases': pre})
+        if keep_outdated:
+            project.update_settings({'keep_outdated': keep_outdated})
 
         do_init(dev=dev, allow_global=system, ignore_pipfile=ignore_pipfile, system=system, skip_lock=skip_lock, verbose=verbose, concurrent=concurrent, deploy=deploy, pre=pre)
 
         sys.exit(0)
+
+    # Support for --selective-upgrade.
+    if selective_upgrade:
+
+        for i, package_name in enumerate(package_names.copy()):
+            section = project.packages if not dev else project.dev_packages
+            package = convert_deps_from_pip(package_name)
+            package__name = list(package.keys())[0]
+            package__val = list(package.values())[0]
+
+            try:
+                if not is_star(section[package__name]) and is_star(package__val):
+                    package_names[i] = '{0}{1}'.format(package_name, section[package__name])
+            except KeyError:
+                pass
 
     for package_name in package_names:
         click.echo(crayons.normal(u'Installing {0}…'.format(crayons.green(package_name, bold=True)), bold=True))
@@ -1733,7 +1818,15 @@ def do_install(
         # pip install:
         with spinner():
 
-            c = pip_install(package_name, ignore_hashes=True, allow_global=system, no_deps=False, verbose=verbose, pre=pre)
+            c = pip_install(
+                package_name,
+                ignore_hashes=True,
+                allow_global=system,
+                selective_upgrade=selective_upgrade,
+                no_deps=False,
+                verbose=verbose,
+                pre=pre
+            )
 
             # Warn if --editable wasn't passed.
             try:
@@ -1787,17 +1880,17 @@ def do_install(
         # Update project settings with pre preference.
         if pre:
             project.update_settings({'allow_prereleases': pre})
-
-        # Ego boost.
-        kr_easter_egg(package_name)
+        if keep_outdated:
+            project.update_settings({'keep_outdated': keep_outdated})
 
     if lock and not skip_lock:
-        do_lock(system=system, pre=pre)
+        do_init(dev=dev, allow_global=system, concurrent=concurrent, verbose=verbose, keep_outdated=keep_outdated)
 
 
 def do_uninstall(
     package_name=False, more_packages=False, three=None, python=False,
-    system=False, lock=False, all_dev=False, all=False, verbose=False
+    system=False, lock=False, all_dev=False, all=False, verbose=False,
+    keep_outdated=False
 ):
 
     # Automatically use an activated virtualenv.
@@ -1808,7 +1901,8 @@ def do_uninstall(
     ensure_project(three=three, python=python)
 
     # Load the --pre settings from the Pipfile.
-    pre = project.settings.get('pre')
+    pre = project.settings.get('allow_prereleases')
+
 
     package_names = (package_name,) + more_packages
     pipfile_remove = True
@@ -1885,7 +1979,7 @@ def do_uninstall(
             project.remove_package_from_pipfile(package_name, dev=False)
 
     if lock:
-        do_lock(system=system, pre=pre)
+        do_lock(system=system, pre=pre, keep_outdated=keep_outdated)
 
 
 def do_shell(three=None, python=False, fancy=False, shell_args=None):
@@ -2050,7 +2144,7 @@ def do_run(command, args, three=None, python=False):
         pass
 
 
-def do_check(three=None, python=False, system=False, unused=False, style=False, args=None):
+def do_check(three=None, python=False, system=False, unused=False, args=None):
 
     if not system:
         # Ensure that virtualenv is available.
@@ -2058,16 +2152,6 @@ def do_check(three=None, python=False, system=False, unused=False, style=False, 
 
     if not args:
         args = []
-
-    if style:
-        click.echo(
-            '{0}: --style argument is deprecated since 9.1.0 and will be '
-            'removed in 10.0.0.'.format(crayons.red('Warning', bold=True)),
-            err=True
-        )
-        sys.argv = ['magic', project.path_to(style)] + list(args)
-        flake8.main.cli.main()
-        exit()
 
     if unused:
         deps_required = [k for k in project.packages.keys()]
@@ -2138,7 +2222,7 @@ def do_check(three=None, python=False, system=False, unused=False, style=False, 
     else:
         python = system_which('python')
 
-    c = delegator.run('"{0}" {1} check --json'.format(python, shellquote(path)))
+    c = delegator.run('"{0}" {1} check --json --key=1ab8d58f-5122e025-83674263-bc1e79e0'.format(python, shellquote(path)))
     try:
         results = simplejson.loads(c.out)
     except ValueError:
@@ -2194,6 +2278,19 @@ def do_graph(bare=False, json=False, reverse=False):
     if reverse:
         flag = '--reverse'
 
+    if not project.virtualenv_exists:
+        click.echo(
+            u'{0}: No virtualenv has been created for this project yet! Consider '
+            u'running {1} first to automatically generate one for you or see'
+            u'{2} for further instructions.'.format(
+                crayons.red('Warning', bold=True),
+                crayons.green('`pipenv install`'),
+                crayons.green('`pipenv install --help`')
+            ), err=True
+        )
+        sys.exit(1)
+
+
     cmd = '"{0}" {1} {2}'.format(
         python_path,
         shellquote(pipdeptree.__file__.rstrip('cdo')),
@@ -2235,112 +2332,91 @@ def do_graph(bare=False, json=False, reverse=False):
     sys.exit(c.return_code)
 
 
-def do_update(ctx, install, dev=False, three=None, python=None, dry_run=False, bare=False, dont_upgrade=False, user=False, verbose=False, clear=False, unused=False, package_name=None, sequential=False):
+def do_sync(
+    ctx,
+    install,
+    dev=False,
+    three=None,
+    python=None,
+    dry_run=False,
+    bare=False,
+    dont_upgrade=False,
+    user=False,
+    verbose=False,
+    clear=False,
+    unused=False,
+    sequential=False
+):
 
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python, validate=False)
 
     concurrent = (not sequential)
 
-    # --dry-run:
-    if dry_run:
-        # dont_upgrade = True
-        updates = False
+    ensure_lockfile()
 
-        # Dev packages
-        if not bare:
-            click.echo(crayons.normal(u'Checking dependencies…', bold=True), err=True)
+    # Install everything.
+    do_init(dev=dev, verbose=verbose, concurrent=concurrent)
 
-        packages = project.packages
-        if dev:
-            packages.update(project.dev_packages)
+    click.echo(
+        crayons.green('All dependencies are now up-to-date!')
+    )
 
-        installed_packages = {}
-        deps = convert_deps_to_pip(packages, project, r=False)
-        c = delegator.run('{0} freeze'.format(which_pip()))
 
-        for r in c.out.strip().split('\n'):
-            result = convert_deps_from_pip(r)
-            try:
-                installed_packages[list(result.keys())[0].lower()] = result[list(result.keys())[0]][len('=='):]
-            except TypeError:
-                pass
+def do_clean(
+    ctx,
+    three=None,
+    python=None,
+    dry_run=False,
+    bare=False,
+    verbose=False
+):
 
-        # Resolve dependency tree.
-        for result in resolve_deps(deps, sources=project.sources, clear=clear, which=which, which_pip=which_pip, project=project):
+    # Ensure that virtualenv is available.
+    ensure_project(three=three, python=python, validate=False)
 
-            name = result['name']
-            latest = result['version']
+    ensure_lockfile()
 
-            try:
-                installed = installed_packages[name]
-                if installed != latest:
-                    if not bare:
-                        click.echo(
-                            '{0}=={1} is available ({2} installed)!'
-                            ''.format(crayons.normal(name, bold=True), latest, installed)
-                        )
-                    else:
-                        click.echo(
-                            '{0}=={1}'.format(name, latest)
-                        )
-                    updates = True
-            except KeyError:
-                pass
+    installed_packages = delegator.run(
+        '{0} freeze'.format(which('pip'))
+    ).out.strip().split('\n')
 
-        if not updates and not bare:
-            click.echo(
-                crayons.green('All good!')
-            )
+    installed_package_names = []
+    for installed in installed_packages:
+        r = get_requirement(installed)
 
-        sys.exit(int(updates))
-
-    if not package_name:
-        click.echo(
-            crayons.normal(u'Updating all dependencies from Pipfile…', bold=True)
-        )
-
-        pre = project.settings.get('allow_prereleases')
-
-        # Purge.
-        do_purge()
-
-        # Lock.
-        do_lock(clear=clear, pre=pre)
-
-        # Install everything.
-        do_init(dev=dev, verbose=verbose, concurrent=concurrent)
-
-        click.echo(
-            crayons.green('All dependencies are now up-to-date!')
-        )
-    else:
-
-        if package_name in project.all_packages:
-
-            click.echo(
-                u'Uninstalling {0}…'.format(
-                    crayons.green(package_name)
-                )
-            )
-
-            cmd = '"{0}" uninstall {1} -y'.format(which_pip(), package_name)
-            c = delegator.run(cmd)
-
-            try:
-                assert c.return_code == 0
-            except AssertionError:
-                click.echo()
-                click.echo(crayons.blue(c.err))
-                # sys.exit(1)
-
-            p_name = convert_deps_to_pip({package_name: project.all_packages[package_name]}, r=False)
-            ctx.invoke(install, package_name=p_name[0])
-
+        # Ignore editable installations.
+        if not r.editable:
+            installed_package_names.append(r.name.lower())
         else:
-            click.echo(
-                '{0} was not found in your {1}!'.format(
-                    crayons.green(package_name),
-                    crayons.normal('Pipfile', bold=True)
-                )
-            )
+            if verbose:
+                click.echo('Ignoring {0}.'.format(repr(r.name)), err=True)
+
+    # Remove known "bad packages" from the list.
+    for bad_package in BAD_PACKAGES:
+        if bad_package in installed_package_names:
+            if verbose:
+                click.echo('Ignoring {0}.'.format(repr(bad_package)), err=True)
+            del installed_package_names[installed_package_names.index(bad_package)]
+
+    # Intelligently detect if --dev should be used or not.
+    develop = [k.lower() for k in project.lockfile_content['develop'].keys()]
+    default = [k.lower() for k in project.lockfile_content['default'].keys()]
+
+    for used_package in set(develop + default):
+        if used_package in installed_package_names:
+            del installed_package_names[installed_package_names.index(used_package)]
+
+    success = False
+    for apparent_bad_package in installed_package_names:
+        success = True
+
+        if dry_run:
+            click.echo(apparent_bad_package)
+        else:
+            click.echo(crayons.white('Unintalling {0}…'.format(repr(apparent_bad_package)), bold=True))
+
+            # Uninstall the package.
+            delegator.run('{0} uninstall {1} -y'.format(which('pip'), apparent_bad_package))
+
+    sys.exit(int(success))

@@ -46,6 +46,13 @@ Installation
 
 ✨🍰✨
 
+There are also various other installation methods which prevent pipenv from
+interfering with the rest of your Python installation. These include
+`Pipsi <https://docs.pipenv.org/install/#fancy-installation-of-pipenv>`_,
+`Nix <https://docs.pipenv.org/install/#referentially-transparent-installation-of-pipenv>`_
+and `Homebrew <https://docs.pipenv.org/install/#homebrew-installation-of-pipenv>`_.
+
+
 ☤ User Testimonials
 -------------------
 
@@ -110,7 +117,6 @@ Fish is the best shell. You should use it.
 -------
 
 ::
-
     $ pipenv
     Usage: pipenv [OPTIONS] COMMAND [ARGS]...
 
@@ -127,7 +133,6 @@ Fish is the best shell. You should use it.
       --three / --two  Use Python 3/2 when creating virtualenv.
       --python TEXT    Specify which version of Python virtualenv should use.
       --site-packages  Enable site-packages for the virtualenv.
-      --jumbotron      An easter egg, effectively.
       --version        Show the version and exit.
       -h, --help       Show this message and exit.
 
@@ -151,16 +156,23 @@ Fish is the best shell. You should use it.
        Install a local setup.py into your virtual environment/Pipfile:
        $ pipenv install -e .
 
+       Use a lower-level pip command:
+       $ pipenv run pip freeze
+
     Commands:
-      check      Checks for security vulnerabilities and...
-      graph      Displays currently–installed dependency graph...
-      install    Installs provided packages and adds them to...
+      check      Checks for security vulnerabilities and against PEP 508 markers
+                 provided in Pipfile.
+      clean      Uninstalls all packages not specified in Pipfile.lock.
+      graph      Displays currently–installed dependency graph information.
+      install    Installs provided packages and adds them to Pipfile, or (if none
+                 is given), installs all packages.
       lock       Generates Pipfile.lock.
       open       View a given module in your editor.
-      run        Spawns a command installed into the...
+      run        Spawns a command installed into the virtualenv.
       shell      Spawns a shell within the virtualenv.
-      uninstall  Un-installs a provided package and removes it...
-      update     Uninstalls all packages, and re-installs...
+      sync       Installs all packages specified in Pipfile.lock.
+      uninstall  Un-installs a provided package and removes it from Pipfile.
+
 
 
 

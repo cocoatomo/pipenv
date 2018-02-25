@@ -15,21 +15,6 @@ from .__version__ import __version__
 from . import environments
 from .environments import *
 
-xyzzy = """
- _______   __                                           __
-/       \ /  |                                         /  |
-$$$$$$$  |$$/   ______    ______   _______   __     __ $$ |
-$$ |__$$ |/  | /      \  /      \ /       \ /  \   /  |$$ |
-$$    $$/ $$ |/$$$$$$  |/$$$$$$  |$$$$$$$  |$$  \ /$$/ $$ |
-$$$$$$$/  $$ |$$ |  $$ |$$    $$ |$$ |  $$ | $$  /$$/  $$/
-$$ |      $$ |$$ |__$$ |$$$$$$$$/ $$ |  $$ |  $$ $$/    __
-$$ |      $$ |$$    $$/ $$       |$$ |  $$ |   $$$/    /  |
-$$/       $$/ $$$$$$$/   $$$$$$$/ $$/   $$/     $/     $$/
-              $$ |
-              $$ |
-              $$/
-"""
-
 # Enable shell completion.
 click_completion.init()
 
@@ -54,19 +39,14 @@ def setup_verbose(ctx, param, value):
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
 @click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
 @click.option('--site-packages', is_flag=True, default=False, help="Enable site-packages for the virtualenv.")
-@click.option('--jumbotron', is_flag=True, default=False, help="An easter egg, effectively.")
 @click.version_option(prog_name=crayons.normal('pipenv', bold=True), version=__version__)
 @click.pass_context
 def cli(
     ctx, where=False, venv=False, rm=False, bare=False, three=False,
-    python=False, help=False, update=False, jumbotron=False, py=False,
+    python=False, help=False, update=False, py=False,
     site_packages=False, envs=False, man=False, completion=False
 ):
     from . import core
-
-    if jumbotron:
-        # Awesome sauce.
-        click.echo(crayons.normal(xyzzy, bold=True))
 
     if not update:
         if core.need_update_check():
@@ -198,11 +178,14 @@ def cli(
 @click.option('--skip-lock', is_flag=True, default=False, help=u"Ignore locking mechanisms when installing—use the Pipfile, instead.")
 @click.option('--deploy', is_flag=True, default=False, help=u"Abort if the Pipfile.lock is out–of–date, or Python version is wrong.")
 @click.option('--pre', is_flag=True, default=False, help=u"Allow pre–releases.")
+@click.option('--keep-outdated', is_flag=True, default=False, help=u"Keep out–dated dependencies from being updated in Pipfile.lock.")
+@click.option('--selective-upgrade', is_flag=True, default=False, help="Update specified packages.")
 def install(
     package_name=False, more_packages=False, dev=False, three=False,
     python=False, system=False, lock=True, ignore_pipfile=False,
     skip_lock=False, verbose=False, requirements=False, sequential=False,
-    pre=False, code=False, deploy=False
+    pre=False, code=False, deploy=False, keep_outdated=False,
+    selective_upgrade=False
 ):
     from . import core
     core.do_install(
@@ -210,7 +193,8 @@ def install(
         three=three, python=python, system=system, lock=lock,
         ignore_pipfile=ignore_pipfile, skip_lock=skip_lock, verbose=verbose,
         requirements=requirements, sequential=sequential, pre=pre, code=code,
-        deploy=deploy
+        deploy=deploy, keep_outdated=keep_outdated,
+        selective_upgrade=selective_upgrade
     )
 
 
@@ -224,15 +208,17 @@ def install(
 @click.option('--lock', is_flag=True, default=True, help="Lock afterwards.")
 @click.option('--all-dev', is_flag=True, default=False, help="Un-install all package from [dev-packages].")
 @click.option('--all', is_flag=True, default=False, help="Purge all package(s) from virtualenv. Does not edit Pipfile.")
+@click.option('--keep-outdated', is_flag=True, default=False, help=u"Keep out–dated dependencies from being updated in Pipfile.lock.")
 def uninstall(
     package_name=False, more_packages=False, three=None, python=False,
-    system=False, lock=False, all_dev=False, all=False, verbose=False
+    system=False, lock=False, all_dev=False, all=False, verbose=False,
+    keep_outdated=False
 ):
     from . import core
     core.do_uninstall(
         package_name=package_name, more_packages=more_packages, three=three,
         python=python, system=system, lock=lock, all_dev=all_dev, all=all,
-        verbose=verbose
+        verbose=verbose, keep_outdated=keep_outdated
     )
 
 
@@ -245,7 +231,8 @@ def uninstall(
 @click.option('--dev', '-d', is_flag=True, default=False, help="Generate output compatible with requirements.txt for the development dependencies.")
 @click.option('--clear', is_flag=True, default=False, help="Clear the dependency cache.")
 @click.option('--pre', is_flag=True, default=False, help=u"Allow pre–releases.")
-def lock(three=None, python=False, verbose=False, requirements=False, dev=False, clear=False, pre=False):
+@click.option('--keep-outdated', is_flag=True, default=False, help=u"Keep out–dated dependencies from being updated in Pipfile.lock.")
+def lock(three=None, python=False, verbose=False, requirements=False, dev=False, clear=False, pre=False, keep_outdated=False):
     from . import core
     # Ensure that virtualenv is available.
     core.ensure_project(three=three, python=python)
@@ -257,7 +244,7 @@ def lock(three=None, python=False, verbose=False, requirements=False, dev=False,
     if requirements:
         core.do_init(dev=dev, requirements=requirements)
 
-    core.do_lock(verbose=verbose, clear=clear, pre=pre)
+    core.do_lock(verbose=verbose, clear=clear, pre=pre, keep_outdated=keep_outdated)
 
 
 
@@ -322,11 +309,10 @@ def run(command, args, three=None, python=False):
 @click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
 @click.option('--system', is_flag=True, default=False, help="Use system Python.")
 @click.option('--unused', nargs=1, default=False, help="Given a code path, show potentially unused dependencies.")
-@click.option('--style', nargs=1, default=False, help="Given a code path, show Flake8 errors.")
 @click.argument('args', nargs=-1)
 def check(three=None, python=False, system=False, unused=False, style=False, args=None):
     from . import core
-    core.do_check(three=three, python=python, system=system, unused=unused, style=style, args=args)
+    core.do_check(three=three, python=python, system=system, unused=unused, args=args)
 
 
 @click.command(short_help=u"Displays currently–installed dependency graph information.")
@@ -365,28 +351,41 @@ def run_open(module, three=None, python=None):
     sys.exit(0)
 
 
-@click.command(short_help="Uninstalls all packages, and re-installs package(s) in [packages] to latest compatible versions.")
-@click.argument('package_name', default=False)
+@click.command(short_help="Installs all packages specified in Pipfile.lock.")
 @click.option('--verbose', '-v', is_flag=True, default=False, help="Verbose mode.", callback=setup_verbose)
 @click.option('--dev', '-d', is_flag=True, default=False, help="Additionally install package(s) in [dev-packages].")
 @click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
 @click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
-@click.option('--dry-run', is_flag=True, default=False, help="Just output outdated packages.")
 @click.option('--bare', is_flag=True, default=False, help="Minimal output.")
 @click.option('--clear', is_flag=True, default=False, help="Clear the dependency cache.")
 @click.option('--sequential', is_flag=True, default=False, help="Install dependencies one-at-a-time, instead of concurrently.")
 @click.pass_context
-def update(
-    ctx, dev=False, three=None, python=None, dry_run=False, bare=False,
+def sync(
+    ctx, dev=False, three=None, python=None, bare=False,
     dont_upgrade=False, user=False, verbose=False, clear=False, unused=False,
     package_name=None, sequential=False
 ):
     from . import core
-    core.do_update(
-        ctx=ctx, install=install, dev=dev, three=three, python=python, dry_run=dry_run,
+    core.do_sync(
+        ctx=ctx, install=install, dev=dev, three=three, python=python,
         bare=bare, dont_upgrade=dont_upgrade, user=user, verbose=verbose,
-        clear=clear, unused=unused, package_name=package_name,
-        sequential=sequential
+        clear=clear, unused=unused, sequential=sequential
+    )
+
+
+@click.command(short_help="Uninstalls all packages not specified in Pipfile.lock.")
+@click.option('--verbose', '-v', is_flag=True, default=False, help="Verbose mode.", callback=setup_verbose)
+@click.option('--three/--two', is_flag=True, default=None, help="Use Python 3/2 when creating virtualenv.")
+@click.option('--python', default=False, nargs=1, help="Specify which version of Python virtualenv should use.")
+@click.option('--dry-run', is_flag=True, default=False, help="Just output unneeded packages.")
+@click.pass_context
+def clean(
+    ctx, three=None, python=None, dry_run=False, bare=False,
+    user=False, verbose=False
+):
+    from . import core
+    core.do_clean(
+        ctx=ctx, three=three, python=python, dry_run=dry_run, verbose=verbose
     )
 
 
@@ -394,9 +393,10 @@ def update(
 cli.add_command(graph)
 cli.add_command(install)
 cli.add_command(uninstall)
-cli.add_command(update)
+cli.add_command(sync)
 cli.add_command(lock)
 cli.add_command(check)
+cli.add_command(clean)
 cli.add_command(shell)
 cli.add_command(run)
 cli.add_command(run_open)

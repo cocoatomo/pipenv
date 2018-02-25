@@ -1,3 +1,25 @@
+next:
+ - Assume `PIPENV_VENV_IN_PROJECT` if `./.venv/` already exists.
+10.1.0:
+ - Default dependencies now take precidence over Develop dependencies when
+   creating a Pipfile.lock.
+ - Introducing `pipenv lock --keep-outdated`, which can also be passed to
+   `install` and `uninstall`.
+ - Introducing `pipenv install --selective-upgrade <package>`, which only
+   updates the given package in your Pipfile.lock.
+ - New Pipfile configuration option for [pipenv] section: `keep_outdated`.
+10.0.1:
+ - Add extra indexes from pip config files in Pipfile generation.
+ - Fix bug with `pipenv clean`.
+ - Install from Pipfile.lock after each successful `pipenv install`.
+ - Temporary file cleanup.
+10.0.0:
+ - Introduce `pipenv sync` command.
+ - Introduce `pipenv clean` command.
+ - Deprecate `pipenv update` command.
+ - Fully remove `check --style` functionality.
+ - Better `lock -r` functionality.
+ - Up-to-date security checks for `pipenv check`.
 9.1.0:
  - Add --system flag to $ pipenv check.
  - Removal of package name suggestions.
