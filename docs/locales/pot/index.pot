@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 9.1.0\n"
+"Project-Id-Version: pipenv 10.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-19 15:00+0000\n"
+"POT-Creation-Date: 2018-02-26 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -185,7 +185,7 @@ msgid "``shell`` will spawn a shell with the virtualenv activated."
 msgstr ""
 
 #: ../../index.rst:112
-msgid "``run`` will run a given command from the virtualenv, with any arguments forwarded (e.g. ``$ pipenv run python``)."
+msgid "``run`` will run a given command from the virtualenv, with any arguments forwarded (e.g. ``$ pipenv run python`` or ``$ pipenv run pip freeze``)."
 msgstr ""
 
 #: ../../index.rst:113
@@ -200,6 +200,7 @@ msgstr ""
 msgid "☤ Pipenv Usage"
 msgstr ""
 
+#: ../../index.rst:0
 #: ../../index.rst:0
 #: ../../index.rst:0
 #: ../../index.rst:0
@@ -239,7 +240,7 @@ msgstr ""
 
 #: ../../pipenv:1
 #: ../../pipenv graph:1
-#: ../../pipenv update:1
+#: ../../pipenv sync:1
 msgid "Minimal output."
 msgstr ""
 
@@ -253,34 +254,32 @@ msgstr ""
 
 #: ../../pipenv:1
 #: ../../pipenv check:1
+#: ../../pipenv clean:1
 #: ../../pipenv install:1
 #: ../../pipenv lock:1
 #: ../../pipenv open:1
 #: ../../pipenv run:1
 #: ../../pipenv shell:1
+#: ../../pipenv sync:1
 #: ../../pipenv uninstall:1
-#: ../../pipenv update:1
 msgid "Use Python 3/2 when creating virtualenv."
 msgstr ""
 
 #: ../../pipenv:1
 #: ../../pipenv check:1
+#: ../../pipenv clean:1
 #: ../../pipenv install:1
 #: ../../pipenv lock:1
 #: ../../pipenv open:1
 #: ../../pipenv run:1
 #: ../../pipenv shell:1
+#: ../../pipenv sync:1
 #: ../../pipenv uninstall:1
-#: ../../pipenv update:1
 msgid "Specify which version of Python virtualenv should use."
 msgstr ""
 
 #: ../../pipenv:1
 msgid "Enable site-packages for the virtualenv."
-msgstr ""
-
-#: ../../pipenv:1
-msgid "An easter egg, effectively."
 msgstr ""
 
 #: ../../pipenv:1
@@ -295,11 +294,6 @@ msgstr ""
 msgid "Given a code path, show potentially unused dependencies."
 msgstr ""
 
-#: ../../pipenv check:1
-msgid "Given a code path, show Flake8 errors."
-msgstr ""
-
-#: ../../index.rst:0
 #: ../../index.rst:0
 #: ../../index.rst:0
 #: ../../index.rst:0
@@ -315,6 +309,18 @@ msgstr ""
 #: ../../pipenv shell:1
 #: ../../pipenv uninstall:1
 msgid "Optional argument(s)"
+msgstr ""
+
+#: ../../pipenv clean:1
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv sync:1
+#: ../../pipenv uninstall:1
+msgid "Verbose mode."
+msgstr ""
+
+#: ../../pipenv clean:1
+msgid "Just output unneeded packages."
 msgstr ""
 
 #: ../../pipenv graph:1
@@ -343,18 +349,11 @@ msgid "Import from codebase."
 msgstr ""
 
 #: ../../pipenv install:1
-#: ../../pipenv lock:1
-#: ../../pipenv uninstall:1
-#: ../../pipenv update:1
-msgid "Verbose mode."
-msgstr ""
-
-#: ../../pipenv install:1
 msgid "Ignore Pipfile when installing, using the Pipfile.lock."
 msgstr ""
 
 #: ../../pipenv install:1
-#: ../../pipenv update:1
+#: ../../pipenv sync:1
 msgid "Install dependencies one-at-a-time, instead of concurrently."
 msgstr ""
 
@@ -372,8 +371,17 @@ msgid "Allow pre–releases."
 msgstr ""
 
 #: ../../pipenv install:1
+#: ../../pipenv lock:1
 #: ../../pipenv uninstall:1
-#: ../../pipenv update:1
+msgid "Keep out–dated dependencies from being updated in Pipfile.lock."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Update specified packages."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv uninstall:1
 msgid "Optional argument"
 msgstr ""
 
@@ -386,7 +394,7 @@ msgid "Generate output compatible with requirements.txt for the development depe
 msgstr ""
 
 #: ../../pipenv lock:1
-#: ../../pipenv update:1
+#: ../../pipenv sync:1
 msgid "Clear the dependency cache."
 msgstr ""
 
@@ -403,6 +411,10 @@ msgstr ""
 msgid "Always spawn a subshell, even if one is already spawned."
 msgstr ""
 
+#: ../../pipenv sync:1
+msgid "Additionally install package(s) in [dev-packages]."
+msgstr ""
+
 #: ../../pipenv uninstall:1
 msgid "Lock afterwards."
 msgstr ""
@@ -413,14 +425,6 @@ msgstr ""
 
 #: ../../pipenv uninstall:1
 msgid "Purge all package(s) from virtualenv. Does not edit Pipfile."
-msgstr ""
-
-#: ../../pipenv update:1
-msgid "Additionally install package(s) in [dev-packages]."
-msgstr ""
-
-#: ../../pipenv update:1
-msgid "Just output outdated packages."
 msgstr ""
 
 #: ../../index.rst:133

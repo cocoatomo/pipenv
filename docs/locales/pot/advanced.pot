@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 9.1.0\n"
+"Project-Id-Version: pipenv 10.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-21 15:01+0000\n"
+"POT-Creation-Date: 2018-02-26 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgid "☤ ``pipenv`` and ``conda``"
 msgstr ""
 
 #: ../../advanced.rst:84
-msgid "To use Pipenv with a Conda–provided Python, you simply provide the path to the Pyhon binary::"
+msgid "To use Pipenv with a Conda–provided Python, you simply provide the path to the Python binary::"
 msgstr ""
 
 #: ../../advanced.rst:89
