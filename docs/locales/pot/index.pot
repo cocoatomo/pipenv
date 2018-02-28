@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 10.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-26 15:00+0000\n"
+"POT-Creation-Date: 2018-02-28 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,11 +25,11 @@ msgid "**Pipenv** — the officially recommended Python packaging tool from `Py
 msgstr ""
 
 #: ../../index.rst:25
-msgid "Pipenv is a tool that aims to bring the best of all packaging worlds (bundler, composer, npm, cargo, yarn, etc.) to the Python world. *Windows is a first–class citizen, in our world.*"
+msgid "Pipenv is a tool that aims to bring the best of all packaging worlds (bundler, composer, npm, cargo, yarn, etc.) to the Python world. *Windows is a first-class citizen, in our world.*"
 msgstr ""
 
 #: ../../index.rst:27
-msgid "It automatically creates and manages a virtualenv for your projects, as well as adds/removes packages from your ``Pipfile`` as you install/uninstall packages. It also generates the ever–important ``Pipfile.lock``, which is used to produce deterministic builds."
+msgid "It automatically creates and manages a virtualenv for your projects, as well as adds/removes packages from your ``Pipfile`` as you install/uninstall packages. It also generates the ever-important ``Pipfile.lock``, which is used to produce deterministic builds."
 msgstr ""
 
 #: ../../index.rst:34
@@ -211,6 +211,7 @@ msgstr ""
 #: ../../index.rst:0
 #: ../../index.rst:0
 #: ../../index.rst:0
+#: ../../index.rst:0
 msgid "Options"
 msgstr ""
 
@@ -241,6 +242,7 @@ msgstr ""
 #: ../../pipenv:1
 #: ../../pipenv graph:1
 #: ../../pipenv sync:1
+#: ../../pipenv update:1
 msgid "Minimal output."
 msgstr ""
 
@@ -262,6 +264,7 @@ msgstr ""
 #: ../../pipenv shell:1
 #: ../../pipenv sync:1
 #: ../../pipenv uninstall:1
+#: ../../pipenv update:1
 msgid "Use Python 3/2 when creating virtualenv."
 msgstr ""
 
@@ -275,6 +278,7 @@ msgstr ""
 #: ../../pipenv shell:1
 #: ../../pipenv sync:1
 #: ../../pipenv uninstall:1
+#: ../../pipenv update:1
 msgid "Specify which version of Python virtualenv should use."
 msgstr ""
 
@@ -287,6 +291,7 @@ msgid "Show the version and exit."
 msgstr ""
 
 #: ../../pipenv check:1
+#: ../../pipenv update:1
 msgid "Use system Python."
 msgstr ""
 
@@ -294,6 +299,7 @@ msgstr ""
 msgid "Given a code path, show potentially unused dependencies."
 msgstr ""
 
+#: ../../index.rst:0
 #: ../../index.rst:0
 #: ../../index.rst:0
 #: ../../index.rst:0
@@ -308,6 +314,7 @@ msgstr ""
 #: ../../pipenv run:1
 #: ../../pipenv shell:1
 #: ../../pipenv uninstall:1
+#: ../../pipenv update:1
 msgid "Optional argument(s)"
 msgstr ""
 
@@ -316,6 +323,7 @@ msgstr ""
 #: ../../pipenv lock:1
 #: ../../pipenv sync:1
 #: ../../pipenv uninstall:1
+#: ../../pipenv update:1
 msgid "Verbose mode."
 msgstr ""
 
@@ -332,6 +340,7 @@ msgid "Reversed dependency graph."
 msgstr ""
 
 #: ../../pipenv install:1
+#: ../../pipenv update:1
 msgid "Install package(s) in [dev-packages]."
 msgstr ""
 
@@ -354,6 +363,7 @@ msgstr ""
 
 #: ../../pipenv install:1
 #: ../../pipenv sync:1
+#: ../../pipenv update:1
 msgid "Install dependencies one-at-a-time, instead of concurrently."
 msgstr ""
 
@@ -367,12 +377,14 @@ msgstr ""
 
 #: ../../pipenv install:1
 #: ../../pipenv lock:1
+#: ../../pipenv update:1
 msgid "Allow pre–releases."
 msgstr ""
 
 #: ../../pipenv install:1
 #: ../../pipenv lock:1
 #: ../../pipenv uninstall:1
+#: ../../pipenv update:1
 msgid "Keep out–dated dependencies from being updated in Pipfile.lock."
 msgstr ""
 
@@ -395,6 +407,7 @@ msgstr ""
 
 #: ../../pipenv lock:1
 #: ../../pipenv sync:1
+#: ../../pipenv update:1
 msgid "Clear the dependency cache."
 msgstr ""
 
