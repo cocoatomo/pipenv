@@ -1218,6 +1218,7 @@ def activate_virtualenv(source=True):
     # Support for csh shell.
     if PIPENV_SHELL and 'csh' in PIPENV_SHELL:
         suffix = '.csh'
+        command = 'source'
 
     # Escape any spaces located within the virtualenv path to allow
     # for proper activation.
@@ -1549,6 +1550,7 @@ def format_help(help):
     help = help.replace('  shell', str(crayons.yellow('  shell', bold=True)))
     help = help.replace('  sync', str(crayons.green('  sync', bold=True)))
     help = help.replace('  uninstall', str(crayons.magenta('  uninstall', bold=True)))
+    help = help.replace('  update', str(crayons.green('  update', bold=True)))
 
     additional_help = """
 Usage Examples:
@@ -1687,6 +1689,9 @@ def do_install(
 
     if selective_upgrade:
         keep_outdated = True
+
+    if not more_packages:
+        more_packages = []
 
     # Don't search for requirements.txt files if the user provides one
     skip_requirements = True if requirements else False
