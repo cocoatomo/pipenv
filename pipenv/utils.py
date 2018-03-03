@@ -18,7 +18,11 @@ import warnings
 try:
     from weakref import finalize
 except ImportError:
-    from backports.weakref import finalize
+    try:
+        from backports.weakref import finalize
+    except ImportError:
+        pass
+
 from time import time
 
 logging.basicConfig(level=logging.ERROR)
@@ -30,7 +34,11 @@ except ImportError:
 try:
     from pathlib import Path
 except ImportError:
-    from pathlib2 import Path
+    try:
+        from pathlib2 import Path
+    except ImportError:
+        pass
+
 
 import lazyload
 for module in [
@@ -300,23 +308,25 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
 
     req_dir = tempfile.mkdtemp(prefix='pipenv-', suffix='-requirements')
     for dep in deps:
-        if dep.startswith('-e '):
-            constraint = pip.req.InstallRequirement.from_editable(dep[len('-e '):])
-        else:
-            fd, t = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt', dir=req_dir)
-            with os.fdopen(fd, 'w') as f:
-                f.write(dep)
+        if dep:
+            if dep.startswith('-e '):
+                constraint = pip.req.InstallRequirement.from_editable(dep[len('-e '):])
+            else:
+                fd, t = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt', dir=req_dir)
+                with os.fdopen(fd, 'w') as f:
+                    f.write(dep)
 
-            constraint = [c for c in pip.req.parse_requirements(t, session=pip._vendor.requests)][0]
-            # extra_constraints = []
+                constraint = [c for c in pip.req.parse_requirements(t, session=pip._vendor.requests)][0]
 
-        if ' -i ' in dep:
-            index_lookup[constraint.name] = project.get_source(url=dep.split(' -i ')[1]).get('name')
+                # extra_constraints = []
 
-        if constraint.markers:
-            markers_lookup[constraint.name] = str(constraint.markers).replace('"', "'")
+            if ' -i ' in dep:
+                index_lookup[constraint.name] = project.get_source(url=dep.split(' -i ')[1]).get('name')
 
-        constraints.append(constraint)
+            if constraint.markers:
+                markers_lookup[constraint.name] = str(constraint.markers).replace('"', "'")
+
+            constraints.append(constraint)
 
     rmtree(req_dir)
 
@@ -333,7 +343,7 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
     pip_options, _ = pip_command.parse_args(pip_args)
 
     session = pip_command._build_session(pip_options)
-    pypi = PyPIRepository(pip_options=pip_options, session=session)
+    pypi = PyPIRepository(pip_options=pip_options, use_json=True, session=session)
 
     if verbose:
         logging.log.verbose = True
@@ -356,7 +366,7 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
             ),
             err=True)
 
-        click.echo(crayons.blue(str(e)))
+        click.echo(crayons.blue(str(e)), err=True)
 
         if 'no version found at all' in str(e):
             click.echo(crayons.blue('Please check your version specifier and version number. See PEP440 for more information.'))
@@ -366,7 +376,31 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
     return resolved_tree, resolver
 
 
-def resolve_deps(deps, which, which_pip, project, sources=None, verbose=False, python=False, clear=False, pre=False, allow_global=False):
+def venv_resolve_deps(deps, which, project, pre=False, verbose=False, clear=False):
+    from . import resolver
+    import json
+
+    resolver = shellquote(resolver.__file__.rstrip('co'))
+    cmd = '{0} {1} {2} {3}'.format(which('python'), resolver, '--pre' if pre else '', '--verbose' if verbose else '')
+    os.environ['PIPENV_PACKAGES'] = '\n'.join(deps)
+
+    c = delegator.run(cmd, block=True)
+
+    del os.environ['PIPENV_PACKAGES']
+
+    try:
+        assert c.return_code == 0
+    except AssertionError:
+        click.echo(c.err[int(len(c.err) / 2) - 1:], err=True)
+        sys.exit(c.return_code)
+
+    if verbose:
+        click.echo(c.out.split('RESULTS:')[0], err=True)
+
+    return json.loads(c.out.split('RESULTS:')[1].strip())
+
+
+def resolve_deps(deps, which, project, sources=None, verbose=False, python=False, clear=False, pre=False, allow_global=False):
     """Given a list of dependencies, return a resolved list of dependencies,
     using pip-tools -- and their hashes, using the warehouse API / pip.
     """

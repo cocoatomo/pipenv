@@ -23,6 +23,7 @@ from .environments import (
     PIPENV_PIPFILE,
     PIPENV_VENV_IN_PROJECT,
     PIPENV_VIRTUALENV,
+    PIPENV_NO_INHERIT
 )
 
 if PIPENV_PIPFILE:
@@ -35,7 +36,7 @@ if PIPENV_PIPFILE:
 class Project(object):
     """A Pipenv project."""
 
-    def __init__(self, chdir=True):
+    def __init__(self, which=None, chdir=True):
         super(Project, self).__init__()
         self._name = None
         self._virtualenv_location = None
@@ -44,6 +45,7 @@ class Project(object):
         self._pipfile_location = None
         self._requirements_location = None
         self._original_dir = os.path.abspath(os.curdir)
+        self.which = which
 
         # Hack to skip this during pipenv run, or -r.
         if ('run' not in sys.argv) and chdir:
@@ -433,8 +435,7 @@ class Project(object):
             data['source'].append({u'url': source, u'verify_ssl': True, 'name': name_from_index(source)})
 
         # Default requires.
-        if python:
-            data[u'requires'] = {'python_version': python_version(python)[:len('2.7')]}
+        data[u'requires'] = {'python_version': python_version(self.which('python'))[:len('2.7')]}
 
         self.write_toml(data, 'Pipfile')
 
