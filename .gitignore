@@ -10,7 +10,6 @@ dist
 build
 .DS_Store
 test_project
-Pipfile.lock
 /.vscode/
 .idea
 
@@ -23,3 +22,7 @@ Pipfile.lock
 /test/
 
 /test/
+
+/results.tap
+
+/report.tap
