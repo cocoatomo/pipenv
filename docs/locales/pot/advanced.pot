@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 11.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-03 15:00+0000\n"
+"POT-Creation-Date: 2018-03-06 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -123,7 +123,7 @@ msgid "Example::"
 msgstr ""
 
 #: ../../advanced.rst:175
-#: ../../advanced.rst:399
+#: ../../advanced.rst:403
 msgid "✨🍰✨"
 msgstr ""
 
@@ -300,18 +300,22 @@ msgid "To enable completion in fish, add this to your config::"
 msgstr ""
 
 #: ../../advanced.rst:397
+msgid "Alternatively, with bash or zsh, add this to your config::"
+msgstr ""
+
+#: ../../advanced.rst:401
 msgid "Magic shell completions are now enabled!"
 msgstr ""
 
-#: ../../advanced.rst:402
+#: ../../advanced.rst:406
 msgid "☤ Working with Platform-Provided Python Components"
 msgstr ""
 
-#: ../../advanced.rst:404
+#: ../../advanced.rst:408
 msgid "It's reasonably common for platform specific Python bindings for operating system interfaces to only be available through the system package manager, and hence unavailable for installation into virtual environments with `pip`. In these cases, the virtual environment can be created with access to the system `site-packages` directory::"
 msgstr ""
 
-#: ../../advanced.rst:412
+#: ../../advanced.rst:416
 msgid "To ensure that all `pip`-installable components actually are installed into the virtual environment and system packages are only used for interfaces that don't participate in Python-level dependency resolution at all, use the `PIP_IGNORE_INSTALLED` setting::"
 msgstr ""
 
