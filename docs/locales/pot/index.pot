@@ -1,0 +1,458 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project
+# This file is distributed under the same license as the pipenv package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pipenv 11.0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-03 15:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../index.rst:7
+msgid "Pipenv: Python Dev Workflow for Humans"
+msgstr ""
+
+#: ../../index.rst:23
+msgid "**Pipenv** — the officially recommended Python packaging tool from `Python.org <https://packaging.python.org/tutorials/managing-dependencies/#managing-dependencies>`_, free (as in freedom)."
+msgstr ""
+
+#: ../../index.rst:25
+msgid "Pipenv is a tool that aims to bring the best of all packaging worlds (bundler, composer, npm, cargo, yarn, etc.) to the Python world. *Windows is a first-class citizen, in our world.*"
+msgstr ""
+
+#: ../../index.rst:27
+msgid "It automatically creates and manages a virtualenv for your projects, as well as adds/removes packages from your ``Pipfile`` as you install/uninstall packages. It also generates the ever-important ``Pipfile.lock``, which is used to produce deterministic builds."
+msgstr ""
+
+#: ../../index.rst:34
+msgid "The problems that Pipenv seeks to solve are multi-faceted:"
+msgstr ""
+
+#: ../../index.rst:36
+msgid "You no longer need to use ``pip`` and ``virtualenv`` separately. They work together."
+msgstr ""
+
+#: ../../index.rst:37
+msgid "Managing a ``requirements.txt`` file `can be problematic <https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv uses ``Pipfile`` and ``Pipfile.lock`` to separate abstract dependency declarations from the last tested combination."
+msgstr ""
+
+#: ../../index.rst:38
+msgid "Hashes are used everywhere, always. Security. Automatically expose security vulnerabilities."
+msgstr ""
+
+#: ../../index.rst:39
+msgid "Strongly encourage the use of the latest versions of dependencies to minimize security risks `arising from outdated components <https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities>`_."
+msgstr ""
+
+#: ../../index.rst:40
+msgid "Give you insight into your dependency graph (e.g. ``$ pipenv graph``)."
+msgstr ""
+
+#: ../../index.rst:41
+msgid "Streamline development workflow by loading ``.env`` files."
+msgstr ""
+
+#: ../../index.rst:45
+msgid "Install Pipenv Today!"
+msgstr ""
+
+#: ../../index.rst:47
+msgid "If you're on MacOS, use can install Pipenv easily with Homebrew::"
+msgstr ""
+
+#: ../../index.rst:51
+msgid "Otherwise, just use pip::"
+msgstr ""
+
+#: ../../index.rst:55
+msgid "✨🍰✨"
+msgstr ""
+
+#: ../../index.rst:64
+msgid "User Testimonials"
+msgstr ""
+
+#: ../../index.rst:67
+msgid "**Jannis Leidel**, former pip maintainer—"
+msgstr ""
+
+#: ../../index.rst:67
+msgid "*Pipenv is the porcelain I always wanted to build for pip. It fits my brain and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*"
+msgstr ""
+
+#: ../../index.rst:70
+msgid "**Justin Myles Holmes**—"
+msgstr ""
+
+#: ../../index.rst:70
+msgid "*Pipenv is finally an abstraction meant to engage the mind instead of merely the filesystem.*"
+msgstr ""
+
+#: ../../index.rst:73
+msgid "**Isaac Sanders**—"
+msgstr ""
+
+#: ../../index.rst:73
+msgid "*Pipenv is literally the best thing about my day today. Thanks, Kenneth!*"
+msgstr ""
+
+#: ../../index.rst:76
+msgid "☤ Pipenv Features"
+msgstr ""
+
+#: ../../index.rst:78
+msgid "Enables truly *deterministic builds*, while easily specifying *only what you want*."
+msgstr ""
+
+#: ../../index.rst:79
+msgid "Generates and checks file hashes for locked dependencies."
+msgstr ""
+
+#: ../../index.rst:80
+msgid "Automatically install required Pythons, if ``pyenv`` is available."
+msgstr ""
+
+#: ../../index.rst:81
+msgid "Automatically finds your project home, recursively, by looking for a ``Pipfile``."
+msgstr ""
+
+#: ../../index.rst:82
+msgid "Automatically generates a ``Pipfile``, if one doesn't exist."
+msgstr ""
+
+#: ../../index.rst:83
+msgid "Automatically creates a virtualenv in a standard location."
+msgstr ""
+
+#: ../../index.rst:84
+msgid "Automatically adds/removes packages to a ``Pipfile`` when they are un/installed."
+msgstr ""
+
+#: ../../index.rst:85
+msgid "Automatically loads ``.env`` files, if they exist."
+msgstr ""
+
+#: ../../index.rst:87
+msgid "The main commands are ``install``, ``uninstall``, and ``lock``, which generates a ``Pipfile.lock``. These are intended to replace ``$ pip install`` usage, as well as manual virtualenv management (to activate a virtualenv, run ``$ pipenv shell``)."
+msgstr ""
+
+#: ../../index.rst:90
+msgid "Basic Concepts"
+msgstr ""
+
+#: ../../index.rst:92
+msgid "A virtualenv will automatically be created, when one doesn't exist."
+msgstr ""
+
+#: ../../index.rst:93
+msgid "When no parameters are passed to ``install``, all packages ``[packages]`` specified will be installed."
+msgstr ""
+
+#: ../../index.rst:94
+msgid "To initialize a Python 3 virtual environment, run ``$ pipenv --three``."
+msgstr ""
+
+#: ../../index.rst:95
+msgid "To initialize a Python 2 virtual environment, run ``$ pipenv --two``."
+msgstr ""
+
+#: ../../index.rst:96
+msgid "Otherwise, whatever virtualenv defaults to will be the default."
+msgstr ""
+
+#: ../../index.rst:101
+msgid "Other Commands"
+msgstr ""
+
+#: ../../index.rst:103
+msgid "``graph`` will show you a dependency graph, of your installed dependencies."
+msgstr ""
+
+#: ../../index.rst:104
+msgid "``shell`` will spawn a shell with the virtualenv activated."
+msgstr ""
+
+#: ../../index.rst:105
+msgid "``run`` will run a given command from the virtualenv, with any arguments forwarded (e.g. ``$ pipenv run python`` or ``$ pipenv run pip freeze``)."
+msgstr ""
+
+#: ../../index.rst:106
+msgid "``check`` checks for security vulnerabilities and asserts that PEP 508 requirements are being met by the current environment."
+msgstr ""
+
+#: ../../index.rst:110
+msgid "Further Documentation Guides"
+msgstr ""
+
+#: ../../index.rst:119
+msgid "☤ Pipenv Usage"
+msgstr ""
+
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+msgid "Options"
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Update Pipenv & pip to latest."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output project home information."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output virtualenv information."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output Python interpreter information."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output Environment Variable options."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Remove the virtualenv."
+msgstr ""
+
+#: ../../pipenv:1
+#: ../../pipenv graph:1
+#: ../../pipenv sync:1
+#: ../../pipenv update:1
+msgid "Minimal output."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Output completion (to be eval'd)."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Display manpage."
+msgstr ""
+
+#: ../../pipenv:1
+#: ../../pipenv check:1
+#: ../../pipenv clean:1
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv open:1
+#: ../../pipenv run:1
+#: ../../pipenv shell:1
+#: ../../pipenv sync:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Use Python 3/2 when creating virtualenv."
+msgstr ""
+
+#: ../../pipenv:1
+#: ../../pipenv check:1
+#: ../../pipenv clean:1
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv open:1
+#: ../../pipenv run:1
+#: ../../pipenv shell:1
+#: ../../pipenv sync:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Specify which version of Python virtualenv should use."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Enable site-packages for the virtualenv."
+msgstr ""
+
+#: ../../pipenv:1
+msgid "Show the version and exit."
+msgstr ""
+
+#: ../../pipenv check:1
+msgid "Use system Python."
+msgstr ""
+
+#: ../../pipenv check:1
+msgid "Given a code path, show potentially unused dependencies."
+msgstr ""
+
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+#: ../../index.rst:0
+msgid "Arguments"
+msgstr ""
+
+#: ../../pipenv check:1
+#: ../../pipenv install:1
+#: ../../pipenv run:1
+#: ../../pipenv shell:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Optional argument(s)"
+msgstr ""
+
+#: ../../pipenv clean:1
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv sync:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Verbose mode."
+msgstr ""
+
+#: ../../pipenv clean:1
+msgid "Just output unneeded packages."
+msgstr ""
+
+#: ../../pipenv graph:1
+msgid "Output JSON."
+msgstr ""
+
+#: ../../pipenv graph:1
+msgid "Reversed dependency graph."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv update:1
+msgid "Install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv uninstall:1
+msgid "System pip management."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Import a requirements.txt file."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Import from codebase."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Ignore Pipfile when installing, using the Pipfile.lock."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv sync:1
+#: ../../pipenv update:1
+msgid "Install dependencies one-at-a-time, instead of concurrently."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Abort if the Pipfile.lock is out–of–date, or Python version is wrong."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv update:1
+msgid "Allow pre–releases."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv lock:1
+#: ../../pipenv uninstall:1
+#: ../../pipenv update:1
+msgid "Keep out–dated dependencies from being updated in Pipfile.lock."
+msgstr ""
+
+#: ../../pipenv install:1
+msgid "Update specified packages."
+msgstr ""
+
+#: ../../pipenv install:1
+#: ../../pipenv uninstall:1
+msgid "Optional argument"
+msgstr ""
+
+#: ../../pipenv lock:1
+msgid "Generate output compatible with requirements.txt."
+msgstr ""
+
+#: ../../pipenv lock:1
+msgid "Generate output compatible with requirements.txt for the development dependencies."
+msgstr ""
+
+#: ../../pipenv lock:1
+#: ../../pipenv sync:1
+#: ../../pipenv update:1
+msgid "Clear the dependency cache."
+msgstr ""
+
+#: ../../pipenv open:1
+#: ../../pipenv run:1
+msgid "Required argument"
+msgstr ""
+
+#: ../../pipenv shell:1
+msgid "Run in shell in fancy mode (for elegantly configured shells)."
+msgstr ""
+
+#: ../../pipenv shell:1
+msgid "Always spawn a subshell, even if one is already spawned."
+msgstr ""
+
+#: ../../pipenv sync:1
+msgid "Additionally install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../pipenv uninstall:1
+msgid "Lock afterwards."
+msgstr ""
+
+#: ../../pipenv uninstall:1
+msgid "Un-install all package from [dev-packages]."
+msgstr ""
+
+#: ../../pipenv uninstall:1
+msgid "Purge all package(s) from virtualenv. Does not edit Pipfile."
+msgstr ""
+
+#: ../../pipenv update:1
+#: ../../pipenv update:1
+msgid "List out–of–date dependencies."
+msgstr ""
+
+#: ../../index.rst:126
+msgid "Indices and tables"
+msgstr ""
+
+#: ../../index.rst:128
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../../index.rst:129
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../../index.rst:130
+msgid ":ref:`search`"
+msgstr ""
+

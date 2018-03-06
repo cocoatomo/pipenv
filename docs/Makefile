@@ -14,6 +14,12 @@ help:
 
 .PHONY: help Makefile
 
+html-ja: clean
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" -D language=ja $(O)
+
+gettext:
+	@$(SPHINXBUILD) "$(SOURCEDIR)" locales/pot -b gettext -E -D gettext_compact=0 -d _build/.doctrees $(O)
+
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile

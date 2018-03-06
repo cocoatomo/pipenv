@@ -67,6 +67,9 @@ class PipenvInstance():
     def __enter__(self):
         if self.chdir:
             os.chdir(self.path)
+        self._before_tmpdir = os.environ.pop('TMPDIR', None)
+        self.tmpdir = tempfile.mkdtemp(suffix='tmp', prefix='pipenv')
+        os.environ['TMPDIR'] = self.tmpdir
         return self
 
     def __exit__(self, *args):
@@ -445,6 +448,7 @@ setup(
             assert 'idna' in p.lockfile['default']
             assert 'urllib3' in p.lockfile['default']
             assert 'certifi' in p.lockfile['default']
+            assert os.listdir(p.tmpdir) == []
 
     @pytest.mark.install
     @pytest.mark.pin
@@ -846,6 +850,7 @@ flask = "==0.12.2"
                 assert req in c.out
 
             for req in dev_req_list:
+                assert req not in c.out
                 assert req in d.out
 
     @pytest.mark.lock
@@ -901,6 +906,34 @@ maya = "*"
             assert c.return_code == 0
 
     @pytest.mark.lock
+    @pytest.mark.install
+    @pytest.mark.system
+    @pytest.mark.skipif(os.name != 'posix', reason="Windows doesn't have a root")
+    def test_resolve_system_python_no_virtualenv(self):
+        """Ensure we don't error out when we are in a folder off of / and doing an install using --system,
+        which used to cause the resolver and PIP_PYTHON_PATH to point at /bin/python
+        
+        Sample dockerfile:
+        FROM python:3.6-alpine3.6
+
+        RUN set -ex && pip install pipenv --upgrade
+        RUN set -ex && mkdir /app
+        COPY Pipfile /app/Pipfile
+
+        WORKDIR /app
+        """
+        with temp_environ():
+            os.environ['PIPENV_IGNORE_VIRTUALENVS'] = '1'
+            os.environ['PIPENV_USE_SYSTEM'] = '1'
+            with PipenvInstance(chdir=True) as p:
+                os.chdir('/tmp')
+                c = p.pipenv('install --system xlrd')
+                assert c.return_code == 0
+                for fn in ['Pipfile', 'Pipfile.lock']:
+                    path = os.path.join('/tmp', fn)
+                    if os.path.exists(path):
+                        os.unlink(path)
+
     @pytest.mark.requirements
     @pytest.mark.complex
     def test_complex_lock_changing_candidate(self, pypi):

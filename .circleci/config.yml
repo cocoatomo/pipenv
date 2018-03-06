@@ -1,0 +1,130 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  build-catalogue:
+    docker:
+      - image: circleci/python:3.6.1
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: update files
+          command: |
+            git config --global user.email "circleci-build-bot@example.com"
+            git config --global user.name "Autobuild bot on CircleCI"
+            git remote add upstream https://github.com/pypa/pipenv.git
+            git remote -v
+            git fetch upstream
+            git merge --no-ff upstream/master -m "Merge remote-tracking branch 'upstream/master' into translate-ja by Autobuild bot"
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv .venv
+            . .venv/bin/activate
+            pip freeze -l
+            pip install -r docs/requirements.txt
+            pip install transifex-client
+
+      - run:
+          name: generate catalogue templates
+          command: |
+            . .venv/bin/activate
+            cd docs
+            make gettext
+            ls locales/pot
+
+      - run:
+          name: upload pot files
+          command: |
+            git add docs/locales/pot
+            if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to update"; exit 0; fi
+            cat <<EOF > ~/.transifexrc
+            [https://www.transifex.com]
+            hostname = https://www.transifex.com
+            password = ${TX_TOKEN}
+            token = 
+            username = api
+            EOF
+            . .venv/bin/activate
+            cd docs/locales
+            tx push -s
+
+      - run:
+          name: store commit history
+          command: |
+            if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to commit"; exit 0; fi
+            git commit -a -m "[skip ci] Update .pot files"
+            git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
+
+  build-doc:
+    docker:
+      - image: circleci/python:3.6.1
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv .venv
+            . .venv/bin/activate
+            pip freeze -l
+            pip install -r docs/requirements.txt
+            pip install transifex-client
+
+      - run:
+          name: get .po files
+          command: |
+            cat <<EOF > ~/.transifexrc
+            [https://www.transifex.com]
+            hostname = https://www.transifex.com
+            password = ${TX_TOKEN}
+            token = 
+            username = api
+            EOF
+            . .venv/bin/activate
+            cd docs/locales
+            tx pull -lja
+
+      - run:
+          name: build document
+          command: |
+            git config --global user.email "circleci-build-bot@example.com"
+            git config --global user.name "Autobuild bot on CircleCI"
+            git add docs/locales/ja/
+            if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to build"; exit 0; fi
+            git commit -a -m "[skip ci] Update .po files"
+            git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
+
+workflows:
+  version: 2
+  catalogue:
+    triggers:
+      - schedule:
+          cron: "0 15 * * *" # 00:00 JST
+          filters:
+            branches:
+              only:
+                - translate-ja
+    jobs:
+      - build-catalogue
+
+  publish:
+    triggers:
+      - schedule:
+          cron: "0 4,10,16,22 * * *" # 01:00, 07:00, 13:00, 19:00 in JST
+          filters:
+            branches:
+              only:
+                - translate-ja
+    jobs:
+      - build-doc

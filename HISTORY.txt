@@ -111,7 +111,7 @@
 8.2.5:
  - Fixed bad attribute call on date checks.
 8.2.4:
- - Enhanced sha messaging — lockfile short shas are now displayed.
+ - Enhanced sha messaging — lockfile short shas are now displayed.
  - Improve Windows unicode output.
  - General UX and other improvements.
 8.2.3:
@@ -119,7 +119,7 @@
 8.2.2:
  - Improve system pip detection.
 8.2.1:
- - Enhanced pip resolver — hopefully that won't blow up in our faces.
+ - Enhanced pip resolver — hopefully that won't blow up in our faces.
  - Fixed file links.
 8.2.0:
  - Made things nicer.
@@ -252,7 +252,7 @@
 7.6.6:
  - Packaging problem.
 7.6.5:
- - Patched vendored 'safety' package to remove yaml dependency — should work on all Pythons now.
+ - Patched vendored 'safety' package to remove yaml dependency — should work on all Pythons now.
 7.6.4:
  - Extensive integration test suite.
  - Don't suggest autocorrections as often.
@@ -452,7 +452,7 @@
 6.0.1:
  - Minor (major) bug fix.
 6.0.0:
- - New locking functionality — support for multiple hashes per release!
+ - New locking functionality — support for multiple hashes per release!
  - Hashes are now default, everywhere, once again! We figured it out :)
  - Pipenv talks to the PyPi (Warehouse) API now for grabbing hashes.
  - --hashes flag removed.

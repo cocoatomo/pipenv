@@ -40,6 +40,13 @@ except ImportError:
         pass
 
 
+import lazyload
+for module in [
+    'piptools', 'contetxlib', 'distutils'
+]:
+    lazyload.make_lazy(module)
+
+
 from distutils.spawn import find_executable
 from contextlib import contextmanager
 from piptools.resolver import Resolver
@@ -67,6 +74,32 @@ SCHEME_LIST = ('http://', 'https://', 'ftp://', 'file://')
 
 requests = requests.Session()
 
+
+def	get_default_indexes():
+    """Returns the default Package Index URL."""
+
+    indexes = []
+    
+    # Support for PIP_INDEX_URL.
+    if 'PIP_INDEX_URL' in os.environ:
+        indexes.append(os.environ['PIP_INDEX_URL'])
+    
+    # Support for config file.
+    p = index.PackageIndex()
+    p.read_configuration()
+
+    indexes.append(p.url)
+    
+	# Support for PIP_EXTRA_URL.
+    if 'PIP_EXTRA_INDEX_URL' in os.environ:
+        indexes.append(os.environ['PIP_EXTRA_INDEX_URL'])
+        
+    return indexes
+    
+def name_from_index(url):
+    """Returns an estimated name from a given index URL."""
+    return url.split('//')[1].split('.')[0]
+    
 
 def get_requirement(dep):
     import pip
@@ -250,7 +283,7 @@ def prepare_pip_source_args(sources, pip_args=None):
 
         # Trust the host if it's not verified.
         if not sources[0].get('verify_ssl', True):
-            pip_args.extend(['--trusted-host', urlparse(sources[0]['url']).netloc.split(':')[0]])
+            pip_args.extend(['--trusted-host', urlparse(sources[0]['url']).hostname])
 
         # Add additional sources as extra indexes.
         if len(sources) > 1:
@@ -259,7 +292,7 @@ def prepare_pip_source_args(sources, pip_args=None):
 
                 # Trust the host if it's not verified.
                 if not source.get('verify_ssl', True):
-                    pip_args.extend(['--trusted-host', urlparse(source['url']).netloc.split(':')[0]])
+                    pip_args.extend(['--trusted-host', urlparse(source['url']).hostname])
 
     return pip_args
 
@@ -896,7 +929,7 @@ def merge_deps(file_dict, project, dev=False, requirements=False, ignore_hashes=
         include_index = True if not suffix else False
         converted = convert_deps_to_pip(file_dict[section], project, r=False, include_index=include_index)
         deps.extend((d, no_hashes, block) for d in converted)
-        if dev and is_dev and requirements:
+        if requirements and dev == is_dev:
             requirements_deps.extend((d, no_hashes, block) for d in converted)
     return deps, requirements_deps
 

@@ -35,7 +35,7 @@ if PIPENV_PIPFILE:
 
 
 class Project(object):
-    """docstring for Project"""
+    """A Pipenv project."""
 
     def __init__(self, which=None, chdir=True):
         super(Project, self).__init__()
@@ -432,8 +432,11 @@ class Project(object):
             # Default packages.
             u'packages': {},
             u'dev-packages': {},
-
         }
+
+        # Insert sources into default Pipfile.
+        for source in get_default_indexes():
+            data['source'].append({u'url': source, u'verify_ssl': True, 'name': name_from_index(source)})
 
         # Default requires.
         data[u'requires'] = {'python_version': python_version(self.which('python'))[:len('2.7')]}
