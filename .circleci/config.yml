@@ -93,7 +93,7 @@ jobs:
             EOF
             . .venv/bin/activate
             cd docs/locales
-            tx pull --force -language ja
+            tx pull --force --language ja
 
       - run:
           name: build document
