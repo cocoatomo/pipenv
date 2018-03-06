@@ -19,26 +19,44 @@ if [[ ! -z "$CI" ]]; then
 	RAM_DISK="/opt/ramdisk"
 	export RAM_DISK
 
+	TAP_OUTPUT="1"
+	export TAP_OUTPUT
+
 	echo "Installing Pipenv…"
 
-	pip install -e . --upgrade --upgrade-strategy=only-if-needed
+	pip install -e "$(pwd)" --upgrade --upgrade-strategy=only-if-needed
 	pipenv install --deploy --system --dev
-	TAP_OUPUT=1
 
 else
 	# Otherwise, assume MacOS…
-	# TODO: Improve this for Linux users (e.g. Nick).
-	echo "Using RAM disk (assuming MacOS)…"
-	if [[ ! -d "/Volumes/RamDisk" ]]; then
-		diskutil erasevolume HFS+ 'RAMDisk' $(hdiutil attach -nomount ram://8388608)
-	fi
+	if [[ $(python -c "import sys; print(sys.platform)") == "darwin" ]]; then
+		echo "Using RAM disk (assuming MacOS)…"
 
-	RAM_DISK="/Volumes/RAMDisk"
-	export RAM_DISK
+		RAM_DISK="/Volumes/RAMDisk"
+		export RAM_DISK
+
+		if [[ ! -d "$RAM_DISK" ]]; then
+			echo "Creating RAM Disk ($RAM_DISK)…"
+			diskutil erasevolume HFS+ 'RAMDisk' $(hdiutil attach -nomount ram://8388608)
+		fi
+
+
+	else
+		echo "Using RAM disk (assuming Linux)…"
+
+		RAM_DISK="/media/ramdisk"
+		export RAM_DISK
+
+		if [[ ! -d "$RAM_DISK" ]]; then
+			echo "Creating RAM Disk ($RAM_DISK)…"
+			sudo mkdir -p "$RAM_DISK"
+			sudo mount -t tmpfs -o size=4096M tmpfs "$RAM_DISK"
+		fi
+	fi
 
 	if [[ ! -d "$RAM_DISK/.venv" ]]; then
 		echo "Creating a new venv on RAM Disk…"
-		python3 -m venv "$RAM_DISK/.venv"
+		virtualenv "$RAM_DISK/.venv"
 	fi
 
 	# If the lockfile hasn't changed, skip installs.
@@ -56,8 +74,8 @@ else
 fi
 
 if [[ "$TAP_OUTPUT" ]]; then
-	echo "$ pipenv run time pytest -v -n auto tests -m \"$TEST_SUITE\" --tap-stream | tee report.tap"
-	"$RAM_DISK/.venv/bin/pipenv" run time pytest -v -n auto tests -m "$TEST_SUITE"  --tap-stream | tee report.tap
+	echo "$ pipenv run time pytest -v -n auto tests -m \"$TEST_SUITE\" --tap-stream | tee report-$PYTHON.tap"
+	pipenv run time pytest -v -n auto tests -m "$TEST_SUITE"  --tap-stream | tee report.tap
 else
 	echo "$ pipenv run time pytest -v -n auto tests -m \"$TEST_SUITE\""
 	"$RAM_DISK/.venv/bin/pipenv" run time pytest -v -n auto tests -m "$TEST_SUITE"
