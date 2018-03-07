@@ -108,7 +108,7 @@ msgstr "☤ ``pipenv`` と ``conda``"
 msgid ""
 "To use Pipenv with a Conda–provided Python, you simply provide the path to "
 "the Python binary::"
-msgstr ""
+msgstr "Condaが提供するPythonでPipenvを使うには、Pythonバイナリへのパスを与えるだけでよいです::"
 
 #: ../../advanced.rst:89
 msgid "☤ Generating a ``requirements.txt``"
@@ -251,6 +251,7 @@ msgid ""
 "To prevent pipenv from loading the ``.env`` file, set the "
 "``PIPENV_DONT_LOAD_ENV`` environment variable::"
 msgstr ""
+"Pipenvが ``.env`` ファイルを読み込まないようにするには、 ``PIPENV_DONT_LOAD_ENV`` 環境変数を設定します::"
 
 #: ../../advanced.rst:264
 msgid "☤ Configuration With Environment Variables"
@@ -317,6 +318,8 @@ msgid ""
 "``PIPENV_IGNORE_VIRTUALENVS`` — Set to disable automatically using an "
 "activated virtualenv over the current project's own virtual environment."
 msgstr ""
+"``PIPENV_IGNORE_VIRTUALENVS`` — "
+"設定すると、自動で有効化されている仮想環境を使わないようにし、現在のプロジェクトの仮想環境を使います。"
 
 #: ../../advanced.rst:290
 msgid ""
@@ -425,7 +428,7 @@ msgstr ""
 msgid ""
 "A 3rd party plugin, `tox-pipenv`_ is also available to use Pipenv natively "
 "with tox."
-msgstr ""
+msgstr "サードパーティのプラグイン `tox-pipenv`_ も、toxにPipenvを連係させるのに使えます。"
 
 #: ../../advanced.rst:391
 msgid "☤ Shell Completion"
@@ -433,11 +436,11 @@ msgstr "☤ シェルの補完"
 
 #: ../../advanced.rst:393
 msgid "To enable completion in fish, add this to your config::"
-msgstr "fishで補完を有効にするには、次の設定を追加してください::"
+msgstr "fishで補完を有効にするには、次のコマンドを設定ファイルに追加してください::"
 
 #: ../../advanced.rst:397
 msgid "Alternatively, with bash or zsh, add this to your config::"
-msgstr ""
+msgstr "また、bashやzshでは次のコマンドを設定ファイルに追加してください::"
 
 #: ../../advanced.rst:401
 msgid "Magic shell completions are now enabled!"

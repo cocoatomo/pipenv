@@ -89,10 +89,13 @@ msgid ""
 "minimize security risks `arising from outdated components "
 "<https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities>`_."
 msgstr ""
+"依存パッケージの最新バージョンを使うことで `古いコンポーネントが引き起こす "
+"<https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities>`_"
+" セキュリティリスクを最小化することを強くお薦めします。"
 
 #: ../../index.rst:40
 msgid "Give you insight into your dependency graph (e.g. ``$ pipenv graph``)."
-msgstr "依存関係グラフに対する深い洞察を提供します (例えば ``$ pipenv graph``)。"
+msgstr "依存関係グラフを深く理解できるようになります (例えば ``$ pipenv graph``)。"
 
 #: ../../index.rst:41
 msgid "Streamline development workflow by loading ``.env`` files."
@@ -246,6 +249,8 @@ msgid ""
 "``run`` will run a given command from the virtualenv, with any arguments "
 "forwarded (e.g. ``$ pipenv run python`` or ``$ pipenv run pip freeze``)."
 msgstr ""
+"``run`` は、与えられたコマンドに任意の引数を付けて仮想環境で実行します(例えば ``$ pipenv run python`` や ``$ "
+"pipenv run pip freeze``)。"
 
 #: ../../index.rst:106
 msgid ""
@@ -400,11 +405,11 @@ msgstr "プレリリースバージョンのパッケージを許可します。
 #: ../../pipenv install:1 ../../pipenv lock:1 ../../pipenv uninstall:1
 #: ../../pipenv update:1
 msgid "Keep out–dated dependencies from being updated in Pipfile.lock."
-msgstr ""
+msgstr "Pipfile.lockの古くなった依存関係が更新されないようにします。"
 
 #: ../../pipenv install:1
 msgid "Update specified packages."
-msgstr ""
+msgstr "指定されたパッケージを更新します。"
 
 #: ../../pipenv install:1 ../../pipenv uninstall:1
 msgid "Optional argument"
@@ -456,7 +461,7 @@ msgstr ""
 
 #: ../../pipenv update:1 ../../pipenv update:1
 msgid "List out–of–date dependencies."
-msgstr ""
+msgstr "古くなった依存関係の一覧を出力します。"
 
 #: ../../index.rst:126
 msgid "Indices and tables"
