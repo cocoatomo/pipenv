@@ -1,7 +1,14 @@
-FROM python:3.6.4
+FROM ubuntu:17.10
 
 # -- Install Pipenv:
-RUN set -ex && pip install pipenv --upgrade
+RUN apt update
+RUN apt install software-properties-common python-software-properties -y
+RUN add-apt-repository ppa:pypa/ppa -y
+RUN apt update
+RUN apt install pipenv -y
+
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
 
 # -- Install Application into container:
 RUN set -ex && mkdir /app
@@ -24,4 +31,4 @@ ONBUILD RUN set -ex && pipenv install --deploy --system
 # COPY . /app
 
 # -- Replace with the correct path to your app's main executable
-# CMD python3 main.py 
+# CMD python3 main.py

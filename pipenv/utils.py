@@ -52,7 +52,7 @@ from contextlib import contextmanager
 from piptools.resolver import Resolver
 from piptools.repositories.pypi import PyPIRepository
 from piptools.scripts.compile import get_pip_command
-from piptools import logging
+from piptools import logging as piptools_logging
 from piptools.exceptions import NoCandidateFound
 from pip.download import is_archive_file
 from pip.exceptions import DistributionNotFound
@@ -173,7 +173,7 @@ def get_requirement(dep):
     elif req.local_file and path and not req.vcs:
         req.path = path
         req.uri = None
-    elif req.vcs and req.uri and cleaned_uri and uri != req.uri:
+    elif req.vcs and req.uri and cleaned_uri and cleaned_uri != uri:
         req.uri = strip_ssh_from_git_uri(req.uri)
         req.line = strip_ssh_from_git_uri(req.line)
     req.editable = editable
@@ -347,6 +347,7 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
 
     if verbose:
         logging.log.verbose = True
+        piptools_logging.log.verbose = True
 
 
     resolved_tree = set()
@@ -1162,7 +1163,7 @@ class TemporaryDirectory(object):
         if 'RAM_DISK' in os.environ:
             import uuid
             name = uuid.uuid4().hex
-            dir_name = os.path.sep.join([os.environ['RAM_DISK'], name])
+            dir_name = os.path.sep.join([os.environ['RAM_DISK'].strip(), name])
             os.mkdir(dir_name)
             self.name = dir_name
 

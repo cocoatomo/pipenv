@@ -315,7 +315,7 @@ def ensure_pipfile(validate=True, skip_requirements=False):
             click.echo(crayons.normal(u'requirements.txt found, instead of Pipfile! Converting…', bold=True))
 
             # Create a Pipfile...
-            python = which('python') if not USING_DEFAULT_PYTHON else False
+            python = which('python') if not USING_DEFAULT_PYTHON else sys.executable
             project.create_pipfile(python=python)
 
             with spinner():
@@ -1499,7 +1499,7 @@ def which_pip(allow_global=False):
             return which('pip', location=os.environ['VIRTUAL_ENV'])
 
         for p in ('pip', 'pip2', 'pip3'):
-            where = system_which(p)
+            where = '{0} -m pip'.format(sys.executable)
             if where:
                 return where
 
@@ -2428,7 +2428,7 @@ def do_clean(
 
     installed_package_names = []
     for installed in installed_packages:
-        r = get_requirement(installed)
+        r = get_requirement(installed, verbose=verbose)
 
         # Ignore editable installations.
         if not r.editable:

@@ -1,5 +1,7 @@
-virtualenv .venv
-.venv\Scripts\pip install -e . --upgrade --upgrade-strategy=only-if-needed
-.venv\Scripts\pipenv install --dev
+rem imdisk  -a -s 964515b -m R: -p "/FS:NTFS /Y"
 
-SET PYPI_VENDOR_DIR=".\tests\pypi\" && .venv\Scripts\pipenv run pytest -n auto -v tests --tap-stream
+virtualenv R:\.venv
+R:\.venv\Scripts\pip install -e . --upgrade --upgrade-strategy=only-if-needed
+R:\.venv\Scripts\pipenv install --dev
+
+SET RAM_DISK=R:&& SET PYPI_VENDOR_DIR=".\tests\pypi\" && R:\.venv\Scripts\pipenv run pytest -n auto -v tests --tap-stream > report.tap
