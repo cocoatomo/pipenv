@@ -61,7 +61,6 @@ Otherwise, just use pip::
 
 ✨🍰✨
 
-
 .. toctree::
    :maxdepth: 2
 

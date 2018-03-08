@@ -315,7 +315,7 @@ def ensure_pipfile(validate=True, skip_requirements=False):
             click.echo(crayons.normal(u'requirements.txt found, instead of Pipfile! Converting…', bold=True))
 
             # Create a Pipfile...
-            python = which('python') if not USING_DEFAULT_PYTHON else sys.executable
+            python = which('python') if not USING_DEFAULT_PYTHON else None
             project.create_pipfile(python=python)
 
             with spinner():
@@ -818,8 +818,9 @@ def do_install_dependencies(
         # Additional package selectors, specific to pip's --hash checking mode.
         for l in (deps_list, dev_deps_list):
             for i, dep in enumerate(l):
-                if '--hash' not in dep[0]:
-                    l[i] = ('# {0}'.format(l[i][0]),) + l[i][1:]
+                l[i] = list(l[i])
+                if '--hash' in l[i][0]:
+                    l[i][0] = (l[i][0].split('--hash')[0].strip())
 
         # Output only default dependencies
         if not dev:
@@ -936,7 +937,7 @@ def do_create_virtualenv(python=None, site_packages=False):
             cmd.append('--system-site-packages')
     else:
         # Default: use pew.
-        cmd = ['pew', 'new', project.virtualenv_name, '-d']
+        cmd = [sys.executable, '-m', 'pipenv.pew', 'new', project.virtualenv_name, '-d']
 
     # Pass a Python version to virtualenv, if needed.
     if python:
@@ -1499,7 +1500,7 @@ def which_pip(allow_global=False):
             return which('pip', location=os.environ['VIRTUAL_ENV'])
 
         for p in ('pip', 'pip2', 'pip3'):
-            where = '{0} -m pip'.format(sys.executable)
+            where = system_which(p)
             if where:
                 return where
 
@@ -2073,8 +2074,8 @@ def do_shell(three=None, python=False, fancy=False, shell_args=None):
         else:
             workon_name = project.virtualenv_name
 
-        cmd = 'pew'
-        args = ["workon", workon_name]
+        cmd = sys.executable
+        args = ['-m', 'pipenv.pew', 'workon', workon_name]
 
     # Grab current terminal dimensions to replace the hardcoded default
     # dimensions of pexpect
@@ -2428,7 +2429,7 @@ def do_clean(
 
     installed_package_names = []
     for installed in installed_packages:
-        r = get_requirement(installed, verbose=verbose)
+        r = get_requirement(installed)
 
         # Ignore editable installations.
         if not r.editable:
