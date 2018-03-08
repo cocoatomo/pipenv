@@ -62,6 +62,7 @@ jobs:
             if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to commit"; exit 0; fi
             git commit -a -m "[skip ci] Update .pot files"
             git push "https://${GH_TOKEN}@github.com/cocoatomo/pipenv.git" translate-ja
+            git push --tags
 
   build-doc:
     docker:
