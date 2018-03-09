@@ -185,10 +185,10 @@ different products which integrate with Pipenv projects:
 - `PyUp <https://pyup.io>`_ (Security Notification)
 - `Emacs <https://github.com/pwalsh/pipenv.el>`_ (Editor Integration)
 - `Fish Shell <https://github.com/fisherman/pipenv>`_ (Automatic ``$ pipenv shell``!)
+- `VS Code <https://code.visualstudio.com/docs/python/environments>`_ (Editor Integration)
 
 Works in progress:
 
-- `Microsoft VSCode <https://github.com/Microsoft/vscode-python/issues/404>`_ (Editor Integration)
 - `Sublime Text <https://github.com/kennethreitz/pipenv-sublime>`_ (Editor Integration)
 - `PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Editor Integration)
 - Mysterious upcoming Google Cloud product (Cloud Hosting)
@@ -210,7 +210,7 @@ Pipenv allows you to open any Python module that is installed (including ones in
 
 This allows you to easily read the code you're consuming, instead of looking it up on GitHub.
 
-.. note:: The standard ``EDITOR`` environment variable is used for this. If you're using Sublime Text, for example, you'll want to ``export EDITOR=subl`` (once you've installed the command-line utility).
+.. note:: The standard ``EDITOR`` environment variable is used for this. If you're using VS Code, for example, you'll want to ``export EDITOR=code`` (if you're on macOS you will want to `install the command <https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line>`_ on to your ``PATH`` first).
 
 ☤ Automatic Python Installation
 -------------------------------

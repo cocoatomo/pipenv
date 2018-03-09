@@ -33,7 +33,7 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from .project import Project
 from .utils import (
     convert_deps_from_pip, convert_deps_to_pip, is_required_version,
-    proper_case, pep423_name, split_file, merge_deps, venv_resolve_deps, shellquote, is_vcs,
+    proper_case, pep423_name, split_file, merge_deps, venv_resolve_deps, escape_grouped_arguments, is_vcs,
     python_version, find_windows_executable, is_file, prepare_pip_source_args,
     temp_environ, is_valid_url, download_file, get_requirement, need_update_check,
     touch_update_stamp, is_pinned, is_star, TemporaryDirectory
@@ -217,7 +217,7 @@ def ensure_latest_pip():
 
     # Ensure that pip is installed.
     try:
-        c = delegator.run('"{0}" install pip'.format(which_pip()))
+        c = delegator.run('{0} install pip'.format(escape_grouped_arguments(which_pip())))
 
         # Check if version is out of date.
         if 'however' in c.err:
@@ -226,7 +226,7 @@ def ensure_latest_pip():
 
             windows = '-m' if os.name == 'nt' else ''
 
-            c = delegator.run('"{0}" install {1} pip --upgrade'.format(which_pip(), windows), block=False)
+            c = delegator.run('{0} install {1} pip --upgrade'.format(escape_grouped_arguments(which_pip()), windows), block=False)
             click.echo(crayons.blue(c.out))
     except AttributeError:
         pass
@@ -353,40 +353,77 @@ def ensure_pipfile(validate=True, skip_requirements=False):
             project.write_toml(p)
 
 
+def find_python_from_py(python):
+    """Find a Python executable from on Windows.
+
+    Ask py.exe for its opinion.
+    """
+    py = system_which('py')
+    if not py:
+        return None
+
+    version_args = ['-{0}'.format(python[0])]
+    if len(python) >= 2:
+        version_args.append('-{0}.{1}'.format(python[0], python[2]))
+
+    import subprocess
+    for ver_arg in reversed(version_args):
+        try:
+            python_exe = subprocess.check_output([py, ver_arg, '-c', 'import sys; print(sys.executable)'])
+        except subprocess.CalledProcessError:
+            continue
+        if not isinstance(python_exe, str):
+            python_exe = python_exe.decode(sys.getdefaultencoding())
+        python_exe = python_exe.strip()
+        version = python_version(python_exe)
+        if (version or '').startswith(python):
+            return python_exe
+
+
+def find_python_in_path(python):
+    """Find a Python executable from a version number.
+
+    This uses the PATH environment variable to locate an appropriate Python.
+    """
+    possibilities = [
+        'python',
+        'python{0}'.format(python[0]),
+    ]
+    if len(python) >= 2:
+        possibilities.extend(
+            [
+                'python{0}{1}'.format(python[0], python[2]),
+                'python{0}.{1}'.format(python[0], python[2]),
+                'python{0}.{1}m'.format(python[0], python[2])
+            ]
+        )
+
+    # Reverse the list, so we find specific ones first.
+    possibilities = reversed(possibilities)
+
+    for possibility in possibilities:
+        # Windows compatibility.
+        if os.name == 'nt':
+            possibility = '{0}.exe'.format(possibility)
+
+        pythons = system_which(possibility, mult=True)
+
+        for p in pythons:
+            version = python_version(p)
+            if (version or '').startswith(python):
+                return p
+
+
 def find_a_system_python(python):
     """Finds a system python, given a version (e.g. 2 / 2.7 / 3.6.2), or a full path."""
     if python.startswith('py'):
         return system_which(python)
     elif os.path.isabs(python):
         return python
-    else:
-        possibilities = [
-            'python',
-            'python{0}'.format(python[0]),
-        ]
-        if len(python) >= 2:
-            possibilities.extend(
-                [
-                    'python{0}{1}'.format(python[0], python[2]),
-                    'python{0}.{1}'.format(python[0], python[2]),
-                    'python{0}.{1}m'.format(python[0], python[2])
-                ]
-            )
-
-        # Reverse the list, so we find specific ones first.
-        possibilities = reversed(possibilities)
-
-        for possibility in possibilities:
-            # Windows compatibility.
-            if os.name == 'nt':
-                possibility = '{0}.exe'.format(possibility)
-
-            pythons = system_which(possibility, mult=True)
-
-            for p in pythons:
-                version = python_version(p)
-                if (version or '').startswith(python):
-                    return p
+    python_from_py = find_python_from_py(python)
+    if python_from_py:
+        return python_from_py
+    return find_python_in_path(python)
 
 
 def ensure_python(three=None, python=None):
@@ -625,9 +662,9 @@ def ensure_project(three=None, python=None, validate=True, system=False, warn=Tr
             # Warn users if they are using the wrong version of Python.
             if project.required_python_version:
 
-                path_to_python = which('python')
+                path_to_python = which('python') or which('py')
 
-                if project.required_python_version not in (python_version(path_to_python) or ''):
+                if path_to_python and project.required_python_version not in (python_version(path_to_python) or ''):
                     click.echo(
                         '{0}: Your Pipfile requires {1} {2}, '
                         'but you are using {3} ({4}).'.format(
@@ -975,7 +1012,7 @@ def do_create_virtualenv(python=None, site_packages=False):
         click.echo(crayons.normal(u'Making site-packages available…', bold=True), err=True)
 
         os.environ['VIRTUAL_ENV'] = project.virtualenv_location
-        delegator.run('pipenv run pew toggleglobalsitepackages')
+        delegator.run('pipenv run pewtwo toggleglobalsitepackages')
         del os.environ['VIRTUAL_ENV']
 
     # Say where the virtualenv is.
@@ -1013,8 +1050,8 @@ def get_downloads_info(names_map, section):
         version = parse_download_fname(fname, name)
 
         # Get the hash of each file.
-        cmd = '"{0}" hash "{1}"'.format(
-            which_pip(),
+        cmd = '{0} hash "{1}"'.format(
+            escape_grouped_arguments(which_pip()),
             os.sep.join([project.download_location, fname])
         )
 
@@ -1102,7 +1139,7 @@ def do_lock(verbose=False, system=False, clear=False, pre=False, keep_outdated=F
     # Add refs for VCS installs.
     # TODO: be smarter about this.
     vcs_deps = convert_deps_to_pip(project.vcs_dev_packages, project, r=False)
-    pip_freeze = delegator.run('{0} freeze'.format(which_pip())).out
+    pip_freeze = delegator.run('{0} freeze'.format(escape_grouped_arguments(which_pip()))).out
 
     if vcs_deps:
         for line in pip_freeze.strip().split('\n'):
@@ -1262,7 +1299,7 @@ def do_purge(bare=False, downloads=False, allow_global=False, verbose=False):
         shutil.rmtree(project.download_location)
         return
 
-    freeze = delegator.run('"{0}" freeze'.format(which_pip(allow_global=allow_global))).out
+    freeze = delegator.run('{0} freeze'.format(escape_grouped_arguments(which_pip(allow_global=allow_global)))).out
 
     # Remove comments from the output, if any.
     installed = [line for line in freeze.splitlines() if not line.lstrip().startswith('#')]
@@ -1290,7 +1327,7 @@ def do_purge(bare=False, downloads=False, allow_global=False, verbose=False):
 
     if not bare:
         click.echo(u'Found {0} installed package(s), purging…'.format(len(actually_installed)))
-    command = '"{0}" uninstall {1} -y'.format(which_pip(allow_global=allow_global), ' '.join(actually_installed))
+    command = '{0} uninstall {1} -y'.format(escape_grouped_arguments(which_pip(allow_global=allow_global)), ' '.join(actually_installed))
 
     if verbose:
         click.echo('$ {0}'.format(command))
@@ -1416,7 +1453,7 @@ def pip_install(
 
         # Don't specify a source directory when using --system.
         if not allow_global and ('PIP_SRC' not in os.environ):
-            src = '--src {0}'.format(shellquote(project.virtualenv_src_location))
+            src = '--src {0}'.format(escape_grouped_arguments(project.virtualenv_src_location))
         else:
             src = ''
     else:
@@ -1454,7 +1491,7 @@ def pip_install(
         pre = '--pre' if pre else ''
 
         quoted_pip = which_pip(allow_global=allow_global)
-        quoted_pip = shellquote(quoted_pip)
+        quoted_pip = escape_grouped_arguments(quoted_pip)
         upgrade_strategy = '--upgrade-strategy=only-if-needed' if selective_upgrade else ''
 
         pip_command = '{0} install {4} {5} {6} {7} {3} {1} {2} --exists-action w'.format(
@@ -1481,8 +1518,8 @@ def pip_install(
 
 def pip_download(package_name):
     for source in project.sources:
-        cmd = '"{0}" download "{1}" -i {2} -d {3}'.format(
-            which_pip(),
+        cmd = '{0} download "{1}" -i {2} -d {3}'.format(
+            delegator.run(which_pip()),
             package_name,
             source['url'],
             project.download_location
@@ -1499,7 +1536,7 @@ def which_pip(allow_global=False):
         if 'VIRTUAL_ENV' in os.environ:
             return which('pip', location=os.environ['VIRTUAL_ENV'])
 
-        for p in ('pip', 'pip2', 'pip3'):
+        for p in ('pip', 'pip3', 'pip2'):
             where = system_which(p)
             if where:
                 return where
@@ -1767,7 +1804,7 @@ def do_install(
         except IOError:
             click.echo(
                 crayons.red(
-                   u'Unable to find requirements file at {0}.'.format(crayons.normal(requirements))
+                    u'Unable to find requirements file at {0}.'.format(crayons.normal(requirements))
                 ),
                 err=True
             )
@@ -2028,6 +2065,7 @@ def do_uninstall(
 
 
 def do_shell(three=None, python=False, fancy=False, shell_args=None):
+    from pipenv.patched.pew import pew
 
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python, validate=False)
@@ -2097,14 +2135,13 @@ def do_shell(three=None, python=False, fancy=False, shell_args=None):
 
     # Windows!
     except AttributeError:
-        import subprocess
+        # import subprocess
         # Tell pew to use the project directory as its workon_home
         with temp_environ():
             if PIPENV_VENV_IN_PROJECT:
                 os.environ['WORKON_HOME'] = project.project_directory
-            p = subprocess.Popen([cmd] + list(args), shell=True, universal_newlines=True)
-            p.communicate()
-            sys.exit(p.returncode)
+            pew.workon_cmd([workon_name])
+            sys.exit(0)
 
     # Activate the virtualenv if in compatibility mode.
     if compat:
@@ -2226,7 +2263,7 @@ def do_check(three=None, python=False, system=False, unused=False, args=None):
         python = which('python')
 
     # Run the PEP 508 checker in the virtualenv.
-    c = delegator.run('"{0}" {1}'.format(python, shellquote(pep508checker.__file__.rstrip('cdo'))))
+    c = delegator.run('"{0}" {1}'.format(python, escape_grouped_arguments(pep508checker.__file__.rstrip('cdo'))))
     results = simplejson.loads(c.out)
 
     # Load the pipfile.
@@ -2267,7 +2304,7 @@ def do_check(three=None, python=False, system=False, unused=False, args=None):
     else:
         python = system_which('python')
 
-    c = delegator.run('"{0}" {1} check --json --key=1ab8d58f-5122e025-83674263-bc1e79e0'.format(python, shellquote(path)))
+    c = delegator.run('"{0}" {1} check --json --key=1ab8d58f-5122e025-83674263-bc1e79e0'.format(python, escape_grouped_arguments(path)))
     try:
         results = simplejson.loads(c.out)
     except ValueError:
@@ -2338,7 +2375,7 @@ def do_graph(bare=False, json=False, reverse=False):
 
     cmd = '"{0}" {1} {2}'.format(
         python_path,
-        shellquote(pipdeptree.__file__.rstrip('cdo')),
+        escape_grouped_arguments(pipdeptree.__file__.rstrip('cdo')),
         flag
     )
 

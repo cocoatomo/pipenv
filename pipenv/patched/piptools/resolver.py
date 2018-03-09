@@ -27,6 +27,7 @@ class RequirementSummary(object):
     def __init__(self, ireq):
         self.req = ireq.req
         self.key = key_from_req(ireq.req)
+        self.markers = ireq.markers
         self.extras = str(sorted(ireq.extras))
         self.specifier = str(ireq.specifier)
 
@@ -148,6 +149,7 @@ class Resolver(object):
                 continue
 
             ireqs = iter(ireqs)
+
             # deepcopy the accumulator so as to not modify the self.our_constraints invariant
             combined_ireq = copy.deepcopy(next(ireqs))
             combined_ireq.comes_from = None
@@ -155,7 +157,7 @@ class Resolver(object):
                 # NOTE we may be losing some info on dropped reqs here
                 combined_ireq.req.specifier &= ireq.req.specifier
                 combined_ireq.constraint &= ireq.constraint
-                # combined_ireq.markers = ireq.markers
+                combined_ireq.markers = ireq.markers
                 # Return a sorted, de-duped tuple of extras
                 combined_ireq.extras = tuple(sorted(set(tuple(combined_ireq.extras) + tuple(ireq.extras))))
             yield combined_ireq
@@ -305,10 +307,22 @@ class Resolver(object):
                                                ', '.join(sorted(dependency_strings, key=lambda s: s.lower())) or '-'))
         from pip._vendor.packaging.markers import InvalidMarker
         for dependency_string in dependency_strings:
-            try:
-                yield InstallRequirement.from_line(dependency_string, constraint=ireq.constraint)
-            except InvalidMarker:
-                yield InstallRequirement.from_line(';'.join(dependency_string.split(';')[:-1]), constraint=ireq.constraint)
+            individual_dependencies = [dep.strip() for dep in dependency_string.split(', ')]
+            cleaned_deps = []
+            for dep in individual_dependencies:
+                tokens = [token.strip() for token in dep.split(';')]
+                cleaned_tokens = []
+                markers = []
+                if len(tokens) == 1:
+                    cleaned_deps.append(tokens[0])
+                    continue
+                markers = list(set(tokens[1:]))
+                cleaned_tokens.append(tokens[0])
+                if markers:
+                    cleaned_tokens.extend(markers)
+                cleaned_deps.append('; '.join(cleaned_tokens))
+            dependency_string = ', '.join(set(cleaned_deps))
+            yield InstallRequirement.from_line(dependency_string, constraint=ireq.constraint)
 
 
     def reverse_dependencies(self, ireqs):

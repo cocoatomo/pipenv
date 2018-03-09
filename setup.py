@@ -22,8 +22,10 @@ if sys.argv[-1] == "publish":
     sys.exit()
 
 required = [
+    'setuptools>=36.2.1',
     'virtualenv',
-    'pew>=0.1.26'
+    'virtualenv-clone>=0.2.5',
+    'pathlib;python_version<"3.4"'
 ]
 
 if sys.version_info < (2, 7):
@@ -59,7 +61,7 @@ class DebCommand(Command):
         except FileNotFoundError:
             pass
         self.status(u'Creating debian mainfest…')
-        os.system('python setup.py --command-packages=stdeb.command sdist_dsc -z artful --package3=pipenv --depends3=pew')
+        os.system('python setup.py --command-packages=stdeb.command sdist_dsc -z artful --package3=pipenv --depends3=python3-virtualenv-clone')
 
         self.status(u'Building .deb…')
         os.chdir('deb_dist/pipenv-{0}'.format(about['__version__']))
@@ -113,12 +115,14 @@ setup(
     url='https://github.com/pypa/pipenv',
     packages=find_packages(exclude=['tests']),
     entry_points={
-        'console_scripts': ['pipenv=pipenv:cli'],
+        'console_scripts': [
+            'pipenv=pipenv:cli',
+            'pewtwo=pipenv.patched.pew.pew:pew',
+            'pipenv-resolver=pipenv.resolver:main'
+        ],
     },
     install_requires=required,
-    extras_require={
-        ':sys_platform=="win32"': ['psutil']
-    },
+    extras_require={},
     include_package_data=True,
     license='MIT',
     classifiers=[

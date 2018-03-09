@@ -1,3 +1,12 @@
+11.1.7:
+ - Packaging fix.
+11.1.6:
+ - Support for 'py' interpreter (on Windows).
+ - Bugfixes.
+11.1.5:
+ - Vendor pew.
+ - Be specific about which version of psutil we want.
+ - Patch pip and pip-tools (further) like crazy, for hard-to-believe reasons, and the benefit of all.
 11.1.4:
  - Resolve multiple extras when provided.
  - Improve completion time.

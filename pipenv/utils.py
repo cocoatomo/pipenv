@@ -242,8 +242,11 @@ def python_version(path_to_python):
     return u"{v[0]}.{v[1]}.{v[2]}".format(v=parsed)
 
 
-def shellquote(s):
-    """Prepares a string for the shell (on Windows too!)"""
+def escape_grouped_arguments(s):
+    """Prepares a string for the shell (on Windows too!)
+
+    Only for use on grouped arguments (passed as a string to Popen)
+    """
     if s is None:
         return None
     # Additional escaping for windows paths
@@ -381,8 +384,8 @@ def venv_resolve_deps(deps, which, project, pre=False, verbose=False, clear=Fals
     from . import resolver
     import json
 
-    resolver = shellquote(resolver.__file__.rstrip('co'))
-    cmd = '{0} {1} {2} {3}'.format(which('python'), resolver, '--pre' if pre else '', '--verbose' if verbose else '')
+    resolver = escape_grouped_arguments(resolver.__file__.rstrip('co'))
+    cmd = '{0} {1} {2} {3}'.format(escape_grouped_arguments(which('python')), resolver, '--pre' if pre else '', '--verbose' if verbose else '')
     os.environ['PIPENV_PACKAGES'] = '\n'.join(deps)
 
     c = delegator.run(cmd, block=True)
@@ -465,7 +468,7 @@ def resolve_deps(deps, which, project, sources=None, verbose=False, python=False
                         collected_hashes.append(release['digests']['sha256'])
                     collected_hashes = ['sha256:' + s for s in collected_hashes]
 
-                except (ValueError, KeyError, ConnectionError):
+                except (ValueError, KeyError, ConnectionError) as e:
                     if verbose:
                         click.echo('{0}: Error generating hash for {1}'.format(crayons.red('Warning', bold=True), name))
 
