@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.1.4\n"
+"Project-Id-Version: pipenv 11.1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-08 15:00+0000\n"
+"POT-Creation-Date: 2018-03-09 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,12 +155,12 @@ msgstr ""
 msgid "`Fish Shell <https://github.com/fisherman/pipenv>`_ (Automatic ``$ pipenv shell``!)"
 msgstr ""
 
-#: ../../advanced.rst:189
-msgid "Works in progress:"
+#: ../../advanced.rst:188
+msgid "`VS Code <https://code.visualstudio.com/docs/python/environments>`_ (Editor Integration)"
 msgstr ""
 
-#: ../../advanced.rst:191
-msgid "`Microsoft VSCode <https://github.com/Microsoft/vscode-python/issues/404>`_ (Editor Integration)"
+#: ../../advanced.rst:190
+msgid "Works in progress:"
 msgstr ""
 
 #: ../../advanced.rst:192
@@ -188,7 +188,7 @@ msgid "This allows you to easily read the code you're consuming, instead of look
 msgstr ""
 
 #: ../../advanced.rst:213
-msgid "The standard ``EDITOR`` environment variable is used for this. If you're using Sublime Text, for example, you'll want to ``export EDITOR=subl`` (once you've installed the command-line utility)."
+msgid "The standard ``EDITOR`` environment variable is used for this. If you're using VS Code, for example, you'll want to ``export EDITOR=code`` (if you're on macOS you will want to `install the command <https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line>`_ on to your ``PATH`` first)."
 msgstr ""
 
 #: ../../advanced.rst:216
