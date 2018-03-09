@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.1.4\n"
+"Project-Id-Version: pipenv 11.1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-08 15:00+0000\n"
+"POT-Creation-Date: 2018-03-09 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -191,14 +191,14 @@ msgid ""
 "shell``!)"
 msgstr ""
 
-#: ../../advanced.rst:189
-msgid "Works in progress:"
+#: ../../advanced.rst:188
+msgid ""
+"`VS Code <https://code.visualstudio.com/docs/python/environments>`_ (Editor "
+"Integration)"
 msgstr ""
 
-#: ../../advanced.rst:191
-msgid ""
-"`Microsoft VSCode <https://github.com/Microsoft/vscode-python/issues/404>`_ "
-"(Editor Integration)"
+#: ../../advanced.rst:190
+msgid "Works in progress:"
 msgstr ""
 
 #: ../../advanced.rst:192
@@ -238,11 +238,11 @@ msgstr "この機能のおかげで、GitHubまで見に行かなくても、今
 #: ../../advanced.rst:213
 msgid ""
 "The standard ``EDITOR`` environment variable is used for this. If you're "
-"using Sublime Text, for example, you'll want to ``export EDITOR=subl`` (once"
-" you've installed the command-line utility)."
+"using VS Code, for example, you'll want to ``export EDITOR=code`` (if you're"
+" on macOS you will want to `install the command "
+"<https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-"
+"line>`_ on to your ``PATH`` first)."
 msgstr ""
-"この機能では標準の ``EDITOR`` 環境変数が使われます。\n"
-"例えば Sublime Text を使っている場合は、(コマンドラインユーティリティがインストールしてあれば) ``export EDITOR=subl`` とします。"
 
 #: ../../advanced.rst:216
 msgid "☤ Automatic Python Installation"
