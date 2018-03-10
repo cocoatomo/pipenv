@@ -7,12 +7,12 @@ import os
 from contextlib import contextmanager
 from shutil import rmtree
 
-from pip.download import is_file_url, url_to_path
-from pip.index import PackageFinder
-from pip.req.req_set import RequirementSet
-from pip.wheel import Wheel
+from pipenv.patched.pip.download import is_file_url, url_to_path
+from pipenv.patched.pip.index import PackageFinder
+from pipenv.patched.pip.req.req_set import RequirementSet
+from pipenv.patched.pip.wheel import Wheel
 try:
-    from pip.utils.hashes import FAVORITE_HASH
+    from pipenv.patched.pip.utils.hashes import FAVORITE_HASH
 except ImportError:
     FAVORITE_HASH = 'sha256'
 
@@ -135,27 +135,24 @@ class PyPIRepository(BaseRepository):
         if not (is_pinned_requirement(ireq)):
             raise TypeError('Expected pinned InstallRequirement, got {}'.format(ireq))
 
-        def gen():
+        def gen(ireq):
+            if self.DEFAULT_INDEX_URL in self.finder.index_urls:
 
-            url = str(ireq.link.comes_from)
-            url = url.replace('pypi.python.org', 'pypi.org')
-            url = url.replace('/simple/', '/pypi/')
-            url = '{0}json'.format(url)
+                url = 'https://pypi.org/pypi/{0}/json'.format(ireq.req.name)
+                r = self.session.get(url)
 
-            r = self.session.get(url)
+                latest = list(r.json()['releases'].keys())[-1]
+                if str(ireq.req.specifier) == '=={0}'.format(latest):
 
-            latest = list(r.json()['releases'].keys())[-1]
-            if str(ireq.req.specifier) == '=={0}'.format(latest):
+                    for requires in r.json().get('info', {}).get('requires_dist', {}):
+                        i = InstallRequirement.from_line(requires)
 
-                for requires in r.json().get('info', {}).get('requires_dist', {}):
-                    i = InstallRequirement.from_line(requires)
-
-                    if 'extra' not in repr(i.markers):
-                        yield i
+                        if 'extra' not in repr(i.markers):
+                            yield i
 
         try:
             if ireq not in self._json_dep_cache:
-                self._json_dep_cache[ireq] = [g for g in gen()]
+                self._json_dep_cache[ireq] = [g for g in gen(ireq)]
 
             return set(self._json_dep_cache[ireq])
         except Exception:
@@ -164,27 +161,30 @@ class PyPIRepository(BaseRepository):
     def get_dependencies(self, ireq):
         json_results = set()
         json_raised = False
-        if self.use_json:
-            try:
-                json_results = self.get_json_dependencies(ireq)
-            except TypeError:
-                json_raised = True
-                json_results = set()
 
-        legacy_raised = False
-        try:
+        if ireq:
+            if self.use_json:
+                try:
+                    json_results = self.get_json_dependencies(ireq)
+                except TypeError:
+                    json_raised = True
+                    json_results = set()
+
+            else:
+                json_raised = True
+
+            legacy_raised = False
             legacy_results = self.get_legacy_dependencies(ireq)
-        except Exception:
-            legacy_raised = True
             legacy_results = set()
 
-        if all((legacy_raised, json_raised)):
-            raise ValueError(
-                'Your dependencies could not be resolved.\n'
-                'Please run "$ pipenv-resolver {0!r} --verbose" to debug.'.format(str(ireq.req))
-            )
+            if all((legacy_raised, json_raised)):
+                raise ValueError(
+                    'Your dependencies could not be resolved.\n'
+                    'Please run "$ pipenv-resolver {0!r} --verbose" to debug.'.format(str(ireq.req))
+                )
 
-        return json_results | legacy_results
+            json_results.update(legacy_results)
+        return json_results
 
     def get_legacy_dependencies(self, ireq):
         """
@@ -216,11 +216,10 @@ class PyPIRepository(BaseRepository):
                                     ignore_installed=True,
                                     ignore_requires_python=True
                                     )
-
             result = reqset._prepare_file(self.finder, ireq, ignore_requires_python=True)
             if not result:
                 if reqset.requires_python:
-                    from pip.req.req_install import InstallRequirement
+                    from pipenv.patched.pip.req.req_install import InstallRequirement
 
                     marker = 'python_version=="{0}"'.format(reqset.requires_python.replace(' ', ''))
                     new_req = InstallRequirement.from_line('{0}; {1}'.format(str(ireq.req), marker))

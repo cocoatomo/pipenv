@@ -85,6 +85,10 @@ To use Pipenv with a Conda–provided Python, you simply provide the path to the
 
     $ pipenv install --python=/path/to/anaconda/python
 
+To reuse Conda–installed Python packages, use the ``--site-packages`` flag::
+
+    $ pipenv --python=/path/to/anaconda/python --site-packages
+
 ☤ Generating a ``requirements.txt``
 -----------------------------------
 
@@ -173,6 +177,15 @@ Example::
     hardened for production use and should be used only as a development aid.
 
 ✨🍰✨
+
+.. note::
+
+   Commercial users and redistributors of `pipenv` should be aware that the public
+   `Safety-DB` project backing this feature is licensed as CC-BY-NC-SA. Non-commercial
+   use of this feature and use by organisations with their own pyup.io commercial license
+   are thus both clearly fine, but other commercial redistributors and end users may want
+   to perform their own legal assessment before relying on the capability.
+
 
 ☤ Community Integrations
 ------------------------

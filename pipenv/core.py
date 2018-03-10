@@ -58,8 +58,7 @@ else:
 
 # Packages that should be ignored later.
 BAD_PACKAGES = (
-    'setuptools', 'pip', 'wheel', 'six', 'packaging', 'distribute'
-    'pyparsing', 'appdirs',
+    'setuptools', 'pip', 'wheel', 'packaging', 'distribute',
 )
 
 # Are we using the default Python?
@@ -976,17 +975,18 @@ def do_create_virtualenv(python=None, site_packages=False):
         # Default: use pew.
         cmd = [sys.executable, '-m', 'pipenv.pew', 'new', project.virtualenv_name, '-d']
 
-    # Pass a Python version to virtualenv, if needed.
-    if python:
-        click.echo(u'{0} {1} {2}'.format(
-            crayons.normal('Using', bold=True),
-            crayons.red(python, bold=True),
-            crayons.normal(u'to create virtualenv…', bold=True)
-        ), err=True)
+    # Default to using sys.executable, if Python wasn't provided.
+    if not python:
+        python = sys.executable
 
-    # Use virtualenv's -p python.
-    if python:
-        cmd = cmd + ['-p', python]
+    click.echo(u'{0} {1} {3} {2}'.format(
+        crayons.normal('Using', bold=True),
+        crayons.red(python, bold=True),
+        crayons.normal(u'to create virtualenv…', bold=True),
+        crayons.green('({0})'.format(python_version(python)))
+    ), err=True)
+
+    cmd = cmd + ['-p', python]
 
     # Actually create the virtualenv.
     with spinner():

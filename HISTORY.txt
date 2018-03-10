@@ -1,3 +1,25 @@
+11.3.2:
+ - Bugfix, of the craziest, hardest to reproduce nature.
+11.3.1:
+ - Fix shell --fancy.
+11.3.0:
+ - Default to using the Python Pipenv was installed with for new virtualenvs.
+ - Report Python version of specified interpreter when creating virtualenv.
+ - Disable JSON API usage, for now. It appears to cause some minor bugs related to markers (working on it).
+11.2.2:
+ - Potential bugfix related to subprocess invocations and environment variables.
+11.2.1:
+ - Actually use the Warehouse JSON API.
+11.2.0:
+ - Reduce the number of "bad packages", internally (e.g. don't exclude `six` anymore).
+11.1.11:
+ - Help improvements.
+11.1.10:
+ - Help improvements.
+11.1.9:
+ - $ python -m pipenv.help
+11.1.8:
+ - Resolver improvements.
 11.1.7:
  - Packaging fix.
 11.1.6:
