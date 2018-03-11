@@ -12,7 +12,7 @@ import delegator
 import pipfile
 import toml
 
-from .patched.pip.baseparser import ConfigOptionParser
+from pip import ConfigOptionParser
 from .utils import (
     mkdir_p, convert_deps_from_pip, pep423_name, recase_file,
     find_requirements, is_file, is_vcs, python_version, cleanup_toml,
@@ -176,7 +176,7 @@ class Project(object):
 
         # The user wants the virtualenv in the project.
         if not PIPENV_VENV_IN_PROJECT:
-            c = delegator.run('pewtwo dir "{0}"'.format(self.virtualenv_name))
+            c = delegator.run('{0} -m pipenv.pew dir "{1}"'.format(sys.executable, self.virtualenv_name))
             loc = c.out.strip()
         # Default mode.
         else:
@@ -439,7 +439,7 @@ class Project(object):
             data['source'].append({u'url': source, u'verify_ssl': True, 'name': name_from_index(source)})
 
         # Default requires.
-        required_python = python if python else self.which('python', self.virtualenv_location)
+        required_python = python or self.which('python', self.virtualenv_location)
         data[u'requires'] = {'python_version': python_version(required_python)[:len('2.7')]}
 
         self.write_toml(data, 'Pipfile')

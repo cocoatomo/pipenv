@@ -1492,7 +1492,7 @@ def pip_install(
 
         quoted_pip = which_pip(allow_global=allow_global)
         quoted_pip = escape_grouped_arguments(quoted_pip)
-        upgrade_strategy = '--upgrade-strategy=only-if-needed' if selective_upgrade else ''
+        upgrade_strategy = '--upgrade --upgrade-strategy=only-if-needed' if selective_upgrade else ''
 
         pip_command = '{0} install {4} {5} {6} {7} {3} {1} {2} --exists-action w'.format(
             quoted_pip,
@@ -1756,8 +1756,7 @@ def do_install(
     if selective_upgrade:
         keep_outdated = True
 
-    if not more_packages:
-        more_packages = []
+    more_packages = more_packages or []
 
     # Don't search for requirements.txt files if the user provides one
     skip_requirements = True if requirements else False
@@ -1864,8 +1863,6 @@ def do_install(
         # Update project settings with pre preference.
         if pre:
             project.update_settings({'allow_prereleases': pre})
-        if keep_outdated:
-            project.update_settings({'keep_outdated': keep_outdated})
 
         do_init(
             dev=dev, allow_global=system, ignore_pipfile=ignore_pipfile, system=system,
@@ -1886,7 +1883,8 @@ def do_install(
 
             try:
                 if not is_star(section[package__name]) and is_star(package__val):
-                    package_names[i] = '{0}{1}'.format(package_name, section[package__name])
+                    # Support for VCS dependencies.
+                    package_names[i] = convert_deps_to_pip({package_name: section[package__name]}, r=False)[0]
             except KeyError:
                 pass
 
@@ -1901,7 +1899,7 @@ def do_install(
                 ignore_hashes=True,
                 allow_global=system,
                 selective_upgrade=selective_upgrade,
-                no_deps=False,
+                no_deps=True,
                 verbose=verbose,
                 pre=pre,
                 requirements_dir=requirements_directory.name
@@ -1961,8 +1959,6 @@ def do_install(
         # Update project settings with pre preference.
         if pre:
             project.update_settings({'allow_prereleases': pre})
-        if keep_outdated:
-            project.update_settings({'keep_outdated': keep_outdated})
 
     if lock and not skip_lock:
         do_init(dev=dev, allow_global=system, concurrent=concurrent, verbose=verbose, keep_outdated=keep_outdated, requirements_dir=requirements_directory)

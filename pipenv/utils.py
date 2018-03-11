@@ -49,11 +49,11 @@ for module in [
 
 from distutils.spawn import find_executable
 from contextlib import contextmanager
-from piptools.resolver import Resolver
-from piptools.repositories.pypi import PyPIRepository
-from piptools.scripts.compile import get_pip_command
-from piptools import logging as piptools_logging
-from piptools.exceptions import NoCandidateFound
+from pipenv.patched.piptools.resolver import Resolver
+from pipenv.patched.piptools.repositories.pypi import PyPIRepository
+from pipenv.patched.piptools.scripts.compile import get_pip_command
+from pipenv.patched.piptools import logging as piptools_logging
+from pipenv.patched.piptools.exceptions import NoCandidateFound
 from pip.download import is_archive_file
 from pip.exceptions import DistributionNotFound
 from pip.index import Link
@@ -102,7 +102,7 @@ def name_from_index(url):
     
 
 def get_requirement(dep):
-    import pip
+    from pip.req.req_install import _strip_extras
     import requirements
     """Pre-clean requirement strings passed to the requirements parser.
 
@@ -138,7 +138,7 @@ def get_requirement(dep):
     else:
         markers = None
     # Strip extras from the requirement so we can make a properly parseable req
-    dep, extras = pip.req.req_install._strip_extras(dep)
+    dep, extras = _strip_extras(dep)
     # Only operate on local, existing, non-URI formatted paths which are installable
     if is_installable_file(dep):
         dep_path = Path(dep)
@@ -301,9 +301,10 @@ def prepare_pip_source_args(sources, pip_args=None):
 
 
 def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, verbose, clear, pre):
-    import pip
+    from pip import basecommand, req
+    from pip._vendor import requests as pip_requests
 
-    class PipCommand(pip.basecommand.Command):
+    class PipCommand(basecommand.Command):
         """Needed for pip-tools."""
         name = 'PipCommand'
 
@@ -313,13 +314,13 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
     for dep in deps:
         if dep:
             if dep.startswith('-e '):
-                constraint = pip.req.InstallRequirement.from_editable(dep[len('-e '):])
+                constraint = req.InstallRequirement.from_editable(dep[len('-e '):])
             else:
                 fd, t = tempfile.mkstemp(prefix='pipenv-', suffix='-requirement.txt', dir=req_dir)
                 with os.fdopen(fd, 'w') as f:
                     f.write(dep)
 
-                constraint = [c for c in pip.req.parse_requirements(t, session=pip._vendor.requests)][0]
+                constraint = [c for c in req.parse_requirements(t, session=pip_requests)][0]
 
                 # extra_constraints = []
 
@@ -346,15 +347,11 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
     pip_options, _ = pip_command.parse_args(pip_args)
 
     session = pip_command._build_session(pip_options)
-    # Note: use_json is false here, because of markers like:
-    # Ignoring pluggy: markers 'python_version == ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"' don't match your environment
-    # These should be honored appropriately on 3.6, but appear not to be.
-    pypi = PyPIRepository(pip_options=pip_options, use_json=False, session=session)
+    pypi = PyPIRepository(pip_options=pip_options, use_json=True, session=session)
 
     if verbose:
         logging.log.verbose = True
         piptools_logging.log.verbose = True
-
 
     resolved_tree = set()
 
@@ -408,7 +405,10 @@ def venv_resolve_deps(deps, which, project, pre=False, verbose=False, clear=Fals
     if verbose:
         click.echo(c.out.split('RESULTS:')[0], err=True)
 
-    return json.loads(c.out.split('RESULTS:')[1].strip())
+    try:
+        return json.loads(c.out.split('RESULTS:')[1].strip())
+    except IndexError:
+        raise RuntimeError('There was a problem with locking.')
 
 
 def resolve_deps(deps, which, project, sources=None, verbose=False, python=False, clear=False, pre=False, allow_global=False):
@@ -476,12 +476,12 @@ def resolve_deps(deps, which, project, sources=None, verbose=False, python=False
                         click.echo('{0}: Error generating hash for {1}'.format(crayons.red('Warning', bold=True), name))
 
             # Collect un-collectable hashes (should work with devpi).
-            if not collected_hashes:
-                try:
-                    collected_hashes = list(list(resolver.resolve_hashes([result]).items())[0][1])
-                except (ValueError, KeyError, ConnectionError, IndexError):
-                    if verbose:
-                        print('Error generating hash for {}'.format(name))
+
+            try:
+                collected_hashes = collected_hashes + list(list(resolver.resolve_hashes([result]).items())[0][1])
+            except (ValueError, KeyError, ConnectionError, IndexError):
+                if verbose:
+                    print('Error generating hash for {}'.format(name))
 
             d = {'name': name, 'version': version, 'hashes': collected_hashes}
 
@@ -773,7 +773,8 @@ def is_vcs(pipfile_entry):
 
 def is_installable_file(path):
     """Determine if a path can potentially be installed"""
-    import pip
+    from pip.utils import is_installable_dir
+    from pip.utils.packaging import specifiers
     if hasattr(path, 'keys') and any(key for key in path.keys() if key in ['file', 'path']):
         path = urlparse(path['file']).path if 'file' in path else path['path']
     if not isinstance(path, six.string_types) or path == '*':
@@ -782,9 +783,9 @@ def is_installable_file(path):
     # specifier set before making a path object (to avoid breaking windows)
     if any(path.startswith(spec) for spec in '!=<>~'):
         try:
-            pip.utils.packaging.specifiers.SpecifierSet(path)
+            specifiers.SpecifierSet(path)
         # If this is not a valid specifier, just move on and try it as a path
-        except pip.utils.packaging.specifiers.InvalidSpecifier:
+        except specifiers.InvalidSpecifier:
             pass
         else:
             return False
@@ -792,7 +793,7 @@ def is_installable_file(path):
         return False
     lookup_path = Path(path)
     absolute_path = '{0}'.format(lookup_path.absolute())
-    if lookup_path.is_dir() and pip.utils.is_installable_dir(absolute_path):
+    if lookup_path.is_dir() and is_installable_dir(absolute_path):
         return True
     elif lookup_path.is_file() and is_archive_file(absolute_path):
         return True
@@ -816,10 +817,10 @@ def is_file(package):
 
 def pep440_version(version):
     """Normalize version to PEP 440 standards"""
-    import pip
+    from pip.index import parse_version
 
     # Use pip built-in version parser.
-    return str(pip.index.parse_version(version))
+    return str(parse_version(version))
 
 
 def pep423_name(name):
@@ -1191,7 +1192,7 @@ class TemporaryDirectory(object):
         return "<{} {!r}>".format(self.__class__.__name__, self.name)
 
     def __enter__(self):
-        return self.name
+        return self
 
     def __exit__(self, exc, value, tb):
         self.cleanup()
