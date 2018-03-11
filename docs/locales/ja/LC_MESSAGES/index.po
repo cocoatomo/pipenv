@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.3.2\n"
+"Project-Id-Version: pipenv 11.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-10 15:00+0000\n"
+"POT-Creation-Date: 2018-03-11 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -436,7 +436,7 @@ msgstr "開発用の依存パッケージのrequirements.txtと互換性のあ�
 msgid "Clear the dependency cache."
 msgstr "依存関係のキャッシュを削除します。"
 
-#: ../../pipenv open:1 ../../pipenv run:1
+#: ../../pipenv open:1 ../../pipenv run:1 ../../pipenv update:1
 msgid "Required argument"
 msgstr "必須の引数"
 
