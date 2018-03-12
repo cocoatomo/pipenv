@@ -12,6 +12,8 @@ from notpip.index import PackageFinder
 from notpip.req.req_set import RequirementSet
 from notpip.wheel import Wheel
 from notpip.req.req_install import InstallRequirement
+from pip9._vendor.packaging.requirements import InvalidRequirement
+from pip9._vendor.pyparsing import ParseException
 try:
     from notpip.utils.hashes import FAVORITE_HASH
 except ImportError:
@@ -183,6 +185,18 @@ class PyPIRepository(BaseRepository):
         if not (ireq.editable or is_pinned_requirement(ireq)):
             raise TypeError('Expected pinned or editable InstallRequirement, got {}'.format(ireq))
 
+        # Collect setup_requires info from local eggs.
+        setup_requires = {}
+        if ireq.editable:
+            try:
+                dist = ireq.get_dist()
+                if dist.has_metadata('requires.txt'):
+                    setup_requires = self.finder.get_extras_links(
+                        dist.get_metadata_lines('requires.txt')
+                    )
+            except TypeError:
+                pass
+
         if ireq not in self._dependencies_cache:
             if ireq.link and not ireq.link.is_artifact:
                 # No download_dir for VCS sources.  This also works around pip
@@ -201,9 +215,33 @@ class PyPIRepository(BaseRepository):
                                     wheel_download_dir=self._wheel_download_dir,
                                     session=self.session,
                                     ignore_installed=True,
-                                    ignore_requires_python=True
+                                    ignore_compatibility=True
                                     )
             result = reqset._prepare_file(self.finder, ireq, ignore_requires_python=True)
+
+            # Convert setup_requires dict into a somewhat usable form.
+            if setup_requires:
+                for section in setup_requires:
+                    python_version = section
+                    not_python = not (section.startswith('[') and ':' in section)
+
+                    for value in setup_requires[section]:
+                        # This is a marker.
+                        if value.startswith('[') and ':' in value:
+                            python_version = value[1:-1]
+                            not_python = False
+                        # Strip out other extras.
+                        if value.startswith('[') and ':' not in value:
+                            not_python = True
+
+                        if ':' not in value:
+                            try:
+                                if not not_python:
+                                    result = result + [InstallRequirement.from_line("{0}{1}".format(value, python_version).replace(':', ';'))]
+                            # Anything could go wrong here — can't be too careful.
+                            except Exception:
+                                pass
+
             if reqset.requires_python:
 
                 marker = 'python_version=="{0}"'.format(reqset.requires_python.replace(' ', ''))
@@ -231,7 +269,6 @@ class PyPIRepository(BaseRepository):
         matching_versions = list(
             ireq.specifier.filter((candidate.version for candidate in all_candidates)))
         matching_candidates = candidates_by_version[matching_versions[0]]
-
         return {
             self._get_file_hash(candidate.location)
             for candidate in matching_candidates
@@ -247,7 +284,7 @@ class PyPIRepository(BaseRepository):
     @contextmanager
     def allow_all_wheels(self):
         """
-        Monkey patches pip.Wheel to allow wheels from all platforms and Python versions.
+        Monkey patches pip9.Wheel to allow wheels from all platforms and Python versions.
 
         This also saves the candidate cache and set a new one, or else the results from the
         previous non-patched calls will interfere.
@@ -281,7 +318,7 @@ def open_local_or_remote_file(link, session):
     """
     Open local or remote file for reading.
 
-    :type link: pip.index.Link
+    :type link: pip9.index.Link
     :type session: requests.Session
     :raises ValueError: If link points to a local directory.
     :return: a context manager to the opened file-like object
