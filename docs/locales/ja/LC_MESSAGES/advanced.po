@@ -125,6 +125,8 @@ msgid ""
 "``requirements.txt`` file very easily, and get all the benefits of extras "
 "and other goodies we have included."
 msgstr ""
+"``Pipfile`` や ``Pipfile.lock`` は ``requirements.txt`` "
+"に非常に簡単に変換でき、追加機能や素敵な機能など既に実装された機能全ての恩恵を受けられます。"
 
 #: ../../advanced.rst:97
 msgid "Let's take this ``Pipfile``::"
@@ -183,50 +185,54 @@ msgid ""
 "for a range of editors and IDEs, as well as different products which "
 "integrate with Pipenv projects:"
 msgstr ""
+"Pipenvと連係する様々なプロダクトに加え、コミュニティがメンテナンスしている多種多様のプラグインや拡張があり、様々なエディタやIDEで使えます:"
 
 #: ../../advanced.rst:196
 msgid "`Heroku <https://heroku.com/python>`_ (Cloud Hosting)"
-msgstr ""
+msgstr "`Heroku <https://heroku.com/python>`_ (クラウドホスティング)"
 
 #: ../../advanced.rst:197
 msgid "`Platform.sh <https://platform.sh/hosting/python>`_ (Cloud Hosting)"
-msgstr ""
+msgstr "`Platform.sh <https://platform.sh/hosting/python>`_ (クラウドホスティング)"
 
 #: ../../advanced.rst:198
 msgid "`PyUp <https://pyup.io>`_ (Security Notification)"
-msgstr ""
+msgstr "`PyUp <https://pyup.io>`_ (セキュリティ通知)"
 
 #: ../../advanced.rst:199
 msgid "`Emacs <https://github.com/pwalsh/pipenv.el>`_ (Editor Integration)"
-msgstr ""
+msgstr "`Emacs <https://github.com/pwalsh/pipenv.el>`_ (エディタ連係)"
 
 #: ../../advanced.rst:200
 msgid ""
 "`Fish Shell <https://github.com/fisherman/pipenv>`_ (Automatic ``$ pipenv "
 "shell``!)"
 msgstr ""
+"`Fish Shell <https://github.com/fisherman/pipenv>`_ (自動 ``$ pipenv shell``!)"
 
 #: ../../advanced.rst:201
 msgid ""
 "`VS Code <https://code.visualstudio.com/docs/python/environments>`_ (Editor "
 "Integration)"
 msgstr ""
+"`VS Code <https://code.visualstudio.com/docs/python/environments>`_ (エディタ連係)"
 
 #: ../../advanced.rst:203
 msgid "Works in progress:"
-msgstr ""
+msgstr "対応中:"
 
 #: ../../advanced.rst:205
 msgid ""
 "`Sublime Text <https://github.com/kennethreitz/pipenv-sublime>`_ (Editor "
 "Integration)"
 msgstr ""
+"`Sublime Text <https://github.com/kennethreitz/pipenv-sublime>`_ (エディタ連係)"
 
 #: ../../advanced.rst:206
 msgid ""
 "`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Editor "
 "Integration)"
-msgstr ""
+msgstr "`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (エディタ連係)"
 
 #: ../../advanced.rst:207
 msgid "Mysterious upcoming Google Cloud product (Cloud Hosting)"
