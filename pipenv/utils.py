@@ -57,7 +57,7 @@ from pipenv.patched.piptools.exceptions import NoCandidateFound
 from pip9.download import is_archive_file
 from pip9.exceptions import DistributionNotFound
 from pip9.index import Link
-from requests.exceptions import HTTPError, ConnectionError
+from pip9._vendor.requests.exceptions import HTTPError, ConnectionError
 
 from .pep508checker import lookup
 from .environments import SESSION_IS_INTERACTIVE, PIPENV_MAX_ROUNDS, PIPENV_CACHE_DIR
@@ -323,7 +323,6 @@ def actually_resolve_reps(deps, index_lookup, markers_lookup, project, sources, 
                 constraint = [c for c in req.parse_requirements(t, session=pip_requests)][0]
 
                 # extra_constraints = []
-
             if ' -i ' in dep:
                 index_lookup[constraint.name] = project.get_source(url=dep.split(' -i ')[1]).get('name')
 
@@ -652,9 +651,15 @@ def convert_deps_to_pip(deps, project=None, r=True, include_index=False):
                 specs = ''
 
         if include_index:
+            pip_src_args = []
             if 'index' in deps[dep]:
-                pip_args = prepare_pip_source_args([project.get_source(deps[dep]['index'])])
-                index = ' '.join(pip_args)
+                dep_src = [project.get_source(deps[dep]['index'])]
+                extra_indexes = [src for src in project.sources if src != dep_src]
+                pip_src_args = dep_src + extra_indexes
+            else:
+                pip_src_args = project.sources
+            pip_args = prepare_pip_source_args(pip_src_args)
+            index = ' '.join(pip_args)
 
         # Support for version control
         maybe_vcs = [vcs for vcs in VCS_LIST if vcs in deps[dep]]

@@ -1,3 +1,11 @@
+11.6.3:
+ - Depend on certifi.
+11.6.2:
+ - Properly vendor certifi.
+ - Better support for --extra-index-url for private PyPI servers.
+ - Bug fixes.
+11.6.1:
+ - Remove concurrent.futures, as it's not being used any longer, and is problematic.
 11.6.0:
  - Vendor all of pip9, in preparation for the release of pip10.
 11.5.3:
