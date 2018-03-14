@@ -236,7 +236,7 @@ msgstr "`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (エディタ�
 
 #: ../../advanced.rst:207
 msgid "Mysterious upcoming Google Cloud product (Cloud Hosting)"
-msgstr ""
+msgstr "未だその姿を見せていない来たるべきGoogle Cloudプロダクト (クラウドホスティング)"
 
 #: ../../advanced.rst:212
 msgid "☤ Open a Module in Your Editor"
