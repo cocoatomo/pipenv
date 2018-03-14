@@ -7,6 +7,12 @@ Advanced Usage of Pipenv
 
 This document covers some of Pipenv's more glorious and advanced features.
 
+☤ Caveats
+---------
+
+- Dependencies of wheels provided in a ``Pipfile`` will not be captured by ``$ pipenv lock``.
+- There are some known issues with using private indexes, related to hashing. We're actively working to solve this problem. You may have great luck with this, however.
+
 ☤ Specifying Package Indexes
 ----------------------------
 
@@ -180,11 +186,12 @@ Example::
 
 .. note::
 
-   Commercial users and redistributors of `pipenv` should be aware that the public
-   `Safety-DB` project backing this feature is licensed as CC-BY-NC-SA. Non-commercial
-   use of this feature and use by organisations with their own pyup.io commercial license
-   are thus both clearly fine, but other commercial redistributors and end users may want
-   to perform their own legal assessment before relying on the capability.
+   Commercial redistributors of `pipenv` should be aware that the public `Safety-DB`
+   project backing this feature is licensed as CC-BY-NC-SA by `pyup.io`. While
+   `pyup.io` have [stated explicitly](https://github.com/pypa/pipenv/issues/1651#issuecomment-372583779)
+   that commercial *use* of this `pipenv` feature is fine, commercial redistributors may want
+   to perform their own legal assessment and perhaps chat directly to `pyup.io` about
+   the specific licensing terms.
 
 
 ☤ Community Integrations
@@ -452,3 +459,28 @@ interfaces that don't participate in Python-level dependency resolution
 at all, use the `PIP_IGNORE_INSTALLED` setting::
 
     $ PIP_IGNORE_INSTALLED=1 pipenv install --dev
+
+
+.. _pipfile-vs-setuppy:
+
+☤ Pipfile vs setup.py
+---------------------
+
+There is a subtle but very important distinction to be made between **applications** and **libraries**. This is a very common source of confusion in the Python community.
+
+Libraries provide reusable functionality to other libraries and applications (let's use the umbrella term **projects** here). They are required to work alongside other libraries, all with their own set of subdependencies. They define **abstract dependencies**. To avoid version conflicts in subdependencies of different libraries within a project, libraries should never ever pin dependency versions. Although they may specifiy lower or (less frequently) upper bounds, if they rely on some specific feature/fix/bug. Library dependencies are specified via ``install_requires`` in ``setup.py``.
+
+Libaries are ultimately meant to be used in some **application**. Applications are different in that they usually are not depended on by other projects. They are meant to be deployed into some specific environment and only then should the exact versions of all their dependencies and subdependencies be made concrete. To make this process easier is currently the main goal of ``pipenv``.
+
+To summarize:
+
+- For libraries, define **abstract dependencies** via ``install_requires`` in ``setup.py``. The decision of which version exactly to be installed and where to obtain that dependency is not yours to make!
+- For applications, define **dependencies and where to get them** in the `Pipfile` and use this file to update the set of **concrete dependencies** in ``Pipfile.lock``. This file defines a specific idempotent environment that is known to work for your project. The ``Pipfile.lock`` is your source of truth. The ``Pipfile`` is a convenience for you to create that lock-file, in that it allows you to still remain somewhat vague about the exact version of a dependency to be used. ``pipenv`` is there to help you define a working conflict-free set of specific dependency-versions, which would otherwise be a very tedious task.
+- Of course, ``Pipfile`` and ``pipenv`` are still useful for library developers, as they can be used to define a development or test environment.
+- And, of course, there are projects for which the distinction between library and application isn't that clear. In that case, use ``install_requires`` alongside ``pipenv`` and ``Pipfile``.
+
+You can also do this::
+
+    $ pipenv install -e .
+
+This will tell Pipenv to lock all your ``setup.py``–declared dependencies.
