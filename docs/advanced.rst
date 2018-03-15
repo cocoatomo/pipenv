@@ -12,6 +12,7 @@ This document covers some of Pipenv's more glorious and advanced features.
 
 - Dependencies of wheels provided in a ``Pipfile`` will not be captured by ``$ pipenv lock``.
 - There are some known issues with using private indexes, related to hashing. We're actively working to solve this problem. You may have great luck with this, however.
+- Installation is intended to be as determinstic as possible — use the ``--sequential`` flag to increase this, if experiencing issues.
 
 ☤ Specifying Package Indexes
 ----------------------------
@@ -186,12 +187,13 @@ Example::
 
 .. note::
 
-   Commercial redistributors of `pipenv` should be aware that the public `Safety-DB`
-   project backing this feature is licensed as CC-BY-NC-SA by `pyup.io`. While
-   `pyup.io` have [stated explicitly](https://github.com/pypa/pipenv/issues/1651#issuecomment-372583779)
-   that commercial *use* of this `pipenv` feature is fine, commercial redistributors may want
-   to perform their own legal assessment and perhaps chat directly to `pyup.io` about
-   the specific licensing terms.
+   In order to enable this functionality while maintaining its permissive
+   copyright license, `pipenv` embeds an API client key for the backend
+   Safety API operated by pyup.io rather than including a full copy of the
+   CC-BY-NC-SA licensed Safety-DB database. This embedded client key is
+   shared across all `pipenv check` users, and hence will be subject to
+   API access throttling based on overall usage rather than individual
+   client usage.
 
 
 ☤ Community Integrations

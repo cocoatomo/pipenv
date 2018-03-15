@@ -40,7 +40,7 @@ class PyPIRepository(BaseRepository):
     config), but any other PyPI mirror can be used if index_urls is
     changed/configured on the Finder.
     """
-    def __init__(self, pip_options, session, use_json=True):
+    def __init__(self, pip_options, session, use_json=False):
         self.session = session
         self.use_json = use_json
 
@@ -144,6 +144,7 @@ class PyPIRepository(BaseRepository):
                 url = 'https://pypi.org/pypi/{0}/json'.format(ireq.req.name)
                 r = self.session.get(url)
 
+                # TODO: Latest isn't always latest.
                 latest = list(r.json()['releases'].keys())[-1]
                 if str(ireq.req.specifier) == '=={0}'.format(latest):
 
@@ -217,6 +218,7 @@ class PyPIRepository(BaseRepository):
                                     ignore_installed=True,
                                     ignore_compatibility=False
                                     )
+
             result = reqset._prepare_file(self.finder, ireq, ignore_requires_python=True)
 
             # Convert setup_requires dict into a somewhat usable form.
