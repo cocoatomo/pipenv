@@ -46,18 +46,18 @@ msgstr "Pipfile.lockの例"
 
 #: ../../basics.rst:124
 msgid "☤ General Recommendations & Version Control"
-msgstr ""
+msgstr "☤ 一般的なオススメの方法とバージョン管理"
 
 #: ../../basics.rst:126
 msgid ""
 "Generally, keep both ``Pipfile`` and ``Pipfile.lock`` in version control."
-msgstr ""
+msgstr "一般的には、 ``Pipfile`` と ``Pipfile.lock`` の両方をバージョン管理してください。"
 
 #: ../../basics.rst:127
 msgid ""
 "Do not keep ``Pipfile.lock`` in version control if multiple versions of "
 "Python are being targetted."
-msgstr ""
+msgstr "複数バージョンのPythonを対象とする場合は、 ``Pipfile.lock`` はバージョン管理に含めないでください。"
 
 #: ../../basics.rst:128
 msgid ""
@@ -65,6 +65,8 @@ msgid ""
 "section. Ideally, you should only have one target Python version, as this is"
 " a deployment tool."
 msgstr ""
+"`Pipfile` の ``[requires]`` セクションに対象としているPythonバージョンを指定してください。\n"
+"Pipevnはデプロイツールなので、理想的にはPythonバージョンは1つだけにするべきです。"
 
 #: ../../basics.rst:133
 msgid "☤ Example Pipenv Workflow"
@@ -76,11 +78,11 @@ msgstr ""
 
 #: ../../basics.rst:140
 msgid "Install from Pipfile, if there is one::"
-msgstr ""
+msgstr "Pipfileがあった場合には、Pipfileの内容でインストールする::"
 
 #: ../../basics.rst:144
 msgid "Or, add a package to your new project::"
-msgstr ""
+msgstr "もしくは、新しいプロジェクトにパッケージを追加する::"
 
 #: ../../basics.rst:148
 msgid ""
@@ -90,11 +92,11 @@ msgstr ""
 
 #: ../../basics.rst:150
 msgid "Next, activate the Pipenv shell::"
-msgstr ""
+msgstr "次に、Pipenvシェルを有効化する::"
 
 #: ../../basics.rst:159
 msgid "☤ Example Pipenv Upgrade Workflow"
-msgstr ""
+msgstr "☤ Pipenvのアップグレードの流れの例"
 
 #: ../../basics.rst:161
 msgid "Find out what's changed upstream: ``$ pipenv update --outdated``."

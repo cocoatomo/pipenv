@@ -119,7 +119,7 @@ msgstr "MacOSを使っている場合は、Homebrewで簡単にPipenvがイン�
 
 #: ../../index.rst:52
 msgid "Or, if you're using Ubuntu 17.10::"
-msgstr ""
+msgstr "あるいは、Ubuntu 17.10を使っている場合には次のようにします::"
 
 #: ../../index.rst:59
 msgid "Otherwise, just use pip::"
@@ -146,7 +146,7 @@ msgstr ""
 
 #: ../../index.rst:77
 msgid "**David Gang**—"
-msgstr ""
+msgstr "**David Gang**—"
 
 #: ../../index.rst:77
 msgid ""
