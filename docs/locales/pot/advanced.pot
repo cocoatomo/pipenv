@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.7.3\n"
+"Project-Id-Version: pipenv 11.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-14 15:00+0000\n"
+"POT-Creation-Date: 2018-03-16 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,398 +36,402 @@ msgstr ""
 msgid "There are some known issues with using private indexes, related to hashing. We're actively working to solve this problem. You may have great luck with this, however."
 msgstr ""
 
-#: ../../advanced.rst:17
+#: ../../advanced.rst:15
+msgid "Installation is intended to be as determinstic as possible — use the ``--sequential`` flag to increase this, if experiencing issues."
+msgstr ""
+
+#: ../../advanced.rst:18
 msgid "☤ Specifying Package Indexes"
 msgstr ""
 
-#: ../../advanced.rst:19
+#: ../../advanced.rst:20
 msgid "If you'd like a specific package to be installed with a specific package index, you can do the following::"
 msgstr ""
 
-#: ../../advanced.rst:38
-#: ../../advanced.rst:136
+#: ../../advanced.rst:39
+#: ../../advanced.rst:137
 msgid "Very fancy."
 msgstr ""
 
-#: ../../advanced.rst:41
+#: ../../advanced.rst:42
 msgid "☤ Specifying Basically Anything"
 msgstr ""
 
-#: ../../advanced.rst:43
+#: ../../advanced.rst:44
 msgid "If you'd like to specify that a specific package only be installed on certain systems, you can use `PEP 508 specifiers <https://www.python.org/dev/peps/pep-0508/>`_ to accomplish this."
 msgstr ""
 
-#: ../../advanced.rst:46
+#: ../../advanced.rst:47
 msgid "Here's an example ``Pipfile``, which will only install ``pywinusb`` on Windows systems::"
 msgstr ""
 
-#: ../../advanced.rst:57
+#: ../../advanced.rst:58
 msgid "Voilà!"
 msgstr ""
 
-#: ../../advanced.rst:59
+#: ../../advanced.rst:60
 msgid "Here's a more complex example::"
 msgstr ""
 
-#: ../../advanced.rst:68
+#: ../../advanced.rst:69
 msgid "Magic. Pure, unadulterated magic."
 msgstr ""
 
-#: ../../advanced.rst:72
+#: ../../advanced.rst:73
 msgid "☤ Deploying System Dependencies"
 msgstr ""
 
-#: ../../advanced.rst:74
+#: ../../advanced.rst:75
 msgid "You can tell Pipenv to install a Pipfile's contents into its parent system with the ``--system`` flag::"
 msgstr ""
 
-#: ../../advanced.rst:78
+#: ../../advanced.rst:79
 msgid "This is useful for Docker containers, and deployment infrastructure (e.g. Heroku does this)."
 msgstr ""
 
-#: ../../advanced.rst:80
+#: ../../advanced.rst:81
 msgid "Also useful for deployment is the ``--deploy`` flag::"
 msgstr ""
 
-#: ../../advanced.rst:84
+#: ../../advanced.rst:85
 msgid "This will fail a build if the ``Pipfile.lock`` is out–of–date, instead of generating a new one."
 msgstr ""
 
-#: ../../advanced.rst:88
+#: ../../advanced.rst:89
 msgid "☤ ``pipenv`` and ``conda``"
 msgstr ""
 
-#: ../../advanced.rst:90
+#: ../../advanced.rst:91
 msgid "To use Pipenv with a Conda–provided Python, you simply provide the path to the Python binary::"
 msgstr ""
 
-#: ../../advanced.rst:94
+#: ../../advanced.rst:95
 msgid "To reuse Conda–installed Python packages, use the ``--site-packages`` flag::"
 msgstr ""
 
-#: ../../advanced.rst:99
+#: ../../advanced.rst:100
 msgid "☤ Generating a ``requirements.txt``"
 msgstr ""
 
-#: ../../advanced.rst:101
+#: ../../advanced.rst:102
 msgid "You can convert a ``Pipfile`` and ``Pipfile.lock`` into a ``requirements.txt`` file very easily, and get all the benefits of extras and other goodies we have included."
 msgstr ""
 
-#: ../../advanced.rst:103
+#: ../../advanced.rst:104
 msgid "Let's take this ``Pipfile``::"
 msgstr ""
 
-#: ../../advanced.rst:112
-#: ../../advanced.rst:130
+#: ../../advanced.rst:113
+#: ../../advanced.rst:131
 msgid "And generate a ``requirements.txt`` out of it::"
 msgstr ""
 
-#: ../../advanced.rst:121
+#: ../../advanced.rst:122
 msgid "If you wish to generate a ``requirements.txt`` with only the development requirements you can do that too!  Let's take the following ``Pipfile``::"
 msgstr ""
 
-#: ../../advanced.rst:139
+#: ../../advanced.rst:140
 msgid "☤ Detection of Security Vulnerabilities"
 msgstr ""
 
-#: ../../advanced.rst:141
+#: ../../advanced.rst:142
 msgid "Pipenv includes the `safety <https://github.com/pyupio/safety>`_ package, and will use it to scan your dependency graph for known security vulnerabilities!"
 msgstr ""
 
-#: ../../advanced.rst:144
+#: ../../advanced.rst:145
 msgid "Example::"
 msgstr ""
 
-#: ../../advanced.rst:185
-#: ../../advanced.rst:443
+#: ../../advanced.rst:186
+#: ../../advanced.rst:445
 msgid "✨🍰✨"
 msgstr ""
 
-#: ../../advanced.rst:189
-msgid "Commercial redistributors of `pipenv` should be aware that the public `Safety-DB` project backing this feature is licensed as CC-BY-NC-SA by `pyup.io`. While `pyup.io` have [stated explicitly](https://github.com/pypa/pipenv/issues/1651#issuecomment-372583779) that commercial *use* of this `pipenv` feature is fine, commercial redistributors may want to perform their own legal assessment and perhaps chat directly to `pyup.io` about the specific licensing terms."
-msgstr ""
-
-#: ../../advanced.rst:198
-msgid "☤ Community Integrations"
+#: ../../advanced.rst:190
+msgid "In order to enable this functionality while maintaining its permissive copyright license, `pipenv` embeds an API client key for the backend Safety API operated by pyup.io rather than including a full copy of the CC-BY-NC-SA licensed Safety-DB database. This embedded client key is shared across all `pipenv check` users, and hence will be subject to API access throttling based on overall usage rather than individual client usage."
 msgstr ""
 
 #: ../../advanced.rst:200
+msgid "☤ Community Integrations"
+msgstr ""
+
+#: ../../advanced.rst:202
 msgid "There are a range of community-maintained plugins and extensions available for a range of editors and IDEs, as well as different products which integrate with Pipenv projects:"
 msgstr ""
 
-#: ../../advanced.rst:203
+#: ../../advanced.rst:205
 msgid "`Heroku <https://heroku.com/python>`_ (Cloud Hosting)"
 msgstr ""
 
-#: ../../advanced.rst:204
+#: ../../advanced.rst:206
 msgid "`Platform.sh <https://platform.sh/hosting/python>`_ (Cloud Hosting)"
 msgstr ""
 
-#: ../../advanced.rst:205
+#: ../../advanced.rst:207
 msgid "`PyUp <https://pyup.io>`_ (Security Notification)"
 msgstr ""
 
-#: ../../advanced.rst:206
+#: ../../advanced.rst:208
 msgid "`Emacs <https://github.com/pwalsh/pipenv.el>`_ (Editor Integration)"
 msgstr ""
 
-#: ../../advanced.rst:207
+#: ../../advanced.rst:209
 msgid "`Fish Shell <https://github.com/fisherman/pipenv>`_ (Automatic ``$ pipenv shell``!)"
 msgstr ""
 
-#: ../../advanced.rst:208
+#: ../../advanced.rst:210
 msgid "`VS Code <https://code.visualstudio.com/docs/python/environments>`_ (Editor Integration)"
 msgstr ""
 
-#: ../../advanced.rst:210
+#: ../../advanced.rst:212
 msgid "Works in progress:"
 msgstr ""
 
-#: ../../advanced.rst:212
+#: ../../advanced.rst:214
 msgid "`Sublime Text <https://github.com/kennethreitz/pipenv-sublime>`_ (Editor Integration)"
 msgstr ""
 
-#: ../../advanced.rst:213
+#: ../../advanced.rst:215
 msgid "`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Editor Integration)"
 msgstr ""
 
-#: ../../advanced.rst:214
+#: ../../advanced.rst:216
 msgid "Mysterious upcoming Google Cloud product (Cloud Hosting)"
 msgstr ""
 
-#: ../../advanced.rst:219
+#: ../../advanced.rst:221
 msgid "☤ Open a Module in Your Editor"
 msgstr ""
 
-#: ../../advanced.rst:221
+#: ../../advanced.rst:223
 msgid "Pipenv allows you to open any Python module that is installed (including ones in your codebase), with the ``$ pipenv open`` command::"
 msgstr ""
 
-#: ../../advanced.rst:231
+#: ../../advanced.rst:233
 msgid "This allows you to easily read the code you're consuming, instead of looking it up on GitHub."
 msgstr ""
 
-#: ../../advanced.rst:233
+#: ../../advanced.rst:235
 msgid "The standard ``EDITOR`` environment variable is used for this. If you're using VS Code, for example, you'll want to ``export EDITOR=code`` (if you're on macOS you will want to `install the command <https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line>`_ on to your ``PATH`` first)."
 msgstr ""
 
-#: ../../advanced.rst:236
+#: ../../advanced.rst:238
 msgid "☤ Automatic Python Installation"
 msgstr ""
 
-#: ../../advanced.rst:238
+#: ../../advanced.rst:240
 msgid "If you have `pyenv <https://github.com/pyenv/pyenv#simple-python-version-management-pyenv>`_ installed and configured, Pipenv will automatically ask you if you want to install a required version of Python if you don't already have it available."
 msgstr ""
 
-#: ../../advanced.rst:240
+#: ../../advanced.rst:242
 msgid "This is a very fancy feature, and we're very proud of it::"
 msgstr ""
 
-#: ../../advanced.rst:271
+#: ../../advanced.rst:273
 msgid "Pipenv automatically honors both the ``python_full_version`` and ``python_version`` `PEP 508 <https://www.python.org/dev/peps/pep-0508/>`_ specifiers."
 msgstr ""
 
-#: ../../advanced.rst:273
+#: ../../advanced.rst:275
 msgid "💫✨🍰✨💫"
 msgstr ""
 
-#: ../../advanced.rst:276
+#: ../../advanced.rst:278
 msgid "☤ Automatic Loading of ``.env``"
 msgstr ""
 
-#: ../../advanced.rst:278
+#: ../../advanced.rst:280
 msgid "If a ``.env`` file is present in your project, ``$ pipenv shell`` and ``$ pipenv run`` will automatically load it, for you::"
 msgstr ""
 
-#: ../../advanced.rst:292
+#: ../../advanced.rst:294
 msgid "This is very useful for keeping production credentials out of your codebase. We do not recommend committing ``.env`` files into source control!"
 msgstr ""
 
-#: ../../advanced.rst:295
+#: ../../advanced.rst:297
 msgid "If your ``.env`` file is located in a different path or has a different name you may set the ``PIPENV_DOTENV_LOCATION`` environment variable::"
 msgstr ""
 
-#: ../../advanced.rst:299
+#: ../../advanced.rst:301
 msgid "To prevent pipenv from loading the ``.env`` file, set the ``PIPENV_DONT_LOAD_ENV`` environment variable::"
 msgstr ""
 
-#: ../../advanced.rst:304
+#: ../../advanced.rst:306
 msgid "☤ Configuration With Environment Variables"
 msgstr ""
 
-#: ../../advanced.rst:306
+#: ../../advanced.rst:308
 msgid "``pipenv`` comes with a handful of options that can be enabled via shell environment variables. To activate them, simply create the variable in your shell and pipenv will detect it."
 msgstr ""
 
-#: ../../advanced.rst:310
+#: ../../advanced.rst:312
 msgid "``PIPENV_DEFAULT_PYTHON_VERSION`` — Use this version of Python when creating new virtual environments, by default (e.g. ``3.6``)."
 msgstr ""
 
-#: ../../advanced.rst:312
+#: ../../advanced.rst:314
 msgid "``PIPENV_SHELL_FANCY`` — Always use fancy mode when invoking ``pipenv shell``."
 msgstr ""
 
-#: ../../advanced.rst:314
+#: ../../advanced.rst:316
 msgid "``PIPENV_VENV_IN_PROJECT`` — If set, use ``.venv`` in your project directory instead of the global virtualenv manager ``pew``."
 msgstr ""
 
-#: ../../advanced.rst:317
+#: ../../advanced.rst:319
 msgid "``PIPENV_COLORBLIND`` — Disable terminal colors, for some reason."
 msgstr ""
 
-#: ../../advanced.rst:319
+#: ../../advanced.rst:321
 msgid "``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs. Automatically set in CI environments."
 msgstr ""
 
-#: ../../advanced.rst:321
+#: ../../advanced.rst:323
 msgid "``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of directories to recursively search for a Pipfile."
 msgstr ""
 
-#: ../../advanced.rst:324
+#: ../../advanced.rst:326
 msgid "``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds Pipenv will wait for virtualenv creation to complete.  Defaults to 120 seconds."
 msgstr ""
 
-#: ../../advanced.rst:327
+#: ../../advanced.rst:329
 msgid "``PIPENV_IGNORE_VIRTUALENVS`` — Set to disable automatically using an activated virtualenv over the current project's own virtual environment."
 msgstr ""
 
-#: ../../advanced.rst:330
+#: ../../advanced.rst:332
 msgid "``PIPENV_PIPFILE`` — When running pipenv from a $PWD other than the same directory where the Pipfile is located, instruct pipenv to find the Pipfile in the location specified by this environment variable."
 msgstr ""
 
-#: ../../advanced.rst:334
+#: ../../advanced.rst:336
 msgid "If you'd like to set these environment variables on a per-project basis, I recommend utilizing the fantastic `direnv <https://direnv.net>`_ project, in order to do so."
 msgstr ""
 
-#: ../../advanced.rst:336
+#: ../../advanced.rst:338
 msgid "Also note that `pip itself supports environment variables <https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you need additional customization."
 msgstr ""
 
-#: ../../advanced.rst:338
+#: ../../advanced.rst:340
 msgid "For example::"
 msgstr ""
 
-#: ../../advanced.rst:344
+#: ../../advanced.rst:346
 msgid "☤ Custom Virtual Environment Location"
 msgstr ""
 
-#: ../../advanced.rst:346
+#: ../../advanced.rst:348
 msgid "Pipenv's underlying ``pew`` dependency will automatically honor the ``WORKON_HOME`` environment variable, if you have it set — so you can tell pipenv to store your virtual environments wherever you want, e.g.::"
 msgstr ""
 
-#: ../../advanced.rst:351
+#: ../../advanced.rst:353
 msgid "In addition, you can also have Pipenv stick the virtualenv in ``project/.venv`` by setting the ``PIPENV_VENV_IN_PROJECT`` environment variable."
 msgstr ""
 
-#: ../../advanced.rst:355
+#: ../../advanced.rst:357
 msgid "☤ Testing Projects"
 msgstr ""
 
-#: ../../advanced.rst:357
+#: ../../advanced.rst:359
 msgid "Pipenv is being used in projects like `Requests`_ for declaring development dependencies and running the test suite."
 msgstr ""
 
-#: ../../advanced.rst:359
+#: ../../advanced.rst:361
 msgid "We've currently tested deployments with both `Travis-CI`_ and `tox`_ with success."
 msgstr ""
 
-#: ../../advanced.rst:362
+#: ../../advanced.rst:364
 msgid "Travis CI"
 msgstr ""
 
-#: ../../advanced.rst:364
+#: ../../advanced.rst:366
 msgid "An example Travis CI setup can be found in `Requests`_. The project uses a Makefile to define common functions such as its ``init`` and ``tests`` commands. Here is a stripped down example ``.travis.yml``::"
 msgstr ""
 
-#: ../../advanced.rst:385
+#: ../../advanced.rst:387
 msgid "and the corresponding Makefile::"
 msgstr ""
 
-#: ../../advanced.rst:396
+#: ../../advanced.rst:398
 msgid "Tox Automation Project"
 msgstr ""
 
-#: ../../advanced.rst:398
+#: ../../advanced.rst:400
 msgid "Alternatively, you can configure a ``tox.ini`` like the one below for both local and external testing::"
 msgstr ""
 
-#: ../../advanced.rst:420
+#: ../../advanced.rst:422
 msgid "With Pipenv's default configuration, you'll need to use tox's ``passenv`` parameter to pass your shell's ``HOME`` variable."
 msgstr ""
 
-#: ../../advanced.rst:423
+#: ../../advanced.rst:425
 msgid "A 3rd party plugin, `tox-pipenv`_ is also available to use Pipenv natively with tox."
 msgstr ""
 
-#: ../../advanced.rst:431
+#: ../../advanced.rst:433
 msgid "☤ Shell Completion"
 msgstr ""
 
-#: ../../advanced.rst:433
+#: ../../advanced.rst:435
 msgid "To enable completion in fish, add this to your config::"
 msgstr ""
 
-#: ../../advanced.rst:437
+#: ../../advanced.rst:439
 msgid "Alternatively, with bash or zsh, add this to your config::"
 msgstr ""
 
-#: ../../advanced.rst:441
+#: ../../advanced.rst:443
 msgid "Magic shell completions are now enabled!"
 msgstr ""
 
-#: ../../advanced.rst:446
+#: ../../advanced.rst:448
 msgid "☤ Working with Platform-Provided Python Components"
 msgstr ""
 
-#: ../../advanced.rst:448
+#: ../../advanced.rst:450
 msgid "It's reasonably common for platform specific Python bindings for operating system interfaces to only be available through the system package manager, and hence unavailable for installation into virtual environments with `pip`. In these cases, the virtual environment can be created with access to the system `site-packages` directory::"
 msgstr ""
 
-#: ../../advanced.rst:456
+#: ../../advanced.rst:458
 msgid "To ensure that all `pip`-installable components actually are installed into the virtual environment and system packages are only used for interfaces that don't participate in Python-level dependency resolution at all, use the `PIP_IGNORE_INSTALLED` setting::"
 msgstr ""
 
-#: ../../advanced.rst:467
+#: ../../advanced.rst:469
 msgid "☤ Pipfile vs setup.py"
 msgstr ""
 
-#: ../../advanced.rst:469
+#: ../../advanced.rst:471
 msgid "There is a subtle but very important distinction to be made between **applications** and **libraries**. This is a very common source of confusion in the Python community."
 msgstr ""
 
-#: ../../advanced.rst:471
+#: ../../advanced.rst:473
 msgid "Libraries provide reusable functionality to other libraries and applications (let's use the umbrella term **projects** here). They are required to work alongside other libraries, all with their own set of subdependencies. They define **abstract dependencies**. To avoid version conflicts in subdependencies of different libraries within a project, libraries should never ever pin dependency versions. Although they may specifiy lower or (less frequently) upper bounds, if they rely on some specific feature/fix/bug. Library dependencies are specified via ``install_requires`` in ``setup.py``."
 msgstr ""
 
-#: ../../advanced.rst:473
+#: ../../advanced.rst:475
 msgid "Libaries are ultimately meant to be used in some **application**. Applications are different in that they usually are not depended on by other projects. They are meant to be deployed into some specific environment and only then should the exact versions of all their dependencies and subdependencies be made concrete. To make this process easier is currently the main goal of ``pipenv``."
 msgstr ""
 
-#: ../../advanced.rst:475
+#: ../../advanced.rst:477
 msgid "To summarize:"
 msgstr ""
 
-#: ../../advanced.rst:477
+#: ../../advanced.rst:479
 msgid "For libraries, define **abstract dependencies** via ``install_requires`` in ``setup.py``. The decision of which version exactly to be installed and where to obtain that dependency is not yours to make!"
 msgstr ""
 
-#: ../../advanced.rst:478
+#: ../../advanced.rst:480
 msgid "For applications, define **dependencies and where to get them** in the `Pipfile` and use this file to update the set of **concrete dependencies** in ``Pipfile.lock``. This file defines a specific idempotent environment that is known to work for your project. The ``Pipfile.lock`` is your source of truth. The ``Pipfile`` is a convenience for you to create that lock-file, in that it allows you to still remain somewhat vague about the exact version of a dependency to be used. ``pipenv`` is there to help you define a working conflict-free set of specific dependency-versions, which would otherwise be a very tedious task."
 msgstr ""
 
-#: ../../advanced.rst:479
+#: ../../advanced.rst:481
 msgid "Of course, ``Pipfile`` and ``pipenv`` are still useful for library developers, as they can be used to define a development or test environment."
 msgstr ""
 
-#: ../../advanced.rst:480
+#: ../../advanced.rst:482
 msgid "And, of course, there are projects for which the distinction between library and application isn't that clear. In that case, use ``install_requires`` alongside ``pipenv`` and ``Pipfile``."
 msgstr ""
 
-#: ../../advanced.rst:482
+#: ../../advanced.rst:484
 msgid "You can also do this::"
 msgstr ""
 
-#: ../../advanced.rst:486
+#: ../../advanced.rst:488
 msgid "This will tell Pipenv to lock all your ``setup.py``–declared dependencies."
 msgstr ""
 
