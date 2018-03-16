@@ -135,6 +135,8 @@ msgid ""
 "packages. If ``pipenv`` isn't available in your shell after installation, "
 "you'll need to add the `user base`_'s binary directory to your ``PATH``."
 msgstr ""
+"このコマンドは `user installation`_ を行い、システム全体に関わるパッケージを壊さないようにします。\n"
+"インストールを行った後に ``pipenv`` が使えるようにならない場合は、 `user base`_ のバイナリディレクトリを ``PATH`` に追加する必要があります。"
 
 #: ../../install.rst:92
 msgid ""
