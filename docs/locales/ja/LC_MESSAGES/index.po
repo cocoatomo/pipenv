@@ -58,6 +58,8 @@ msgid ""
 "between libraries and applications and the usage of ``setup.py`` vs "
 "``Pipfile`` to define dependencies, see :ref:`pipfile-vs-setuppy`."
 msgstr ""
+"Pipenvは主にアプリケーションのユーザーと開発者に、簡単に作業環境を作れる方法を提供するためのツールです。\n"
+"ライブラリとアプリケーションの違いや、依存関係を定義するための ``setup.py`` と ``Pipfile`` の使い方の違いについては、 :ref:`pipfile-vs-setuppy` を参照してください。"
 
 #: ../../index.rst:35
 msgid "The problems that Pipenv seeks to solve are multi-faceted:"
@@ -155,6 +157,9 @@ msgid ""
 "dependencies are. Combined with the fact that installs are deterministic, "
 "makes this package manager first class, like cargo*."
 msgstr ""
+"*このパッケージマネージャーは本当に素晴しい。\n"
+"どんな依存関係があり、そのうちのどれが私がインストールしたもので、どれが推移的依存関係なのかを初めて認識できた。\n"
+"インストールが決定論的であることも相俟って、cargoのような一級品のパッケージマネージャーとなっている。*"
 
 #: ../../index.rst:80
 msgid "**Justin Myles Holmes**—"
@@ -164,7 +169,7 @@ msgstr "**Justin Myles Holmes**—"
 msgid ""
 "*Pipenv is finally an abstraction meant to engage the mind instead of merely"
 " the filesystem.*"
-msgstr ""
+msgstr "*Pipenvは遂に、単なるファイルシステムとではなく思考と結び付くための抽象化を果たした*"
 
 #: ../../index.rst:83
 msgid "☤ Pipenv Features"

@@ -146,6 +146,9 @@ msgid ""
 "path to your home directory) so you'll need to add ``~/.local/bin`` to your "
 "``PATH``. You can set your ``PATH`` permanently by `modifying ~/.profile`_."
 msgstr ""
+"LinuxとmacOSでは ``python -m site --user-base`` を実行してユーザーのベースバイナリディレクトリを見付け、その末尾に ``bin`` を追加します。\n"
+"例えば、このコマンドはたいてい ``~/.local`` (``~`` はあなたのホームディレクトリの絶対パスへ展開されたもの) なので、 ``~/.local/bin`` を ``PATH`` に追加する必要があります。\n"
+"`~/.profile を修正 <https://stackoverflow.com/a/14638025>`__ すると ``PATH`` に行った設定が再起動しても消えません。"
 
 #: ../../install.rst:99
 msgid ""
@@ -157,6 +160,10 @@ msgid ""
 "your user ``PATH`` permanently in the `Control Panel`_. You may need to log "
 "out for the ``PATH`` changes to take effect."
 msgstr ""
+"Windows では ``py -m site --user-site`` を実行してユーザーのベースバイナリディレクトリを見付け、 ``site-packages`` を ``Scripts`` で置き換えます。\n"
+"例えば、このコマンドは ``C:\\Users\\Username\\AppData\\Roaming\\Python36\\site-packages`` のようなパスを返すので、 ``C:\\Users\\Username\\AppData\\Roaming\\Python36\\Scripts`` を ``PATH`` に含める必要があります。\n"
+"`コントロールパネル <https://msdn.microsoft.com/en-us/library/windows/desktop/bb776899(v=vs.85).aspx>`__ でユーザー環境変数の ``PATH`` に設定すると再起動しても消えません。\n"
+"``PATH`` の変更を有効にするには一度ログアウトする必要があるかもしれません。"
 
 #: ../../install.rst:116
 msgid "☤ Installing packages for your project"
@@ -225,7 +232,7 @@ msgstr "☤ HomebrewでのPipenvのインストール方法"
 
 #: ../../install.rst:205
 msgid "Homebrew is a popular open-source package management system for macOS."
-msgstr ""
+msgstr "HomebrewはmacOSの人気のあるオープンソースパッケージマネージシステムです。"
 
 #: ../../install.rst:207
 msgid ""
@@ -233,10 +240,11 @@ msgid ""
 "in an isolated virtual environment so it doesn't interfere with the rest of "
 "your Python installation."
 msgstr ""
+"Homebrewでpipenvをインストールするとpipenvとその依存パッケージを隔離された仮想環境に閉じ込めるので、他のインストールされているPythonに影響は与えません。"
 
 #: ../../install.rst:211
 msgid "Once you have installed `Homebrew <https://brew.sh/>`_ simply run::"
-msgstr ""
+msgstr " `Homebrew <https://brew.sh/>`__ がインストールできたら次のコマンドを実行します::"
 
 #: ../../install.rst:215 ../../install.rst:234
 msgid "To upgrade pipenv at any time::"

@@ -49,6 +49,8 @@ msgid ""
 "Installation is intended to be as determinstic as possible — use the "
 "``--sequential`` flag to increase this, if experiencing issues."
 msgstr ""
+"インストールはできる限り決定論的になるようになっています — 問題が出た場合には ``--sequential`` "
+"フラグを使ってより決定論的に振る舞うようにしてください。"
 
 #: ../../advanced.rst:18
 msgid "☤ Specifying Package Indexes"
@@ -109,7 +111,7 @@ msgstr "``--system`` フラグを使って、Pipfileの内容にあるものを�
 msgid ""
 "This is useful for Docker containers, and deployment infrastructure (e.g. "
 "Heroku does this)."
-msgstr ""
+msgstr "これはDockerコンテナやデプロイのインフラで役に立ちます (例えば、Herokuで使われています)。"
 
 #: ../../advanced.rst:81
 msgid "Also useful for deployment is the ``--deploy`` flag::"
@@ -287,6 +289,8 @@ msgid ""
 "<https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-"
 "line>`_ on to your ``PATH`` first)."
 msgstr ""
+"この機能では標準の ``EDITOR`` 環境変数が使われます。\n"
+"例えばVS Codeを使っている場合は、 ``export EDITOR=code`` とします (macOSの場合は、最初に ``PATH`` に上 `コマンドをインストール <https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line>`_ します)。"
 
 #: ../../advanced.rst:238
 msgid "☤ Automatic Python Installation"
@@ -428,6 +432,8 @@ msgid ""
 "directory where the Pipfile is located, instruct pipenv to find the Pipfile "
 "in the location specified by this environment variable."
 msgstr ""
+"``PIPENV_PIPFILE`` — 現在位置 ($PWD) "
+"がPipfileが置いてある場所とは違う状態でpipenvコマンドを起動するときに、この環境変数で指定された場所からPipfileを探すようpipenvコマンドに指示します。"
 
 #: ../../advanced.rst:336
 msgid ""
@@ -578,6 +584,8 @@ msgid ""
 "**applications** and **libraries**. This is a very common source of "
 "confusion in the Python community."
 msgstr ""
+"**アプリケーション** と **ライブラリ** の間には、微妙だが非常に重要な違いがあります。\n"
+"これはPythonコミュニティでよく起こる混乱の元になっています。"
 
 #: ../../advanced.rst:473
 msgid ""
@@ -591,6 +599,12 @@ msgid ""
 "feature/fix/bug. Library dependencies are specified via ``install_requires``"
 " in ``setup.py``."
 msgstr ""
+"ライブラリは、再利用可能な機能を他のライブラリやアプリケーション (ここでは両方を包括する用語として **プロジェクト** を使います) に提供します。\n"
+"ライブラリは、自身を起点とする依存関係である他のライブラリと共に協調して動作する必要があります。\n"
+"ライブラリは **抽象的な依存関係** を定義します。\n"
+"プロジェクトに含まれる別々のライブラリのそれぞれを起点とする依存関係どうしで、バージョンの衝突が起きないようにライブラリは絶対に依存パッケージのバージョンを固定するべきではありません。\n"
+"ある特定の機能や修正やバグに依存している場合には、バージョンの下限や (滅多に無いですが) 上限を指定することもあります。\n"
+"ライブラリの依存関係は ``setup.py`` では ``install_requires`` で指定します。"
 
 #: ../../advanced.rst:475
 msgid ""
@@ -601,6 +615,10 @@ msgid ""
 "subdependencies be made concrete. To make this process easier is currently "
 "the main goal of ``pipenv``."
 msgstr ""
+"ライブラリは究極的には、とある **アプリケーション** で使われるためのものです。\n"
+"アプリケーションはそれとは違って、通常は他のプロジェクトから依存されることはありません。\n"
+"アプリケーションは、ある特定の環境に配置され、依存関係やさらにその先の依存関係全ての正確なバージョンが具体的であるようになっています。\n"
+"この処理をより簡単にすることが、現在 ``pipenv`` の最も重要な目標です。"
 
 #: ../../advanced.rst:477
 msgid "To summarize:"
@@ -612,6 +630,8 @@ msgid ""
 "``setup.py``. The decision of which version exactly to be installed and "
 "where to obtain that dependency is not yours to make!"
 msgstr ""
+"ライブラリは、 ``setup.py`` の ``install_requires`` で **抽象的な依存関係** を定義します。\n"
+"厳密にどのバージョンをインストールし、どこから依存パッケージを取得するかの判断は、あなたが決めることではありません!"
 
 #: ../../advanced.rst:480
 msgid ""
