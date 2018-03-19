@@ -100,21 +100,25 @@ msgstr "☤ Pipenvのアップグレードの流れの例"
 
 #: ../../basics.rst:161
 msgid "Find out what's changed upstream: ``$ pipenv update --outdated``."
-msgstr ""
+msgstr "どれに変更があったかをコマンド ``$ pipenv update --outdated`` で調べます。"
 
 #: ../../basics.rst:164
 msgid "Upgrade packages, two options:"
-msgstr ""
+msgstr "パッケージを更新します。方法は2つあります:"
 
 #: ../../basics.rst:163
 msgid "Want to upgrade everything? Just do ``$ pipenv update``."
 msgstr ""
+"全部のパッケージを更新したい?\n"
+"それなら ``$ pipenv update`` とするだけです。"
 
 #: ../../basics.rst:164
 msgid ""
 "Want to upgrade packages one-at-a-time? ``$ pipenv update <pkg>`` for each "
 "outdated package."
 msgstr ""
+"一度に1つだけパッケージを更新したい?\n"
+"パッケージごとに ``$ pipenv update <pkg>`` とします。"
 
 #: ../../basics.rst:167
 msgid "☤ Importing from requirements.txt"
@@ -237,7 +241,7 @@ msgstr ""
 msgid ""
 "Note that all sub-dependencies will get added to the ``Pipfile.lock`` as "
 "well."
-msgstr "全ての依存関係が ``Pipfile.lock`` にも追加されることに注意してください。"
+msgstr "全ての子依存関係が ``Pipfile.lock`` にも追加されることに注意してください。"
 
 #: ../../basics.rst:249
 msgid "☤ Environment Management with Pipenv"
@@ -439,6 +443,8 @@ msgid ""
 "dependencies, please check the `Pipfile spec "
 "<https://github.com/pypa/pipfile>`__."
 msgstr ""
+"VCSによる依存関係を指定するときに使えるオプションについて、よく詳しいことは `Pipfile spec "
+"<https://github.com/pypa/pipfile>`__ を確認してください。"
 
 #: ../../basics.rst:339
 msgid "☤ Pipfile.lock Security Features"
