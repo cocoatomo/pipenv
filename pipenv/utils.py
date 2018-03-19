@@ -191,17 +191,12 @@ def cleanup_toml(tml):
     new_toml = []
     # Add newlines between TOML sections.
     for i, line in enumerate(toml.split('\n')):
-        after = False
         # Skip the first line.
         if line.startswith('['):
             if i > 0:
                 # Insert a newline before the heading.
-                new_toml.append('\n')
-            after = True
+                new_toml.append('')
         new_toml.append(line)
-        # Insert a newline after the heading.
-        if after:
-            new_toml.append('')
     # adding new line at the end of the TOML file
     new_toml.append('')
     toml = '\n'.join(new_toml)
@@ -291,7 +286,7 @@ def prepare_pip_source_args(sources, pip_args=None):
                     pip_args.extend(
                         [
                             '--trusted-host',
-                            urlparse(source['url']).netloc.split(':')[0],
+                            urlparse(source['url']).hostname,
                         ]
                     )
     return pip_args
@@ -395,11 +390,12 @@ def venv_resolve_deps(
     import json
 
     resolver = escape_grouped_arguments(resolver.__file__.rstrip('co'))
-    cmd = '{0} {1} {2} {3}'.format(
+    cmd = '{0} {1} {2} {3} {4}'.format(
         escape_grouped_arguments(which('python')),
         resolver,
         '--pre' if pre else '',
         '--verbose' if verbose else '',
+        '--clear' if clear else '',
     )
     os.environ['PIPENV_PACKAGES'] = '\n'.join(deps)
     c = delegator.run(cmd, block=True)

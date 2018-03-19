@@ -12,13 +12,15 @@ click = "*"
 pytest-pypy = {path = "./tests/pytest-pypi", editable = true}
 pytest-tap = "*"
 stdeb = {version="*", sys_platform="== 'linux'"}
-white = {version="*"}
-
+white = {version="*", markers="python_version >= '3.6'"}
 
 [packages]
-
 
 
 [scripts]
 
 tests = "bash ./run-tests.sh"
+
+[pipenv]
+
+allow_prereleases = true
