@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.8.1\n"
+"Project-Id-Version: pipenv 11.8.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-16 15:00+0000\n"
+"POT-Creation-Date: 2018-03-19 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -291,10 +291,6 @@ msgstr "☤ Pipenvの使い方"
 #: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
 msgid "Options"
 msgstr "オプション"
-
-#: ../../../pipenv:1
-msgid "Update Pipenv & pip to latest."
-msgstr "Pipenvとpipを最新に更新します。"
 
 #: ../../../pipenv:1
 msgid "Output project home information."
