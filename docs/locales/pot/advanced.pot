@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.8.1\n"
+"Project-Id-Version: pipenv 11.8.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-16 15:00+0000\n"
+"POT-Creation-Date: 2018-03-19 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,7 +143,7 @@ msgid "Example::"
 msgstr ""
 
 #: ../../advanced.rst:186
-#: ../../advanced.rst:445
+#: ../../advanced.rst:454
 msgid "✨🍰✨"
 msgstr ""
 
@@ -355,83 +355,91 @@ msgstr ""
 msgid "Alternatively, you can configure a ``tox.ini`` like the one below for both local and external testing::"
 msgstr ""
 
-#: ../../advanced.rst:422
-msgid "With Pipenv's default configuration, you'll need to use tox's ``passenv`` parameter to pass your shell's ``HOME`` variable."
+#: ../../advanced.rst:420
+msgid "``pipenv`` will automatically use the virtualenv provided by ``tox``."
 msgstr ""
 
-#: ../../advanced.rst:425
+#: ../../advanced.rst:422
+msgid "You might also want to add ``--ignore-pipfile`` to ``pipenv install``, as to not accidentally modify the lock-file on each test run. This causes ``pipenv`` to ignore changes to the ``Pipfile`` and (more importantly) prevents it from adding the current environment to ``Pipfile.lock``. This might be important as the current environment (i.e. the virtualenv provisioned by tox) will usually contain the current project (which may or may not be desired) and additional dependencies from ``tox``'s ``deps`` directive. The initial provisioning may alternatively be disabled by adding ``skip_install = True`` to tox.ini."
+msgstr ""
+
+#: ../../advanced.rst:431
+msgid "This method requires you to be explicit about updating the lock-file, which is probably a good idea in any case."
+msgstr ""
+
+#: ../../advanced.rst:434
 msgid "A 3rd party plugin, `tox-pipenv`_ is also available to use Pipenv natively with tox."
 msgstr ""
 
-#: ../../advanced.rst:433
+#: ../../advanced.rst:442
 msgid "☤ Shell Completion"
 msgstr ""
 
-#: ../../advanced.rst:435
+#: ../../advanced.rst:444
 msgid "To enable completion in fish, add this to your config::"
 msgstr ""
 
-#: ../../advanced.rst:439
+#: ../../advanced.rst:448
 msgid "Alternatively, with bash or zsh, add this to your config::"
 msgstr ""
 
-#: ../../advanced.rst:443
+#: ../../advanced.rst:452
 msgid "Magic shell completions are now enabled!"
 msgstr ""
 
-#: ../../advanced.rst:448
+#: ../../advanced.rst:457
 msgid "☤ Working with Platform-Provided Python Components"
 msgstr ""
 
-#: ../../advanced.rst:450
+#: ../../advanced.rst:459
 msgid "It's reasonably common for platform specific Python bindings for operating system interfaces to only be available through the system package manager, and hence unavailable for installation into virtual environments with `pip`. In these cases, the virtual environment can be created with access to the system `site-packages` directory::"
 msgstr ""
 
-#: ../../advanced.rst:458
+#: ../../advanced.rst:467
 msgid "To ensure that all `pip`-installable components actually are installed into the virtual environment and system packages are only used for interfaces that don't participate in Python-level dependency resolution at all, use the `PIP_IGNORE_INSTALLED` setting::"
 msgstr ""
 
-#: ../../advanced.rst:469
+#: ../../advanced.rst:478
 msgid "☤ Pipfile vs setup.py"
 msgstr ""
 
-#: ../../advanced.rst:471
+#: ../../advanced.rst:480
 msgid "There is a subtle but very important distinction to be made between **applications** and **libraries**. This is a very common source of confusion in the Python community."
 msgstr ""
 
-#: ../../advanced.rst:473
+#: ../../advanced.rst:482
 msgid "Libraries provide reusable functionality to other libraries and applications (let's use the umbrella term **projects** here). They are required to work alongside other libraries, all with their own set of subdependencies. They define **abstract dependencies**. To avoid version conflicts in subdependencies of different libraries within a project, libraries should never ever pin dependency versions. Although they may specifiy lower or (less frequently) upper bounds, if they rely on some specific feature/fix/bug. Library dependencies are specified via ``install_requires`` in ``setup.py``."
 msgstr ""
 
-#: ../../advanced.rst:475
+#: ../../advanced.rst:484
 msgid "Libaries are ultimately meant to be used in some **application**. Applications are different in that they usually are not depended on by other projects. They are meant to be deployed into some specific environment and only then should the exact versions of all their dependencies and subdependencies be made concrete. To make this process easier is currently the main goal of ``pipenv``."
 msgstr ""
 
-#: ../../advanced.rst:477
+#: ../../advanced.rst:486
 msgid "To summarize:"
 msgstr ""
 
-#: ../../advanced.rst:479
+#: ../../advanced.rst:488
 msgid "For libraries, define **abstract dependencies** via ``install_requires`` in ``setup.py``. The decision of which version exactly to be installed and where to obtain that dependency is not yours to make!"
 msgstr ""
 
-#: ../../advanced.rst:480
+#: ../../advanced.rst:489
 msgid "For applications, define **dependencies and where to get them** in the `Pipfile` and use this file to update the set of **concrete dependencies** in ``Pipfile.lock``. This file defines a specific idempotent environment that is known to work for your project. The ``Pipfile.lock`` is your source of truth. The ``Pipfile`` is a convenience for you to create that lock-file, in that it allows you to still remain somewhat vague about the exact version of a dependency to be used. ``pipenv`` is there to help you define a working conflict-free set of specific dependency-versions, which would otherwise be a very tedious task."
 msgstr ""
 
-#: ../../advanced.rst:481
+#: ../../advanced.rst:490
 msgid "Of course, ``Pipfile`` and ``pipenv`` are still useful for library developers, as they can be used to define a development or test environment."
 msgstr ""
 
-#: ../../advanced.rst:482
+#: ../../advanced.rst:491
 msgid "And, of course, there are projects for which the distinction between library and application isn't that clear. In that case, use ``install_requires`` alongside ``pipenv`` and ``Pipfile``."
 msgstr ""
 
-#: ../../advanced.rst:484
+#: ../../advanced.rst:493
 msgid "You can also do this::"
 msgstr ""
 
-#: ../../advanced.rst:488
+#: ../../advanced.rst:497
 msgid "This will tell Pipenv to lock all your ``setup.py``–declared dependencies."
 msgstr ""
 
