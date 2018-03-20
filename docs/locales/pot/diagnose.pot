@@ -1,0 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project
+# This file is distributed under the same license as the pipenv package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pipenv 11.9.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-20 15:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../diagnose.rst:4
+msgid "Frequently Encountered Pipenv Problems"
+msgstr ""
+
+#: ../../diagnose.rst:6
+msgid "Pipenv is constantly being improved by volunteers, but we have limited resources, and Pipenv is still a very young project, and has some quirks that needs to be dealt with. We need everyone’s help (including yours!)."
+msgstr ""
+
+#: ../../diagnose.rst:10
+msgid "Here are some common questions people have using Pipenv. Please take a look below and see if they resolve your problem."
+msgstr ""
+
+#: ../../diagnose.rst:13
+msgid "**Make sure you’re running the newest Pipenv version first!**"
+msgstr ""
+
+#: ../../diagnose.rst:16
+msgid "☤ Your dependencies could not be resolved"
+msgstr ""
+
+#: ../../diagnose.rst:18
+msgid "Make sure your dependencies actually *do* resolve. If you’re confident they are, you may need to clear your resolver cache. Run the following command::"
+msgstr ""
+
+#: ../../diagnose.rst:23
+msgid "And try again."
+msgstr ""
+
+#: ../../diagnose.rst:25
+msgid "Pipenv does not install prereleases (i.e. a version with an alpha/beta/etc. suffix, such as *1.0b1*) by default. You will need to pass the ``--pre`` flag in your command, or set"
+msgstr ""
+
+#: ../../diagnose.rst:34
+msgid "in your Pipfile."
+msgstr ""
+
+#: ../../diagnose.rst:37
+msgid "☤ No module named <module name>"
+msgstr ""
+
+#: ../../diagnose.rst:39
+msgid "This is usually a result of mixing Pipenv with system packages. We *strongly* recommend installing Pipenv in an isolated environment. Uninstall all existing Pipenv installations, and see :ref:`proper_installation` to choose one of the recommended way to install Pipenv instead."
+msgstr ""
+
+#: ../../diagnose.rst:45
+msgid "☤ My pyenv-installed Python is not found"
+msgstr ""
+
+#: ../../diagnose.rst:47
+msgid "Make sure you have ``PYENV_ROOT`` set correctly. Pipenv only supports CPython distributions."
+msgstr ""
+
+#: ../../diagnose.rst:51
+msgid "☤ ``shell`` does not show the virtualenv’s name in prompt"
+msgstr ""
+
+#: ../../diagnose.rst:53
+msgid "This is intentional. You can do it yourself with either shell plugins, or clever ``PS1`` configuration. If you really want it back, use"
+msgstr ""
+
+#: ../../diagnose.rst:60
+msgid "instead (not available on Windows)."
+msgstr ""
+
+#: ../../diagnose.rst:63
+msgid "☤ Pipenv does not respect dependencies in setup.py"
+msgstr ""
+
+#: ../../diagnose.rst:65
+msgid "No, it does not, intentionally. Pipfile and setup.py serve different purposes, and should not consider each other by default. See :ref:`pipfile-vs-setuppy` for more information."
+msgstr ""
+

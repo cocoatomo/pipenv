@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.8.3\n"
+"Project-Id-Version: pipenv 11.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-19 15:00+0000\n"
+"POT-Creation-Date: 2018-03-20 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,7 +200,7 @@ msgstr ""
 msgid "Further Documentation Guides"
 msgstr ""
 
-#: ../../index.rst:126
+#: ../../index.rst:127
 msgid "☤ Pipenv Usage"
 msgstr ""
 
@@ -445,19 +445,19 @@ msgstr ""
 msgid "List out–of–date dependencies."
 msgstr ""
 
-#: ../../index.rst:133
+#: ../../index.rst:134
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../index.rst:135
+#: ../../index.rst:136
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../index.rst:136
+#: ../../index.rst:137
 msgid ":ref:`modindex`"
 msgstr ""
 
-#: ../../index.rst:137
+#: ../../index.rst:138
 msgid ":ref:`search`"
 msgstr ""
 
