@@ -488,7 +488,8 @@ def resolve_deps(
             else:
                 markers = markers_lookup.get(result.name)
             collected_hashes = []
-            if 'python.org' in '|'.join([source['url'] for source in sources]):
+            if any('python.org' in source['url'] or 'pypi.org' in source['url']
+                   for source in sources):
                 try:
                     # Grab the hashes from the new warehouse API.
                     r = requests.get(
@@ -774,6 +775,14 @@ def clean_git_uri(uri):
         if uri.startswith('git+') and '://' not in uri:
             uri = uri.replace('git+', 'git+ssh://')
     return uri
+
+
+def is_editable(pipfile_entry):
+    if hasattr(pipfile_entry, 'get'):
+        return pipfile_entry.get('editable', False) and any(
+            pipfile_entry.get(key) for key in ('file', 'path') + VCS_LIST
+        )
+    return False
 
 
 def is_vcs(pipfile_entry):

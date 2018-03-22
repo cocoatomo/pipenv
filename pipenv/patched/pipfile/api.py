@@ -4,6 +4,7 @@ import codecs
 import json
 import hashlib
 import platform
+import six
 import sys
 import os
 
@@ -69,9 +70,10 @@ class PipfileParser(object):
 
         if not d:
             return d
-
+        if isinstance(d, six.string_types):
+            return os.path.expandvars(d)
         for k, v in d.items():
-            if isinstance(v, str):
+            if isinstance(v, six.string_types):
                 d[k] = os.path.expandvars(v)
             elif isinstance(v, dict):
                 d[k] = self.inject_environment_variables(v)
@@ -80,7 +82,7 @@ class PipfileParser(object):
 
         return d
 
-    def parse(self):
+    def parse(self, inject_env=True):
         # Open the Pipfile.
         with open(self.filename) as f:
             content = f.read()
@@ -97,10 +99,15 @@ class PipfileParser(object):
         config.update(default_config)
 
         # Deserialize the TOML, and parse for Environment Variables
-        parsed_toml = self.inject_environment_variables(toml.loads(content))
+        parsed = toml.loads(content)
 
-        # Load the Pipfile's configuration.
-        config.update(parsed_toml)
+        if inject_env:
+            injected_toml = self.inject_environment_variables(parsed)
+
+            # Load the Pipfile's configuration.
+            config.update(injected_toml)
+        else:
+            config.update(parsed)
 
         # Structure the data for output.
         data = {
@@ -140,11 +147,11 @@ class Pipfile(object):
         raise RuntimeError('No Pipfile found!')
 
     @classmethod
-    def load(klass, filename):
+    def load(klass, filename, inject_env=True):
         """Load a Pipfile from a given filename."""
         p = PipfileParser(filename=filename)
         pipfile = klass(filename=filename)
-        pipfile.data = p.parse()
+        pipfile.data = p.parse(inject_env=inject_env)
         return pipfile
 
     @property
@@ -205,7 +212,7 @@ class Pipfile(object):
                     raise AssertionError('Specifier {!r} does not match {!r}.'.format(marker, specifier))
 
 
-def load(pipfile_path=None):
+def load(pipfile_path=None, inject_env=True):
     """Loads a pipfile from a given path.
     If none is provided, one will try to be found.
     """
@@ -213,4 +220,4 @@ def load(pipfile_path=None):
     if pipfile_path is None:
         pipfile_path = Pipfile.find()
 
-    return Pipfile.load(filename=pipfile_path)
+    return Pipfile.load(filename=pipfile_path, inject_env=inject_env)

@@ -19,9 +19,9 @@ from .utils import (
     pep423_name,
     recase_file,
     find_requirements,
+    is_editable,
     is_file,
     is_vcs,
-    python_version,
     cleanup_toml,
     is_installable_file,
     is_valid_url,
@@ -45,8 +45,6 @@ if PIPENV_PIPFILE:
 
     else:
         PIPENV_PIPFILE = normalize_drive(os.path.abspath(PIPENV_PIPFILE))
-
-
 # (path, file contents) => TOMLFile
 # keeps track of pipfiles that we've seen so we do not need to re-parse 'em
 _pipfile_cache = {}
@@ -307,6 +305,14 @@ class Project(object):
             _pipfile_cache[cache_key] = parsed
         return _pipfile_cache[cache_key]
 
+    @property
+    def pased_pure_pipfile(self):
+        with open(self.pipfile_location) as f:
+            contents = f.read()
+
+        return self._parse_pipfile(contents)
+
+
     def clear_pipfile_cache(self):
         """Clear pipfile cache (e.g., so we can mutate parsed pipfile)"""
         _pipfile_cache.clear()
@@ -383,7 +389,7 @@ class Project(object):
     @property
     def _lockfile(self):
         """Pipfile.lock divided by PyPI and external dependencies."""
-        pfile = pipfile.load(self.pipfile_location)
+        pfile = pipfile.load(self.pipfile_location, inject_env=False)
         lockfile = json.loads(pfile.lock())
         for section in ('default', 'develop'):
             lock_section = lockfile.get(section, {})
@@ -403,7 +409,31 @@ class Project(object):
     @property
     def lockfile_content(self):
         with open(self.lockfile_location) as lock:
-            return json.load(lock)
+            j = json.load(lock)
+
+        # Expand environment variables in Pipfile.lock at runtime.
+        for i, source in enumerate(j['_meta']['sources'][:]):
+            j['_meta']['sources'][i]['url'] = os.path.expandvars(j['_meta']['sources'][i]['url'])
+
+        return j
+
+    @property
+    def editable_packages(self):
+        packages = {
+            k: v
+            for k, v in self.parsed_pipfile.get('packages', {}).items()
+            if is_editable(v)
+        }
+        return packages
+
+    @property
+    def editable_dev_packages(self):
+        packages = {
+            k: v
+            for k, v in self.parsed_pipfile.get('dev-packages', {}).items()
+            if is_editable(v)
+        }
+        return packages
 
     @property
     def vcs_packages(self):
