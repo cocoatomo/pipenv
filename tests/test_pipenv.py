@@ -12,6 +12,7 @@ from pipenv.utils import (
 )
 from pipenv.vendor import toml
 from pipenv.vendor import delegator
+from pipenv.patched import pipfile
 from pipenv.project import Project
 from pipenv.vendor.six import PY2
 if PY2:
@@ -606,6 +607,49 @@ requests = {version = "*", os_name = "== 'splashwear'"}
             c = p.pipenv('run python -c "import requests;"')
             assert c.return_code == 1
 
+    @pytest.mark.markers
+    @pytest.mark.install
+    def test_top_level_overrides_environment_markers(self):
+        """Top-level environment markers should take precedence.
+        """
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+apscheduler = "*"
+funcsigs = {version = "*", os_name = "== 'splashwear'"}
+                """.strip()
+                f.write(contents)
+
+            c = p.pipenv('install')
+            assert c.return_code == 0
+
+            assert p.lockfile['default']['funcsigs']['markers'] == "os_name == 'splashwear'"
+
+    @pytest.mark.markers
+    @pytest.mark.install
+    def test_global_overrides_environment_markers(self):
+        """Empty (unconditional) dependency should take precedence.
+
+        If a dependency is specified without environment markers, it should
+        override dependencies with environment markers. In this example,
+        APScheduler requires funcsigs only on Python 2, but since funcsigs is
+        also specified as an unconditional dep, its markers should be empty.
+        """
+        with PipenvInstance() as p:
+            with open(p.pipfile_path, 'w') as f:
+                contents = """
+[packages]
+apscheduler = "*"
+funcsigs = "*"
+                """.strip()
+                f.write(contents)
+
+            c = p.pipenv('install')
+            assert c.return_code == 0
+
+            assert p.lockfile['default']['funcsigs'].get('markers', '') == ''
+
     @pytest.mark.install
     @pytest.mark.vcs
     @pytest.mark.tablib
@@ -1080,3 +1124,37 @@ requests = "==2.14.0"
         with PipenvInstance(pypi=pypi) as p:
             c = p.pipenv('clean')
             assert c.return_code == 0
+
+
+    @pytest.mark.install
+    def test_environment_variable_value_does_not_change_hash(self, pypi, monkeypatch):
+        with PipenvInstance(chdir=True, pypi=pypi) as p:
+            with open(p.pipfile_path, 'w') as f:
+                f.write("""
+[[source]]
+url = 'https://${PYPI_USERNAME}:${PYPI_PASSWORD}@pypi.python.org/simple'
+verify_ssl = true
+name = 'pypi'
+
+[requires]
+python_version = '2.7'
+
+[packages]
+flask = "==0.12.2"
+""")
+            monkeypatch.setitem(os.environ, 'PYPI_USERNAME', 'whatever')
+            monkeypatch.setitem(os.environ, 'PYPI_PASSWORD', 'pass')
+            assert Project().get_lockfile_hash() is None
+            c = p.pipenv('install')
+            lock_hash = Project().get_lockfile_hash()
+            assert lock_hash is not None
+            assert lock_hash == Project().calculate_pipfile_hash()
+            # sanity check on pytest
+            assert 'PYPI_USERNAME' not in str(pipfile.load(p.pipfile_path))
+            assert c.return_code == 0
+            assert Project().get_lockfile_hash() == Project.calculate_pipfile_hash()
+            monkeypatch.setitem(os.environ, 'PYPI_PASSWORD', 'pass2')
+            assert Project().get_lockfile_hash() == Project.calculate_pipfile_hash()
+            with open(p.pipfile_path, 'a') as f:
+                f.write('requests = "==2.14.0"\n')
+            assert Project().get_lockfile_hash() != Project.calculate_pipfile_hash()
