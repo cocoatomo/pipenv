@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 11.9.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-23 15:00+0000\n"
+"POT-Creation-Date: 2018-03-26 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgid "If this does not work, try manually deleting the whole cache directory. I
 msgstr ""
 
 #: ../../diagnose.rst:28
-msgid "``~/Library/Cache/pipenv`` (macOS)"
+msgid "``~/Library/Caches/pipenv`` (macOS)"
 msgstr ""
 
 #: ../../diagnose.rst:29
