@@ -707,6 +707,24 @@ requests = {version = "*"}
 
                 assert normalize_drive(p.path) in p.pipenv('--venv').out
 
+    @pytest.mark.dotenv
+    def test_venv_at_project_root(self):
+        def _assert_venv_at_project_root(p):
+            c = p.pipenv('--venv')
+            assert c.return_code == 0
+            assert p.path in c.out
+        with temp_environ():
+            with PipenvInstance(chdir=True, pipfile=False) as p:
+                os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
+                c = p.pipenv('install')
+                assert c.return_code == 0
+                _assert_venv_at_project_root(p)
+                del os.environ['PIPENV_VENV_IN_PROJECT']
+                os.mkdir('subdir')
+                os.chdir('subdir')
+                # should still detect installed
+                _assert_venv_at_project_root(p)
+
     @pytest.mark.dotvenv
     def test_reuse_previous_venv(self, pypi):
         with PipenvInstance(chdir=True, pypi=pypi) as p:
@@ -728,7 +746,6 @@ requests = {version = "*"}
         with temp_environ():
             os.environ['PIPENV_VENV_IN_PROJECT'] = '1'
             os.environ['PIPENV_IGNORE_VIRTUALENVS'] = '1'
-            os.environ['PIPENV_SHELL_COMPAT'] = '1'
             with PipenvInstance(chdir=True, pypi=pypi) as p:
                 # Signal to pew to look in the project directory for the environment
                 os.environ['WORKON_HOME'] = p.path
@@ -1158,3 +1175,38 @@ flask = "==0.12.2"
             with open(p.pipfile_path, 'a') as f:
                 f.write('requests = "==2.14.0"\n')
             assert Project().get_lockfile_hash() != Project.calculate_pipfile_hash()
+
+    @pytest.mark.run
+    def test_scripts_basic(self):
+        with PipenvInstance(chdir=True) as p:
+            with open(p.pipfile_path, 'w') as f:
+                f.write("""
+[scripts]
+printfoo = "python -c print('foo')"
+                """)
+
+            c = p.pipenv('install')
+            assert c.return_code == 0
+
+            c = p.pipenv('run printfoo')
+            assert c.return_code == 0
+            assert c.out == 'foo\n'
+            assert c.err == ''
+
+    @pytest.mark.run
+    @pytest.mark.skip(reason='This fails on Windows (not sure about POSIX).')
+    def test_scripts_quoted(self):
+        with PipenvInstance(chdir=True) as p:
+            with open(p.pipfile_path, 'w') as f:
+                f.write("""
+[scripts]
+printfoo = "python -c print('foo')"
+                """)
+
+            c = p.pipenv('install')
+            assert c.return_code == 0
+
+            c = p.pipenv('run printfoo')
+            assert c.return_code == 0
+            assert c.out == 'foo\n'
+            assert c.err == ''

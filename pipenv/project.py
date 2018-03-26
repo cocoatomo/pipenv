@@ -3,6 +3,7 @@ import codecs
 import json
 import os
 import re
+import six
 import sys
 import shlex
 import base64
@@ -214,9 +215,11 @@ class Project(object):
         # Use cached version, if available.
         if self._virtualenv_location:
             return self._virtualenv_location
+        venv_in_project = PIPENV_VENV_IN_PROJECT or \
+            os.path.exists(os.path.join(self.project_directory, '.venv'))
 
-        # The user wants the virtualenv in the project.
-        if not PIPENV_VENV_IN_PROJECT:
+        # Default mode.
+        if not venv_in_project:
             c = delegator.run(
                 '{0} -m pipenv.pew dir "{1}"'.format(
                     escape_grouped_arguments(sys.executable),
@@ -224,7 +227,7 @@ class Project(object):
                 )
             )
             loc = c.out.strip()
-        # Default mode.
+        # The user wants the virtualenv in the project.
         else:
             loc = os.sep.join(
                 self.pipfile_location.split(os.sep)[:-1] + ['.venv']
@@ -369,9 +372,11 @@ class Project(object):
     @property
     def scripts(self):
         scripts = self.parsed_pipfile.get('scripts', {})
+        posix = os.name == 'posix'
+        _scripts = {}
         for (k, v) in scripts.items():
-            scripts[k] = shlex.split(v, posix=True)
-        return scripts
+            _scripts[k] = shlex.split(str(v), posix=posix)
+        return _scripts
 
     def update_settings(self, d):
         settings = self.settings
