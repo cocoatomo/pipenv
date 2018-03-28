@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 11.9.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-22 15:01+0000\n"
+"POT-Creation-Date: 2018-03-28 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgid "Generally, keep both ``Pipfile`` and ``Pipfile.lock`` in version control.
 msgstr ""
 
 #: ../../basics.rst:127
-msgid "Do not keep ``Pipfile.lock`` in version control if multiple versions of Python are being targetted."
+msgid "Do not keep ``Pipfile.lock`` in version control if multiple versions of Python are being targeted."
 msgstr ""
 
 #: ../../basics.rst:128

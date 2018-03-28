@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 11.9.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-23 15:00+0000\n"
+"POT-Creation-Date: 2018-03-28 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgid "There are some known issues with using private indexes, related to hashin
 msgstr ""
 
 #: ../../advanced.rst:15
-msgid "Installation is intended to be as determinstic as possible — use the ``--sequential`` flag to increase this, if experiencing issues."
+msgid "Installation is intended to be as deterministic as possible — use the ``--sequential`` flag to increase this, if experiencing issues."
 msgstr ""
 
 #: ../../advanced.rst:18
@@ -444,11 +444,11 @@ msgid "There is a subtle but very important distinction to be made between **app
 msgstr ""
 
 #: ../../advanced.rst:520
-msgid "Libraries provide reusable functionality to other libraries and applications (let's use the umbrella term **projects** here). They are required to work alongside other libraries, all with their own set of subdependencies. They define **abstract dependencies**. To avoid version conflicts in subdependencies of different libraries within a project, libraries should never ever pin dependency versions. Although they may specifiy lower or (less frequently) upper bounds, if they rely on some specific feature/fix/bug. Library dependencies are specified via ``install_requires`` in ``setup.py``."
+msgid "Libraries provide reusable functionality to other libraries and applications (let's use the umbrella term **projects** here). They are required to work alongside other libraries, all with their own set of subdependencies. They define **abstract dependencies**. To avoid version conflicts in subdependencies of different libraries within a project, libraries should never ever pin dependency versions. Although they may specify lower or (less frequently) upper bounds, if they rely on some specific feature/fix/bug. Library dependencies are specified via ``install_requires`` in ``setup.py``."
 msgstr ""
 
 #: ../../advanced.rst:522
-msgid "Libaries are ultimately meant to be used in some **application**. Applications are different in that they usually are not depended on by other projects. They are meant to be deployed into some specific environment and only then should the exact versions of all their dependencies and subdependencies be made concrete. To make this process easier is currently the main goal of ``pipenv``."
+msgid "Libraries are ultimately meant to be used in some **application**. Applications are different in that they usually are not depended on by other projects. They are meant to be deployed into some specific environment and only then should the exact versions of all their dependencies and subdependencies be made concrete. To make this process easier is currently the main goal of ``pipenv``."
 msgstr ""
 
 #: ../../advanced.rst:524
