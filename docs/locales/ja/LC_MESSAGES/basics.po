@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 11.9.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-22 15:01+0000\n"
+"POT-Creation-Date: 2018-03-28 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -56,8 +56,8 @@ msgstr "一般的には、 ``Pipfile`` と ``Pipfile.lock`` の両方をバー�
 #: ../../basics.rst:127
 msgid ""
 "Do not keep ``Pipfile.lock`` in version control if multiple versions of "
-"Python are being targetted."
-msgstr "複数バージョンのPythonを対象とする場合は、 ``Pipfile.lock`` はバージョン管理に含めないでください。"
+"Python are being targeted."
+msgstr ""
 
 #: ../../basics.rst:128
 msgid ""
