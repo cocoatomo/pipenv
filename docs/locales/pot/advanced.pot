@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 11.9.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-28 15:00+0000\n"
+"POT-Creation-Date: 2018-03-30 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -272,19 +272,7 @@ msgid "☤ Support for Environment Variables"
 msgstr ""
 
 #: ../../advanced.rst:325
-msgid "``pipenv`` supports the usage of environment variables in values. For example:"
-msgstr ""
-
-#: ../../advanced.rst:327
-msgid "[[source]] url = \"https://${PYPI_USERNAME}:${PYPI_PASSWORD}@my_private_repo.example.com/simple\" verify_ssl = true name = \"pypi\""
-msgstr ""
-
-#: ../../advanced.rst:332
-msgid "[dev-packages]"
-msgstr ""
-
-#: ../../advanced.rst:334
-msgid "[packages] requests = {version=\"*\", index=\"home\"} maya = {version=\"*\", index=\"pypi\"} records = \"*\""
+msgid "``pipenv`` supports the usage of environment variables in values. For example::"
 msgstr ""
 
 #: ../../advanced.rst:339
