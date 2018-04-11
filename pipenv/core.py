@@ -4,7 +4,6 @@ import logging
 import os
 import sys
 import shutil
-import shlex
 import signal
 import time
 import tempfile
@@ -25,6 +24,7 @@ from blindspin import spinner
 from requests.packages import urllib3
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
+from .cmdparse import ScriptEmptyError
 from .project import Project
 from .utils import (
     convert_deps_from_pip,
@@ -47,6 +47,7 @@ from .utils import (
     is_pinned,
     is_star,
     TemporaryDirectory,
+    rmtree,
 )
 from .import pep508checker, progress
 from .environments import (
@@ -74,7 +75,7 @@ from .environments import (
 
 # Backport required for earlier versions of Python.
 if sys.version_info < (3, 3):
-    from backports.shutil_get_terminal_size import get_terminal_size
+    from .vendor.backports.shutil_get_terminal_size import get_terminal_size
 else:
     from shutil import get_terminal_size
 # Packages that should be ignored later.
@@ -168,9 +169,16 @@ def cleanup_virtualenv(bare=True):
         click.echo(crayons.red('Environment creation aborted.'))
     try:
         # Delete the virtualenv.
-        shutil.rmtree(project.virtualenv_location, ignore_errors=True)
+        rmtree(project.virtualenv_location)
     except OSError as e:
-        click.echo(e)
+        click.echo(
+            '{0} An error occurred while removing {1}!'.format(
+                crayons.red('Error: ', bold=True),
+                crayons.green(project.virtualenv_location),
+            ),
+            err=True,
+        )
+        click.echo(crayons.blue(e), err=True)
 
 
 def import_requirements(r=None, dev=False):
@@ -282,8 +290,7 @@ def ensure_pipfile(validate=True, skip_requirements=False):
     if validate and project.virtualenv_exists and not PIPENV_SKIP_VALIDATION:
         # Ensure that Pipfile is using proper casing.
         p = project.parsed_pipfile
-        p.clear_pipfile_cache()
-        changed = ensure_proper_casing(pfile=p)
+        changed = project.ensure_proper_casing()
         # Write changes out to disk.
         if changed:
             click.echo(
@@ -452,7 +459,7 @@ def ensure_python(three=None, python=None):
                     '3.3': '3.3.7',
                     '3.4': '3.4.8',
                     '3.5': '3.5.5',
-                    '3.6': '3.6.4',
+                    '3.6': '3.6.5',
                 }
                 try:
                     if len(python.split('.')) == 2:
@@ -625,42 +632,6 @@ def ensure_project(
                         sys.exit(1)
     # Ensure the Pipfile exists.
     ensure_pipfile(validate=validate, skip_requirements=skip_requirements)
-
-
-def ensure_proper_casing(pfile):
-    """Ensures proper casing of Pipfile packages, writes changes to disk."""
-    casing_changed = proper_case_section(pfile.get('packages', {}))
-    casing_changed |= proper_case_section(pfile.get('dev-packages', {}))
-    return casing_changed
-
-
-def proper_case_section(section):
-    """Verify proper casing is retrieved, when available, for each
-    dependency in the section.
-    """
-    # Casing for section.
-    changed_values = False
-    unknown_names = [
-        k for k in section.keys() if k not in set(project.proper_names)
-    ]
-    # Replace each package with proper casing.
-    for dep in unknown_names:
-        try:
-            # Get new casing for package name.
-            new_casing = proper_case(dep)
-        except IOError:
-            # Unable to normalize package name.
-            continue
-
-        if new_casing != dep:
-            changed_values = True
-            project.register_proper_name(new_casing)
-            # Replace old value with new value.
-            old_value = section[dep]
-            section[new_casing] = old_value
-            del section[dep]
-    # Return whether or not values have been changed.
-    return changed_values
 
 
 def shorten_path(location, bold=False):
@@ -1011,6 +982,8 @@ def do_lock(
     from notpip._vendor.distlib.markers import Evaluator
     allowed_marker_keys = ['markers'] + [k for k in Evaluator.allowed_values.keys()]
     cached_lockfile = {}
+    if not pre:
+        pre = project.settings.get('allow_prereleases')
     if keep_outdated:
         if not project.lockfile_exists:
             click.echo(
@@ -1055,6 +1028,7 @@ def do_lock(
         project=project,
         clear=clear,
         pre=pre,
+        allow_global=system,
     )
     # Add develop dependencies to lockfile.
     for dep in results:
@@ -1114,6 +1088,7 @@ def do_lock(
         project=project,
         clear=False,
         pre=pre,
+        allow_global=system,
     )
     # Add default dependencies to lockfile.
     for dep in results:
@@ -1634,8 +1609,11 @@ def warn_in_virtualenv():
             click.echo(
                 '{0}: Pipenv found itself running within a virtual environment, '
                 'so it will automatically use that environment, instead of '
-                'creating its own for any project.'.format(
-                    crayons.green('Courtesy Notice')
+                'creating its own for any project. You can set '
+                '{1} to force pipenv to ignore that environment and create '
+                'its own instead.'.format(
+                    crayons.green('Courtesy Notice'),
+                    crayons.normal('PIPENV_IGNORE_VIRTUALENVS=1', bold=True),
                 ),
                 err=True,
             )
@@ -1643,7 +1621,6 @@ def warn_in_virtualenv():
 
 def ensure_lockfile(keep_outdated=False):
     """Ensures that the lockfile is up–to–date."""
-    pre = project.settings.get('allow_prereleases')
     if not keep_outdated:
         keep_outdated = project.settings.get('keep_outdated')
     # Write out the lockfile if it doesn't exist, but not if the Pipfile is being ignored
@@ -1660,9 +1637,9 @@ def ensure_lockfile(keep_outdated=False):
                 ),
                 err=True,
             )
-            do_lock(pre=pre, keep_outdated=keep_outdated)
+            do_lock(keep_outdated=keep_outdated)
     else:
-        do_lock(pre=pre, keep_outdated=keep_outdated)
+        do_lock(keep_outdated=keep_outdated)
 
 
 def do_py(system=False):
@@ -2017,8 +1994,6 @@ def do_uninstall(
         system = True
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python)
-    # Load the --pre settings from the Pipfile.
-    pre = project.settings.get('allow_prereleases')
     package_names = (package_name,) + more_packages
     pipfile_remove = True
     # Un-install all dependencies, if --all was provided.
@@ -2063,11 +2038,10 @@ def do_uninstall(
         c = delegator.run(cmd)
         click.echo(crayons.blue(c.out))
         if pipfile_remove:
-            norm_name = pep423_name(package_name)
-            in_dev_packages = (
-                norm_name in project._pipfile.get('dev-packages', {})
-            )
-            in_packages = (norm_name in project._pipfile.get('packages', {}))
+            in_packages = project.get_package_name_in_pipfile(
+                package_name, dev=False)
+            in_dev_packages = project.get_package_name_in_pipfile(
+                package_name, dev=True)
             if not in_dev_packages and not in_packages:
                 click.echo(
                     'No package {0} to remove from Pipfile.'.format(
@@ -2085,7 +2059,7 @@ def do_uninstall(
             project.remove_package_from_pipfile(package_name, dev=True)
             project.remove_package_from_pipfile(package_name, dev=False)
     if lock:
-        do_lock(system=system, pre=pre, keep_outdated=keep_outdated)
+        do_lock(system=system, keep_outdated=keep_outdated)
 
 
 def do_shell(three=None, python=False, fancy=False, shell_args=None):
@@ -2183,7 +2157,7 @@ def inline_activate_virtualenv():
         activate_this = which('activate_this.py')
         with open(activate_this) as f:
             code = compile(f.read(), activate_this, 'exec')
-            exec (code, dict(__file__=activate_this))
+            exec(code, dict(__file__=activate_this))
     # Catch all errors, just in case.
     except Exception:
         click.echo(
@@ -2193,46 +2167,22 @@ def inline_activate_virtualenv():
         )
 
 
-def do_run_nt(command, args):
-    """Run command by appending space-joined args to it!"""
+def do_run_nt(script):
     import subprocess
-    command = project.scripts.get(command, command)
-
-    # if you've passed something with crazy quoting...
-    # ...just don't. (or put it in a script!)
-    p = subprocess.Popen(
-        command + ' '.join(args), shell=True, universal_newlines=True
-    )
+    p = subprocess.Popen(script.cmdify(), shell=True, universal_newlines=True)
     p.communicate()
     sys.exit(p.returncode)
 
 
-def _get_command_posix(project, command, args):
-    """Fully bake command into executable and args, based upon project"""
-    # Script was found…
-    if command in project.scripts:
-        command = project.scripts[command]
-    parsed_command = shlex.split(command)
-    executable = parsed_command[0]
-    # prepend arguments
-    args = list(parsed_command[1:]) + list(args)
-    return executable, args
-
-
-def do_run_posix(command, args):
-    """Attempt to run command either pulling from project or interpreting as executable.
-
-    Args are appended to the command in [scripts] section of project if found.
-    """
-    executable, args = _get_command_posix(project, command, args)
-    command_path = system_which(executable)
+def do_run_posix(script, command):
+    command_path = system_which(script.command)
     if not command_path:
-        if command in project.scripts:
+        if project.has_script(command):
             click.echo(
                 '{0}: the command {1} (from {2}) could not be found within {3}.'
                 ''.format(
                     crayons.red('Error', bold=True),
-                    crayons.red(executable),
+                    crayons.red(script.command),
                     crayons.normal(command, bold=True),
                     crayons.normal('PATH', bold=True),
                 ),
@@ -2250,19 +2200,27 @@ def do_run_posix(command, args):
                 err=True,
             )
         sys.exit(1)
-    os.execl(command_path, command_path, *args)
+    os.execl(command_path, command_path, *script.args)
 
 
 def do_run(command, args, three=None, python=False):
+    """Attempt to run command either pulling from project or interpreting as executable.
+
+    Args are appended to the command in [scripts] section of project if found.
+    """
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python, validate=False)
     load_dot_env()
     # Activate virtualenv under the current interpreter's environment
     inline_activate_virtualenv()
+    try:
+        script = project.build_script(command, args)
+    except ScriptEmptyError:
+        click.echo("Can't run script {0!r}—it's empty?", err=True)
     if os.name == 'nt':
-        do_run_nt(command, args)
+        do_run_nt(script)
     else:
-        do_run_posix(command, args)
+        do_run_posix(script, command=command)
 
 
 def do_check(three=None, python=False, system=False, unused=False, args=None):

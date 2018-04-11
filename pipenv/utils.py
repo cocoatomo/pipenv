@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import errno
 import os
+import re
 import hashlib
 import tempfile
 import sys
@@ -60,7 +61,7 @@ if six.PY2:
 specifiers = [k for k in lookup.keys()]
 # List of version control systems we support.
 VCS_LIST = ('git', 'svn', 'hg', 'bzr')
-SCHEME_LIST = ('http://', 'https://', 'ftp://', 'file://')
+SCHEME_LIST = ('http://', 'https://', 'ftp://', 'ftps://', 'file://')
 requests = requests.Session()
 
 
@@ -93,7 +94,6 @@ def name_from_index(url):
 def get_requirement(dep):
     from pip9.req.req_install import _strip_extras
     import requirements
-
     """Pre-clean requirement strings passed to the requirements parser.
 
     Ensures that we can accept both local and relative paths, file and VCS URIs,
@@ -202,29 +202,44 @@ def cleanup_toml(tml):
     return toml
 
 
+def parse_python_version(output):
+    """Parse a Python version output returned by `python --version`.
+
+    Return a dict with three keys: major, minor, and micro. Each value is a
+    string containing a version part.
+
+    Note: The micro part would be `'0'` if it's missing from the input string.
+    """
+    version_pattern = re.compile(r'''
+        ^                   # Beginning of line.
+        Python              # Literally "Python".
+        \s                  # Space.
+        (?P<major>\d+)      # Major = one or more digits.
+        \.                  # Dot.
+        (?P<minor>\d+)      # Minor = one or more digits.
+        (?:                 # Unnamed group for dot-micro.
+            \.              # Dot.
+            (?P<micro>\d+)  # Micro = one or more digit.
+        )?                  # Micro is optional because pypa/pipenv#1893.
+        .*                  # Trailing garbage.
+        $                   # End of line.
+    ''', re.VERBOSE)
+
+    match = version_pattern.match(output)
+    if not match:
+        return None
+    return match.groupdict(default='0')
+
+
 def python_version(path_to_python):
     if not path_to_python:
         return None
-
     try:
         c = delegator.run([path_to_python, '--version'], block=False)
     except Exception:
         return None
-
-    output = c.out.strip() or c.err.strip()
-
-    @parse.with_pattern(r'.*')
-    def allow_empty(text):
-        return text
-
-    TEMPLATE = 'Python {}.{}.{:d}{:AllowEmpty}'
-    parsed = parse.parse(TEMPLATE, output, dict(AllowEmpty=allow_empty))
-    if parsed:
-        parsed = parsed.fixed
-    else:
-        return None
-
-    return u"{v[0]}.{v[1]}.{v[2]}".format(v=parsed)
+    version = parse_python_version(c.out.strip() or c.err.strip())
+    return u'{major}.{minor}.{micro}'.format(**version)
 
 
 def escape_grouped_arguments(s):
@@ -383,18 +398,19 @@ def actually_resolve_reps(
 
 
 def venv_resolve_deps(
-    deps, which, project, pre=False, verbose=False, clear=False
+    deps, which, project, pre=False, verbose=False, clear=False, allow_global=False
 ):
-    from .import resolver
+    from . import resolver
     import json
 
     resolver = escape_grouped_arguments(resolver.__file__.rstrip('co'))
-    cmd = '{0} {1} {2} {3} {4}'.format(
+    cmd = '{0} {1} {2} {3} {4} {5}'.format(
         escape_grouped_arguments(which('python')),
         resolver,
         '--pre' if pre else '',
         '--verbose' if verbose else '',
         '--clear' if clear else '',
+        '--system' if allow_global else '',
     )
     os.environ['PIPENV_PACKAGES'] = '\n'.join(deps)
     c = delegator.run(cmd, block=True)
@@ -586,7 +602,7 @@ def convert_deps_from_pip(dep):
         # Extras: e.g. #egg=requests[security]
         if req.extras:
             dependency[req.name].update({'extras': req.extras})
-    elif req.extras or req.specs:
+    elif req.extras or req.specs or hasattr(req, 'markers'):
         specs = None
         # Comparison operators: e.g. Django>1.10
         if req.specs:
@@ -598,6 +614,10 @@ def convert_deps_from_pip(dep):
             dependency[req.name] = extras
             if specs:
                 dependency[req.name].update({'version': specs})
+        if hasattr(req, 'markers'):
+            if isinstance(dependency[req.name], six.string_types):
+                dependency[req.name] = {'version': specs}
+            dependency[req.name].update({'markers': req.markers})
     # Bare dependencies: e.g. requests
     else:
         dependency[dep] = '*'
@@ -705,8 +725,7 @@ def convert_deps_to_pip(deps, project=None, r=True, include_index=False):
                 dep = ''
         s = '{0}{1}{2}{3}{4} {5}'.format(
             dep, extra, version, specs, hash, index
-        ).strip(
-        )
+        ).strip()
         dependencies.append(s)
     if not r:
         return dependencies
@@ -780,7 +799,7 @@ def is_editable(pipfile_entry):
 
 
 def is_vcs(pipfile_entry):
-    import requirements
+    from pipenv.vendor import requirements
 
     """Determine if dictionary entry from Pipfile is for a vcs dependency."""
     if hasattr(pipfile_entry, 'keys'):
@@ -1045,6 +1064,10 @@ def find_windows_executable(bin_path, exe_name):
     return find_executable(exe_name)
 
 
+def path_to_url(path):
+    return Path(normalize_drive(os.path.abspath(path))).as_uri()
+
+
 def get_converted_relative_path(path, relative_to=os.curdir):
     """Given a vague relative path, return the path relative to the given location"""
     return os.path.join('.', os.path.relpath(path, start=relative_to))
@@ -1233,12 +1256,12 @@ class TemporaryDirectory(object):
     in it are removed.
     """
 
-    def __init__(self, suffix=None, prefix=None, dir=None):
+    def __init__(self, suffix, prefix, dir=None):
         if 'RAM_DISK' in os.environ:
             import uuid
 
             name = uuid.uuid4().hex
-            dir_name = os.path.sep.join([os.environ['RAM_DISK'].strip(), name])
+            dir_name = os.path.join(os.environ['RAM_DISK'].strip(), name)
             os.mkdir(dir_name)
             self.name = dir_name
         else:
