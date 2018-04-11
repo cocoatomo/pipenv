@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 11.9.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-30 15:00+0000\n"
+"POT-Creation-Date: 2018-04-11 15:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -558,7 +558,11 @@ msgid ""
 msgstr "または、 ``tox.ini`` を次のようにローカル環境でのテストと外部環境でのテストの両方に対して設定できます::"
 
 #: ../../advanced.rst:458
-msgid "``pipenv`` will automatically use the virtualenv provided by ``tox``."
+msgid ""
+"``pipenv`` will automatically use the virtualenv provided by ``tox``. If "
+"``pipenv install --dev`` installs e.g. ``pytest``, then installed command "
+"``py.test`` will be present in given virtualenv and can be called directly "
+"by ``py.test tests`` instead of ``pipenv run py.test tests``."
 msgstr ""
 
 #: ../../advanced.rst:460
