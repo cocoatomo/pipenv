@@ -1093,6 +1093,12 @@ def do_lock(
     # Add default dependencies to lockfile.
     for dep in results:
         # Add version information to lockfile.
+        pipfile_version = project.packages[dep['name']] if dep['name'] in project.packages else None
+        if pipfile_version and hasattr(pipfile_version, 'keys') and any(k for k in ['file', 'path'] if k in pipfile_version):
+            lockfile['default'].update(
+                {dep['name']: dict(pipfile_version)}
+            )
+            continue
         lockfile['default'].update(
             {dep['name']: {'version': '=={0}'.format(dep['version'])}}
         )
@@ -1130,11 +1136,12 @@ def do_lock(
             for package_specified in section:
                 norm_name = pep423_name(package_specified)
                 if not is_pinned(section[package_specified]):
-                    lockfile[section_name][norm_name] = cached_lockfile[
-                        section_name
-                    ][
-                        norm_name
-                    ]
+                    if norm_name in cached_lockfile[section_name]:
+                        lockfile[section_name][norm_name] = cached_lockfile[
+                            section_name
+                        ][
+                            norm_name
+                        ]
     # Overwrite any develop packages with default packages.
     for default_package in lockfile['default']:
         if default_package in lockfile['develop']:
