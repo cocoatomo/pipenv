@@ -49,6 +49,8 @@ msgid ""
 "Installation is intended to be as deterministic as possible — use the "
 "``--sequential`` flag to increase this, if experiencing issues."
 msgstr ""
+"インストールはできる限り決定論的になるようになっています — 問題が出た場合には ``--sequential`` "
+"フラグを使ってより決定論的に振る舞うようにしてください。"
 
 #: ../../advanced.rst:18
 msgid "☤ Specifying Package Indexes"
