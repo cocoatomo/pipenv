@@ -4,12 +4,10 @@ import json
 import os
 import re
 import sys
-import shlex
 import base64
 import hashlib
 
 import contoml
-import delegator
 import pipfile
 import pipfile.api
 import toml
@@ -19,11 +17,9 @@ try:
 except ImportError:
     import pathlib2 as pathlib
 
-from pip9 import ConfigOptionParser
 from .cmdparse import Script
 from .utils import (
     mkdir_p,
-    convert_deps_from_pip,
     pep423_name,
     proper_case,
     find_requirements,
@@ -35,7 +31,6 @@ from .utils import (
     is_valid_url,
     normalize_drive,
     python_version,
-    escape_grouped_arguments,
 )
 from .environments import (
     PIPENV_MAX_DEPTH,
@@ -218,7 +213,7 @@ class Project(object):
 
     @classmethod
     def _get_virtualenv_location(cls, name):
-        from pipenv.patched.pew.pew import get_workon_home
+        from .patched.pew.pew import get_workon_home
         venv = get_workon_home() / name
         if not venv.exists():
             return ''
@@ -262,7 +257,7 @@ class Project(object):
             return clean_name, encoded_hash
 
         # Check for different capitalization of the same project.
-        from pipenv.patched.pew.pew import lsenvs
+        from .patched.pew.pew import lsenvs
         for env in lsenvs():
             try:
                 env_name, hash_ = env.rsplit('-', 1)
@@ -555,6 +550,7 @@ class Project(object):
 
     def create_pipfile(self, python=None):
         """Creates the Pipfile, filled with juicy defaults."""
+        from .vendor.pip9 import ConfigOptionParser
         config_parser = ConfigOptionParser(name=self.name)
         install = dict(config_parser.get_config_section('install'))
         indexes = install.get('extra-index-url', '').lstrip('\n').split('\n')
@@ -667,6 +663,7 @@ class Project(object):
             self.write_toml(p)
 
     def add_package_to_pipfile(self, package_name, dev=False):
+        from .utils import convert_deps_from_pip
         # Read and append Pipfile.
         p = self.parsed_pipfile
         # Don't re-capitalize file URLs or VCSs.
