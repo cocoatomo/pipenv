@@ -523,13 +523,13 @@ msgstr "``PIPENV_HIDE_EMOJIS`` — 出力に絵文字を使いません。"
 msgid ""
 "``PIPENV_DOTENV_LOCATION`` — Location for Pipenv to load your project's "
 ".env."
-msgstr ""
+msgstr "``PIPENV_DOTENV_LOCATION`` — Pipenvが読み込むプロジェクトの.envの場所です。"
 
 #: ../../advanced.rst:396
 msgid ""
 "``PIPENV_DONT_LOAD_ENV`` — Tell Pipenv not to load the .env files "
 "automatically."
-msgstr ""
+msgstr "``PIPENV_DONT_LOAD_ENV`` — 自動的には.envファイルを読み込まないようPipenvに指示します。"
 
 #: ../../advanced.rst:398
 msgid ""
@@ -714,6 +714,12 @@ msgid ""
 " frequently) upper bounds, if they rely on some specific feature/fix/bug. "
 "Library dependencies are specified via ``install_requires`` in ``setup.py``."
 msgstr ""
+"ライブラリは、再利用可能な機能を他のライブラリやアプリケーション (ここでは両方を包括する用語として **プロジェクト** を使います) に提供します。\n"
+"ライブラリは、自身を起点とする依存関係である他のライブラリと共に協調して動作する必要があります。\n"
+"ライブラリは **抽象的な依存関係** を定義します。\n"
+"プロジェクトに含まれる別々のライブラリのそれぞれを起点とする依存関係どうしで、バージョンの衝突が起きないようにライブラリは絶対に依存パッケージのバージョンを固定するべきではありません。\n"
+"ある特定の機能や修正やバグに依存している場合には、バージョンの下限や (滅多に無いですが) 上限を指定することもあります。\n"
+"ライブラリの依存関係は ``setup.py`` では ``install_requires`` で指定します。"
 
 #: ../../advanced.rst:546
 msgid ""
@@ -724,6 +730,10 @@ msgid ""
 "subdependencies be made concrete. To make this process easier is currently "
 "the main goal of Pipenv."
 msgstr ""
+"ライブラリは究極的には、とある **アプリケーション** で使われるためのものです。\n"
+"アプリケーションはそれとは違って、通常は他のプロジェクトから依存されることはありません。\n"
+"アプリケーションは、ある特定の環境に配置され、依存関係やさらにその先の依存関係全ての正確なバージョンが具体的であるようになっています。\n"
+"この処理をより簡単にすることが、現在Pipenvの最も重要な目標です。"
 
 #: ../../advanced.rst:548
 msgid "To summarize:"
@@ -750,12 +760,17 @@ msgid ""
 "working conflict-free set of specific dependency-versions, which would "
 "otherwise be a very tedious task."
 msgstr ""
+"アプリケーションは、 `Pipfile` に **依存関係とそれをどこから取得するか** を定義し、Pipfileを使って ``Pipfile.lock`` にある **具体的な依存関係** たちを更新します。\n"
+"Pipfile.lockは、プロジェクトがきちんと動くことが分かっている特定の冪等な環境を定義します。\n"
+"``Pipfile.lock`` は正しさの源泉です。\n"
+"``Pipfile`` はそのlockファイルを作るのに便利なもので、実際に使う依存関係の正確なバージョンについて、曖昧なままにしておけます。\n"
+"Pipenvは、きちんと動作する衝突の起きない依存関係のバージョン指定を定義する助けになります。他のツールではこの作業は非常にうんざりするものになります。"
 
 #: ../../advanced.rst:552
 msgid ""
 "Of course, ``Pipfile`` and Pipenv are still useful for library developers, "
 "as they can be used to define a development or test environment."
-msgstr ""
+msgstr "もちろん、 ``Pipfile`` とPipenvはライブラリの開発者にも便利なもので、開発環境やテスト環境を定義するのに使えます。"
 
 #: ../../advanced.rst:553
 msgid ""
@@ -763,6 +778,8 @@ msgid ""
 " and application isn't that clear. In that case, use ``install_requires`` "
 "alongside Pipenv and ``Pipfile``."
 msgstr ""
+"そして当り前ですが、ライブラリとアプリケーションの区別が明確でないプロジェクトもあります。\n"
+"その場合は、Pipenvおよび ``Pipfile`` と一緒に ``install_requires`` を使ってください。"
 
 #: ../../advanced.rst:555
 msgid "You can also do this::"
