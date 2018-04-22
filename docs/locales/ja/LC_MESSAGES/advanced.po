@@ -68,13 +68,15 @@ msgstr "めっちゃ高機能。"
 
 #: ../../advanced.rst:42
 msgid "☤ Injecting credentials into Pipfiles via environment variables"
-msgstr ""
+msgstr "☤ 環境変数でPipfileにクレデンシャルを差し込む"
 
 #: ../../advanced.rst:45
 msgid ""
 "Pipenv will expand environment variables (if defined) in your Pipfile. Quite"
 " useful if you need to authenticate to a private PyPI::"
 msgstr ""
+"Pipenvは (定義されていれば) Pipfileにある環境変数を展開します。\n"
+"この機能はプライベートのPyPIで認証する必要がある場合に非常に便利です::"
 
 #: ../../advanced.rst:53
 msgid ""
@@ -83,6 +85,9 @@ msgid ""
 "when you install from the lock file - so no need to commit any secrets! "
 "Woo!)"
 msgstr ""
+"幸運なことに、Pipenvは環境変数を展開する *前に* Pipfileのハッシュを取ります "
+"(そしてありがたいことに、ロックファイルからインストールするときは、再び環境変数が置き換えられます。そのため秘匿情報をコミットする必要は無いのです! "
+"やったー!)"
 
 #: ../../advanced.rst:59
 msgid "☤ Specifying Basically Anything"
@@ -145,19 +150,23 @@ msgstr ""
 
 #: ../../advanced.rst:106
 msgid "☤ Pipenv and Other Python Distributions"
-msgstr ""
+msgstr "☤ PipenvとCPython以外のPythonディストリビューション"
 
 #: ../../advanced.rst:108
 msgid ""
 "To use Pipenv with a third-party Python distribution(e.g. Anaconda), you "
 "simply provide the path to the Python binary::"
 msgstr ""
+"サードパーティーのPythonディストリビューション (例えば、Anaconda) "
+"でPipenvを使うには、Pythonバイナリへのパスを与えるだけでよいです::"
 
 #: ../../advanced.rst:112
 msgid ""
 "Anaconda uses Conda to manage packages. To reuse Conda–installed Python "
 "packages, use the ``--site-packages`` flag::"
 msgstr ""
+"AnacondaはCondaでパッケージを管理しています。\n"
+"CondaでインストールしたPythonのパッケージを再利用するには、 ``--site-packages`` フラグを使ってください::"
 
 #: ../../advanced.rst:117
 msgid "☤ Generating a ``requirements.txt``"
@@ -379,7 +388,7 @@ msgstr ""
 
 #: ../../advanced.rst:323
 msgid "☤ Custom Script Shortcuts"
-msgstr ""
+msgstr "☤ 独自のスクリプトショートカット"
 
 #: ../../advanced.rst:325
 msgid ""
@@ -387,19 +396,24 @@ msgid ""
 "run`` will automatically load it and find the correct command to replace "
 "with. Given the ``Pipfile``::"
 msgstr ""
+"Pipenvでは ``scripts`` セクションに独自のショートカットが設定できます。\n"
+"``pipenv run`` はこの設定を自動的に読み込み、置き換えるべきコマンドを探し出します。\n"
+"``Pipfile`` が次のようになっているとすると::"
 
 #: ../../advanced.rst:330
 msgid "You can type in your terminal to run::"
-msgstr ""
+msgstr "ターミナルで次のように打ち込んで実行できます::"
 
 #: ../../advanced.rst:336
 msgid "☤ Support for Environment Variables"
-msgstr ""
+msgstr "☤ 環境変数のサポート"
 
 #: ../../advanced.rst:338
 msgid ""
 "Pipenv supports the usage of environment variables in values. For example::"
 msgstr ""
+"Pipenvでは、値の中で環境変数が使えます。\n"
+"次の例を見てください::"
 
 #: ../../advanced.rst:352
 msgid ""
@@ -407,6 +421,8 @@ msgid ""
 "On Windows, ``%MY_ENVAR%`` is supported in addition to ``${MY_ENVAR}`` or "
 "``$MY_ENVAR``."
 msgstr ""
+"環境変数は ``${MY_ENVAR}`` や ``$MY_ENVAR`` のように指定します。\n"
+"Windowsでは、 ``${MY_ENVAR}`` と ``$MY_ENVAR`` に加えて ``%MY_ENVAR%`` もサポートされています。"
 
 #: ../../advanced.rst:357
 msgid "☤ Configuration With Environment Variables"
@@ -418,6 +434,8 @@ msgid ""
 "environment variables. To activate them, simply create the variable in your "
 "shell and pipenv will detect it."
 msgstr ""
+"Pipenvには、シェル環境変数で有効にできるオプションが少しだけあります。\n"
+"オプションを有効にするには、シェルでその変数を作成すればpipevnが見付けてくれます。"
 
 #: ../../advanced.rst:363
 msgid ""
@@ -472,6 +490,8 @@ msgid ""
 " Pipenv will wait for package installation before timing out. Defaults to "
 "900 seconds."
 msgstr ""
+"``PIPENV_INSTALL_TIMEOUT`` — パッケージのインストールがタイムアウトするまでPipenvが待つ秒数の最大値を整数で設定します。\n"
+"デフォルトは900秒です。"
 
 #: ../../advanced.rst:383
 msgid ""
@@ -493,11 +513,11 @@ msgstr ""
 #: ../../advanced.rst:390
 msgid ""
 "``PIPENV_CACHE_DIR`` — Location for Pipenv to store it's package cache."
-msgstr ""
+msgstr "``PIPENV_CACHE_DIR`` — Pipenvがパッケージキャッシュを保存する場所です。"
 
 #: ../../advanced.rst:392
 msgid "``PIPENV_HIDE_EMOJIS`` — Disable emojis in output."
-msgstr ""
+msgstr "``PIPENV_HIDE_EMOJIS`` — 出力に絵文字を使いません。"
 
 #: ../../advanced.rst:394
 msgid ""
