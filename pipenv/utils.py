@@ -14,6 +14,7 @@ import stat
 import warnings
 from click import echo as click_echo
 
+from first import first
 try:
     from weakref import finalize
 except ImportError:
@@ -217,6 +218,7 @@ def parse_python_version(output):
 
     Note: The micro part would be `'0'` if it's missing from the input string.
     """
+    version_line = output.split('\n', 1)[0]
     version_pattern = re.compile(r'''
         ^                   # Beginning of line.
         Python              # Literally "Python".
@@ -232,7 +234,7 @@ def parse_python_version(output):
         $                   # End of line.
     ''', re.VERBOSE)
 
-    match = version_pattern.match(output)
+    match = version_pattern.match(version_line)
     if not match:
         return None
     return match.groupdict(default='0')
@@ -398,10 +400,13 @@ def actually_resolve_reps(
         click_echo(
             '{0}: Your dependencies could not be resolved. You likely have a mismatch in your sub-dependencies.\n  '
             'You can use {1} to bypass this mechanism, then run {2} to inspect the situation.'
+            ''
+            'Hint: try {3} if it is a pre-release dependency'
             ''.format(
                 crayons.red('Warning', bold=True),
                 crayons.red('$ pipenv install --skip-lock'),
                 crayons.red('$ pipenv graph'),
+                crayons.red('$ pipenv lock --pre'),
             ),
             err=True,
         )
@@ -711,6 +716,9 @@ def convert_deps_to_pip(deps, project=None, r=True, include_index=False):
             pip_src_args = []
             if 'index' in deps[dep]:
                 pip_src_args = [project.get_source(deps[dep]['index'])]
+                for idx in project.sources:
+                    if idx['url'] != pip_src_args[0]['url']:
+                        pip_src_args.append(idx)
             else:
                 pip_src_args = project.sources
             pip_args = prepare_pip_source_args(pip_src_args)
@@ -1317,3 +1325,27 @@ class TemporaryDirectory(object):
     def cleanup(self):
         if self._finalizer.detach():
             rmtree(self.name)
+
+
+def split_argument(req, short=None, long_=None):
+    """Split an argument from a string (finds None if not present).
+
+    Uses -short <arg>, --long <arg>, and --long=arg as permutations.
+
+    returns string, index
+    """
+    index_entries = []
+    if long_:
+        long_ = ' --{0}'.format(long_)
+        index_entries.extend(['{0}{1}'.format(long_, s) for s in [' ', '=']])
+    if short:
+        index_entries.append(' -{0} '.format(short))
+    index = None
+    index_entry = first([entry for entry in index_entries if entry in req])
+    if index_entry:
+        req, index = req.split(index_entry)
+        remaining_line = index.split()
+        if len(remaining_line) > 1:
+            index, more_req = remaining_line[0], ' '.join(remaining_line[1:])
+            req = '{0} {1}'.format(req, more_req)
+    return req, index
