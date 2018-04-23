@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.10.0\n"
+"Project-Id-Version: pipenv 11.10.1.dev1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-17 15:01+0000\n"
+"POT-Creation-Date: 2018-04-23 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -627,6 +627,8 @@ msgid ""
 "``py.test`` will be present in given virtualenv and can be called directly "
 "by ``py.test tests`` instead of ``pipenv run py.test tests``."
 msgstr ""
+"Pipenvは自動的に ``tox`` が提供する仮想環境を使います。\n"
+"``pipenv install --dev`` が例えば ``pytest`` をインストールしたならば、インストールされたコマンド ``py.test`` は与えられた仮想環境に入っていて、 ``pipenv run py.test tests`` としなくても ``py.test tests`` と直接呼び出せます。"
 
 #: ../../advanced.rst:484
 msgid ""
