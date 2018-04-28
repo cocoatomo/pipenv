@@ -57,7 +57,7 @@ msgstr "一般的には、 ``Pipfile`` と ``Pipfile.lock`` の両方をバー�
 msgid ""
 "Do not keep ``Pipfile.lock`` in version control if multiple versions of "
 "Python are being targeted."
-msgstr ""
+msgstr "複数バージョンのPythonを対象とする場合は、 ``Pipfile.lock`` はバージョン管理に含めないでください。"
 
 #: ../../basics.rst:128
 msgid ""
@@ -74,6 +74,9 @@ msgid ""
 "which the full documentation can be found `here "
 "<https://pip.pypa.io/en/stable/user_guide/#installing-packages>`_."
 msgstr ""
+"``pipenv install`` は ``pip install`` の文法と完全な互換性があります。 ``pip install`` "
+"の文法については `ここ <https://pip.pypa.io/en/stable/user_guide/#installing-"
+"packages>`_ に完全なドキュメントがあります。"
 
 #: ../../basics.rst:134
 msgid "☤ Example Pipenv Workflow"
@@ -81,7 +84,7 @@ msgstr "☤ Pipenvのワークフローの例"
 
 #: ../../basics.rst:136
 msgid "Clone / create project repository::"
-msgstr ""
+msgstr "プロジェクトのレポジトリをクローンまたは作成する::"
 
 #: ../../basics.rst:141
 msgid "Install from Pipfile, if there is one::"
@@ -96,6 +99,8 @@ msgid ""
 "This will create a ``Pipfile`` if one doesn't exist. If one does exist, it "
 "will automatically be edited with the new package your provided."
 msgstr ""
+"このコマンドは ``Pipfile`` が無ければ作成します。\n"
+"既に存在していた場合は、引数で与えたパッケージが追加されるよう自動的に ``Pipfile`` を編集します。"
 
 #: ../../basics.rst:151
 msgid "Next, activate the Pipenv shell::"
