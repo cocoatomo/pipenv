@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 11.10.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-26 15:01+0000\n"
+"POT-Creation-Date: 2018-04-30 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -116,16 +116,17 @@ msgid "Install Pipenv Today!"
 msgstr "さぁ今すぐこれからPipenvをインストール!"
 
 #: ../../index.rst:48
-msgid "If you're on MacOS, use can install Pipenv easily with Homebrew::"
-msgstr "MacOSを使っている場合は、Homebrewで簡単にPipenvがインストールできます::"
+msgid "Just use pip::"
+msgstr ""
 
 #: ../../index.rst:52
 msgid "Or, if you're using Ubuntu 17.10::"
 msgstr "あるいは、Ubuntu 17.10を使っている場合には次のようにします::"
 
 #: ../../index.rst:59
-msgid "Otherwise, just use pip::"
-msgstr "使っていないなら、pipを使いましょう::"
+msgid ""
+"Otherwise, if you're on MacOS, you can install Pipenv easily with Homebrew::"
+msgstr ""
 
 #: ../../index.rst:63
 msgid "✨🍰✨"
