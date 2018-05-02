@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project
+# This file is distributed under the same license as the pipenv package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pipenv 11.10.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-26 15:01+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: cocoatomo, 2018\n"
+"Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../../diagnose.rst:4
+msgid "Frequently Encountered Pipenv Problems"
+msgstr "Pipenvでよく出喰わす問題"
+
+#: ../../diagnose.rst:6
+msgid ""
+"Pipenv is constantly being improved by volunteers, but is still a very young"
+" project with limited resources, and has some quirks that needs to be dealt "
+"with. We need everyone’s help (including yours!)."
+msgstr ""
+"Pipenvはボランティアにより常に改善されていますが、現時点でも非常に幼いリソースの限られているプロジェクトで、対処する必要のあるゆがみもあります。\n"
+"皆の援助が必要なのです (あなたの援助もです!)。"
+
+#: ../../diagnose.rst:10
+msgid ""
+"Here are some common questions people have using Pipenv. Please take a look "
+"below and see if they resolve your problem."
+msgstr ""
+"ここではPipenvを使っている人達が抱くことの多い疑問について解説します。\n"
+"以下に書かれていることをよく読んで、あなたが遭遇している問題を解決できるかどうかを調べてください。"
+
+#: ../../diagnose.rst:13
+msgid "**Make sure you’re running the newest Pipenv version first!**"
+msgstr "**まず最初に、最新のPipenvが動いていることを確認してください!**"
+
+#: ../../diagnose.rst:16
+msgid "☤ Your dependencies could not be resolved"
+msgstr "☤ Your dependencies could not be resolved (依存関係が解決できない)"
+
+#: ../../diagnose.rst:18
+msgid ""
+"Make sure your dependencies actually *do* resolve. If you’re confident they "
+"are, you may need to clear your resolver cache. Run the following command::"
+msgstr ""
+"依存関係が *本当に* 解決できることを確かめてください。\n"
+"その確信が持てたのなら、依存関係解決のキャッシュをクリアする必要があるかもしれません。\n"
+"次のコマンドを実行して::"
+
+#: ../../diagnose.rst:23
+msgid "and try again."
+msgstr "再度試してみてください。"
+
+#: ../../diagnose.rst:25
+msgid ""
+"If this does not work, try manually deleting the whole cache directory. It "
+"is usually one of the following locations:"
+msgstr ""
+"これで上手くいかない場合は、キャッシュディレクトリ全体を手作業で削除してみてください。\n"
+"キャッシュディレクトリは通常は、次の場所のうちのどこかです:"
+
+#: ../../diagnose.rst:28
+msgid "``~/Library/Caches/pipenv`` (macOS)"
+msgstr "``~/Library/Caches/pipenv`` (macOS)"
+
+#: ../../diagnose.rst:29
+msgid "``%LOCALAPPDATA%\\pipenv\\pipenv\\Cache`` (Windows)"
+msgstr "``%LOCALAPPDATA%\\pipenv\\pipenv\\Cache`` (Windows)"
+
+#: ../../diagnose.rst:30
+msgid "``~/.cache/pipenv`` (other operating systems)"
+msgstr "``~/.cache/pipenv`` (それ以外のオペレーティングシステム)"
+
+#: ../../diagnose.rst:32
+msgid ""
+"Pipenv does not install prereleases (i.e. a version with an alpha/beta/etc. "
+"suffix, such as *1.0b1*) by default. You will need to pass the ``--pre`` "
+"flag in your command, or set"
+msgstr ""
+"Pipenvはデフォルトではプレリリース版 (例えば、alpha, betaなどの接尾語が *1.0b1* のように付いているバージョン) はインストールしません。\n"
+"コマンドに ``--pre`` フラグを渡すか、次のような設定を"
+
+#: ../../diagnose.rst:41
+msgid "in your Pipfile."
+msgstr "Pipfileに書く必要があります。"
+
+#: ../../diagnose.rst:44
+msgid "☤ No module named <module name>"
+msgstr "☤ <モジュール名> というモジュールが無い"
+
+#: ../../diagnose.rst:46
+msgid ""
+"This is usually a result of mixing Pipenv with system packages. We "
+"*strongly* recommend installing Pipenv in an isolated environment. Uninstall"
+" all existing Pipenv installations, and see :ref:`proper_installation` to "
+"choose one of the recommended way to install Pipenv instead."
+msgstr ""
+"たいていはPipenvとシステムパッケージが混ざってしまっているのが原因です。\n"
+"Pipenvは隔離された環境にインストールすることを *強く* 推奨します。\n"
+"既にインストールされているPipenvを全てアンインストールし、 :ref:`proper_installation` を参照して、推奨されている方法でPipenvをインストールしてください。"
+
+#: ../../diagnose.rst:52
+msgid "☤ My pyenv-installed Python is not found"
+msgstr "☤ pyenvでインストールしたPythonが見付からない"
+
+#: ../../diagnose.rst:54
+msgid ""
+"Make sure you have ``PYENV_ROOT`` set correctly. Pipenv only supports "
+"CPython distributions, with version name like ``3.6.4`` or similar."
+msgstr ""
+"``PYENV_ROOT`` が正しく設定されているか確認してください。\n"
+"Pipenvは ``3.6.4`` やそれに類するバージョン名を持つCPythonディストリビューションのみサポートしています。"
+
+#: ../../diagnose.rst:58
+msgid "☤ Pipenv does not respect pyenv’s global and local Python versions"
+msgstr ""
+
+#: ../../diagnose.rst:60
+msgid ""
+"Pipenv by default uses the Python it is installed against to create the "
+"virtualenv. You can set the ``--python`` option, or "
+"``$PYENV_ROOT/shims/python`` to let it consult pyenv when choosing the "
+"interpreter. See :ref:`specifying_versions` for more information."
+msgstr ""
+
+#: ../../diagnose.rst:65
+msgid ""
+"If you want Pipenv to automatically “do the right thing”, you can set the "
+"environment variable ``PIPENV_PYTHON`` to ``$PYENV_ROOT/shims/python``. This"
+" will make Pipenv use pyenv’s active Python version to create virtual "
+"environments by default."
+msgstr ""
+
+#: ../../diagnose.rst:73
+msgid "☤ ValueError: unknown locale: UTF-8"
+msgstr "☤ ValueError: unknown locale: UTF-8 (未知のロケール: UTF-8)"
+
+#: ../../diagnose.rst:75
+msgid ""
+"macOS has a bug in its locale detection that prevents us from detecting your"
+" shell encoding correctly. This can also be an issue on other systems if the"
+" locale variables do not specify an encoding."
+msgstr ""
+
+#: ../../diagnose.rst:79
+msgid ""
+"The workaround is to set the following two environment variables to a "
+"standard localization format:"
+msgstr ""
+
+#: ../../diagnose.rst:82
+msgid "``LC_ALL``"
+msgstr "``LC_ALL``"
+
+#: ../../diagnose.rst:83
+msgid "``LANG``"
+msgstr "``LANG``"
+
+#: ../../diagnose.rst:85
+msgid ""
+"For Bash, for example, you can add the following to your "
+"``~/.bash_profile``:"
+msgstr ""
+
+#: ../../diagnose.rst:92
+msgid "For Zsh, the file to edit is ``~/.zshrc``."
+msgstr ""
+
+#: ../../diagnose.rst:94
+msgid ""
+"You can change both the ``en_US`` and ``UTF-8`` part to the language/locale "
+"and encoding you use."
+msgstr ""
+
+#: ../../diagnose.rst:98
+msgid "☤ /bin/pip: No such file or directory"
+msgstr "☤ /bin/pip: No such file or directory (そのようなファイルまたはディレクトリはありません)"
+
+#: ../../diagnose.rst:100
+msgid ""
+"This may be related to your locale setting. See :ref:`unknown-local-"
+"diagnose` for a possible solution."
+msgstr ""
+
+#: ../../diagnose.rst:105
+msgid "☤ ``shell`` does not show the virtualenv’s name in prompt"
+msgstr ""
+
+#: ../../diagnose.rst:107
+msgid ""
+"This is intentional. You can do it yourself with either shell plugins, or "
+"clever ``PS1`` configuration. If you really want it back, use"
+msgstr ""
+
+#: ../../diagnose.rst:114
+msgid "instead (not available on Windows)."
+msgstr ""
+
+#: ../../diagnose.rst:117
+msgid "☤ Pipenv does not respect dependencies in setup.py"
+msgstr ""
+
+#: ../../diagnose.rst:119
+msgid ""
+"No, it does not, intentionally. Pipfile and setup.py serve different "
+"purposes, and should not consider each other by default. See :ref:`pipfile-"
+"vs-setuppy` for more information."
+msgstr ""
