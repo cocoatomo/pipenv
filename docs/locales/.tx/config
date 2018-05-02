@@ -22,3 +22,8 @@ file_filter = <lang>/LC_MESSAGES/install.po
 source_file = pot/install.pot
 source_lang = en
 
+[pipenv.diagnose]
+file_filter = <lang>/LC_MESSAGES/diagnose.po
+source_file = pot/diagnose.pot
+source_lang = en
+
