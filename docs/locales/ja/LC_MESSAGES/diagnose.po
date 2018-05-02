@@ -169,11 +169,11 @@ msgstr "``LANG``"
 msgid ""
 "For Bash, for example, you can add the following to your "
 "``~/.bash_profile``:"
-msgstr ""
+msgstr "Bashでは例えば、次の設定を ``~/.bash_profile`` に追加できます:"
 
 #: ../../diagnose.rst:92
 msgid "For Zsh, the file to edit is ``~/.zshrc``."
-msgstr ""
+msgstr "Zshでは、修正するファイルは ``~/.zshrc`` です。"
 
 #: ../../diagnose.rst:94
 msgid ""
@@ -190,10 +190,12 @@ msgid ""
 "This may be related to your locale setting. See :ref:`unknown-local-"
 "diagnose` for a possible solution."
 msgstr ""
+"これはロケール設定が関係している可能性があります。\n"
+":ref:`unknown-local-diagnose` を参照すると解決するかもしれません。"
 
 #: ../../diagnose.rst:105
 msgid "☤ ``shell`` does not show the virtualenv’s name in prompt"
-msgstr ""
+msgstr "☤ ``shell`` で仮想環境名がプロンプトに出ない"
 
 #: ../../diagnose.rst:107
 msgid ""
