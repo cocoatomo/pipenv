@@ -122,7 +122,7 @@ msgstr ""
 
 #: ../../diagnose.rst:58
 msgid "☤ Pipenv does not respect pyenv’s global and local Python versions"
-msgstr ""
+msgstr "☤ PipenvがpyenvのglobalおよびlocalのPythonバージョンを考慮しない"
 
 #: ../../diagnose.rst:60
 msgid ""
@@ -139,6 +139,8 @@ msgid ""
 " will make Pipenv use pyenv’s active Python version to create virtual "
 "environments by default."
 msgstr ""
+"Pipenvが自動的に「ちゃんと動いて」欲しい場合は、環境変数 ``PIPENV_PYTHON`` を ``$PYENV_ROOT/shims/python`` に設定して対応できます。\n"
+"この設定によって、Pipenvは仮想環境を作成するために、デフォルトでpyenvのアクティブなPythonバージョンを使用します。"
 
 #: ../../diagnose.rst:73
 msgid "☤ ValueError: unknown locale: UTF-8"
@@ -209,7 +211,7 @@ msgstr ""
 
 #: ../../diagnose.rst:117
 msgid "☤ Pipenv does not respect dependencies in setup.py"
-msgstr ""
+msgstr "☤ Pipenvがsetup.pyにある依存関係を考慮しない"
 
 #: ../../diagnose.rst:119
 msgid ""
@@ -217,3 +219,6 @@ msgid ""
 "purposes, and should not consider each other by default. See :ref:`pipfile-"
 "vs-setuppy` for more information."
 msgstr ""
+"これは意図的に考慮していません。\n"
+"Pipfileとsetup.pyはそれぞれ異なった目的にかなうもので、デフォルトではお互いを考慮しません。\n"
+"より詳しいことは :ref:`pipfile-vs-setuppy` を参照してください。"
