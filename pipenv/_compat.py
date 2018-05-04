@@ -23,7 +23,7 @@ except ImportError:
                 _types.add(str)
             elif isinstance(type(arg), bytes):
                 _types.add(bytes)
-            else:
+            elif arg:
                 _types.add(type(arg))
         return _types.pop()
 
@@ -263,7 +263,7 @@ def NamedTemporaryFile(
         (fd, name) = _mkstemp_inner(dir, prefix, suffix, flags, output_type)
     try:
         file = io.open(
-            fd, mode, buffering=buffering, newline=newline, encoding=encoding
+            fd, mode, buffering=buffering, newline=newline, encoding=encoding,
         )
         return _TemporaryFileWrapper(file, name, delete)
 
