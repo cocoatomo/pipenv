@@ -183,7 +183,7 @@ msgstr "Zshでは、修正するファイルは ``~/.zshrc`` です。"
 msgid ""
 "You can change both the ``en_US`` and ``UTF-8`` part to the language/locale "
 "and encoding you use."
-msgstr ""
+msgstr "``en_US`` と ``UTF-8`` の部分は両方とも、使用する言語とロケールおよびエンコーディングに変更できます。"
 
 #: ../../diagnose.rst:98
 msgid "☤ /bin/pip: No such file or directory"
@@ -206,10 +206,13 @@ msgid ""
 "This is intentional. You can do it yourself with either shell plugins, or "
 "clever ``PS1`` configuration. If you really want it back, use"
 msgstr ""
+"これは意図的なものです。\n"
+"他のシェルプラグインを使ったり、 ``PS1`` を設定するというより上手い方法を使って自力で実現できます。\n"
+"どうしても仮想環境名を表示したければ、次のコマンドが使えます"
 
 #: ../../diagnose.rst:114
 msgid "instead (not available on Windows)."
-msgstr ""
+msgstr "(ただしWindowsでは使えません)。"
 
 #: ../../diagnose.rst:117
 msgid "☤ Pipenv does not respect dependencies in setup.py"

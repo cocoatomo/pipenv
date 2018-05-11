@@ -150,8 +150,8 @@ msgid ""
 "You can also specify ``$ pipenv install -r path/to/requirements.txt`` to "
 "import a requirements file."
 msgstr ""
-"requirements ファイルをインポートするのに、 ``$ pipenv install -r "
-"path/to/requirements.txt`` と指定することもできます。"
+"requirementsファイルをインポートするのに、 ``$ pipenv install -r path/to/requirements.txt``"
+" と指定することもできます。"
 
 #: ../../basics.rst:175
 msgid ""
@@ -161,6 +161,9 @@ msgid ""
 "for now, run ``pipenv lock --keep-outdated``.  Make sure to `upgrade "
 "<#initialization>`_ soon!"
 msgstr ""
+"requirementsファイルでバージョン番号が固定されている場合は、新しく作成された ``Pipfile`` を編集して固定バージョンを取り除いた上で、 ``pipenv`` コマンドでは固定バージョンのままにしておきたいでしょう。\n"
+"とりあえず今のところは固定バージョンを ``Pipfile.lock`` に保持しておきたい場合は、 ``pipenv lock --keep-outdated`` を実行してください。\n"
+"すぐに `アップグレード <#initialization>`_ するのも忘れずに!"
 
 #: ../../basics.rst:183
 msgid "☤ Specifying Versions of a Package"
@@ -259,7 +262,7 @@ msgstr "全ての子依存関係が ``Pipfile.lock`` にも追加されること
 msgid ""
 "Sub-dependencies are **not** added to the ``Pipfile.lock`` if you leave the "
 "``-e`` option out."
-msgstr ""
+msgstr "``-e`` オプションを設定しないでおくと、子依存関係は ``Pipfile.lock`` には追加され **ません**。"
 
 #: ../../basics.rst:256
 msgid "☤ Environment Management with Pipenv"
@@ -449,11 +452,11 @@ msgstr "☤ バージョン管理システムについての但し書き"
 msgid ""
 "Pipenv will resolve the sub–dependencies of VCS dependencies, but only if "
 "they are installed in editable mode::"
-msgstr ""
+msgstr "Pipenvはバージョン管理システムで指定した依存関係の子依存関係も解決しますが、それは編集可能モードでインストールされたときだけです::"
 
 #: ../../basics.rst:343
 msgid "If editable is not true, sub–dependencies will not be resolved."
-msgstr ""
+msgstr "編集可能でない場合は、子依存関係は解決されません。"
 
 #: ../../basics.rst:345
 msgid ""

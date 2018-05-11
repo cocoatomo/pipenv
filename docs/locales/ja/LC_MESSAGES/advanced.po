@@ -794,7 +794,7 @@ msgstr "このコマンドでは、 ``setup.py`` で宣言されている依存�
 
 #: ../../advanced.rst:561
 msgid "☤ Changing Pipenv's Cache Location"
-msgstr ""
+msgstr "☤ Pipenvのキャッシュの場所を変更する"
 
 #: ../../advanced.rst:563
 msgid ""
@@ -806,7 +806,7 @@ msgstr ""
 
 #: ../../advanced.rst:566
 msgid "☤ Changing Where Pipenv Stores Virtualenvs"
-msgstr ""
+msgstr "☤ Pipenvが仮想環境を保存する場所を変更する"
 
 #: ../../advanced.rst:568
 msgid ""
@@ -819,7 +819,7 @@ msgstr ""
 
 #: ../../advanced.rst:571
 msgid "☤ Changing Default Python Versions"
-msgstr ""
+msgstr "☤ Pythonのデフォルトバージョンを変更する"
 
 #: ../../advanced.rst:573
 msgid ""
