@@ -152,12 +152,14 @@ msgid ""
 " shell encoding correctly. This can also be an issue on other systems if the"
 " locale variables do not specify an encoding."
 msgstr ""
+"macOSには、使っているシェルのエンコーディングを正しく判定できないというバグがあります。\n"
+"また別のシステムでも、ロケール変数がエンコードの指定をしていない場合に問題になります。"
 
 #: ../../diagnose.rst:79
 msgid ""
 "The workaround is to set the following two environment variables to a "
 "standard localization format:"
-msgstr ""
+msgstr "ワークアラウンドは次の2つの環境変数に標準的なローカライズ形式を設定することです:"
 
 #: ../../diagnose.rst:82
 msgid "``LC_ALL``"
