@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 11.10.4\n"
+"Project-Id-Version: pipenv 2018.05.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-09 15:00+0000\n"
+"POT-Creation-Date: 2018-05-13 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -642,12 +642,16 @@ msgid ""
 "provisioning may alternatively be disabled by adding ``skip_install = True``"
 " to tox.ini."
 msgstr ""
+"テストを実行するたびにうっかりlockファイルを編集してしまわないように、 ``pipenv install`` に ``--ignore-pipfile`` を付けたいと思うかもしれません。\n"
+"これをするとPipenvが ``Pipfile`` への変更を無視してしまうのと、(もっと重要なこととして) 現在の環境を ``Pipfile.lock`` に追加するのを防ぎます。\n"
+"これが重要な点なのは、今いる環境 (すなわちtoxが用意した仮想環境) は通常は (望ましいもしくは望しくないことに) 現時点のプロジェクトと、 ``tox`` の ``deps`` に設定されている追加の依存関係を含んでいるためです。\n"
+"最初に用意される環境に対しては、この方法ではなく ``skip_install = True`` をtox.iniに追加することで無効化できます。"
 
 #: ../../advanced.rst:492
 msgid ""
 "This method requires you to be explicit about updating the lock-file, which "
 "is probably a good idea in any case."
-msgstr ""
+msgstr "この方法はlockファイルの更新に関しての明示的な指定が必要であり、おそらくこれがどのケースにおいても良い案です。"
 
 #: ../../advanced.rst:495
 msgid ""
@@ -683,6 +687,8 @@ msgid ""
 " In these cases, the virtual environment can be created with access to the "
 "system `site-packages` directory::"
 msgstr ""
+"オペレーティングシステムのインターフェースに使われているプラットフォーム固有のPythonは、システムのパッケージマネージャからしか利用できず、従って `pip` を使った仮想環境へのインストールには使えないのが合理的に考えて普通です。\n"
+"このようなケースでは、システムの `site-packages` ディレクトリにアクセスできる仮想環境を作ります::"
 
 #: ../../advanced.rst:528
 msgid ""
@@ -691,6 +697,9 @@ msgid ""
 "that don't participate in Python-level dependency resolution at all, use the"
 " `PIP_IGNORE_INSTALLED` setting::"
 msgstr ""
+"`pip` "
+"でインストールできるコンポーネントが本当に仮想環境にインストールされ、システムのパッケージはPythonレベルでの依存関係解決に一切現れないインターフェースのために使われることを保証するために、"
+" `PIP_IGNORE_INSTALLED` 設定を使いましょう::"
 
 #: ../../advanced.rst:539
 msgid "☤ Pipfile vs setup.py"
@@ -818,6 +827,8 @@ msgid ""
 "``PIPENV_VENV_IN_PROJECT`` to create the virtualenv inside the root of your "
 "project."
 msgstr ""
+"デフォルトでは、Pipenvは単一の場所に仮想環境を保存します。\n"
+"通常はこれで問題ありませんが、開発者の都合でその場所を変更したくなったりビルドサーバーで問題が起きたりする場合には、 ``PIPENV_VENV_IN_PROJECT`` を設定してプロジェクトのルートディレクトリに仮想環境を作成できます。"
 
 #: ../../advanced.rst:571
 msgid "☤ Changing Default Python Versions"
