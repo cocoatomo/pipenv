@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.05.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-16 15:01+0000\n"
+"POT-Creation-Date: 2018-05-17 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgid "Pipenv: Python Dev Workflow for Humans"
 msgstr ""
 
 #: ../../index.rst:23
-msgid "**Pipenv** — the recommended tool for managing application dependencies from `packaging.python.org <https://packaging.python.org/tutorials/managing-dependencies/#managing-dependencies>`__, free (as in freedom)."
+msgid "**Pipenv** — the tool for managing application dependencies from `PyPA <https://www.pypa.io/en/latest/>`__, free (as in freedom)."
 msgstr ""
 
 #: ../../index.rst:25
@@ -332,6 +332,10 @@ msgstr ""
 
 #: ../../../pipenv graph:1
 msgid "Output JSON."
+msgstr ""
+
+#: ../../../pipenv graph:1
+msgid "Output JSON in nested tree."
 msgstr ""
 
 #: ../../../pipenv graph:1
