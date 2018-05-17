@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.05.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-16 15:01+0000\n"
+"POT-Creation-Date: 2018-05-17 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -24,9 +24,8 @@ msgstr "Pipenv: 人間のためのPython開発ワークフロー"
 
 #: ../../index.rst:23
 msgid ""
-"**Pipenv** — the recommended tool for managing application dependencies from"
-" `packaging.python.org <https://packaging.python.org/tutorials/managing-"
-"dependencies/#managing-dependencies>`__, free (as in freedom)."
+"**Pipenv** — the tool for managing application dependencies from `PyPA "
+"<https://www.pypa.io/en/latest/>`__, free (as in freedom)."
 msgstr ""
 
 #: ../../index.rst:25
@@ -376,6 +375,10 @@ msgstr "必須でないパッケージの出力のみを行います。"
 #: ../../../pipenv graph:1
 msgid "Output JSON."
 msgstr "JSONを出力します。"
+
+#: ../../../pipenv graph:1
+msgid "Output JSON in nested tree."
+msgstr ""
 
 #: ../../../pipenv graph:1
 msgid "Reversed dependency graph."
