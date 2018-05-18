@@ -27,6 +27,8 @@ msgid ""
 "**Pipenv** — the tool for managing application dependencies from `PyPA "
 "<https://www.pypa.io/en/latest/>`__, free (as in freedom)."
 msgstr ""
+"**Pipenv** — `PyPA <https://www.pypa.io/en/latest/>`__ "
+"による、アプリケーションの依存関係管理ツール、そしてフリー (自由)。"
 
 #: ../../index.rst:25
 msgid ""
