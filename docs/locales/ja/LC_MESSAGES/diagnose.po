@@ -230,16 +230,20 @@ msgstr ""
 
 #: ../../diagnose.rst:124
 msgid "☤ Using ``pipenv run`` in Supervisor program"
-msgstr ""
+msgstr "☤ supervisorプログラムで ``pipenv run`` を使う"
 
 #: ../../diagnose.rst:126
 msgid ""
 "When you configure a supervisor program's ``command`` with ``pipenv run "
 "...``, you need to set locale enviroment variables properly to make it work."
 msgstr ""
+"supervisorプログラムの ``command`` に ``pipenv run ...`` "
+"を設定するときは、ローカル環境変数を適切に設定して、きちんと動くようにする必要があります。"
 
 #: ../../diagnose.rst:129
 msgid ""
 "Add this line under ``[supervisord]`` section in "
 "``/etc/supervisor/supervisord.conf``::"
 msgstr ""
+"次の行を ``/etc/supervisor/supervisord.conf`` の ``[supervisord]`` "
+"セクションの下に追加してください::"

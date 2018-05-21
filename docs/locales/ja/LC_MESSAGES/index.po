@@ -28,6 +28,8 @@ msgid ""
 "(bundler, composer, npm, cargo, yarn, etc.) to the Python world. *Windows is"
 " a first-class citizen, in our world.*"
 msgstr ""
+"**Pipenv** は、全てのパッケージングの世界 (bundler、composer、npm、cargo、yarnなどなど。) における最高のものをPythonの世界にもたらすことを目的としたツールです。\n"
+"*我々の世界ではWindowsは第一級市民です。*"
 
 #: ../../index.rst:25
 msgid ""
