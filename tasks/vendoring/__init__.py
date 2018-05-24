@@ -25,6 +25,8 @@ LIBRARY_DIRNAMES = {
     'python-dotenv': 'dotenv',
     'pip-tools': 'piptools',
     'setuptools': 'pkg_resources',
+    'msgpack-python': 'msgpack',
+    'attrs': 'attr',
 }
 
 # from time to time, remove the no longer needed ones
@@ -43,6 +45,9 @@ HARDCODED_LICENSE_URLS = {
     'pytoml': 'https://github.com/avakar/pytoml/raw/master/LICENSE',
     'webencodings': 'https://github.com/SimonSapin/python-webencodings/raw/'
                     'master/LICENSE',
+    'requirementslib': 'https://github.com/techalchemy/requirementslib/raw/master/LICENSE',
+    'distlib': 'https://github.com/vsajip/distlib/raw/master/LICENSE.txt',
+    'pythonfinder': 'https://raw.githubusercontent.com/techalchemy/pythonfinder/master/LICENSE.txt'
 }
 
 FILE_WHITE_LIST = (
@@ -58,12 +63,12 @@ FILE_WHITE_LIST = (
     'vendor_pip.txt',
 )
 
-LIBRARY_RENAMES = {
-    'pip': 'pip9'
-}
-
 PATCHED_RENAMES = {
     'pip': 'notpip'
+}
+
+LIBRARY_RENAMES = {
+    'pip': 'pipenv.patched.notpip'
 }
 
 
@@ -136,7 +141,7 @@ def rewrite_imports(package_dir, vendored_libs, vendor_dir):
 def rewrite_file_imports(item, vendored_libs, vendor_dir):
     """Rewrite 'import xxx' and 'from xxx import' for vendored_libs"""
     text = item.read_text(encoding='utf-8')
-    renames = PATCHED_RENAMES if vendor_dir.name == 'patched' else LIBRARY_RENAMES
+    renames = LIBRARY_RENAMES
     for k in LIBRARY_RENAMES.keys():
         if k not in vendored_libs:
             vendored_libs.append(k)
@@ -164,7 +169,7 @@ def rewrite_file_imports(item, vendored_libs, vendor_dir):
 
 def apply_patch(ctx, patch_file_path):
     log('Applying patch %s' % patch_file_path.name)
-    ctx.run('git apply --verbose %s' % patch_file_path)
+    ctx.run('git apply --ignore-whitespace --verbose %s' % patch_file_path)
 
 
 @invoke.task
@@ -294,7 +299,8 @@ def vendor(ctx, vendor_dir, rewrite=True):
     drop_dir(vendor_dir / 'tests')
 
     # Detect the vendored packages/modules
-    vendored_libs = detect_vendored_libs(vendor_dir)
+    vendored_libs = detect_vendored_libs(_get_vendor_dir(ctx))
+    patched_libs = detect_vendored_libs(_get_patched_dir(ctx))
     log("Detected vendored libraries: %s" % ", ".join(vendored_libs))
 
     # Apply pre-patches
@@ -309,11 +315,6 @@ def vendor(ctx, vendor_dir, rewrite=True):
     log('Renaming specified libs...')
     for item in vendor_dir.iterdir():
         if item.is_dir():
-            if item.name == 'requests' and not (item / 'cacert.pem').exists():
-                if 'certifi' in vendored_libs:
-                    cert = vendor_dir / 'certifi' / 'cacert.pem'
-                    copy_to = item / 'cacert.pem'
-                    copy_to.write_bytes(cert.read_bytes())
             if rewrite:
                 log('Rewriting imports for %s...' % item)
                 rewrite_imports(item, vendored_libs, vendor_dir)
@@ -330,6 +331,9 @@ def vendor(ctx, vendor_dir, rewrite=True):
         piptools_vendor = vendor_dir / 'piptools' / '_vendored'
         if piptools_vendor.exists():
             drop_dir(piptools_vendor)
+        msgpack = vendor_dir / 'notpip' / '_vendor' / 'msgpack'
+        if msgpack.exists():
+            remove_all(msgpack.glob('*.so'))
 
 
 @invoke.task
@@ -483,10 +487,10 @@ def main(ctx):
     clean_vendor(ctx, vendor_dir)
     clean_vendor(ctx, patched_dir)
     vendor(ctx, vendor_dir)
-    vendor(ctx, patched_dir, rewrite=False)
+    vendor(ctx, patched_dir, rewrite=True)
     download_licenses(ctx, vendor_dir)
     download_licenses(ctx, patched_dir, 'patched.txt')
-    for pip_dir in [vendor_dir / 'pip9', patched_dir / 'notpip']:
+    for pip_dir in [patched_dir / 'notpip']:
         _vendor_dir = pip_dir / '_vendor'
         vendor_src_file = vendor_dir / 'vendor_pip.txt'
         vendor_file = _vendor_dir / 'vendor.txt'

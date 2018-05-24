@@ -20,6 +20,7 @@ except ImportError:
     from pathlib2 import Path
 
 from .cmdparse import Script
+from .vendor.requirementslib import Requirement
 from .utils import (
     atomic_open_for_write,
     mkdir_p,
@@ -27,7 +28,6 @@ from .utils import (
     proper_case,
     find_requirements,
     is_editable,
-    is_file,
     is_vcs,
     cleanup_toml,
     is_installable_file,
@@ -35,6 +35,7 @@ from .utils import (
     normalize_drive,
     python_version,
     safe_expandvars,
+    is_star,
 )
 from .environments import (
     PIPENV_MAX_DEPTH,
@@ -45,6 +46,7 @@ from .environments import (
     PIPENV_PYTHON,
     PIPENV_DEFAULT_PYTHON_VERSION,
 )
+from .vendor.first import first
 
 
 def _normalized(p):
@@ -497,41 +499,41 @@ class Project(object):
     def lockfile_content(self):
         return self.load_lockfile()
 
-    @property
-    def editable_packages(self):
+    def _get_editable_packages(self, dev=False):
+        section = 'dev-packages' if dev else 'packages'
         packages = {
             k: v
-            for k, v in self.parsed_pipfile.get('packages', {}).items()
+            for k, v in self.parsed_pipfile.get(section, {}).items()
             if is_editable(v)
         }
         return packages
 
-    @property
-    def editable_dev_packages(self):
+    def _get_vcs_packages(self, dev=False):
+        section = 'dev-packages' if dev else 'packages'
         packages = {
             k: v
-            for k, v in self.parsed_pipfile.get('dev-packages', {}).items()
-            if is_editable(v)
+            for k, v in self.parsed_pipfile.get(section, {}).items()
+            if is_vcs(v) or is_vcs(k)
         }
-        return packages
+        return packages or {}
+
+    @property
+    def editable_packages(self):
+        return self._get_editable_packages(dev=False)
+
+    @property
+    def editable_dev_packages(self):
+        return self._get_editable_packages(dev=True)
 
     @property
     def vcs_packages(self):
         """Returns a list of VCS packages, for not pip-tools to consume."""
-        ps = {}
-        for k, v in self.parsed_pipfile.get('packages', {}).items():
-            if is_vcs(v) or is_vcs(k):
-                ps.update({k: v})
-        return ps
+        return self._get_vcs_packages(dev=False)
 
     @property
     def vcs_dev_packages(self):
         """Returns a list of VCS packages, for not pip-tools to consume."""
-        ps = {}
-        for k, v in self.parsed_pipfile.get('dev-packages', {}).items():
-            if is_vcs(v) or is_vcs(k):
-                ps.update({k: v})
-        return ps
+        return self._get_vcs_packages(dev=True)
 
     @property
     def all_packages(self):
@@ -567,10 +569,12 @@ class Project(object):
 
     def create_pipfile(self, python=None):
         """Creates the Pipfile, filled with juicy defaults."""
-        from .vendor.pip9 import ConfigOptionParser
+        from .patched.notpip._internal import ConfigOptionParser
+        from .patched.notpip._internal.cmdoptions import make_option_group, index_group
         config_parser = ConfigOptionParser(name=self.name)
-        install = dict(config_parser.get_config_section('install'))
-        indexes = install.get('extra-index-url', '').lstrip('\n').split('\n')
+        config_parser.add_option_group(make_option_group(index_group, config_parser))
+        install = config_parser.option_groups[0]
+        indexes = ' '.join(install.get_option('--extra-index-url').default).lstrip('\n').split('\n')
         sources = [DEFAULT_SOURCE]
         for i, index in enumerate(indexes):
             if not index:
@@ -721,28 +725,21 @@ class Project(object):
             self.write_toml(p)
 
     def add_package_to_pipfile(self, package_name, dev=False):
-        from .utils import convert_deps_from_pip
         # Read and append Pipfile.
         p = self.parsed_pipfile
         # Don't re-capitalize file URLs or VCSs.
-        converted = convert_deps_from_pip(package_name)
-        converted = converted[first(k for k in converted.keys())]
-        if not (
-            is_file(package_name) or is_vcs(converted) or 'path' in converted
-        ):
-            package_name = pep423_name(package_name)
+        package = Requirement.from_line(package_name)
+        converted = first(package.as_pipfile().values())
         key = 'dev-packages' if dev else 'packages'
         # Set empty group if it doesn't exist yet.
         if key not in p:
             p[key] = {}
-        package = convert_deps_from_pip(package_name)
-        package_name = first(k for k in package.keys())
-        name = self.get_package_name_in_pipfile(package_name, dev)
-        if name and converted == '*':
+        name = self.get_package_name_in_pipfile(package.name, dev)
+        if name and is_star(converted):
             # Skip for wildcard version
             return
         # Add the package to the group.
-        p[key][name or package_name] = package[package_name]
+        p[key][name or package.normalized_name] = converted
         # Write Pipfile.
         self.write_toml(p)
 

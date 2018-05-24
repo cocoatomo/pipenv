@@ -8,7 +8,8 @@ from itertools import chain, count
 import os
 
 from first import first
-from pip9.req import InstallRequirement
+from notpip._vendor.packaging.markers import default_environment
+from ._compat import InstallRequirement
 
 from . import click
 from .cache import DependencyCache
@@ -148,14 +149,16 @@ class Resolver(object):
             if editable_ireq:
                 yield editable_ireq  # ignore all the other specs: the editable one is the one that counts
                 continue
-
             ireqs = iter(ireqs)
             # deepcopy the accumulator so as to not modify the self.our_constraints invariant
             combined_ireq = copy.deepcopy(next(ireqs))
-            combined_ireq.comes_from = None
             for ireq in ireqs:
                 # NOTE we may be losing some info on dropped reqs here
-                combined_ireq.req.specifier &= ireq.req.specifier
+                try:
+                    combined_ireq.req.specifier &= ireq.req.specifier
+                except TypeError:
+                    if ireq.req.specifier._specs and not combined_ireq.req.specifier._specs:
+                        combined_ireq.req.specifier._specs = ireq.req.specifier._specs
                 combined_ireq.constraint &= ireq.constraint
                 combined_ireq.markers = ireq.markers
                 # Return a sorted, de-duped tuple of extras
@@ -281,8 +284,17 @@ class Resolver(object):
                 yield dependency
             return
         elif ireq.extras:
+            valid_markers = default_environment().keys()
             for dependency in self.repository.get_dependencies(ireq):
                 dependency.prepared = False
+                if dependency.markers and not any(dependency.markers._markers[0][0].value.startswith(k) for k in valid_markers):
+                    dependency.markers = None
+                if hasattr(ireq, 'extra'):
+                    if ireq.extras:
+                        ireq.extras.extend(ireq.extra)
+                    else:
+                        ireq.extras = ireq.extra
+
                 yield dependency
             return
         elif not is_pinned_requirement(ireq):
@@ -314,7 +326,6 @@ class Resolver(object):
                 yield InstallRequirement.from_line(_dependency_string, constraint=ireq.constraint)
             except InvalidMarker:
                 yield InstallRequirement.from_line(dependency_string, constraint=ireq.constraint)
-
 
     def reverse_dependencies(self, ireqs):
         non_editable = [ireq for ireq in ireqs if not ireq.editable]

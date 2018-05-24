@@ -55,6 +55,7 @@ try:
     from collections.abc import Mapping
 except ImportError:
     from collections import Mapping
+from .vendor.requirementslib import Requirement
 
 if six.PY2:
 
@@ -79,123 +80,6 @@ def _get_requests_session():
     adapter = requests.adapters.HTTPAdapter(max_retries=PIPENV_MAX_RETRIES)
     requests_session.mount('https://pypi.org/pypi', adapter)
     return requests_session
-
-
-def	get_default_indexes():
-    """Returns the default Package Index URL."""
-
-    indexes = []
-    
-    # Support for PIP_INDEX_URL.
-    if 'PIP_INDEX_URL' in os.environ:
-        indexes.append(os.environ['PIP_INDEX_URL'])
-    
-    # Support for config file.
-    p = index.PackageIndex()
-    p.read_configuration()
-
-    indexes.append(p.url)
-    
-	# Support for PIP_EXTRA_URL.
-    if 'PIP_EXTRA_INDEX_URL' in os.environ:
-        indexes.append(os.environ['PIP_EXTRA_INDEX_URL'])
-        
-    return indexes
-    
-def name_from_index(url):
-    """Returns an estimated name from a given index URL."""
-    return url.split('//')[1].split('.')[0]
-    
-
-def get_requirement(dep):
-    from .vendor.pip9.req.req_install import _strip_extras, Wheel
-    from .vendor.pip9.index import Link
-    from .vendor import requirements
-    """Pre-clean requirement strings passed to the requirements parser.
-
-    Ensures that we can accept both local and relative paths, file and VCS URIs,
-    remote URIs, and package names, and that we pass only valid requirement strings
-    to the requirements parser. Performs necessary modifications to requirements
-    object if the user input was a local relative path.
-
-    :param str dep: A requirement line
-    :returns: :class:`requirements.Requirement` object
-    """
-    path = None
-    uri = None
-    cleaned_uri = None
-    editable = False
-    dep_link = None
-    # check for editable dep / vcs dep
-    if dep.startswith('-e '):
-        editable = True
-        # Use the user supplied path as the written dependency
-        dep = dep.split(' ', 1)[1]
-    # Split out markers if they are present - similar to how pip does it
-    # See pip9.req.req_install.InstallRequirement.from_line
-    if not any(dep.startswith(uri_prefix) for uri_prefix in SCHEME_LIST):
-        marker_sep = ';'
-    else:
-        marker_sep = '; '
-    if marker_sep in dep:
-        dep, markers = dep.split(marker_sep, 1)
-        markers = markers.strip()
-        if not markers:
-            markers = None
-    else:
-        markers = None
-    # Strip extras from the requirement so we can make a properly parseable req
-    dep, extras = _strip_extras(dep)
-    # Only operate on local, existing, non-URI formatted paths which are installable
-    if is_installable_file(dep):
-        dep_path = Path(dep)
-        dep_link = Link(dep_path.absolute().as_uri())
-        if dep_path.is_absolute() or dep_path.as_posix() == '.':
-            path = dep_path.as_posix()
-        else:
-            path = get_converted_relative_path(dep)
-        dep = dep_link.egg_fragment if dep_link.egg_fragment else dep_link.url_without_fragment
-    elif is_vcs(dep):
-        # Generate a Link object for parsing egg fragments
-        dep_link = Link(dep)
-        # Save the original path to store in the pipfile
-        uri = dep_link.url
-        # Construct the requirement using proper git+ssh:// replaced uris or names if available
-        cleaned_uri = clean_git_uri(dep)
-        dep = cleaned_uri
-    if editable:
-        dep = '-e {0}'.format(dep)
-    req = [r for r in requirements.parse(dep)][0]
-    # if all we built was the requirement name and still need everything else
-    if req.name and not any([req.uri, req.path]):
-        if dep_link:
-            if dep_link.scheme.startswith('file') and path and not req.path:
-                req.path = path
-                req.local_file = True
-                req.uri = None
-            else:
-                req.uri = dep_link.url_without_fragment
-    # If the result is a local file with a URI and we have a local path, unset the URI
-    # and set the path instead -- note that local files may have 'path' set by accident
-    elif req.local_file and path and not req.vcs:
-        req.path = path
-        req.uri = None
-        if dep_link and dep_link.is_wheel and not req.name:
-            req.name = os.path.basename(Wheel(dep_link.path).name)
-    elif req.vcs and req.uri and cleaned_uri and cleaned_uri != uri:
-        req.uri = strip_ssh_from_git_uri(req.uri)
-        req.line = strip_ssh_from_git_uri(req.line)
-    req.editable = editable
-    if markers:
-        req.markers = markers
-    if extras:
-        # Bizarrely this is also what pip does...
-        req.extras = [
-            r for r in requirements.parse('fakepkg{0}'.format(extras))
-        ][
-            0
-        ].extras
-    return req
 
 
 def cleanup_toml(tml):
@@ -307,7 +191,7 @@ def prepare_pip_source_args(sources, pip_args=None):
     if pip_args is None:
         pip_args = []
     if sources:
-        # Add the source to pip9.
+        # Add the source to notpip.
         pip_args.extend(['-i', sources[0]['url']])
         # Trust the host if it's not verified.
         if not sources[0].get('verify_ssl', True):
@@ -333,24 +217,28 @@ def prepare_pip_source_args(sources, pip_args=None):
 
 
 def actually_resolve_reps(
-    deps, index_lookup, markers_lookup, project, sources, verbose, clear, pre
+    deps, index_lookup, markers_lookup, project, sources, verbose, clear, pre, req_dir=None
 ):
-    from pip9 import basecommand, req
-    from pip9._vendor import requests as pip_requests
-    from pip9.exceptions import DistributionNotFound
-    from pip9._vendor.requests.exceptions import HTTPError
+    from .patched.notpip._internal import basecommand, req
+    from .patched.notpip._vendor import requests as pip_requests
+    from .patched.notpip._internal.exceptions import DistributionNotFound
+    from .patched.notpip._vendor.requests.exceptions import HTTPError
     from pipenv.patched.piptools.resolver import Resolver
     from pipenv.patched.piptools.repositories.pypi import PyPIRepository
     from pipenv.patched.piptools.scripts.compile import get_pip_command
     from pipenv.patched.piptools import logging as piptools_logging
     from pipenv.patched.piptools.exceptions import NoCandidateFound
+    from ._compat import TemporaryDirectory
 
     class PipCommand(basecommand.Command):
         """Needed for pip-tools."""
         name = 'PipCommand'
 
     constraints = []
-    req_dir = tempfile.mkdtemp(prefix='pipenv-', suffix='-requirements')
+    cleanup_req_dir = False
+    if not req_dir:
+        req_dir = TemporaryDirectory(suffix='-requirements', prefix='pipenv-')
+        cleanup_req_dir = True
     for dep in deps:
         if dep:
             if dep.startswith('-e '):
@@ -359,7 +247,7 @@ def actually_resolve_reps(
                 )
             else:
                 fd, t = tempfile.mkstemp(
-                    prefix='pipenv-', suffix='-requirement.txt', dir=req_dir
+                    prefix='pipenv-', suffix='-requirement.txt', dir=req_dir.name
                 )
                 with os.fdopen(fd, 'w') as f:
                     f.write(dep)
@@ -382,7 +270,6 @@ def actually_resolve_reps(
                     '"', "'"
                 )
             constraints.append(constraint)
-    rmtree(req_dir)
     pip_command = get_pip_command()
     pip_args = []
     if sources:
@@ -398,6 +285,7 @@ def actually_resolve_reps(
         logging.log.verbose = True
         piptools_logging.log.verbose = True
     resolved_tree = set()
+
     resolver = Resolver(
         constraints=constraints,
         repository=pypi,
@@ -429,7 +317,11 @@ def actually_resolve_reps(
                     'Please check your version specifier and version number. See PEP440 for more information.'
                 )
             )
+        if cleanup_req_dir:
+            req_dir.cleanup()
         raise RuntimeError
+    if cleanup_req_dir:
+        req_dir.cleanup()
 
     return resolved_tree, resolver
 
@@ -437,10 +329,11 @@ def actually_resolve_reps(
 def venv_resolve_deps(
     deps, which, project, pre=False, verbose=False, clear=False, allow_global=False
 ):
-    import delegator
+    from .vendor import delegator
     from . import resolver
     import json
-
+    if not deps:
+        return []
     resolver = escape_grouped_arguments(resolver.__file__.rstrip('co'))
     cmd = '{0} {1} {2} {3} {4} {5}'.format(
         escape_grouped_arguments(which('python', allow_global=allow_global)),
@@ -450,9 +343,9 @@ def venv_resolve_deps(
         '--clear' if clear else '',
         '--system' if allow_global else '',
     )
-    os.environ['PIPENV_PACKAGES'] = '\n'.join(deps)
-    c = delegator.run(cmd, block=True)
-    del os.environ['PIPENV_PACKAGES']
+    with temp_environ():
+        os.environ['PIPENV_PACKAGES'] = '\n'.join(deps)
+        c = delegator.run(cmd, block=True)
     try:
         assert c.return_code == 0
     except AssertionError:
@@ -483,16 +376,19 @@ def resolve_deps(
     allow_global=False,
 ):
     """Given a list of dependencies, return a resolved list of dependencies,
-    using pip-tools -- and their hashes, using the warehouse API / pip9.
+    using pip-tools -- and their hashes, using the warehouse API / pip.
     """
-    from pip9._vendor.requests.exceptions import ConnectionError
-
+    from .patched.notpip._vendor.requests.exceptions import ConnectionError
+    from ._compat import TemporaryDirectory
     index_lookup = {}
     markers_lookup = {}
     python_path = which('python', allow_global=allow_global)
     backup_python_path = sys.executable
     results = []
+    if not deps:
+        return results
     # First (proper) attempt:
+    req_dir = TemporaryDirectory(prefix='pipenv-', suffix='-requirements')
     with HackedPythonVersion(python_version=python, python_path=python_path):
         try:
             resolved_tree, resolver = actually_resolve_reps(
@@ -504,6 +400,7 @@ def resolve_deps(
                 verbose,
                 clear,
                 pre,
+                req_dir=req_dir,
             )
         except RuntimeError:
             # Don't exit here, like usual.
@@ -526,8 +423,10 @@ def resolve_deps(
                     verbose,
                     clear,
                     pre,
+                    req_dir=req_dir,
                 )
             except RuntimeError:
+                req_dir.cleanup()
                 sys.exit(1)
     for result in resolved_tree:
         if not result.editable:
@@ -545,18 +444,16 @@ def resolve_deps(
             collected_hashes = []
             if any('python.org' in source['url'] or 'pypi.org' in source['url']
                    for source in sources):
+                pkg_url = 'https://pypi.org/pypi/{0}/json'.format(name)
+                session = _get_requests_session()
                 try:
                     # Grab the hashes from the new warehouse API.
-                    r = _get_requests_session().get(
-                        'https://pypi.org/pypi/{0}/json'.format(name),
-                        timeout=10,
-                    )
+                    r = session.get(pkg_url, timeout=10)
                     api_releases = r.json()['releases']
                     cleaned_releases = {}
                     for api_version, api_info in api_releases.items():
-                        cleaned_releases[
-                            clean_pkg_version(api_version)
-                        ] = api_info
+                        api_version = clean_pkg_version(api_version)
+                        cleaned_releases[api_version] = api_info
                     for release in cleaned_releases[version]:
                         collected_hashes.append(release['digests']['sha256'])
                     collected_hashes = [
@@ -584,6 +481,7 @@ def resolve_deps(
             if markers:
                 d.update({'markers': markers.replace('"', "'")})
             results.append(d)
+    req_dir.cleanup()
     return results
 
 
@@ -592,88 +490,6 @@ def multi_split(s, split):
     for r in split:
         s = s.replace(r, '|')
     return [i for i in s.split('|') if len(i) > 0]
-
-
-def convert_deps_from_pip(dep):
-    """"Converts a pip-formatted dependency to a Pipfile-formatted one."""
-    try:
-        from collections.abc import Mapping
-    except ImportError:
-        from collections import Mapping
-    dependency = {}
-    req = get_requirement(dep)
-    extras = {'extras': req.extras}
-    # File installs.
-    if (req.uri or req.path or is_installable_file(req.name)) and not req.vcs:
-        # Assign a package name to the file, last 7 of it's sha256 hex digest.
-
-        if not req.uri and not req.path:
-            req.path = os.path.abspath(req.name)
-
-        hashable_path = req.uri if req.uri else req.path
-        if not req.name:
-            req.name = hashlib.sha256(hashable_path.encode('utf-8')).hexdigest()
-            req.name = req.name[len(req.name) - 7:]
-        # {path: uri} TOML (spec 4 I guess...)
-        if req.uri:
-            dependency[req.name] = {'file': hashable_path}
-        else:
-            dependency[req.name] = {'path': hashable_path}
-        if req.extras:
-            dependency[req.name].update(extras)
-        # Add --editable if applicable
-        if req.editable:
-            dependency[req.name].update({'editable': True})
-    # VCS Installs.
-    elif req.vcs:
-        if req.name is None:
-            raise ValueError(
-                'pipenv requires an #egg fragment for version controlled '
-                'dependencies. Please install remote dependency '
-                'in the form {0}#egg=<package-name>.'.format(req.uri)
-            )
-
-        # Crop off the git+, etc part.
-        if req.uri.startswith('{0}+'.format(req.vcs)):
-            req.uri = req.uri[len(req.vcs) + 1:]
-        dependency.setdefault(req.name, {}).update({req.vcs: req.uri})
-        # Add --editable, if it's there.
-        if req.editable:
-            dependency[req.name].update({'editable': True})
-        # Add subdirectory, if it's there
-        if req.subdirectory:
-            dependency[req.name].update({'subdirectory': req.subdirectory})
-        # Add the specifier, if it was provided.
-        if req.revision:
-            dependency[req.name].update({'ref': req.revision})
-        # Extras: e.g. #egg=requests[security]
-        if req.extras:
-            dependency[req.name].update({'extras': req.extras})
-    elif req.extras or req.specs or hasattr(req, 'markers'):
-        specs = None
-        # Comparison operators: e.g. Django>1.10
-        if req.specs:
-            r = multi_split(dep, '!=<>~')
-            specs = dep[len(r[0]):]
-            dependency[req.name] = specs
-        # Extras: e.g. requests[socks]
-        if req.extras:
-            dependency[req.name] = extras
-            if specs:
-                dependency[req.name].update({'version': specs})
-        if hasattr(req, 'markers'):
-            if isinstance(dependency[req.name], six.string_types):
-                dependency[req.name] = {'version': specs}
-            dependency[req.name].update({'markers': req.markers})
-    # Bare dependencies: e.g. requests
-    else:
-        dependency[dep] = '*'
-    # Cleanup when there's multiple values, e.g. -e.
-    if len(dependency) > 1:
-        for key in dependency.copy():
-            if not hasattr(dependency[key], 'keys'):
-                del dependency[key]
-    return dependency
 
 
 def is_star(val):
@@ -689,97 +505,18 @@ def is_pinned(val):
 def convert_deps_to_pip(deps, project=None, r=True, include_index=False):
     """"Converts a Pipfile-formatted dependency to a pip-formatted one."""
     from ._compat import NamedTemporaryFile
+    from .vendor.requirementslib import Requirement
     dependencies = []
-    for dep in deps.keys():
-        # Default (e.g. '>1.10').
-        extra = deps[dep] if isinstance(deps[dep], six.string_types) else ''
-        editable = False
-        extras = ''
-        version = ''
-        index = ''
-        # Get rid of '*'.
-        if is_star(deps[dep]) or str(extra) == '{}':
-            extra = ''
-        hash = ''
-        # Support for single hash (spec 1).
-        if 'hash' in deps[dep]:
-            hash = ' --hash={0}'.format(deps[dep]['hash'])
-        # Support for multiple hashes (spec 2).
-        if 'hashes' in deps[dep]:
-            hash = '{0} '.format(
-                ''.join(
-                    [' --hash={0} '.format(h) for h in deps[dep]['hashes']]
-                )
-            )
-        # Support for extras (e.g. requests[socks])
-        if 'extras' in deps[dep]:
-            extras = '[{0}]'.format(','.join(deps[dep]['extras']))
-        if 'version' in deps[dep]:
-            if not is_star(deps[dep]['version']):
-                version = deps[dep]['version']
-        # For lockfile format.
-        if 'markers' in deps[dep]:
-            specs = '; {0}'.format(deps[dep]['markers'])
-        else:
-            # For pipfile format.
-            specs = []
-            for specifier in specifiers:
-                if specifier in deps[dep]:
-                    if not is_star(deps[dep][specifier]):
-                        specs.append(
-                            '{0} {1}'.format(specifier, deps[dep][specifier])
-                        )
-            if specs:
-                specs = '; {0}'.format(' and '.join(specs))
-            else:
-                specs = ''
-        if include_index and not is_file(deps[dep]) and not is_vcs(deps[dep]):
-            pip_src_args = []
-            if 'index' in deps[dep]:
-                pip_src_args = [project.get_source(deps[dep]['index'])]
-                for idx in project.sources:
-                    if idx['url'] != pip_src_args[0]['url']:
-                        pip_src_args.append(idx)
-            else:
-                pip_src_args = project.sources
-            pip_args = prepare_pip_source_args(pip_src_args)
-            index = ' '.join(pip_args)
-        # Support for version control
-        maybe_vcs = [vcs for vcs in VCS_LIST if vcs in deps[dep]]
-        vcs = maybe_vcs[0] if maybe_vcs else None
-        if not any(key in deps[dep] for key in ['path', 'vcs', 'file']):
-            extra += extras
-        if isinstance(deps[dep], Mapping):
-            editable = bool(deps[dep].get('editable', False))
-        # Support for files.
-        if 'file' in deps[dep]:
-            dep_file = deps[dep]['file']
-            if is_valid_url(dep_file) and dep_file.startswith('http'):
-                dep_file += '#egg={0}'.format(dep)
-            extra = '{0}{1}'.format(dep_file, extras).strip()
-            # Flag the file as editable if it is a local relative path
-            dep = '-e ' if editable else ''
-        # Support for paths.
-        elif 'path' in deps[dep]:
-            extra = '{1}{0}'.format(extras, deps[dep]['path']).strip()
-            # Flag the file as editable if it is a local relative path
-            dep = '-e ' if editable else ''
-        if vcs:
-            extra = '{0}+{1}'.format(vcs, deps[dep][vcs])
-            # Support for @refs.
-            if 'ref' in deps[dep]:
-                extra += '@{0}'.format(deps[dep]['ref'])
-            extra += '#egg={0}{1}'.format(dep, extras)
-            # Support for subdirectory
-            if 'subdirectory' in deps[dep]:
-                extra += '&subdirectory={0}'.format(deps[dep]['subdirectory'])
-            # Support for editable.
-            dep = '-e ' if editable else ''
-
-        s = '{0}{1}{2}{3}{4} {5}'.format(
-            dep, extra, version, specs, hash, index
+    for dep_name, dep in deps.items():
+        indexes = project.sources if hasattr(project, 'sources') else None
+        if hasattr(dep, 'keys') and dep.get('index'):
+            indexes = project.get_source(dep['index'])
+        new_dep = Requirement.from_pipfile(dep_name, indexes, dep)
+        req = new_dep.as_line(
+            project=project,
+            include_index=include_index
         ).strip()
-        dependencies.append(s)
+        dependencies.append(req)
     if not r:
         return dependencies
 
@@ -835,7 +572,7 @@ def strip_ssh_from_git_uri(uri):
 
 
 def clean_git_uri(uri):
-    """Cleans VCS uris from pip9 format"""
+    """Cleans VCS uris from pip format"""
     if isinstance(uri, six.string_types):
         # Add scheme for parsing purposes, this is also what pip does
         if uri.startswith('git+') and '://' not in uri:
@@ -870,9 +607,9 @@ def is_vcs(pipfile_entry):
 
 def is_installable_file(path):
     """Determine if a path can potentially be installed"""
-    from .vendor.pip9.utils import is_installable_dir
-    from .vendor.pip9.utils.packaging import specifiers
-    from .vendor.pip9.download import is_archive_file
+    from .patched.notpip._internal.utils.misc import is_installable_dir
+    from .patched.notpip._internal.utils.packaging import specifiers
+    from .patched.notpip._internal.download import is_archive_file
 
     if hasattr(path, 'keys') and any(
         key for key in path.keys() if key in ['file', 'path']
@@ -923,7 +660,7 @@ def is_file(package):
 
 def pep440_version(version):
     """Normalize version to PEP 440 standards"""
-    from .vendor.pip9.index import parse_version
+    from .patched.notpip._internal.index import parse_version
 
     # Use pip built-in version parser.
     return str(parse_version(version))
@@ -1384,3 +1121,68 @@ def safe_expandvars(value):
     if isinstance(value, six.string_types):
         return os.path.expandvars(value)
     return value
+
+
+def extract_uri_from_vcs_dep(dep):
+    valid_keys = VCS_LIST + ('uri', 'file')
+    if hasattr(dep, 'keys'):
+        return first(dep[k] for k in valid_keys if k in dep) or None
+    return None
+
+
+def install_or_update_vcs(vcs_obj, src_dir, name, rev=None):    
+    target_dir = os.path.join(src_dir, name)
+    target_rev = vcs_obj.make_rev_options(rev)
+    if not os.path.exists(target_dir):
+        vcs_obj.obtain(target_dir)
+    vcs_obj.update(target_dir, target_rev)
+    return vcs_obj.get_revision(target_dir)
+
+
+def get_vcs_deps(project, pip_freeze=None, which=None, verbose=False, clear=False, pre=False, allow_global=False, dev=False):
+    from ._compat import vcs
+    section = 'vcs_dev_packages' if dev else 'vcs_packages'
+    lines = []
+    lockfiles = []
+    try:
+        packages = getattr(project, section)
+    except AttributeError:
+        return [], []
+    vcs_registry = vcs()
+    vcs_uri_map = {
+        extract_uri_from_vcs_dep(v): {'name': k, 'ref': v.get('ref')}
+        for k, v in packages.items()
+    }
+    for line in pip_freeze.strip().split('\n'):
+        # if the line doesn't match a vcs dependency in the Pipfile,
+        # ignore it
+        _vcs_match = first(_uri for _uri in vcs_uri_map.keys() if _uri in line)
+        if not _vcs_match:
+            continue
+
+        pipfile_name = vcs_uri_map[_vcs_match]['name']
+        pipfile_rev = vcs_uri_map[_vcs_match]['ref']
+        src_dir = os.environ.get('PIP_SRC', os.path.join(project.virtualenv_location, 'src'))
+        mkdir_p(src_dir)
+        names = {pipfile_name}
+        _pip_uri = line.lstrip('-e ')
+        backend_name = str(_pip_uri.split('+', 1)[0])
+        backend = vcs_registry._registry[first(b for b in vcs_registry if b == backend_name)]
+        __vcs = backend(url=_pip_uri)
+
+        installed = Requirement.from_line(line)
+        names.add(installed.normalized_name)
+        locked_rev = None
+        for _name in names:
+            locked_rev = install_or_update_vcs(__vcs, src_dir, _name, rev=pipfile_rev)
+        if installed.is_vcs:
+            installed.req.ref = locked_rev
+            lockfiles.append({pipfile_name: installed.pipfile_entry[1]})
+        pipfile_srcdir = os.path.join(src_dir, pipfile_name)
+        lockfile_srcdir = os.path.join(src_dir, installed.normalized_name)
+        lines.append(line)
+        if os.path.exists(pipfile_srcdir):
+            lockfiles.extend(venv_resolve_deps(['-e {0}'.format(pipfile_srcdir)], which=which, verbose=verbose, project=project, clear=clear, pre=pre, allow_global=allow_global))
+        else:
+            lockfiles.extend(venv_resolve_deps(['-e {0}'.format(lockfile_srcdir)], which=which, verbose=verbose, project=project, clear=clear, pre=pre, allow_global=allow_global))
+    return lines, lockfiles
