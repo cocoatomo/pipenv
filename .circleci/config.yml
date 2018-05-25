@@ -98,8 +98,8 @@ jobs:
       - run:
           name: build document
           command: |
-            git config --global user.email "circleci-build-bot@example.com"
-            git config --global user.name "Autobuild bot on CircleCI"
+            git config --global user.email "cocoatomo77@gmail.com"
+            git config --global user.name "cocoatomo"
             git add docs/locales/ja/
             if [ $(git status -s | wc -l) -eq 0 ]; then echo "nothing to build"; exit 0; fi
             git commit -a -m "[skip ci] Update .po files"
