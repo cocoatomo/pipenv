@@ -131,6 +131,9 @@ msgid ""
 "``$PYENV_ROOT/shims/python`` to let it consult pyenv when choosing the "
 "interpreter. See :ref:`specifying_versions` for more information."
 msgstr ""
+"Pipenvはデフォルトでは仮想環境を作成するのに使われたPythonを使います。\n"
+"``--python`` オプションを設定するか、もしくはインタプリタを選択するときに ``$PYENV_ROOT/shims/python`` を設定してpyenvを参照させられます。\n"
+"より詳しいことは :ref:`specifying_versions` を参照してください。"
 
 #: ../../diagnose.rst:65
 msgid ""
