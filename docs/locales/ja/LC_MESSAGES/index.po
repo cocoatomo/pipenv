@@ -135,7 +135,8 @@ msgid ""
 "*Pipenv is the porcelain I always wanted to build for pip. It fits my brain "
 "and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*"
 msgstr ""
-"*Pipenvは、私がpipの開発で作り上げたかった磁器だ。私の思考回路にピッタリだし、virtualenvwrapperと手作業でのpipの呼び出しのほとんどを置き換えてくれる。是非使うべきだ。*"
+"*Pipenv is the porcelain I always wanted to build for pip. "
+"私の思考回路にピッタリだし、virtualenvwrapperと手作業でのpipの呼び出しのほとんどを置き換えてくれる。是非使うべきだ。*"
 
 #: ../../index.rst:75
 msgid "**David Gang**—"
@@ -150,7 +151,7 @@ msgid ""
 msgstr ""
 "*このパッケージマネージャーは本当に素晴しい。\n"
 "どんな依存関係があり、そのうちのどれが私がインストールしたもので、どれが推移的依存関係なのかを初めて認識できた。\n"
-"インストールが決定論的であることも相俟って、cargoのような一級品のパッケージマネージャーとなっている。*"
+"インストールが決定論的であることも相俟って、cargoのような一級品のパッケージマネージャーとなっている* 。"
 
 #: ../../index.rst:78
 msgid "**Justin Myles Holmes**—"
@@ -160,7 +161,7 @@ msgstr "**Justin Myles Holmes**—"
 msgid ""
 "*Pipenv is finally an abstraction meant to engage the mind instead of merely"
 " the filesystem.*"
-msgstr "*Pipenvは遂に、単なるファイルシステムとではなく思考と結び付くための抽象化を果たした*"
+msgstr "*Pipenvは遂に、単なるファイルシステムとではなく思考と結び付くための抽象化を果たした。*"
 
 #: ../../index.rst:81
 msgid "☤ Pipenv Features"
