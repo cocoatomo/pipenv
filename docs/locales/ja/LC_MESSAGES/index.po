@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.05.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-20 15:01+0000\n"
+"POT-Creation-Date: 2018-06-08 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -249,8 +249,8 @@ msgstr "他のコマンド"
 
 #: ../../index.rst:108
 msgid ""
-"``graph`` will show you a dependency graph, of your installed dependencies."
-msgstr "``graph`` はインストールされた依存パッケージの依存関係グラフを表示します。"
+"``graph`` will show you a dependency graph of your installed dependencies."
+msgstr ""
 
 #: ../../index.rst:109
 msgid "``shell`` will spawn a shell with the virtualenv activated."
@@ -382,6 +382,11 @@ msgstr "逆向きの依存関係グラフ。"
 #: ../../../pipenv install:1 ../../../pipenv update:1
 msgid "Install package(s) in [dev-packages]."
 msgstr "[dev-packages] にあるパッケージをインストールします。"
+
+#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1 ../../../pipenv update:1
+msgid "Specify a PyPI mirror."
+msgstr ""
 
 #: ../../../pipenv install:1 ../../../pipenv uninstall:1
 msgid "System pip management."
