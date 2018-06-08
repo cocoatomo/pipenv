@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.05.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-20 15:01+0000\n"
+"POT-Creation-Date: 2018-06-08 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,7 +177,7 @@ msgid "Other Commands"
 msgstr ""
 
 #: ../../index.rst:108
-msgid "``graph`` will show you a dependency graph, of your installed dependencies."
+msgid "``graph`` will show you a dependency graph of your installed dependencies."
 msgstr ""
 
 #: ../../index.rst:109
@@ -341,6 +341,14 @@ msgstr ""
 #: ../../../pipenv install:1
 #: ../../../pipenv update:1
 msgid "Install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../../pipenv install:1
+#: ../../../pipenv lock:1
+#: ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "Specify a PyPI mirror."
 msgstr ""
 
 #: ../../../pipenv install:1
