@@ -40,16 +40,20 @@ from .utils import (
     prepare_pip_source_args,
     temp_environ,
     is_valid_url,
+    is_pypi_url,
+    create_mirror_source,
     download_file,
     is_pinned,
     is_star,
     rmtree,
     split_argument,
     extract_uri_from_vcs_dep,
+    fs_str,
 )
 from ._compat import (
     TemporaryDirectory,
-    vcs
+    vcs,
+    Path
 )
 from .import pep508checker, progress
 from .environments import (
@@ -73,6 +77,7 @@ from .environments import (
     PIPENV_SHELL,
     PIPENV_PYTHON,
     PIPENV_VIRTUALENV,
+    PIPENV_CACHE_DIR,
 )
 
 # Backport required for earlier versions of Python.
@@ -123,10 +128,10 @@ def which(command, location=None, allow_global=False):
     if not allow_global:
         if os.name == 'nt':
             p = find_windows_executable(
-                os.path.join(location, 'Scripts'), command
+                os.path.join(location, 'Scripts'), command,
             )
         else:
-            p = os.sep.join([location] + ['bin/{0}'.format(command)])
+            p = os.path.join(location, 'bin', command)
     else:
         if command == 'python':
             p = sys.executable
@@ -714,6 +719,7 @@ def do_install_dependencies(
     verbose=False,
     concurrent=True,
     requirements_dir=None,
+    pypi_mirror = False,
 ):
     """"Executes the install functionality.
 
@@ -816,6 +822,7 @@ def do_install_dependencies(
                 index=index,
                 requirements_dir=requirements_dir,
                 extra_indexes=extra_indexes,
+                pypi_mirror=pypi_mirror,
             )
             c.dep = dep
             c.ignore_hash = ignore_hash
@@ -998,6 +1005,7 @@ def do_lock(
     pre=False,
     keep_outdated=False,
     write=True,
+    pypi_mirror = None,
 ):
     """Executes the freeze functionality."""
     from .utils import get_vcs_deps
@@ -1052,6 +1060,7 @@ def do_lock(
         clear=clear,
         pre=pre,
         allow_global=system,
+        pypi_mirror=pypi_mirror,
     )
     # Add develop dependencies to lockfile.
     for dep in results:
@@ -1072,7 +1081,7 @@ def do_lock(
             lockfile['develop'][dep['name']]['markers'] = dep['markers']
     # Add refs for VCS installs.
     # TODO: be smarter about this.
-    vcs_dev_lines, vcs_dev_lockfiles = get_vcs_deps(project, pip_freeze, which=which, verbose=verbose, clear=clear, pre=pre, allow_global=system, dev=True)
+    vcs_dev_lines, vcs_dev_lockfiles = get_vcs_deps(project, pip_freeze, which=which, verbose=verbose, clear=clear, pre=pre, allow_global=system, dev=True, pypi_mirror=pypi_mirror)
     for lf in vcs_dev_lockfiles:
         try:
             name = first(lf.keys())
@@ -1102,6 +1111,7 @@ def do_lock(
         clear=False,
         pre=pre,
         allow_global=system,
+        pypi_mirror=pypi_mirror,
     )
     # Add default dependencies to lockfile.
     for dep in results:
@@ -1128,7 +1138,7 @@ def do_lock(
             lockfile['default'][dep['name']]['markers'] = dep['markers']
     # Add refs for VCS installs.
     # TODO: be smarter about this.
-    _vcs_deps, vcs_lockfiles = get_vcs_deps(project, pip_freeze, which=which, verbose=verbose, clear=clear, pre=pre, allow_global=system, dev=False)
+    _vcs_deps, vcs_lockfiles = get_vcs_deps(project, pip_freeze, which=which, verbose=verbose, clear=clear, pre=pre, allow_global=system, dev=False, pypi_mirror=pypi_mirror)
     for lf in vcs_lockfiles:
         try:
             name = first(lf.keys())
@@ -1277,6 +1287,7 @@ def do_init(
     pre=False,
     keep_outdated=False,
     requirements_dir=None,
+    pypi_mirror=None,
 ):
     """Executes the init functionality."""
     if not system:
@@ -1334,7 +1345,7 @@ def do_init(
                     ),
                     err=True,
                 )
-                do_lock(system=system, pre=pre, keep_outdated=keep_outdated)
+                do_lock(system=system, pre=pre, keep_outdated=keep_outdated, pypi_mirror=pypi_mirror)
     # Write out the lockfile if it doesn't exist.
     if not project.lockfile_exists and not skip_lock:
         # Unless we're in a virtualenv not managed by pipenv, abort if we're
@@ -1360,6 +1371,7 @@ def do_init(
                 pre=pre,
                 keep_outdated=keep_outdated,
                 verbose=verbose,
+                pypi_mirror=pypi_mirror,
             )
     do_install_dependencies(
         dev=dev,
@@ -1369,6 +1381,7 @@ def do_init(
         verbose=verbose,
         concurrent=concurrent,
         requirements_dir=requirements_dir.name,
+        pypi_mirror=pypi_mirror,
     )
     requirements_dir.cleanup()
     # Activate virtualenv instructions.
@@ -1389,6 +1402,7 @@ def pip_install(
     selective_upgrade=False,
     requirements_dir=None,
     extra_indexes=None,
+    pypi_mirror = None,
 ):
     from notpip._internal import logger as piplogger
     from notpip._vendor.pyparsing import ParseException
@@ -1460,6 +1474,8 @@ def pip_install(
                     sources.append({'url': idx['url']})
     else:
         sources = project.pipfile_sources
+    if pypi_mirror:
+        sources = [create_mirror_source(pypi_mirror) if is_pypi_url(source['url']) else source for source in sources]
     if package_name.startswith('-e '):
         install_reqs = ' -e "{0}"'.format(package_name.split('-e ')[1])
     elif r:
@@ -1494,11 +1510,23 @@ def pip_install(
     )
     if verbose:
         click.echo('$ {0}'.format(pip_command), err=True)
-    c = delegator.run(pip_command, block=block)
+    cache_dir = Path(PIPENV_CACHE_DIR)
+    pip_config = {
+        'PIP_CACHE_DIR': fs_str(cache_dir.as_posix()),
+        'PIP_WHEEL_DIR': fs_str(cache_dir.joinpath('wheels').as_posix()),
+        'PIP_DESTINATION_DIR': fs_str(cache_dir.joinpath('pkgs').as_posix()),
+    }
+    c = delegator.run(pip_command, block=block, env=pip_config)
     return c
 
 
 def pip_download(package_name):
+    cache_dir = Path(PIPENV_CACHE_DIR)
+    pip_config = {
+        'PIP_CACHE_DIR': fs_str(cache_dir.as_posix()),
+        'PIP_WHEEL_DIR': fs_str(cache_dir.joinpath('wheels').as_posix()),
+        'PIP_DESTINATION_DIR': fs_str(cache_dir.joinpath('pkgs').as_posix()),
+    }
     for source in project.sources:
         cmd = '{0} download "{1}" -i {2} -d {3}'.format(
             escape_grouped_arguments(which_pip()),
@@ -1506,7 +1534,7 @@ def pip_download(package_name):
             source['url'],
             project.download_location,
         )
-        c = delegator.run(cmd)
+        c = delegator.run(cmd, env=pip_config)
         if c.return_code == 0:
             break
 
@@ -1669,7 +1697,7 @@ def warn_in_virtualenv():
             )
 
 
-def ensure_lockfile(keep_outdated=False):
+def ensure_lockfile(keep_outdated=False, pypi_mirror=None):
     """Ensures that the lockfile is up–to–date."""
     if not keep_outdated:
         keep_outdated = project.settings.get('keep_outdated')
@@ -1687,9 +1715,9 @@ def ensure_lockfile(keep_outdated=False):
                 ),
                 err=True,
             )
-            do_lock(keep_outdated=keep_outdated)
+            do_lock(keep_outdated=keep_outdated, pypi_mirror=pypi_mirror)
     else:
-        do_lock(keep_outdated=keep_outdated)
+        do_lock(keep_outdated=keep_outdated, pypi_mirror=pypi_mirror)
 
 
 def do_py(system=False):
@@ -1699,7 +1727,7 @@ def do_py(system=False):
         click.echo(crayons.red('No project found!'))
 
 
-def do_outdated():
+def do_outdated(pypi_mirror=None):
     packages = {}
     results = delegator.run('{0} freeze'.format(which('pip'))).out.strip(
     ).split(
@@ -1710,7 +1738,7 @@ def do_outdated():
         dep = Requirement.from_line(result)
         packages.update(dep.as_pipfile())
     updated_packages = {}
-    lockfile = do_lock(write=False)
+    lockfile = do_lock(write=False, pypi_mirror=pypi_mirror)
     for section in ('develop', 'default'):
         for package in lockfile[section]:
             try:
@@ -1742,6 +1770,7 @@ def do_install(
     dev=False,
     three=False,
     python=False,
+    pypi_mirror=None,
     system=False,
     lock=True,
     ignore_pipfile=False,
@@ -1764,7 +1793,8 @@ def do_install(
         keep_outdated = True
     more_packages = more_packages or []
     # Don't search for requirements.txt files if the user provides one
-    skip_requirements = True if requirements else False
+    if requirements or package_name or project.pipfile_exists:
+        skip_requirements = True
     concurrent = (not sequential)
     # Ensure that virtualenv is available.
     ensure_project(
@@ -1893,7 +1923,7 @@ def do_install(
     # Capture . argument and assign it to nothing
     if package_name == '.':
         package_name = False
-    # Install editable local packages before locking - this givves us acceess to dist-info
+    # Install editable local packages before locking - this gives us access to dist-info
     if project.pipfile_exists and (
         not project.lockfile_exists or not project.virtualenv_exists
     ):
@@ -1925,6 +1955,7 @@ def do_install(
             deploy=deploy,
             pre=pre,
             requirements_dir=requirements_directory,
+            pypi_mirror=pypi_mirror,
         )
         requirements_directory.cleanup()
         sys.exit(0)
@@ -1970,6 +2001,7 @@ def do_install(
                 requirements_dir=requirements_directory.name,
                 index=index,
                 extra_indexes=extra_indexes,
+                pypi_mirror=pypi_mirror,
             )
             # Warn if --editable wasn't passed.
             try:
@@ -2037,12 +2069,14 @@ def do_install(
     if lock and not skip_lock:
         do_init(
             dev=dev,
+            system=system,
             allow_global=system,
             concurrent=concurrent,
             verbose=verbose,
             keep_outdated=keep_outdated,
             requirements_dir=requirements_directory,
             deploy=deploy,
+            pypi_mirror=pypi_mirror,
         )
         requirements_directory.cleanup()
 
@@ -2058,6 +2092,7 @@ def do_uninstall(
     all=False,
     verbose=False,
     keep_outdated=False,
+    pypi_mirror=None,
 ):
     # Automatically use an activated virtualenv.
     if PIPENV_USE_SYSTEM:
@@ -2130,7 +2165,7 @@ def do_uninstall(
             project.remove_package_from_pipfile(package_name, dev=True)
             project.remove_package_from_pipfile(package_name, dev=False)
     if lock:
-        do_lock(system=system, keep_outdated=keep_outdated)
+        do_lock(system=system, keep_outdated=keep_outdated, pypi_mirror=pypi_mirror)
 
 
 def do_shell(three=None, python=False, fancy=False, shell_args=None):
@@ -2226,6 +2261,14 @@ def do_shell(three=None, python=False, fancy=False, shell_args=None):
 def inline_activate_virtualenv():
     try:
         activate_this = which('activate_this.py')
+        if not activate_this or not os.path.exists(activate_this):
+            click.echo(
+                u'{0}: activate_this.py not found. Your environment is most '
+                u'certainly not activated. Continuing anyway…'
+                u''.format(crayons.red('Warning', bold=True)),
+                err=True,
+            )
+            return
         with open(activate_this) as f:
             code = compile(f.read(), activate_this, 'exec')
             exec(code, dict(__file__=activate_this))
@@ -2495,6 +2538,14 @@ def do_graph(bare=False, json=False, json_tree=False, reverse=False):
                     click.echo(crayons.normal(line, bold=False))
     else:
         click.echo(c.out)
+    if c.return_code != 0:
+        click.echo(
+            '{0} {1}'.format(
+                crayons.red('ERROR: ', bold=True),
+                crayons.white('{0}'.format(c.err, bold=True)),
+            ),
+            err=True
+        )
     # Return its return code.
     sys.exit(c.return_code)
 
@@ -2513,6 +2564,7 @@ def do_sync(
     clear=False,
     unused=False,
     sequential=False,
+    pypi_mirror=None,
 ):
     # The lock file needs to exist because sync won't write to it.
     if not project.lockfile_exists:
@@ -2538,25 +2590,25 @@ def do_sync(
         concurrent=(not sequential),
         requirements_dir=requirements_dir,
         ignore_pipfile=True,    # Don't check if Pipfile and lock match.
+        pypi_mirror=pypi_mirror,
     )
     requirements_dir.cleanup()
     click.echo(crayons.green('All dependencies are now up-to-date!'))
 
 
 def do_clean(
-    ctx, three=None, python=None, dry_run=False, bare=False, verbose=False
+    ctx, three=None, python=None, dry_run=False, bare=False, verbose=False, pypi_mirror=None
 ):
     # Ensure that virtualenv is available.
     ensure_project(three=three, python=python, validate=False)
-    ensure_lockfile()
-    installed_packages = filter(
-        None,
-        delegator.run('{0} freeze'.format(which_pip())).out.strip().split(
-            '\n'
-        ),
-    )
+    ensure_lockfile(pypi_mirror=pypi_mirror)
+
     installed_package_names = []
-    for installed in installed_packages:
+    pip_freeze_command = delegator.run('{0} freeze'.format(which_pip()))
+    for line in pip_freeze_command.out.split('\n'):
+        installed = line.strip()
+        if not installed or installed.startswith('#'):  # Comment or empty.
+            continue
         r = Requirement.from_line(installed).requirement
         # Ignore editable installations.
         if not r.editable:

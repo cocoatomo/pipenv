@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 import errno
+import logging
 import os
 import re
-import hashlib
-import tempfile
-import sys
 import shutil
-import logging
+import sys
+
 import crayons
 import parse
 import six
 import stat
 import warnings
-from click import echo as click_echo
 
+from click import echo as click_echo
 from first import first
+
 try:
     from weakref import finalize
 except ImportError:
@@ -28,9 +28,10 @@ except ImportError:
             def detach(self):
                 return False
 
+logging.basicConfig(level=logging.ERROR)
+
 from time import time
 
-logging.basicConfig(level=logging.ERROR)
 try:
     from urllib.parse import urlparse
 except ImportError:
@@ -48,7 +49,7 @@ from .pep508checker import lookup
 from .environments import (
     PIPENV_MAX_ROUNDS,
     PIPENV_CACHE_DIR,
-    PIPENV_MAX_RETRIES
+    PIPENV_MAX_RETRIES,
 )
 
 try:
@@ -216,11 +217,11 @@ def prepare_pip_source_args(sources, pip_args=None):
     return pip_args
 
 
-def actually_resolve_reps(
+def actually_resolve_deps(
     deps, index_lookup, markers_lookup, project, sources, verbose, clear, pre, req_dir=None
 ):
-    from .patched.notpip._internal import basecommand, req
-    from .patched.notpip._vendor import requests as pip_requests
+    from .patched.notpip._internal import basecommand
+    from .patched.notpip._internal.req import parse_requirements
     from .patched.notpip._internal.exceptions import DistributionNotFound
     from .patched.notpip._vendor.requests.exceptions import HTTPError
     from pipenv.patched.piptools.resolver import Resolver
@@ -228,7 +229,7 @@ def actually_resolve_reps(
     from pipenv.patched.piptools.scripts.compile import get_pip_command
     from pipenv.patched.piptools import logging as piptools_logging
     from pipenv.patched.piptools.exceptions import NoCandidateFound
-    from ._compat import TemporaryDirectory
+    from ._compat import TemporaryDirectory, NamedTemporaryFile
 
     class PipCommand(basecommand.Command):
         """Needed for pip-tools."""
@@ -240,42 +241,37 @@ def actually_resolve_reps(
         req_dir = TemporaryDirectory(suffix='-requirements', prefix='pipenv-')
         cleanup_req_dir = True
     for dep in deps:
-        if dep:
-            if dep.startswith('-e '):
-                constraint = req.InstallRequirement.from_editable(
-                    dep[len('-e '):]
-                )
-            else:
-                fd, t = tempfile.mkstemp(
-                    prefix='pipenv-', suffix='-requirement.txt', dir=req_dir.name
-                )
-                with os.fdopen(fd, 'w') as f:
-                    f.write(dep)
-                constraint = [
-                    c for c in req.parse_requirements(t, session=pip_requests)
-                ][
-                    0
-                ]
-            # extra_constraints = []
-            if ' -i ' in dep:
-                index_lookup[constraint.name] = project.get_source(
-                    url=dep.split(' -i ')[1]
-                ).get(
-                    'name'
-                )
-            if constraint.markers:
-                markers_lookup[constraint.name] = str(
-                    constraint.markers
-                ).replace(
-                    '"', "'"
-                )
-            constraints.append(constraint)
+        if not dep:
+            continue
+        url = None
+        if ' -i ' in dep:
+            dep, url = dep.split(' -i ')
+        req = Requirement.from_line(dep)
+
+        # req.as_line() is theoratically the same as dep, but is guarenteed to
+        # be normalized. This is safer than passing in dep.
+        # TODO: Stop passing dep lines around; just use requirement objects.
+        constraints.append(req.as_line())
+        # extra_constraints = []
+
+        if url:
+            index_lookup[req.name] = project.get_source(url=url).get('name')
+        if req.markers:
+            markers_lookup[req.name] = req.markers.replace('"', "'")
+    constraints_file = None
     pip_command = get_pip_command()
     pip_args = []
     if sources:
         pip_args = prepare_pip_source_args(sources, pip_args)
+    with NamedTemporaryFile(mode='w', prefix='pipenv-', suffix='-constraints.txt', dir=req_dir.name, delete=False) as f:
+        if sources:
+            requirementstxt_sources = ' '.join(pip_args).replace(' --', '\n--')
+            f.write(u'{0}\n'.format(requirementstxt_sources))
+        f.write(u'\n'.join([_constraint for _constraint in constraints]))
+        constraints_file = f.name
     if verbose:
         print('Using pip: {0}'.format(' '.join(pip_args)))
+    pip_args = pip_args.extend(['--cache-dir', PIPENV_CACHE_DIR])
     pip_options, _ = pip_command.parse_args(pip_args)
     session = pip_command._build_session(pip_options)
     pypi = PyPIRepository(
@@ -285,9 +281,11 @@ def actually_resolve_reps(
         logging.log.verbose = True
         piptools_logging.log.verbose = True
     resolved_tree = set()
-
     resolver = Resolver(
-        constraints=constraints,
+        constraints=parse_requirements(
+            constraints_file,
+            finder=pypi.finder, session=pypi.session, options=pip_options,
+        ),
         repository=pypi,
         clear_caches=clear,
         prereleases=pre,
@@ -327,7 +325,7 @@ def actually_resolve_reps(
 
 
 def venv_resolve_deps(
-    deps, which, project, pre=False, verbose=False, clear=False, allow_global=False
+    deps, which, project, pre=False, verbose=False, clear=False, allow_global=False, pypi_mirror=None
 ):
     from .vendor import delegator
     from . import resolver
@@ -345,6 +343,8 @@ def venv_resolve_deps(
     )
     with temp_environ():
         os.environ['PIPENV_PACKAGES'] = '\n'.join(deps)
+        if pypi_mirror:
+            os.environ['PIPENV_PYPI_MIRROR'] = str(pypi_mirror)
         c = delegator.run(cmd, block=True)
     try:
         assert c.return_code == 0
@@ -391,7 +391,7 @@ def resolve_deps(
     req_dir = TemporaryDirectory(prefix='pipenv-', suffix='-requirements')
     with HackedPythonVersion(python_version=python, python_path=python_path):
         try:
-            resolved_tree, resolver = actually_resolve_reps(
+            resolved_tree, resolver = actually_resolve_deps(
                 deps,
                 index_lookup,
                 markers_lookup,
@@ -414,7 +414,7 @@ def resolve_deps(
             try:
                 # Attempt to resolve again, with different Python version information,
                 # particularly for particularly particular packages.
-                resolved_tree, resolver = actually_resolve_reps(
+                resolved_tree, resolver = actually_resolve_deps(
                     deps,
                     index_lookup,
                     markers_lookup,
@@ -837,20 +837,18 @@ def get_windows_path(*args):
 def find_windows_executable(bin_path, exe_name):
     """Given an executable name, search the given location for an executable"""
     requested_path = get_windows_path(bin_path, exe_name)
-    if os.path.exists(requested_path):
+    if os.path.isfile(requested_path):
         return requested_path
 
-    # Ensure we aren't adding two layers of file extensions
-    exe_name = os.path.splitext(exe_name)[0]
-    files = [
-        '{0}.{1}'.format(exe_name, ext) for ext in ['', 'py', 'exe', 'bat']
-    ]
-    exec_paths = [get_windows_path(bin_path, f) for f in files]
-    exec_files = [
-        filename for filename in exec_paths if os.path.isfile(filename)
-    ]
-    if exec_files:
-        return exec_files[0]
+    try:
+        pathext = os.environ['PATHEXT']
+    except KeyError:
+        pass
+    else:
+        for ext in pathext.split(os.pathsep):
+            path = get_windows_path(bin_path, exe_name + ext.strip().lower())
+            if os.path.isfile(path):
+                return path
 
     return find_executable(exe_name)
 
@@ -924,6 +922,16 @@ def is_valid_url(url):
     """Checks if a given string is an url"""
     pieces = urlparse(url)
     return all([pieces.scheme, pieces.netloc])
+
+
+def is_pypi_url(url):
+    return bool(re.match(r'^http[s]?:\/\/pypi(?:\.python)?\.org\/simple[\/]?$', url))
+
+def replace_pypi_sources(sources, pypi_replacement_source):
+    return [pypi_replacement_source] + [source for source in sources if not is_pypi_url(source['url'])]
+
+def create_mirror_source(url):
+    return {'url': url, 'verify_ssl': url.startswith('https://'), 'name': urlparse(url).hostname}
 
 
 def download_file(url, filename):
@@ -1130,59 +1138,118 @@ def extract_uri_from_vcs_dep(dep):
     return None
 
 
-def install_or_update_vcs(vcs_obj, src_dir, name, rev=None):    
+def install_or_update_vcs(vcs_obj, src_dir, name, rev=None):
     target_dir = os.path.join(src_dir, name)
     target_rev = vcs_obj.make_rev_options(rev)
     if not os.path.exists(target_dir):
         vcs_obj.obtain(target_dir)
-    vcs_obj.update(target_dir, target_rev)
+    if not vcs_obj.is_commit_id_equal(target_dir, rev) and not vcs_obj.is_commit_id_equal(target_dir, target_rev):
+        vcs_obj.update(target_dir, target_rev)
     return vcs_obj.get_revision(target_dir)
 
 
-def get_vcs_deps(project, pip_freeze=None, which=None, verbose=False, clear=False, pre=False, allow_global=False, dev=False):
-    from ._compat import vcs
-    section = 'vcs_dev_packages' if dev else 'vcs_packages'
+def get_vcs_deps(
+    project,
+    pip_freeze=None,
+    which=None,
+    verbose=False,
+    clear=False,
+    pre=False,
+    allow_global=False,
+    dev=False,
+    pypi_mirror=None,
+):
+    from .patched.notpip._internal.vcs import VcsSupport
+    from ._compat import TemporaryDirectory
+
+    section = "vcs_dev_packages" if dev else "vcs_packages"
     lines = []
     lockfiles = []
     try:
         packages = getattr(project, section)
     except AttributeError:
         return [], []
-    vcs_registry = vcs()
+    if not os.environ.get("PIP_SRC") and not project.virtualenv_location:
+        _src_dir = TemporaryDirectory(prefix='pipenv-', suffix='-src')
+        src_dir = Path(_src_dir.name)
+    else:
+        src_dir = Path(
+            os.environ.get("PIP_SRC", os.path.join(project.virtualenv_location, "src"))
+        )
+        src_dir.mkdir(mode=0o775, exist_ok=True)
+    vcs_registry = VcsSupport
     vcs_uri_map = {
-        extract_uri_from_vcs_dep(v): {'name': k, 'ref': v.get('ref')}
+        extract_uri_from_vcs_dep(v): {"name": k, "ref": v.get("ref")}
         for k, v in packages.items()
     }
-    for line in pip_freeze.strip().split('\n'):
+    for line in pip_freeze.strip().split("\n"):
         # if the line doesn't match a vcs dependency in the Pipfile,
         # ignore it
         _vcs_match = first(_uri for _uri in vcs_uri_map.keys() if _uri in line)
         if not _vcs_match:
             continue
 
-        pipfile_name = vcs_uri_map[_vcs_match]['name']
-        pipfile_rev = vcs_uri_map[_vcs_match]['ref']
-        src_dir = os.environ.get('PIP_SRC', os.path.join(project.virtualenv_location, 'src'))
-        mkdir_p(src_dir)
+        pipfile_name = vcs_uri_map[_vcs_match]["name"]
+        pipfile_rev = vcs_uri_map[_vcs_match]["ref"]
+        pipfile_req = Requirement.from_pipfile(pipfile_name, [], packages[pipfile_name])
         names = {pipfile_name}
-        _pip_uri = line.lstrip('-e ')
-        backend_name = str(_pip_uri.split('+', 1)[0])
-        backend = vcs_registry._registry[first(b for b in vcs_registry if b == backend_name)]
-        __vcs = backend(url=_pip_uri)
-
+        backend = vcs_registry()._registry.get(pipfile_req.vcs)
+        # TODO: Why doesn't pip freeze list 'git+git://' formatted urls?
+        if line.startswith("-e ") and not "{0}+".format(pipfile_req.vcs) in line:
+            line = line.replace("-e ", "-e {0}+".format(pipfile_req.vcs))
         installed = Requirement.from_line(line)
+        __vcs = backend(url=installed.req.uri)
+
         names.add(installed.normalized_name)
         locked_rev = None
         for _name in names:
-            locked_rev = install_or_update_vcs(__vcs, src_dir, _name, rev=pipfile_rev)
+            locked_rev = install_or_update_vcs(
+                __vcs, src_dir.as_posix(), _name, rev=pipfile_rev
+            )
         if installed.is_vcs:
             installed.req.ref = locked_rev
             lockfiles.append({pipfile_name: installed.pipfile_entry[1]})
-        pipfile_srcdir = os.path.join(src_dir, pipfile_name)
-        lockfile_srcdir = os.path.join(src_dir, installed.normalized_name)
+        pipfile_srcdir = (src_dir / pipfile_name).as_posix()
+        lockfile_srcdir = (src_dir / installed.normalized_name).as_posix()
         lines.append(line)
         if os.path.exists(pipfile_srcdir):
-            lockfiles.extend(venv_resolve_deps(['-e {0}'.format(pipfile_srcdir)], which=which, verbose=verbose, project=project, clear=clear, pre=pre, allow_global=allow_global))
+            lockfiles.extend(
+                venv_resolve_deps(
+                    ["-e {0}".format(pipfile_srcdir)],
+                    which=which,
+                    verbose=verbose,
+                    project=project,
+                    clear=clear,
+                    pre=pre,
+                    allow_global=allow_global,
+                    pypi_mirror=pypi_mirror,
+                )
+            )
         else:
-            lockfiles.extend(venv_resolve_deps(['-e {0}'.format(lockfile_srcdir)], which=which, verbose=verbose, project=project, clear=clear, pre=pre, allow_global=allow_global))
+            lockfiles.extend(
+                venv_resolve_deps(
+                    ["-e {0}".format(lockfile_srcdir)],
+                    which=which,
+                    verbose=verbose,
+                    project=project,
+                    clear=clear,
+                    pre=pre,
+                    allow_global=allow_global,
+                    pypi_mirror=pypi_mirror,
+                )
+            )
     return lines, lockfiles
+
+
+def fs_str(string):
+    """Encodes a string into the proper filesystem encoding
+
+    Borrowed from pip-tools
+    """
+    if isinstance(string, str):
+        return string
+    assert not isinstance(string, bytes)
+    return string.encode(_fs_encoding)
+
+
+_fs_encoding = sys.getfilesystemencoding() or sys.getdefaultencoding()
