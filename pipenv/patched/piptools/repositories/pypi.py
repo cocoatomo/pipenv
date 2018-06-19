@@ -19,12 +19,13 @@ from .._compat import (
     PyPI,
     InstallRequirement,
     SafeFileCache,
+    InstallationError,
 )
 
-from notpip._vendor.packaging.requirements import InvalidRequirement, Requirement
-from notpip._vendor.packaging.version import Version, InvalidVersion, parse as parse_version
-from notpip._vendor.packaging.specifiers import SpecifierSet
-from notpip._vendor.pyparsing import ParseException
+from pipenv.patched.notpip._vendor.packaging.requirements import InvalidRequirement, Requirement
+from pipenv.patched.notpip._vendor.packaging.version import Version, InvalidVersion, parse as parse_version
+from pipenv.patched.notpip._vendor.packaging.specifiers import SpecifierSet, InvalidSpecifier
+from pipenv.patched.notpip._vendor.pyparsing import ParseException
 
 from ..cache import CACHE_DIR
 from pipenv.environments import PIPENV_CACHE_DIR
@@ -36,15 +37,15 @@ from .base import BaseRepository
 
 
 try:
-    from notpip._internal.operations.prepare import RequirementPreparer
-    from notpip._internal.resolve import Resolver as PipResolver
+    from pipenv.patched.notpip._internal.operations.prepare import RequirementPreparer
+    from pipenv.patched.notpip._internal.resolve import Resolver as PipResolver
 except ImportError:
     pass
 
 try:
-    from notpip._internal.cache import WheelCache
+    from pipenv.patched.notpip._internal.cache import WheelCache
 except ImportError:
-    from notpip.wheel import WheelCache
+    from pipenv.patched.notpip.wheel import WheelCache
 
 
 class HashCache(SafeFileCache):
@@ -166,8 +167,18 @@ class PyPIRepository(BaseRepository):
         py_version = parse_version(os.environ.get('PIP_PYTHON_VERSION', str(sys.version_info[:3])))
         all_candidates = []
         for c in self.find_all_candidates(ireq.name):
-            if c.requires_python and not SpecifierSet(c.requires_python).contains(py_version):
-                continue
+            if c.requires_python:
+                # Old specifications had people setting this to single digits
+                # which is effectively the same as '>=digit,<digit+1'
+                if c.requires_python.isdigit():
+                    c.requires_python = '>={0},<{1}'.format(c.requires_python, int(c.requires_python) + 1)
+                try:
+                    specifier_set = SpecifierSet(c.requires_python)
+                except InvalidSpecifier:
+                    pass
+                else:
+                    if not specifier_set.contains(py_version):
+                        continue
             all_candidates.append(c)
 
         candidates_by_version = lookup_table(all_candidates, key=lambda c: c.version, unique=True)
@@ -257,24 +268,6 @@ class PyPIRepository(BaseRepository):
         if not (ireq.editable or is_pinned_requirement(ireq)):
             raise TypeError('Expected pinned or editable InstallRequirement, got {}'.format(ireq))
 
-        # Collect setup_requires info from local eggs.
-        setup_requires = {}
-        if ireq.editable:
-            try:
-                dist = ireq.get_dist()
-                if dist.has_metadata('requires.txt'):
-                    setup_requires = self.finder.get_extras_links(
-                        dist.get_metadata_lines('requires.txt')
-                    )
-                # HACK: Sometimes the InstallRequirement doesn't properly get
-                # these values set on it during the resolution process. It's
-                # difficult to pin down what is going wrong. This fixes things.
-                ireq.version = dist.version
-                ireq.project_name = dist.project_name
-                ireq.req = dist.as_requirement()
-            except (TypeError, ValueError):
-                pass
-
         if ireq not in self._dependencies_cache:
             if ireq.editable and (ireq.source_dir and os.path.exists(ireq.source_dir)):
                 # No download_dir for locally available editable requirements.
@@ -338,6 +331,26 @@ class PyPIRepository(BaseRepository):
                 )
                 self.resolver.resolve(reqset)
                 result = reqset.requirements.values()
+
+            # Collect setup_requires info from local eggs.
+            # Do this after we call the preparer on these reqs to make sure their
+            # egg info has been created
+            setup_requires = {}
+            if ireq.editable:
+                try:
+                    dist = ireq.get_dist()
+                    if dist.has_metadata('requires.txt'):
+                        setup_requires = self.finder.get_extras_links(
+                            dist.get_metadata_lines('requires.txt')
+                        )
+                    # HACK: Sometimes the InstallRequirement doesn't properly get
+                    # these values set on it during the resolution process. It's
+                    # difficult to pin down what is going wrong. This fixes things.
+                    ireq.version = dist.version
+                    ireq.project_name = dist.project_name
+                    ireq.req = dist.as_requirement()
+                except (TypeError, ValueError):
+                    pass
             # Convert setup_requires dict into a somewhat usable form.
             if setup_requires:
                 for section in setup_requires:
