@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.6.0.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-19 15:01+0000\n"
+"POT-Creation-Date: 2018-06-23 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -379,20 +379,20 @@ msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
 msgstr ""
 
 #: ../../../pipenv install:1
-msgid "Abort if the Pipfile.lock is out–of–date, or Python version is wrong."
+msgid "Abort if the Pipfile.lock is out-of-date, or Python version is wrong."
 msgstr ""
 
 #: ../../../pipenv install:1
 #: ../../../pipenv lock:1
 #: ../../../pipenv update:1
-msgid "Allow pre–releases."
+msgid "Allow pre-releases."
 msgstr ""
 
 #: ../../../pipenv install:1
 #: ../../../pipenv lock:1
 #: ../../../pipenv uninstall:1
 #: ../../../pipenv update:1
-msgid "Keep out–dated dependencies from being updated in Pipfile.lock."
+msgid "Keep out-dated dependencies from being updated in Pipfile.lock."
 msgstr ""
 
 #: ../../../pipenv install:1
@@ -450,7 +450,7 @@ msgstr ""
 
 #: ../../../pipenv update:1
 #: ../../../pipenv update:1
-msgid "List out–of–date dependencies."
+msgid "List out-of-date dependencies."
 msgstr ""
 
 #: ../../index.rst:132
