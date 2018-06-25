@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2018.6.0.dev0\n"
+"Project-Id-Version: pipenv 2018.6.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-23 15:00+0000\n"
+"POT-Creation-Date: 2018-06-25 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -346,6 +346,10 @@ msgstr "システムのPythonを使います。"
 #: ../../../pipenv check:1
 msgid "Given a code path, show potentially unused dependencies."
 msgstr "コードのパスを与えると、使われていない可能性のある依存関係を表示します。"
+
+#: ../../../pipenv check:1
+msgid "Ignore specified vulnerability during safety checks."
+msgstr ""
 
 #: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
 #: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
