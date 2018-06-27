@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.6.26.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-26 15:01+0000\n"
+"POT-Creation-Date: 2018-06-27 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -340,6 +340,12 @@ msgid "Show the version and exit."
 msgstr "バージョンを表示して終了します。"
 
 #: ../../../pipenv check:1
+msgid ""
+"Checks for security vulnerabilities and against PEP 508 markers provided in "
+"Pipfile."
+msgstr ""
+
+#: ../../../pipenv check:1
 msgid "Use system Python."
 msgstr "システムのPythonを使います。"
 
@@ -362,6 +368,10 @@ msgstr "引数"
 msgid "Optional argument(s)"
 msgstr "オプションの引数"
 
+#: ../../../pipenv clean:1
+msgid "Uninstalls all packages not specified in Pipfile.lock."
+msgstr ""
+
 #: ../../../pipenv clean:1 ../../../pipenv install:1 ../../../pipenv lock:1
 #: ../../../pipenv sync:1 ../../../pipenv uninstall:1 ../../../pipenv update:1
 msgid "Verbose mode."
@@ -370,6 +380,10 @@ msgstr "冗長モード。"
 #: ../../../pipenv clean:1
 msgid "Just output unneeded packages."
 msgstr "必須でないパッケージの出力のみを行います。"
+
+#: ../../../pipenv graph:1
+msgid "Displays currently-installed dependency graph information."
+msgstr ""
 
 #: ../../../pipenv graph:1
 msgid "Output JSON."
@@ -382,6 +396,12 @@ msgstr ""
 #: ../../../pipenv graph:1
 msgid "Reversed dependency graph."
 msgstr "逆向きの依存関係グラフ。"
+
+#: ../../../pipenv install:1
+msgid ""
+"Installs provided packages and adds them to Pipfile, or (if none is given), "
+"installs all packages."
+msgstr ""
 
 #: ../../../pipenv install:1 ../../../pipenv update:1
 msgid "Install package(s) in [dev-packages]."
@@ -439,6 +459,10 @@ msgid "Optional argument"
 msgstr "オプションの引数"
 
 #: ../../../pipenv lock:1
+msgid "Generates Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv lock:1
 msgid "Generate output compatible with requirements.txt."
 msgstr "requirements.txtと互換性のある出力を生成します。"
 
@@ -452,9 +476,21 @@ msgstr "開発用の依存パッケージのrequirements.txtと互換性のあ�
 msgid "Clear the dependency cache."
 msgstr "依存関係のキャッシュを削除します。"
 
+#: ../../../pipenv open:1
+msgid "View a given module in your editor."
+msgstr ""
+
 #: ../../../pipenv open:1 ../../../pipenv run:1
 msgid "Required argument"
 msgstr "必須の引数"
+
+#: ../../../pipenv run:1
+msgid "Spawns a command installed into the virtualenv."
+msgstr ""
+
+#: ../../../pipenv shell:1
+msgid "Spawns a shell within the virtualenv."
+msgstr ""
 
 #: ../../../pipenv shell:1
 msgid "Run in shell in fancy mode (for elegantly configured shells)."
@@ -465,8 +501,16 @@ msgid "Always spawn a subshell, even if one is already spawned."
 msgstr "サブシェルを既に起動している場合でも、常にサブシェルを起動します。"
 
 #: ../../../pipenv sync:1
+msgid "Installs all packages specified in Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv sync:1
 msgid "Additionally install package(s) in [dev-packages]."
 msgstr "追加で [dev-packages] にあるパッケージをインストールします。"
+
+#: ../../../pipenv uninstall:1
+msgid "Un-installs a provided package and removes it from Pipfile."
+msgstr ""
 
 #: ../../../pipenv uninstall:1
 msgid "Lock afterwards."
@@ -481,6 +525,10 @@ msgid "Purge all package(s) from virtualenv. Does not edit Pipfile."
 msgstr ""
 "仮想環境から全てのパッケージを除去します。\n"
 "Pipfileは編集しません。"
+
+#: ../../../pipenv update:1
+msgid "Runs lock, then sync."
+msgstr ""
 
 #: ../../../pipenv update:1 ../../../pipenv update:1
 msgid "List out-of-date dependencies."
