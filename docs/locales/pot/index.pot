@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.6.26.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-26 15:01+0000\n"
+"POT-Creation-Date: 2018-06-27 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -287,6 +287,10 @@ msgid "Show the version and exit."
 msgstr ""
 
 #: ../../../pipenv check:1
+msgid "Checks for security vulnerabilities and against PEP 508 markers provided in Pipfile."
+msgstr ""
+
+#: ../../../pipenv check:1
 msgid "Use system Python."
 msgstr ""
 
@@ -318,6 +322,10 @@ msgid "Optional argument(s)"
 msgstr ""
 
 #: ../../../pipenv clean:1
+msgid "Uninstalls all packages not specified in Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv clean:1
 #: ../../../pipenv install:1
 #: ../../../pipenv lock:1
 #: ../../../pipenv sync:1
@@ -331,6 +339,10 @@ msgid "Just output unneeded packages."
 msgstr ""
 
 #: ../../../pipenv graph:1
+msgid "Displays currently-installed dependency graph information."
+msgstr ""
+
+#: ../../../pipenv graph:1
 msgid "Output JSON."
 msgstr ""
 
@@ -340,6 +352,10 @@ msgstr ""
 
 #: ../../../pipenv graph:1
 msgid "Reversed dependency graph."
+msgstr ""
+
+#: ../../../pipenv install:1
+msgid "Installs provided packages and adds them to Pipfile, or (if none is given), installs all packages."
 msgstr ""
 
 #: ../../../pipenv install:1
@@ -410,6 +426,10 @@ msgid "Optional argument"
 msgstr ""
 
 #: ../../../pipenv lock:1
+msgid "Generates Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv lock:1
 msgid "Generate output compatible with requirements.txt."
 msgstr ""
 
@@ -424,8 +444,20 @@ msgid "Clear the dependency cache."
 msgstr ""
 
 #: ../../../pipenv open:1
+msgid "View a given module in your editor."
+msgstr ""
+
+#: ../../../pipenv open:1
 #: ../../../pipenv run:1
 msgid "Required argument"
+msgstr ""
+
+#: ../../../pipenv run:1
+msgid "Spawns a command installed into the virtualenv."
+msgstr ""
+
+#: ../../../pipenv shell:1
+msgid "Spawns a shell within the virtualenv."
 msgstr ""
 
 #: ../../../pipenv shell:1
@@ -437,7 +469,15 @@ msgid "Always spawn a subshell, even if one is already spawned."
 msgstr ""
 
 #: ../../../pipenv sync:1
+msgid "Installs all packages specified in Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv sync:1
 msgid "Additionally install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../../pipenv uninstall:1
+msgid "Un-installs a provided package and removes it from Pipfile."
 msgstr ""
 
 #: ../../../pipenv uninstall:1
@@ -450,6 +490,10 @@ msgstr ""
 
 #: ../../../pipenv uninstall:1
 msgid "Purge all package(s) from virtualenv. Does not edit Pipfile."
+msgstr ""
+
+#: ../../../pipenv update:1
+msgid "Runs lock, then sync."
 msgstr ""
 
 #: ../../../pipenv update:1
