@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.6.26.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-27 15:01+0000\n"
+"POT-Creation-Date: 2018-06-29 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cocoatomo, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -335,6 +335,13 @@ msgstr "どのバージョンのPython仮想環境を使うかを指定します
 msgid "Enable site-packages for the virtualenv."
 msgstr "仮想環境のsite-packagesを有効にします。"
 
+#: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv install:1
+#: ../../../pipenv lock:1 ../../../pipenv open:1 ../../../pipenv run:1
+#: ../../../pipenv shell:1 ../../../pipenv sync:1 ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "Specify a PyPI mirror."
+msgstr ""
+
 #: ../../../pipenv:1
 msgid "Show the version and exit."
 msgstr "バージョンを表示して終了します。"
@@ -407,11 +414,6 @@ msgstr ""
 #: ../../../pipenv install:1 ../../../pipenv update:1
 msgid "Install package(s) in [dev-packages]."
 msgstr "[dev-packages] にあるパッケージをインストールします。"
-
-#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv sync:1
-#: ../../../pipenv uninstall:1 ../../../pipenv update:1
-msgid "Specify a PyPI mirror."
-msgstr ""
 
 #: ../../../pipenv install:1 ../../../pipenv uninstall:1
 msgid "System pip management."
