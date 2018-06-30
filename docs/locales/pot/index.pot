@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.6.26.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 15:01+0000\n"
+"POT-Creation-Date: 2018-06-30 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -293,6 +293,10 @@ msgstr ""
 #: ../../../pipenv uninstall:1
 #: ../../../pipenv update:1
 msgid "Specify a PyPI mirror."
+msgstr ""
+
+#: ../../../pipenv:1
+msgid "Output diagnostic information for use in Github issues."
 msgstr ""
 
 #: ../../../pipenv:1
