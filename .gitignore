@@ -32,3 +32,5 @@ test_project
 /deb_dist/
 
 .tox/
+
+/.eggs
