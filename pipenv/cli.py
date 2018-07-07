@@ -136,6 +136,7 @@ def validate_pypi_mirror(ctx, param, value):
     is_flag=True,
     help="Output diagnostic information for use in Github issues.",
 )
+@option("--clear", is_flag=True, help="Clears caches (pipenv, pip, and pip-tools).")
 @version_option(prog_name=crayons.normal("pipenv", bold=True), version=__version__)
 @pass_context
 def cli(
@@ -154,8 +155,10 @@ def cli(
     completion=False,
     pypi_mirror=None,
     support=None,
+    clear=False,
 ):
-    if completion:  # Handle this ASAP to make shell startup fast.
+    # Handle this ASAP to make shell startup fast.
+    if completion:
         from . import shells
 
         try:
@@ -180,6 +183,7 @@ def cli(
         cleanup_virtualenv,
         ensure_project,
         format_help,
+        do_clear,
     )
 
     if man:
@@ -203,20 +207,25 @@ def cli(
         sys.exit(0)
     warn_in_virtualenv()
     if ctx.invoked_subcommand is None:
-        # --where was passed...
+        # --where was passed…
         if where:
             do_where(bare=True)
             sys.exit(0)
         elif py:
             do_py()
             sys.exit()
-        # --support was passed...
+        # --support was passed…
         elif support:
             from .help import get_pipenv_diagnostics
 
             get_pipenv_diagnostics()
             sys.exit(0)
-        # --venv was passed...
+        # --clear was passed…
+        elif clear:
+            do_clear()
+            sys.exit(0)
+
+        # --venv was passed…
         elif venv:
             # There is no virtualenv yet.
             if not project.virtualenv_exists:
@@ -228,7 +237,7 @@ def cli(
             else:
                 echo(project.virtualenv_location)
                 sys.exit(0)
-        # --rm was passed...
+        # --rm was passed…
         elif rm:
             # Abort if --system (or running in a virtualenv).
             if environments.PIPENV_USE_SYSTEM:
@@ -243,7 +252,7 @@ def cli(
                 loc = project.virtualenv_location
                 echo(
                     crayons.normal(
-                        u"{0} ({1})...".format(
+                        u"{0} ({1})…".format(
                             crayons.normal("Removing virtualenv", bold=True),
                             crayons.green(loc),
                         )
@@ -262,7 +271,7 @@ def cli(
                     err=True,
                 )
                 sys.exit(1)
-    # --two / --three was passed...
+    # --two / --three was passed…
     if (python or three is not None) or site_packages:
         ensure_project(
             three=three,
@@ -270,6 +279,7 @@ def cli(
             warn=True,
             site_packages=site_packages,
             pypi_mirror=pypi_mirror,
+            clear=clear,
         )
     # Check this again before exiting for empty ``pipenv`` command.
     elif ctx.invoked_subcommand is None:
@@ -822,8 +832,6 @@ def update(
         do_outdated,
         do_lock,
         do_sync,
-        ensure_lockfile,
-        do_install,
         project,
     )
 
