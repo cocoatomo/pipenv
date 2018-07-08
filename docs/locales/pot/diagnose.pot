@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-02 15:00+0000\n"
+"POT-Creation-Date: 2018-07-08 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,5 +166,13 @@ msgstr ""
 
 #: ../../diagnose.rst:129
 msgid "Add this line under ``[supervisord]`` section in ``/etc/supervisor/supervisord.conf``::"
+msgstr ""
+
+#: ../../diagnose.rst:135
+msgid "☤ An exception is raised during ``Locking dependencies…``"
+msgstr ""
+
+#: ../../diagnose.rst:137
+msgid "Run ``pipenv lock --clear`` and try again. The lock sequence caches results to speed up subsequent runs. The cache may contain faulty results if a bug causes the format to corrupt, even after the bug is fixed. ``--clear`` flushes the cache, and therefore removes the bad results."
 msgstr ""
 
