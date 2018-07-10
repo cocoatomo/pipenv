@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-08 15:01+0000\n"
+"POT-Creation-Date: 2018-07-10 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -97,10 +97,8 @@ msgstr "もしくは、新しいプロジェクトにパッケージを追加す
 #: ../../basics.rst:149
 msgid ""
 "This will create a ``Pipfile`` if one doesn't exist. If one does exist, it "
-"will automatically be edited with the new package your provided."
+"will automatically be edited with the new package you provided."
 msgstr ""
-"このコマンドは ``Pipfile`` が無ければ作成します。\n"
-"既に存在していた場合は、引数で与えたパッケージが追加されるよう自動的に ``Pipfile`` を編集します。"
 
 #: ../../basics.rst:151
 msgid "Next, activate the Pipenv shell::"
