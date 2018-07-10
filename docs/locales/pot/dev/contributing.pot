@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-02 15:00+0000\n"
+"POT-Creation-Date: 2018-07-10 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,7 +101,7 @@ msgid "Run the entire test suite again, confirming that all tests pass *includin
 msgstr ""
 
 #: ../../dev/contributing.rst:78
-msgid "Send a GitHub Pull Request to the main repository's ``master`` branch. GitHub Pull Pipenv are the expected method of code collaboration on this project."
+msgid "Send a GitHub Pull Request to the main repository's ``master`` branch. GitHub Pull Requests are the expected method of code collaboration on this project."
 msgstr ""
 
 #: ../../dev/contributing.rst:82
