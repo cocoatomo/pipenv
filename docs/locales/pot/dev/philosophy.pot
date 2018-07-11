@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-02 15:00+0000\n"
+"POT-Creation-Date: 2018-07-11 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,11 +29,11 @@ msgid "Management Style"
 msgstr ""
 
 #: ../../dev/philosophy.rst:10
-msgid "`Kenneth Reitz <http://kennethreitz.org>`_ is the BDFL. He has final say in any decision related to the Pipenv project. Kenneth is responsible for the direction and form of the library, as well as its presentation. In addition to making decisions based on technical merit, he is responsible for making decisions based on the development philosophy of Pipenv."
+msgid "`Kenneth Reitz <http://kennethreitz.org>`__ is the BDFL. He has final say in any decision related to the Pipenv project. Kenneth is responsible for the direction and form of the library, as well as its presentation. In addition to making decisions based on technical merit, he is responsible for making decisions based on the development philosophy of Pipenv."
 msgstr ""
 
 #: ../../dev/philosophy.rst:12
-msgid "`Dan Ryan<http://github.com/techalchemy>`_, `Tzu-ping Chung<https://github.com/uranusjr>`_, and `Nate Prewitt<https://github.com/nateprewitt>`_ are the core contributors. They are responsible for triaging bug reports, reviewing pull requests and ensuring that Kenneth is kept up to speed with developments around the library. The day-to-day managing of the project is done by the core contributors. They are responsible for making judgements about whether or not a feature request is likely to be accepted by Kenneth."
+msgid "`Dan Ryan <http://github.com/techalchemy>`__, `Tzu-ping Chung <https://github.com/uranusjr>`__, and `Nate Prewitt <https://github.com/nateprewitt>`__ are the core contributors. They are responsible for triaging bug reports, reviewing pull requests and ensuring that Kenneth is kept up to speed with developments around the library. The day-to-day managing of the project is done by the core contributors. They are responsible for making judgements about whether or not a feature request is likely to be accepted by Kenneth."
 msgstr ""
 
 #: ../../dev/philosophy.rst:18

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-10 15:01+0000\n"
+"POT-Creation-Date: 2018-07-11 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -652,18 +652,10 @@ msgid "You can force Pipenv to use a different cache location by setting the env
 msgstr ""
 
 #: ../../advanced.rst:552
-msgid "☤ Changing Where Pipenv Stores Virtualenvs"
-msgstr ""
-
-#: ../../advanced.rst:554
-msgid "By default, Pipenv stores all of your virtualenvs in a single place.  Usually this isn't a problem, but if you'd like to change it for developer ergonomics, or if it's causing issues on build servers you can set ``PIPENV_VENV_IN_PROJECT`` to create the virtualenv inside the root of your project."
-msgstr ""
-
-#: ../../advanced.rst:557
 msgid "☤ Changing Default Python Versions"
 msgstr ""
 
-#: ../../advanced.rst:559
+#: ../../advanced.rst:554
 msgid "By default, Pipenv will initialize a project using whatever version of python the python3 is. Besides starting a project with the ``--three`` or ``--two`` flags, you can also use ``PIPENV_DEFAULT_PYTHON_VERSION`` to specify what version to use when starting a project when ``--three`` or ``--two`` aren't used."
 msgstr ""
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-08 15:01+0000\n"
+"POT-Creation-Date: 2018-07-11 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgid "☤ No module named <module name>"
 msgstr ""
 
 #: ../../diagnose.rst:46
-msgid "This is usually a result of mixing Pipenv with system packages. We *strongly* recommend installing Pipenv in an isolated environment. Uninstall all existing Pipenv installations, and see :ref:`proper_installation` to choose one of the recommended way to install Pipenv instead."
+msgid "This is usually a result of mixing Pipenv with system packages. We *strongly* recommend installing Pipenv in an isolated environment. Uninstall all existing Pipenv installations, and see :ref:`installing-pipenv` to choose one of the recommended way to install Pipenv instead."
 msgstr ""
 
 #: ../../diagnose.rst:52
