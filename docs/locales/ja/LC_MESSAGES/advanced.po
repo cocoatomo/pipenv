@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-10 15:01+0000\n"
+"POT-Creation-Date: 2018-07-11 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -999,25 +999,10 @@ msgstr ""
 "これは ``PIP_CACHE_DIR`` を別のディレクトリに変更しているのと同じ状況で役に立ちます。"
 
 #: ../../advanced.rst:552
-msgid "☤ Changing Where Pipenv Stores Virtualenvs"
-msgstr "☤ Pipenvが仮想環境を保存する場所を変更する"
-
-#: ../../advanced.rst:554
-msgid ""
-"By default, Pipenv stores all of your virtualenvs in a single place.  "
-"Usually this isn't a problem, but if you'd like to change it for developer "
-"ergonomics, or if it's causing issues on build servers you can set "
-"``PIPENV_VENV_IN_PROJECT`` to create the virtualenv inside the root of your "
-"project."
-msgstr ""
-"デフォルトでは、Pipenvは単一の場所に仮想環境を保存します。\n"
-"通常はこれで問題ありませんが、開発者の都合でその場所を変更したくなったりビルドサーバーで問題が起きたりする場合には、 ``PIPENV_VENV_IN_PROJECT`` を設定してプロジェクトのルートディレクトリに仮想環境を作成できます。"
-
-#: ../../advanced.rst:557
 msgid "☤ Changing Default Python Versions"
 msgstr "☤ Pythonのデフォルトバージョンを変更する"
 
-#: ../../advanced.rst:559
+#: ../../advanced.rst:554
 msgid ""
 "By default, Pipenv will initialize a project using whatever version of "
 "python the python3 is. Besides starting a project with the ``--three`` or "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-02 15:00+0000\n"
+"POT-Creation-Date: 2018-07-11 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../../install.rst:4
+#: ../../install.rst:5
 msgid "Pipenv & Virtual Environments"
 msgstr "Pipenvと仮想環境"
 
-#: ../../install.rst:8
+#: ../../install.rst:9
 msgid "This tutorial walks you through installing and using Python packages."
 msgstr "このチュートリアルでは、Pythonのパッケージをインストールして使う体験をしてもらいます。"
 
-#: ../../install.rst:10
+#: ../../install.rst:11
 msgid ""
 "It will show you how to install and use the necessary tools and make strong "
 "recommendations on best practices. Keep in mind that Python is used for a "
@@ -41,26 +41,24 @@ msgstr ""
 "Pythonは非常に多岐に渡る目的に使われていて、依存関係をどのように管理したいかは厳密には、どのようにソフトウェアの公開を決めるかによって変わるかもしれないことを心に留めておいてください。\n"
 "このガイダンスを直接適用するのに一番向いているのは、(Webアプリケーションを含む) ネットワークサービスの開発とデプロイですが、どんな種類のプロジェクトの開発環境やテスト環境の管理にも非常によく適したものになっています。"
 
-#: ../../install.rst:18
+#: ../../install.rst:19
 msgid ""
 "This guide is written for Python 3, however, these instructions should work "
 "fine on Python 2.7—if you are still using it, for some reason."
 msgstr ""
 "このガイドはPython 3向けに書かれていますが、とある理由でまだPython 2.7を使っている場合でも、それぞれの指示はきちんと動くでしょう。"
 
-#: ../../install.rst:23
-msgid "☤  Make sure you've got Python & pip"
-msgstr "☤  Pythonとpipがあるかの確認"
+#: ../../install.rst:24
+msgid "☤ Make sure you've got Python & pip"
+msgstr ""
 
-#: ../../install.rst:25
+#: ../../install.rst:26
 msgid ""
 "Before you go any further, make sure you have Python and that it's available"
-" from your command line. You can check this by simply running:"
+" from your command line. You can check this by simply running::"
 msgstr ""
-"先に進む前に、Pythonがインストールしてあって、コマンドラインから使えることを確認してください。\n"
-"次のコマンドを実行して確認できます:"
 
-#: ../../install.rst:32
+#: ../../install.rst:31
 msgid ""
 "You should get some output like ``3.6.2``. If you do not have Python, please"
 " install the latest 3.x version from `python.org`_ or refer to the "
@@ -69,11 +67,11 @@ msgstr ""
 "``3.6.2`` のような表示が出力されたと思います。\n"
 "もしPythonをインストールしていなかったら、 `python.org`_ から最新のバージョン3.xをインストールするか、 *The Hitchhiker's Guide to Python* の `Installing Python`_ 節を参照してください。"
 
-#: ../../install.rst:36
+#: ../../install.rst:35
 msgid "If you're newcomer and you get an error like this:"
 msgstr "もしあなたが初心者で次のようなエラーが出てしまったら:"
 
-#: ../../install.rst:45
+#: ../../install.rst:44
 msgid ""
 "It's because this command is intended to be run in a *shell* (also called a "
 "*terminal* or *console*). See the Python for Beginners `getting started "
@@ -83,15 +81,13 @@ msgstr ""
 "このエラーが起きたのは、 ``python`` コマンドは *シェル* (*ターミナル* や *コンソール* とも呼ばれます) で動かすものだからです。\n"
 "Python for Beginnersというサイトの `getting started tutorial`_ を参照し、OSのシェルの使い方やPythonとやり取りする入門をしてください。"
 
-#: ../../install.rst:50
+#: ../../install.rst:49
 msgid ""
-"Additionally, you'll need to make sure you have :ref:`pip` available. You "
-"can check this by running:"
+"Additionally, you'll need to make sure you have pip available. You can check"
+" this by running::"
 msgstr ""
-"さらに、 :ref:`pip` が使える状態にあるかを確認する必要があります。\n"
-"次のコマンドを実行して確認できます:"
 
-#: ../../install.rst:58
+#: ../../install.rst:55
 msgid ""
 "If you installed Python from source, with an installer from `python.org`_, "
 "or via `Homebrew`_ you should already have pip. If you're on Linux and "
@@ -101,35 +97,71 @@ msgstr ""
 "ソースコードや `python.org`_ のインストーラーや  `Homebrew`_ からPythonをインストールした場合は、既にpipがインストールされているはずです。\n"
 "Linuxを使っていて、OSのパッケージマネージャーを使ってインストールした場合には、それとは別に `pipのインストール <https://pip.pypa.io/en/stable/installing/>`_ をしなければならないかもしれません。"
 
-#: ../../install.rst:62
+#: ../../install.rst:59
 msgid ""
-"If you plan to install pipenv using Homebrew you can skip this step. The "
+"If you plan to install Pipenv using Homebrew you can skip this step. The "
 "Homebrew installer takes care of pip for you."
 msgstr ""
-"Homebrewを使ってPipenvをインストールするつもりの場合は、この手順はスキップできます。\n"
-"Homebrewのインストーラはpipの面倒も見てくれます。"
 
-#: ../../install.rst:72
+#: ../../install.rst:71
 msgid "☤ Installing Pipenv"
 msgstr "☤ Pipenvのインストール"
 
-#: ../../install.rst:74
+#: ../../install.rst:73
 msgid ""
-":ref:`Pipenv` is a dependency manager for Python projects. If you're "
-"familiar with Node.js' `npm`_ or Ruby's `bundler`_, it is similar in spirit "
-"to those tools. While :ref:`pip` can install Python packages, Pipenv is "
-"recommended as it's a higher-level tool that simplifies dependency "
-"management for common use cases."
+"Pipenv is a dependency manager for Python projects. If you're familiar with "
+"Node.js' `npm`_ or Ruby's `bundler`_, it is similar in spirit to those "
+"tools. While pip can install Python packages, Pipenv is recommended as it's "
+"a higher-level tool that simplifies dependency management for common use "
+"cases."
 msgstr ""
-":ref:`Pipenv` はPythonプロジェクトのための依存関係管理ツールです。\n"
-"もしNode.jsの `npm`_ やRubyの `bundler`_ に馴染みがあるなら、Pipenvはそれらのツールとやりたいことはよく似ています。\n"
-":ref:`pip` はPythonのパッケージをインストールできますが、Pipenvは通常のユースケースでの依存関係管理を簡単にするより高度なツールとして推奨されています。"
 
-#: ../../install.rst:80
-msgid "Use ``pip`` to install Pipenv:"
-msgstr "次の通り ``pip`` でPipenvをインストールしてください:"
+#: ../../install.rst:84
+msgid "☤ Homebrew Installation of Pipenv"
+msgstr "☤ HomebrewでのPipenvのインストール方法"
+
+#: ../../install.rst:86
+msgid "Homebrew is a popular open-source package management system for macOS."
+msgstr "HomebrewはmacOSの人気のあるオープンソースパッケージマネージシステムです。"
 
 #: ../../install.rst:88
+msgid ""
+"Installing pipenv via Homebrew will keep pipenv and all of its dependencies "
+"in an isolated virtual environment so it doesn't interfere with the rest of "
+"your Python installation."
+msgstr ""
+"Homebrewでpipenvをインストールするとpipenvとその依存パッケージを隔離された仮想環境に閉じ込めるので、他のインストールされているPythonに影響は与えません。"
+
+#: ../../install.rst:92
+msgid "Once you have installed `Homebrew`_ simply run::"
+msgstr ""
+
+#: ../../install.rst:96 ../../install.rst:139
+msgid "To upgrade pipenv at any time::"
+msgstr "いつでもPipenvをアップグレードするには次のコマンドを実行します::"
+
+#: ../../install.rst:102
+msgid "☤ Pragmatic Installation of Pipenv"
+msgstr "☤ pipenvの実用的なインストール方法"
+
+#: ../../install.rst:104
+msgid ""
+"If you have a working installation of pip, and maintain certain "
+"\"toolchain\" type Python modules as global utilities in your user "
+"environment, pip `user installs <https://pip.pypa.io/en/stable/user_guide"
+"/#user-installs>`_ allow for installation into your home directory. Note "
+"that due to interaction between dependencies, you should limit tools "
+"installed in this way to basic building blocks for a Python workflow like "
+"virtualenv, pipenv, tox, and similar software."
+msgstr ""
+"もしインストールされた今も使っているpipがあって、ある \"ツール群\" タイプのPythonモジュールをどの環境でも使うユーティリティとしてメンテナンスしている場合は、pip の `ユーザーインストール <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を使うとホームディレクトリにインストールできます。\n"
+"依存関係どうしの影響の関係で、この方法でインストールするツールは、virtualenv、Pipenv、toxのようなPythonを使う作業の工程のための基本要素となるソフトウェアだけに制限すべきという点に注意してください。"
+
+#: ../../install.rst:106
+msgid "To install::"
+msgstr "次のコマンドでインストールします:"
+
+#: ../../install.rst:110
 msgid ""
 "This does a `user installation`_ to prevent breaking any system-wide "
 "packages. If ``pipenv`` isn't available in your shell after installation, "
@@ -138,7 +170,7 @@ msgstr ""
 "このコマンドは `user installation`_ を行い、システム全体に関わるパッケージを壊さないようにします。\n"
 "インストールを行った後に ``pipenv`` が使えるようにならない場合は、 `user base`_ のバイナリディレクトリを ``PATH`` に追加する必要があります。"
 
-#: ../../install.rst:92
+#: ../../install.rst:114
 msgid ""
 "On Linux and macOS you can find the user base binary directory by running "
 "``python -m site --user-base`` and adding ``bin`` to the end. For example, "
@@ -150,7 +182,7 @@ msgstr ""
 "例えば、このコマンドはたいてい ``~/.local`` (``~`` はあなたのホームディレクトリの絶対パスへ展開されたもの) なので、 ``~/.local/bin`` を ``PATH`` に追加する必要があります。\n"
 "`~/.profile を修正 <https://stackoverflow.com/a/14638025>`__ すると ``PATH`` に行った設定が再起動しても消えません。"
 
-#: ../../install.rst:99
+#: ../../install.rst:121
 msgid ""
 "On Windows you can find the user base binary directory by running ``py -m "
 "site --user-site`` and replacing ``site-packages`` with ``Scripts``. For "
@@ -165,50 +197,61 @@ msgstr ""
 "`コントロールパネル <https://msdn.microsoft.com/en-us/library/windows/desktop/bb776899(v=vs.85).aspx>`__ でユーザー環境変数の ``PATH`` に設定すると再起動しても消えません。\n"
 "``PATH`` の変更を有効にするには一度ログアウトする必要があるかもしれません。"
 
-#: ../../install.rst:116
+#: ../../install.rst:130
+msgid ""
+"For more information, see the `user installs documentation "
+"<https://pip.pypa.io/en/stable/user_guide/#user-installs>`_."
+msgstr ""
+
+#: ../../install.rst:145
+msgid "☤ Crude Installation of Pipenv"
+msgstr "☤ 大雑把なPipenvのインストール方法"
+
+#: ../../install.rst:147
+msgid ""
+"If you don't even have pip installed, you can use this crude installation "
+"method, which will bootstrap your whole system::"
+msgstr "もしpipをまだインストールしていなくても、この大雑把なインストール方法を使って、Pipenvのシステム全体を立ち上げられます::"
+
+#: ../../install.rst:153
 msgid "☤ Installing packages for your project"
 msgstr "☤ プロジェクトで使うパッケージのインストール"
 
-#: ../../install.rst:118
+#: ../../install.rst:155
 msgid ""
 "Pipenv manages dependencies on a per-project basis. To install packages, "
 "change into your project's directory (or just an empty directory for this "
-"tutorial) and run:"
+"tutorial) and run::"
 msgstr ""
-"Pipenvはプロジェクトごとに依存関係を管理します。\n"
-"パッケージをインストールするには、プロジェクトのディレクトリ (もしくは、このチュートリアル用の空ディレクトリ) に移動して、次のコマンドを実行してください:"
 
-#: ../../install.rst:127
+#: ../../install.rst:162
 msgid ""
 "Pipenv will install the excellent `Requests`_ library and create a "
-"``Pipfile`` for you in your project's directory. The :ref:`Pipfile` is used "
-"to track which dependencies your project needs in case you need to re-"
-"install them, such as when you share your project with others. You should "
-"get output similar to this (although the exact paths shown will vary):"
+"``Pipfile`` for you in your project's directory. The ``Pipfile`` is used to "
+"track which dependencies your project needs in case you need to re-install "
+"them, such as when you share your project with others. You should get output"
+" similar to this (although the exact paths shown will vary)::"
 msgstr ""
-"Pipenvは非常に優れた `Requests`_ ライブラリをインストールし、プロジェクトディレクトリに ``Pipfile`` を作成します。\n"
-":ref:`Pipfile` は、プロジェクトを他の人に共有するときのように、依存関係を再インストールする必要が出てきたときに、プロジェクトがどの依存関係を必要としているのかを追跡するのに使います。\n"
-"これに似た出力が表示されるはずです (もっとも、表示されている正確なパスは異なるでしょう):"
 
-#: ../../install.rst:164
+#: ../../install.rst:197
 msgid "☤ Using installed packages"
 msgstr "☤ インストールされたパッケージを使う"
 
-#: ../../install.rst:166
+#: ../../install.rst:199
 msgid ""
 "Now that Requests is installed you can create a simple ``main.py`` file to "
 "use it:"
 msgstr "これでRequestsがインストールされたので、単純な ``main.py`` ファイルを作成し、Requestsを使えます:"
 
-#: ../../install.rst:177
-msgid "Then you can run this script using ``pipenv run``:"
-msgstr "そして ``pipenv run`` を使って、このスクリプトが実行できます:"
+#: ../../install.rst:210
+msgid "Then you can run this script using ``pipenv run``::"
+msgstr ""
 
-#: ../../install.rst:183
+#: ../../install.rst:214
 msgid "You should get output similar to this:"
 msgstr "これに似た出力が表示されるはずです:"
 
-#: ../../install.rst:189
+#: ../../install.rst:220
 msgid ""
 "Using ``$ pipenv run`` ensures that your installed packages are available to"
 " your script. It's also possible to spawn a new shell that ensures all "
@@ -217,80 +260,11 @@ msgstr ""
 "``$ pipenv run`` を使うと、インストールしたパッケージがスクリプトから使えることが保証されます。\n"
 "インストールしたパッケージに全てのコマンドがアクセスできることが保証された新しいシェルの起動もできます。"
 
-#: ../../install.rst:195
+#: ../../install.rst:226
 msgid "☤ Next steps"
 msgstr "☤ 次のステップ"
 
-#: ../../install.rst:197
+#: ../../install.rst:228
 msgid ""
 "Congratulations, you now know how to install and use Python packages! ✨ 🍰 ✨"
 msgstr "おめでとうございます、Pythonのパッケージをインストールして使う方法が学べました! ✨ 🍰 ✨"
-
-#: ../../install.rst:203
-msgid "☤ Homebrew Installation of Pipenv"
-msgstr "☤ HomebrewでのPipenvのインストール方法"
-
-#: ../../install.rst:205
-msgid "Homebrew is a popular open-source package management system for macOS."
-msgstr "HomebrewはmacOSの人気のあるオープンソースパッケージマネージシステムです。"
-
-#: ../../install.rst:207
-msgid ""
-"Installing pipenv via Homebrew will keep pipenv and all of its dependencies "
-"in an isolated virtual environment so it doesn't interfere with the rest of "
-"your Python installation."
-msgstr ""
-"Homebrewでpipenvをインストールするとpipenvとその依存パッケージを隔離された仮想環境に閉じ込めるので、他のインストールされているPythonに影響は与えません。"
-
-#: ../../install.rst:211
-msgid "Once you have installed `Homebrew <https://brew.sh/>`_ simply run::"
-msgstr " `Homebrew <https://brew.sh/>`__ がインストールできたら次のコマンドを実行します::"
-
-#: ../../install.rst:215 ../../install.rst:234
-msgid "To upgrade pipenv at any time::"
-msgstr "いつでもPipenvをアップグレードするには次のコマンドを実行します::"
-
-#: ../../install.rst:222
-msgid "☤ Pragmatic Installation of Pipenv"
-msgstr "☤ pipenvの実用的なインストール方法"
-
-#: ../../install.rst:224
-msgid ""
-"If you have a working installation of pip, and maintain certain "
-"\"toolchain\" type Python modules as global utilities in your user "
-"environment, pip `user installs <https://pip.pypa.io/en/stable/user_guide"
-"/#user-installs>`_ allow for installation into your home directory. Note "
-"that due to interaction between dependencies, you should limit tools "
-"installed in this way to basic building blocks for a Python workflow like "
-"virtualenv, pipenv, tox, and similar software."
-msgstr ""
-"もしインストールされた今も使っているpipがあって、ある \"ツール群\" タイプのPythonモジュールをどの環境でも使うユーティリティとしてメンテナンスしている場合は、pip の `ユーザーインストール <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を使うとホームディレクトリにインストールできます。\n"
-"依存関係どうしの影響の関係で、この方法でインストールするツールは、virtualenv、Pipenv、toxのようなPythonを使う作業の工程のための基本要素となるソフトウェアだけに制限すべきという点に注意してください。"
-
-#: ../../install.rst:226
-msgid "To install::"
-msgstr "次のコマンドでインストールします:"
-
-#: ../../install.rst:230
-msgid ""
-"For more information see the `user installs documentation "
-"<https://pip.pypa.io/en/stable/user_guide/#user-installs>`_, but to add the "
-"installed cli tools from a pip user install to your path, add the output "
-"of::"
-msgstr ""
-"さらに詳しいことは `ユーザーインストールの説明 <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ を参照してください。\n"
-"pipのユーザーインストールでインストールしたCLIツールをパスに追加するには、次のコマンドで出力されるディレクトリを追加してください::"
-
-#: ../../install.rst:241
-msgid "☤ Crude Installation of Pipenv"
-msgstr "☤ 大雑把なPipenvのインストール方法"
-
-#: ../../install.rst:243
-msgid ""
-"If you don't even have pip installed, you can use this crude installation "
-"method, which will bootstrap your whole system::"
-msgstr "もしpipをまだインストールしていなくても、この大雑把なインストール方法を使って、Pipenvのシステム全体を立ち上げられます::"
-
-#: ../../install.rst:247
-msgid "Congratulations, you now have pip and Pipenv installed!"
-msgstr "おめでとう、これでpipとPipenvがインストールされました!"
