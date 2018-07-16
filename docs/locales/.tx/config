@@ -1,29 +1,51 @@
 [main]
 host = https://www.transifex.com
+
+[pipenv.basics]
+file_filter = <lang>/LC_MESSAGES/basics.po
+source_file = pot/basics.pot
+source_lang = en
+type = PO
+
+[pipenv.changelog]
+file_filter = <lang>/LC_MESSAGES/changelog.po
+source_file = pot/changelog.pot
+source_lang = en
 type = PO
 
 [pipenv.advanced]
 file_filter = <lang>/LC_MESSAGES/advanced.po
 source_file = pot/advanced.pot
 source_lang = en
-
-[pipenv.basics]
-file_filter = <lang>/LC_MESSAGES/basics.po
-source_file = pot/basics.pot
-source_lang = en
-
-[pipenv.index]
-file_filter = <lang>/LC_MESSAGES/index.po
-source_file = pot/index.pot
-source_lang = en
-
-[pipenv.install]
-file_filter = <lang>/LC_MESSAGES/install.po
-source_file = pot/install.pot
-source_lang = en
+type = PO
 
 [pipenv.diagnose]
 file_filter = <lang>/LC_MESSAGES/diagnose.po
 source_file = pot/diagnose.pot
 source_lang = en
+type = PO
+
+[pipenv.index]
+file_filter = <lang>/LC_MESSAGES/index.po
+source_file = pot/index.pot
+source_lang = en
+type = PO
+
+[pipenv.install]
+file_filter = <lang>/LC_MESSAGES/install.po
+source_file = pot/install.pot
+source_lang = en
+type = PO
+
+[pipenv.dev--philosophy]
+file_filter = <lang>/LC_MESSAGES/dev/philosophy.po
+source_file = pot/dev/philosophy.pot
+source_lang = en
+type = PO
+
+[pipenv.dev--contributing]
+file_filter = <lang>/LC_MESSAGES/dev/contributing.po
+source_file = pot/dev/contributing.pot
+source_lang = en
+type = PO
 
