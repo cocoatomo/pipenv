@@ -1,0 +1,73 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project
+# This file is distributed under the same license as the pipenv package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pipenv 2018.7.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-02 15:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../../dev/philosophy.rst:2
+msgid "Development Philosophy"
+msgstr ""
+
+#: ../../dev/philosophy.rst:4
+msgid ""
+"Pipenv is an open but opinionated tool, created by an open but opinionated "
+"developer."
+msgstr ""
+
+#: ../../dev/philosophy.rst:8
+msgid "Management Style"
+msgstr ""
+
+#: ../../dev/philosophy.rst:10
+msgid ""
+"`Kenneth Reitz <http://kennethreitz.org>`_ is the BDFL. He has final say in "
+"any decision related to the Pipenv project. Kenneth is responsible for the "
+"direction and form of the library, as well as its presentation. In addition "
+"to making decisions based on technical merit, he is responsible for making "
+"decisions based on the development philosophy of Pipenv."
+msgstr ""
+
+#: ../../dev/philosophy.rst:12
+msgid ""
+"`Dan Ryan<http://github.com/techalchemy>`_, `Tzu-ping "
+"Chung<https://github.com/uranusjr>`_, and `Nate "
+"Prewitt<https://github.com/nateprewitt>`_ are the core contributors. They "
+"are responsible for triaging bug reports, reviewing pull requests and "
+"ensuring that Kenneth is kept up to speed with developments around the "
+"library. The day-to-day managing of the project is done by the core "
+"contributors. They are responsible for making judgements about whether or "
+"not a feature request is likely to be accepted by Kenneth."
+msgstr ""
+
+#: ../../dev/philosophy.rst:18
+msgid "Values"
+msgstr ""
+
+#: ../../dev/philosophy.rst:20
+msgid "Simplicity is always better than functionality."
+msgstr ""
+
+#: ../../dev/philosophy.rst:21
+msgid "Listen to everyone, then disregard it."
+msgstr ""
+
+#: ../../dev/philosophy.rst:22
+msgid "The API is all that matters. Everything else is secondary."
+msgstr ""
+
+#: ../../dev/philosophy.rst:23
+msgid "Fit the 90% use-case. Ignore the nay-sayers."
+msgstr ""
