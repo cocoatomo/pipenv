@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2018.7.1\n"
+"Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-02 15:00+0000\n"
+"POT-Creation-Date: 2018-07-16 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -101,7 +101,7 @@ msgstr "☤ <モジュール名> というモジュールが無い"
 msgid ""
 "This is usually a result of mixing Pipenv with system packages. We "
 "*strongly* recommend installing Pipenv in an isolated environment. Uninstall"
-" all existing Pipenv installations, and see :ref:`proper_installation` to "
+" all existing Pipenv installations, and see :ref:`installing-pipenv` to "
 "choose one of the recommended way to install Pipenv instead."
 msgstr ""
 
@@ -247,3 +247,15 @@ msgid ""
 msgstr ""
 "次の行を ``/etc/supervisor/supervisord.conf`` の ``[supervisord]`` "
 "セクションの下に追加してください::"
+
+#: ../../diagnose.rst:135
+msgid "☤ An exception is raised during ``Locking dependencies…``"
+msgstr ""
+
+#: ../../diagnose.rst:137
+msgid ""
+"Run ``pipenv lock --clear`` and try again. The lock sequence caches results "
+"to speed up subsequent runs. The cache may contain faulty results if a bug "
+"causes the format to corrupt, even after the bug is fixed. ``--clear`` "
+"flushes the cache, and therefore removes the bad results."
+msgstr ""

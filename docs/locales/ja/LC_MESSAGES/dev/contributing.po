@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2018.7.1\n"
+"Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-02 15:00+0000\n"
+"POT-Creation-Date: 2018-07-16 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -142,7 +142,7 @@ msgstr ""
 #: ../../dev/contributing.rst:78
 msgid ""
 "Send a GitHub Pull Request to the main repository's ``master`` branch. "
-"GitHub Pull Pipenv are the expected method of code collaboration on this "
+"GitHub Pull Requests are the expected method of code collaboration on this "
 "project."
 msgstr ""
 

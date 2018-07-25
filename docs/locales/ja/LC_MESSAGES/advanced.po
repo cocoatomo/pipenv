@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2018.7.1\n"
+"Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-17 01:02+0900\n"
+"POT-Creation-Date: 2018-07-25 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -227,7 +227,7 @@ msgstr ""
 msgid "Example::"
 msgstr "例::"
 
-#: ../../advanced.rst:220 ../../advanced.rst:533
+#: ../../advanced.rst:220 ../../advanced.rst:501
 msgid "✨🍰✨"
 msgstr "✨🍰✨"
 
@@ -450,88 +450,285 @@ msgstr ""
 "Pipenvには、シェル環境変数で有効にできるオプションが少しだけあります。\n"
 "オプションを有効にするには、シェルでその変数を作成すればpipevnが見付けてくれます。"
 
-#: ../../advanced.rst:380
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_CACHE_DIR:1
+msgid "Location for Pipenv to store it's package cache."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_CACHE_DIR:3
+msgid "Default is to use appdir's user cache directory."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_COLORBLIND:1
+msgid "If set, disable terminal colors."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_COLORBLIND:3
 msgid ""
-"``PIPENV_DEFAULT_PYTHON_VERSION`` — Use this version of Python when creating"
-" new virtual environments, by default (e.g. ``3.6``)."
+"Some people don't like colors in their terminals, for some reason. Default "
+"is to show colors."
 msgstr ""
 
-#: ../../advanced.rst:382
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DEFAULT_PYTHON_VERSION:1
 msgid ""
-"``PIPENV_SHELL_FANCY`` — Always use fancy mode when invoking ``pipenv "
-"shell``."
+"Use this Python version when creating new virtual environments by default."
 msgstr ""
 
-#: ../../advanced.rst:384
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DEFAULT_PYTHON_VERSION:3
 msgid ""
-"``PIPENV_VENV_IN_PROJECT`` — If set, use ``.venv`` in your project directory"
-" instead of a global location."
+"This can be set to a version string, e.g. ``3.6``, or a path. Default is to "
+"use whatever Python Pipenv is installed under (i.e. ``sys.executable``). "
+"Command line flags (e.g. ``--python``, ``--three``, and ``--two``) are "
+"prioritized over this configuration."
 msgstr ""
 
-#: ../../advanced.rst:387
-msgid "``PIPENV_COLORBLIND`` — Disable terminal colors, for some reason."
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DONT_LOAD_ENV:1
+msgid "If set, Pipenv does not load the ``.env`` file."
 msgstr ""
 
-#: ../../advanced.rst:389
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DONT_LOAD_ENV:3
+msgid "Default is to load ``.env`` for ``run`` and ``shell`` commands."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DONT_USE_PYENV:1
+msgid "If set, Pipenv does not attempt to install Python with pyenv."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DONT_USE_PYENV:3
 msgid ""
-"``PIPENV_NOSPIN`` — Disable terminal spinner, for cleaner logs. "
-"Automatically set in CI environments."
+"Default is to install Python automatically via pyenv when needed, if "
+"possible."
 msgstr ""
 
-#: ../../advanced.rst:391
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DOTENV_LOCATION:1
+msgid "If set, Pipenv loads the ``.env`` file at the specified location."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DOTENV_LOCATION:3
+msgid "Default is to load ``.env`` from the project root, if found."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_EMULATOR:1
+msgid "If set, the terminal emulator's name for ``pipenv shell`` to use."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_EMULATOR:3
 msgid ""
-"``PIPENV_MAX_DEPTH`` — Set to an integer for the maximum number of "
-"directories to recursively search for a Pipfile."
+"Default is to detect emulators automatically. This should be set if your "
+"emulator, e.g. Cmder, cannot be detected correctly."
 msgstr ""
 
-#: ../../advanced.rst:394
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_HIDE_EMOJIS:1
+msgid "Disable emojis in output."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_HIDE_EMOJIS:3
+msgid "Default is to show emojis. This is automatically set on Windows."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_IGNORE_VIRTUALENVS:1
 msgid ""
-"``PIPENV_TIMEOUT`` — Set to an integer for the max number of seconds Pipenv "
-"will wait for virtualenv creation to complete.  Defaults to 120 seconds."
+"If set, Pipenv will always assign a virtual environment for this project."
 msgstr ""
 
-#: ../../advanced.rst:397
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_IGNORE_VIRTUALENVS:3
 msgid ""
-"``PIPENV_INSTALL_TIMEOUT`` — Set to an integer for the max number of seconds"
-" Pipenv will wait for package installation before timing out. Defaults to "
-"900 seconds."
+"By default, Pipenv tries to detect whether it is run inside a virtual "
+"environment, and reuses it if possible. This is usually the desired "
+"behavior, and enables the user to use any user-built environments with "
+"Pipenv."
 msgstr ""
 
-#: ../../advanced.rst:400
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_INSTALL_TIMEOUT:1
+msgid "Max number of seconds to wait for package installation."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_INSTALL_TIMEOUT:3
+msgid "Defaults to 900 (15 minutes), a very long arbitrary time."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_MAX_DEPTH:1
+msgid "Maximum number of directories to recursively search for a Pipfile."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_MAX_DEPTH:3
+msgid "Default is 3. See also ``PIPENV_NO_INHERIT``."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_MAX_RETRIES:1
+msgid "Specify how many retries Pipenv should attempt for network requests."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_MAX_RETRIES:3
 msgid ""
-"``PIPENV_IGNORE_VIRTUALENVS`` — Set to disable automatically using an "
-"activated virtualenv over the current project's own virtual environment."
+"Default is 0. Aautomatically set to 1 on CI environments for robust testing."
 msgstr ""
 
-#: ../../advanced.rst:403
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_MAX_ROUNDS:1
+msgid "Tells Pipenv how many rounds of resolving to do for Pip-Tools."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_MAX_ROUNDS:3
+msgid "Default is 16, an arbitrary number that works most of the time."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_MAX_SUBPROCESS:1
+msgid "How many subprocesses should Pipenv use when installing."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_MAX_SUBPROCESS:3
+msgid "Default is 16, an arbitrary number that seems to work."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_NOSPIN:1
+msgid "If set, disable terminal spinner."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_NOSPIN:3
 msgid ""
-"``PIPENV_PIPFILE`` — When running pipenv from a $PWD other than the same "
-"directory where the Pipfile is located, instruct pipenv to find the Pipfile "
-"in the location specified by this environment variable."
+"This can make the logs cleaner. Automatically set on Windows, and in CI "
+"environments."
 msgstr ""
 
-#: ../../advanced.rst:407
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_NO_INHERIT:1
+msgid "Tell Pipenv not to inherit parent directories."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_NO_INHERIT:3
 msgid ""
-"``PIPENV_CACHE_DIR`` — Location for Pipenv to store it's package cache."
+"This is useful for deployment to avoid using the wrong current directory. "
+"Overwrites ``PIPENV_MAX_DEPTH``."
 msgstr ""
 
-#: ../../advanced.rst:409
-msgid "``PIPENV_HIDE_EMOJIS`` — Disable emojis in output."
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_PIPFILE:1
+msgid "If set, this specifies a custom Pipfile location."
 msgstr ""
 
-#: ../../advanced.rst:411
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_PIPFILE:3
 msgid ""
-"``PIPENV_DOTENV_LOCATION`` — Location for Pipenv to load your project's "
-".env."
+"When running pipenv from a location other than the same directory where the "
+"Pipfile is located, instruct pipenv to find the Pipfile in the location "
+"specified by this environment variable."
 msgstr ""
 
-#: ../../advanced.rst:413
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_PIPFILE:7
 msgid ""
-"``PIPENV_DONT_LOAD_ENV`` — Tell Pipenv not to load the .env files "
-"automatically."
+"Default is to find Pipfile automatically in the current and parent "
+"directories. See also ``PIPENV_MAX_DEPTH``."
 msgstr ""
 
-#: ../../advanced.rst:415
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_PYPI_MIRROR:1
+msgid "If set, tells pipenv to override PyPI index urls with a mirror."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_PYPI_MIRROR:3
+msgid ""
+"Default is to not mirror PyPI, i.e. use the real one, pypi.org. The "
+"``--pypi-mirror`` command line flag overwrites this."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_SHELL:1
+msgid "An absolute path to the preferred shell for ``pipenv shell``."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_SHELL:3
+msgid "Default is to detect automatically what shell is currently in use."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_SHELL_FANCY:1
+msgid "If set, always use fancy mode when invoking ``pipenv shell``."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_SHELL_FANCY:3
+msgid "Default is to use the compatibility shell if possible."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_TIMEOUT:1
+msgid ""
+"Max number of seconds Pipenv will wait for virtualenv creation to complete."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_TIMEOUT:3
+msgid "Default is 120 seconds, an arbitrary number that seems to work."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_VENV_IN_PROJECT:1
+msgid "If set, creates ``.venv`` in your project directory."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_VENV_IN_PROJECT:3
+msgid "Default is to create new virtual environments in a global location."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_VERBOSITY:1
+msgid "Verbosity setting for pipenv."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_VERBOSITY:3
+msgid ""
+"Higher values make pipenv more verbose, lower values less so. Default is 0, "
+"for normal verbosity."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_YES:1
+msgid "If set, Pipenv automatically assumes \"yes\" at all prompts."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_YES:3
+msgid ""
+"Default is to prompt the user for an answer if the current command line "
+"session if interactive."
+msgstr ""
+
+#: ../../advanced.rst:383
 msgid ""
 "If you'd like to set these environment variables on a per-project basis, I "
 "recommend utilizing the fantastic `direnv <https://direnv.net>`_ project, in"
@@ -540,7 +737,7 @@ msgstr ""
 "これらの環境変数をプロジェクトごとの設定にしたい場合は、それを実現するために素敵な `direnv <https://direnv.net>`_ "
 "を利用するのをお薦めします。"
 
-#: ../../advanced.rst:417
+#: ../../advanced.rst:385
 msgid ""
 "Also note that `pip itself supports environment variables "
 "<https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you "
@@ -550,22 +747,22 @@ msgstr ""
 "<https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_ "
 "ことに着目してください。"
 
-#: ../../advanced.rst:419
+#: ../../advanced.rst:387
 msgid "For example::"
 msgstr "例えば、次のようにできます::"
 
-#: ../../advanced.rst:425
+#: ../../advanced.rst:393
 msgid "☤ Custom Virtual Environment Location"
 msgstr "☤ 仮想環境の独自の配置場所"
 
-#: ../../advanced.rst:427
+#: ../../advanced.rst:395
 msgid ""
 "Pipenv automatically honors the ``WORKON_HOME`` environment variable, if you"
 " have it set — so you can tell pipenv to store your virtual environments "
 "wherever you want, e.g.::"
 msgstr ""
 
-#: ../../advanced.rst:433
+#: ../../advanced.rst:401
 msgid ""
 "In addition, you can also have Pipenv stick the virtualenv in "
 "``project/.venv`` by setting the ``PIPENV_VENV_IN_PROJECT`` environment "
@@ -574,27 +771,27 @@ msgstr ""
 "さらに、 ``PIPENV_VENV_IN_PROJECT`` 環境変数を設定することで、 ``project/.venv`` "
 "にある仮想環境をPipenvに使わせることができます。"
 
-#: ../../advanced.rst:437
+#: ../../advanced.rst:405
 msgid "☤ Testing Projects"
 msgstr "☤ プロジェクトのテスト"
 
-#: ../../advanced.rst:439
+#: ../../advanced.rst:407
 msgid ""
 "Pipenv is being used in projects like `Requests`_ for declaring development "
 "dependencies and running the test suite."
 msgstr "Pipenvは `Requests`_ のようなプロジェクトで開発用の依存関係の宣言とテストスイートの実行に使われています。"
 
-#: ../../advanced.rst:441
+#: ../../advanced.rst:409
 msgid ""
 "We've currently tested deployments with both `Travis-CI`_ and `tox`_ with "
 "success."
 msgstr "現時点では `Travis-CI`_ と `tox`_ の両方で上手くデプロイのテストを行えています。"
 
-#: ../../advanced.rst:444
+#: ../../advanced.rst:412
 msgid "Travis CI"
 msgstr "Travis CI"
 
-#: ../../advanced.rst:446
+#: ../../advanced.rst:414
 msgid ""
 "An example Travis CI setup can be found in `Requests`_. The project uses a "
 "Makefile to define common functions such as its ``init`` and ``tests`` "
@@ -604,21 +801,21 @@ msgstr ""
 "このプロジェクトではMakefileによく使う関数を ``init`` コマンドや ``tests`` コマンドとして定義してあります。\n"
 "以下が ``.travis.yml`` の本質的なところを抜き出したものです::"
 
-#: ../../advanced.rst:467
+#: ../../advanced.rst:435
 msgid "and the corresponding Makefile::"
 msgstr "そして対応するMakefileは以下の通りです::"
 
-#: ../../advanced.rst:478
+#: ../../advanced.rst:446
 msgid "Tox Automation Project"
 msgstr "ToX自動化プロジェクト"
 
-#: ../../advanced.rst:480
+#: ../../advanced.rst:448
 msgid ""
 "Alternatively, you can configure a ``tox.ini`` like the one below for both "
 "local and external testing::"
 msgstr "または、 ``tox.ini`` を次のようにローカル環境でのテストと外部環境でのテストの両方に対して設定できます::"
 
-#: ../../advanced.rst:499
+#: ../../advanced.rst:467
 msgid ""
 "Pipenv will automatically use the virtualenv provided by ``tox``. If "
 "``pipenv install --dev`` installs e.g. ``pytest``, then installed command "
@@ -628,7 +825,7 @@ msgstr ""
 "Pipenvは自動的に ``tox`` が提供する仮想環境を使います。\n"
 "``pipenv install --dev`` が例えば ``pytest`` をインストールしたならば、インストールされたコマンド ``py.test`` は与えられた仮想環境に入っていて、 ``pipenv run py.test tests`` としなくても ``py.test tests`` と直接呼び出せます。"
 
-#: ../../advanced.rst:501
+#: ../../advanced.rst:469
 msgid ""
 "You might also want to add ``--ignore-pipfile`` to ``pipenv install``, as to"
 " not accidentally modify the lock-file on each test run. This causes Pipenv "
@@ -645,39 +842,39 @@ msgstr ""
 "これが重要な点なのは、今いる環境 (すなわちtoxが用意した仮想環境) は通常は (望ましいもしくは望しくないことに) 現時点のプロジェクトと、 ``tox`` の ``deps`` に設定されている追加の依存関係を含んでいるためです。\n"
 "最初に用意される環境に対しては、この方法ではなく ``skip_install = True`` をtox.iniに追加することで無効化できます。"
 
-#: ../../advanced.rst:510
+#: ../../advanced.rst:478
 msgid ""
 "This method requires you to be explicit about updating the lock-file, which "
 "is probably a good idea in any case."
 msgstr "この方法はlockファイルの更新に関しての明示的な指定が必要であり、おそらくこれがどのケースにおいても良い案です。"
 
-#: ../../advanced.rst:513
+#: ../../advanced.rst:481
 msgid ""
 "A 3rd party plugin, `tox-pipenv`_ is also available to use Pipenv natively "
 "with tox."
 msgstr "サードパーティのプラグイン `tox-pipenv`_ も、toxにPipenvを連係させるのに使えます。"
 
-#: ../../advanced.rst:521
+#: ../../advanced.rst:489
 msgid "☤ Shell Completion"
 msgstr "☤ シェルの補完"
 
-#: ../../advanced.rst:523
+#: ../../advanced.rst:491
 msgid "To enable completion in fish, add this to your config::"
 msgstr "fishで補完を有効にするには、次のコマンドを設定ファイルに追加してください::"
 
-#: ../../advanced.rst:527
+#: ../../advanced.rst:495
 msgid "Alternatively, with bash or zsh, add this to your config::"
 msgstr "また、bashやzshでは次のコマンドを設定ファイルに追加してください::"
 
-#: ../../advanced.rst:531
+#: ../../advanced.rst:499
 msgid "Magic shell completions are now enabled!"
 msgstr "魔法のシェル補完が使えるようになりました!"
 
-#: ../../advanced.rst:536
+#: ../../advanced.rst:504
 msgid "☤ Working with Platform-Provided Python Components"
 msgstr "☤ プラットフォームが提供するPythonコンポーネントを使っての作業"
 
-#: ../../advanced.rst:538
+#: ../../advanced.rst:506
 msgid ""
 "It's reasonably common for platform specific Python bindings for operating "
 "system interfaces to only be available through the system package manager, "
@@ -688,7 +885,7 @@ msgstr ""
 "オペレーティングシステムのインターフェースに使われているプラットフォーム固有のPythonは、システムのパッケージマネージャからしか利用できず、従って `pip` を使った仮想環境へのインストールには使えないのが合理的に考えて普通です。\n"
 "このようなケースでは、システムの `site-packages` ディレクトリにアクセスできる仮想環境を作ります::"
 
-#: ../../advanced.rst:546
+#: ../../advanced.rst:514
 msgid ""
 "To ensure that all `pip`-installable components actually are installed into "
 "the virtual environment and system packages are only used for interfaces "
@@ -699,11 +896,11 @@ msgstr ""
 "でインストールできるコンポーネントが本当に仮想環境にインストールされ、システムのパッケージはPythonレベルでの依存関係解決に一切現れないインターフェースのために使われることを保証するために、"
 " `PIP_IGNORE_INSTALLED` 設定を使いましょう::"
 
-#: ../../advanced.rst:557
+#: ../../advanced.rst:525
 msgid "☤ Pipfile vs setup.py"
 msgstr "☤ Pipfile vs setup.py"
 
-#: ../../advanced.rst:559
+#: ../../advanced.rst:527
 msgid ""
 "There is a subtle but very important distinction to be made between "
 "**applications** and **libraries**. This is a very common source of "
@@ -712,7 +909,7 @@ msgstr ""
 "**アプリケーション** と **ライブラリ** の間には、微妙だが非常に重要な違いがあります。\n"
 "これはPythonコミュニティでよく起こる混乱の元になっています。"
 
-#: ../../advanced.rst:561
+#: ../../advanced.rst:529
 msgid ""
 "Libraries provide reusable functionality to other libraries and applications"
 " (let's use the umbrella term **projects** here). They are required to work "
@@ -730,7 +927,7 @@ msgstr ""
 "ある特定の機能や修正やバグに依存している場合には、バージョンの下限や (滅多に無いですが) 上限を指定することもあります。\n"
 "ライブラリの依存関係は ``setup.py`` では ``install_requires`` で指定します。"
 
-#: ../../advanced.rst:563
+#: ../../advanced.rst:531
 msgid ""
 "Libraries are ultimately meant to be used in some **application**. "
 "Applications are different in that they usually are not depended on by other"
@@ -744,11 +941,11 @@ msgstr ""
 "アプリケーションは、ある特定の環境に配置され、依存関係やさらにその先の依存関係全ての正確なバージョンが具体的であるようになっています。\n"
 "この処理をより簡単にすることが、現在Pipenvの最も重要な目標です。"
 
-#: ../../advanced.rst:565
+#: ../../advanced.rst:533
 msgid "To summarize:"
 msgstr "まとめると次のようになります:"
 
-#: ../../advanced.rst:567
+#: ../../advanced.rst:535
 msgid ""
 "For libraries, define **abstract dependencies** via ``install_requires`` in "
 "``setup.py``. The decision of which version exactly to be installed and "
@@ -757,7 +954,7 @@ msgstr ""
 "ライブラリは、 ``setup.py`` の ``install_requires`` で **抽象的な依存関係** を定義します。\n"
 "厳密にどのバージョンをインストールし、どこから依存パッケージを取得するかの判断は、あなたが決めることではありません!"
 
-#: ../../advanced.rst:568
+#: ../../advanced.rst:536
 msgid ""
 "For applications, define **dependencies and where to get them** in the "
 "`Pipfile` and use this file to update the set of **concrete dependencies** "
@@ -775,13 +972,13 @@ msgstr ""
 "``Pipfile`` はそのlockファイルを作るのに便利なもので、実際に使う依存関係の正確なバージョンについて、曖昧なままにしておけます。\n"
 "Pipenvは、きちんと動作する衝突の起きない依存関係のバージョン指定を定義する助けになります。他のツールではこの作業は非常にうんざりするものになります。"
 
-#: ../../advanced.rst:569
+#: ../../advanced.rst:537
 msgid ""
 "Of course, ``Pipfile`` and Pipenv are still useful for library developers, "
 "as they can be used to define a development or test environment."
 msgstr "もちろん、 ``Pipfile`` とPipenvはライブラリの開発者にも便利なもので、開発環境やテスト環境を定義するのに使えます。"
 
-#: ../../advanced.rst:570
+#: ../../advanced.rst:538
 msgid ""
 "And, of course, there are projects for which the distinction between library"
 " and application isn't that clear. In that case, use ``install_requires`` "
@@ -790,20 +987,20 @@ msgstr ""
 "そして当り前ですが、ライブラリとアプリケーションの区別が明確でないプロジェクトもあります。\n"
 "その場合は、Pipenvおよび ``Pipfile`` と一緒に ``install_requires`` を使ってください。"
 
-#: ../../advanced.rst:572
+#: ../../advanced.rst:540
 msgid "You can also do this::"
 msgstr "次のようにもできます::"
 
-#: ../../advanced.rst:576
+#: ../../advanced.rst:544
 msgid ""
 "This will tell Pipenv to lock all your ``setup.py``–declared dependencies."
 msgstr "このコマンドでは、 ``setup.py`` で宣言されている依存関係を全てロックするようにPipenvに指示しています。"
 
-#: ../../advanced.rst:579
+#: ../../advanced.rst:547
 msgid "☤ Changing Pipenv's Cache Location"
 msgstr "☤ Pipenvのキャッシュの場所を変更する"
 
-#: ../../advanced.rst:581
+#: ../../advanced.rst:549
 msgid ""
 "You can force Pipenv to use a different cache location by setting the "
 "environment variable ``PIPENV_CACHE_DIR`` to the location you wish. This is "
@@ -813,24 +1010,11 @@ msgstr ""
 "環境変数 ``PIPENV_CACHE_DIR`` を好きな場所に設定することで、デフォルトと異なるキャッシュの場所を使うようPipenvに強制できます。\n"
 "これは ``PIP_CACHE_DIR`` を別のディレクトリに変更しているのと同じ状況で役に立ちます。"
 
-#: ../../advanced.rst:584
-msgid "☤ Changing Where Pipenv Stores Virtualenvs"
-msgstr ""
-
-#: ../../advanced.rst:586
-msgid ""
-"By default, Pipenv stores all of your virtualenvs in a single place.  "
-"Usually this isn't a problem, but if you'd like to change it for developer "
-"ergonomics, or if it's causing issues on build servers you can set "
-"``PIPENV_VENV_IN_PROJECT`` to create the virtualenv inside the root of your "
-"project."
-msgstr ""
-
-#: ../../advanced.rst:589
+#: ../../advanced.rst:552
 msgid "☤ Changing Default Python Versions"
 msgstr "☤ Pythonのデフォルトバージョンを変更する"
 
-#: ../../advanced.rst:591
+#: ../../advanced.rst:554
 msgid ""
 "By default, Pipenv will initialize a project using whatever version of "
 "python the python3 is. Besides starting a project with the ``--three`` or "
