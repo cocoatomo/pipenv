@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-25 15:01+0000\n"
+"POT-Creation-Date: 2018-07-30 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -207,16 +207,16 @@ msgstr ""
 msgid "`VS Code <https://code.visualstudio.com/docs/python/environments>`_ (Editor Integration)"
 msgstr ""
 
-#: ../../advanced.rst:246
+#: ../../advanced.rst:245
+msgid "`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Editor Integration)"
+msgstr ""
+
+#: ../../advanced.rst:247
 msgid "Works in progress:"
 msgstr ""
 
-#: ../../advanced.rst:248
-msgid "`Sublime Text <https://github.com/kennethreitz/pipenv-sublime>`_ (Editor Integration)"
-msgstr ""
-
 #: ../../advanced.rst:249
-msgid "`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Editor Integration)"
+msgid "`Sublime Text <https://github.com/kennethreitz/pipenv-sublime>`_ (Editor Integration)"
 msgstr ""
 
 #: ../../advanced.rst:250
@@ -489,14 +489,6 @@ msgstr ""
 
 #: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_VENV_IN_PROJECT:3
 msgid "Default is to create new virtual environments in a global location."
-msgstr ""
-
-#: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_VERBOSITY:1
-msgid "Verbosity setting for pipenv."
-msgstr ""
-
-#: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_VERBOSITY:3
-msgid "Higher values make pipenv more verbose, lower values less so. Default is 0, for normal verbosity."
 msgstr ""
 
 #: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_YES:1
