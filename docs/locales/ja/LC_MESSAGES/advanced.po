@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-25 15:01+0000\n"
+"POT-Creation-Date: 2018-07-30 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -283,22 +283,22 @@ msgid ""
 msgstr ""
 "`VS Code <https://code.visualstudio.com/docs/python/environments>`_ (エディタ連係)"
 
-#: ../../advanced.rst:246
+#: ../../advanced.rst:245
+msgid ""
+"`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Editor "
+"Integration)"
+msgstr "`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (エディタ連係)"
+
+#: ../../advanced.rst:247
 msgid "Works in progress:"
 msgstr "対応中:"
 
-#: ../../advanced.rst:248
+#: ../../advanced.rst:249
 msgid ""
 "`Sublime Text <https://github.com/kennethreitz/pipenv-sublime>`_ (Editor "
 "Integration)"
 msgstr ""
 "`Sublime Text <https://github.com/kennethreitz/pipenv-sublime>`_ (エディタ連係)"
-
-#: ../../advanced.rst:249
-msgid ""
-"`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Editor "
-"Integration)"
-msgstr "`PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (エディタ連係)"
 
 #: ../../advanced.rst:250
 msgid "Mysterious upcoming Google Cloud product (Cloud Hosting)"
@@ -702,18 +702,6 @@ msgstr ""
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_VENV_IN_PROJECT:3
 msgid "Default is to create new virtual environments in a global location."
-msgstr ""
-
-#: ../../../pipenv/environments.pydocstring of
-#: pipenv.environments.PIPENV_VERBOSITY:1
-msgid "Verbosity setting for pipenv."
-msgstr ""
-
-#: ../../../pipenv/environments.pydocstring of
-#: pipenv.environments.PIPENV_VERBOSITY:3
-msgid ""
-"Higher values make pipenv more verbose, lower values less so. Default is 0, "
-"for normal verbosity."
 msgstr ""
 
 #: ../../../pipenv/environments.pydocstring of
