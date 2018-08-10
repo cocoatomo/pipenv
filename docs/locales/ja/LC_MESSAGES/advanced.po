@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-30 15:01+0000\n"
+"POT-Creation-Date: 2018-08-10 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -584,7 +584,7 @@ msgstr ""
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_MAX_RETRIES:3
 msgid ""
-"Default is 0. Aautomatically set to 1 on CI environments for robust testing."
+"Default is 0. Automatically set to 1 on CI environments for robust testing."
 msgstr ""
 
 #: ../../../pipenv/environments.pydocstring of
