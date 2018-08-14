@@ -10,6 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-16 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: tomo🐧, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ../../dev/contributing.rst:2
 msgid "Contributing to Pipenv"
-msgstr ""
+msgstr "Pipenvへの貢献"
 
 #: ../../dev/contributing.rst:4
 msgid ""
@@ -193,7 +194,7 @@ msgstr ""
 
 #: ../../dev/contributing.rst:115
 msgid "Bug Reports"
-msgstr ""
+msgstr "バグ報告"
 
 #: ../../dev/contributing.rst:117
 msgid ""
