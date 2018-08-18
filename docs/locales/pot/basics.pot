@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-10 15:01+0000\n"
+"POT-Creation-Date: 2018-08-18 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -297,26 +297,38 @@ msgid "☤ A Note about VCS Dependencies"
 msgstr ""
 
 #: ../../basics.rst:337
-msgid "Pipenv will resolve the sub–dependencies of VCS dependencies, but only if they are installed in editable mode::"
+msgid "You can install packages with pipenv from git and other version control systems using URLs formatted according to the following rule::"
+msgstr ""
+
+#: ../../basics.rst:341
+msgid "The only optional section is the ``@<branch_or_tag>`` section.  When using git over SSH, you may use the shorthand vcs and scheme alias ``git+git@<location>:<user_or_organization>/<repository>@<branch_or_tag>#<package_name>``. Note that this is translated to ``git+ssh://git@<location>`` when parsed."
+msgstr ""
+
+#: ../../basics.rst:343
+msgid "Note that it is **strongly recommended** that you install any version-controlled dependencies in editable mode, using ``pipenv install -e``, in order to ensure that dependency resolution can be performed with an up to date copy of the repository each time it is performed, and that it includes all known dependencies."
 msgstr ""
 
 #: ../../basics.rst:345
-msgid "If editable is not true, sub–dependencies will not be resolved."
-msgstr ""
-
-#: ../../basics.rst:347
-msgid "For more information about other options available when specifying VCS dependencies, please check the `Pipfile spec <https://github.com/pypa/pipfile>`__."
-msgstr ""
-
-#: ../../basics.rst:351
-msgid "☤ Pipfile.lock Security Features"
-msgstr ""
-
-#: ../../basics.rst:353
-msgid "``Pipfile.lock`` takes advantage of some great new security improvements in ``pip``. By default, the ``Pipfile.lock`` will be generated with the sha256 hashes of each downloaded package. This will allow ``pip`` to guarantee you're installing what you intend to when on a compromised network, or downloading dependencies from an untrusted PyPI endpoint."
+msgid "Below is an example usage which installs the git repository located at ``https://github.com/requests/requests.git`` from tag ``v2.19.1`` as package name ``requests``::"
 msgstr ""
 
 #: ../../basics.rst:358
+msgid "Valid values for ``<vcs_type>`` include ``git``, ``bzr``, ``svn``, and ``hg``.  Valid values for ``<scheme>`` include ``http``, ``https``, ``ssh``, and ``file``.  In specific cases you also have access to other schemes: ``svn`` may be combined with ``svn`` as a scheme, and ``bzr`` can be combined with ``sftp`` and ``lp``."
+msgstr ""
+
+#: ../../basics.rst:360
+msgid "You can read more about pip's implementation of VCS support `here <https://pip.pypa.io/en/stable/reference/pip_install/#vcs-support>`_. For more information about other options available when specifying VCS dependencies, please check the `Pipfile spec <https://github.com/pypa/pipfile>`_."
+msgstr ""
+
+#: ../../basics.rst:364
+msgid "☤ Pipfile.lock Security Features"
+msgstr ""
+
+#: ../../basics.rst:366
+msgid "``Pipfile.lock`` takes advantage of some great new security improvements in ``pip``. By default, the ``Pipfile.lock`` will be generated with the sha256 hashes of each downloaded package. This will allow ``pip`` to guarantee you're installing what you intend to when on a compromised network, or downloading dependencies from an untrusted PyPI endpoint."
+msgstr ""
+
+#: ../../basics.rst:371
 msgid "We highly recommend approaching deployments with promoting projects from a development environment into production. You can use ``pipenv lock`` to compile your dependencies on your development environment and deploy the compiled ``Pipfile.lock`` to all of your production environments for reproducible builds."
 msgstr ""
 
