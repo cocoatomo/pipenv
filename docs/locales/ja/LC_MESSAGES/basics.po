@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-10 15:01+0000\n"
+"POT-Creation-Date: 2018-08-18 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -451,28 +451,57 @@ msgstr "☤ バージョン管理システムについての但し書き"
 
 #: ../../basics.rst:337
 msgid ""
-"Pipenv will resolve the sub–dependencies of VCS dependencies, but only if "
-"they are installed in editable mode::"
-msgstr "Pipenvはバージョン管理システムで指定した依存関係の子依存関係も解決しますが、それは編集可能モードでインストールされたときだけです::"
+"You can install packages with pipenv from git and other version control "
+"systems using URLs formatted according to the following rule::"
+msgstr ""
+
+#: ../../basics.rst:341
+msgid ""
+"The only optional section is the ``@<branch_or_tag>`` section.  When using "
+"git over SSH, you may use the shorthand vcs and scheme alias "
+"``git+git@<location>:<user_or_organization>/<repository>@<branch_or_tag>#<package_name>``."
+" Note that this is translated to ``git+ssh://git@<location>`` when parsed."
+msgstr ""
+
+#: ../../basics.rst:343
+msgid ""
+"Note that it is **strongly recommended** that you install any version-"
+"controlled dependencies in editable mode, using ``pipenv install -e``, in "
+"order to ensure that dependency resolution can be performed with an up to "
+"date copy of the repository each time it is performed, and that it includes "
+"all known dependencies."
+msgstr ""
 
 #: ../../basics.rst:345
-msgid "If editable is not true, sub–dependencies will not be resolved."
-msgstr "編集可能でない場合は、子依存関係は解決されません。"
-
-#: ../../basics.rst:347
 msgid ""
-"For more information about other options available when specifying VCS "
-"dependencies, please check the `Pipfile spec "
-"<https://github.com/pypa/pipfile>`__."
+"Below is an example usage which installs the git repository located at "
+"``https://github.com/requests/requests.git`` from tag ``v2.19.1`` as package"
+" name ``requests``::"
 msgstr ""
-"VCSによる依存関係を指定するときに使えるオプションについて、よく詳しいことは `Pipfile spec "
-"<https://github.com/pypa/pipfile>`__ を確認してください。"
 
-#: ../../basics.rst:351
+#: ../../basics.rst:358
+msgid ""
+"Valid values for ``<vcs_type>`` include ``git``, ``bzr``, ``svn``, and "
+"``hg``.  Valid values for ``<scheme>`` include ``http``, ``https``, ``ssh``,"
+" and ``file``.  In specific cases you also have access to other schemes: "
+"``svn`` may be combined with ``svn`` as a scheme, and ``bzr`` can be "
+"combined with ``sftp`` and ``lp``."
+msgstr ""
+
+#: ../../basics.rst:360
+msgid ""
+"You can read more about pip's implementation of VCS support `here "
+"<https://pip.pypa.io/en/stable/reference/pip_install/#vcs-support>`_. For "
+"more information about other options available when specifying VCS "
+"dependencies, please check the `Pipfile spec "
+"<https://github.com/pypa/pipfile>`_."
+msgstr ""
+
+#: ../../basics.rst:364
 msgid "☤ Pipfile.lock Security Features"
 msgstr "☤ セキュリティ機能 Pipfile.lock"
 
-#: ../../basics.rst:353
+#: ../../basics.rst:366
 msgid ""
 "``Pipfile.lock`` takes advantage of some great new security improvements in "
 "``pip``. By default, the ``Pipfile.lock`` will be generated with the sha256 "
@@ -484,7 +513,7 @@ msgstr ""
 "デフォルトでは、 ``Pipfile.lock`` はダウンロードされたパッケージごとのsha256ハッシュから生成されます。\n"
 "これにより ``pip`` は、ネットワークが驚異に晒されていたり、信頼できないPyPIエンドポイントから依存パッケージをインストールしたりしているときに、意図したとおりのパッケージをインストールしていることを保証できます。"
 
-#: ../../basics.rst:358
+#: ../../basics.rst:371
 msgid ""
 "We highly recommend approaching deployments with promoting projects from a "
 "development environment into production. You can use ``pipenv lock`` to "
