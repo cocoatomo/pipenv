@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-10 15:01+0000\n"
+"POT-Creation-Date: 2018-08-29 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -147,9 +147,9 @@ msgstr "``--system`` フラグを使って、Pipfileの内容にあるものを�
 
 #: ../../advanced.rst:113
 msgid ""
-"This is useful for Docker containers, and deployment infrastructure (e.g. "
-"Heroku does this)."
-msgstr "これはDockerコンテナやデプロイのインフラで役に立ちます (例えば、Herokuで使われています)。"
+"This is useful for managing the system Python, and deployment infrastructure"
+" (e.g. Heroku does this)."
+msgstr ""
 
 #: ../../advanced.rst:115
 msgid "Also useful for deployment is the ``--deploy`` flag::"
