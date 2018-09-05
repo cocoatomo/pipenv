@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-22 15:00+0000\n"
+"POT-Creation-Date: 2018-09-05 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,17 +255,11 @@ msgid "Display manpage."
 msgstr ""
 
 #: ../../../pipenv:1
-#: ../../../pipenv check:1
-#: ../../../pipenv clean:1
-#: ../../../pipenv install:1
-#: ../../../pipenv lock:1
-#: ../../../pipenv open:1
-#: ../../../pipenv run:1
-#: ../../../pipenv shell:1
-#: ../../../pipenv sync:1
-#: ../../../pipenv uninstall:1
-#: ../../../pipenv update:1
-msgid "Use Python 3/2 when creating virtualenv."
+msgid "Output diagnostic information for use in GitHub issues."
+msgstr ""
+
+#: ../../../pipenv:1
+msgid "Enable site-packages for the virtualenv."
 msgstr ""
 
 #: ../../../pipenv:1
@@ -283,7 +277,42 @@ msgid "Specify which version of Python virtualenv should use."
 msgstr ""
 
 #: ../../../pipenv:1
-msgid "Enable site-packages for the virtualenv."
+#: ../../../pipenv check:1
+#: ../../../pipenv clean:1
+#: ../../../pipenv install:1
+#: ../../../pipenv lock:1
+#: ../../../pipenv open:1
+#: ../../../pipenv run:1
+#: ../../../pipenv shell:1
+#: ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "Use Python 3/2 when creating virtualenv."
+msgstr ""
+
+#: ../../../pipenv:1
+#: ../../../pipenv check:1
+#: ../../../pipenv install:1
+#: ../../../pipenv lock:1
+#: ../../../pipenv open:1
+#: ../../../pipenv run:1
+#: ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "Clears caches (pipenv, pip, and pip-tools)."
+msgstr ""
+
+#: ../../../pipenv:1
+#: ../../../pipenv check:1
+#: ../../../pipenv clean:1
+#: ../../../pipenv install:1
+#: ../../../pipenv lock:1
+#: ../../../pipenv open:1
+#: ../../../pipenv run:1
+#: ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "Verbose mode."
 msgstr ""
 
 #: ../../../pipenv:1
@@ -300,14 +329,6 @@ msgid "Specify a PyPI mirror."
 msgstr ""
 
 #: ../../../pipenv:1
-msgid "Output diagnostic information for use in GitHub issues."
-msgstr ""
-
-#: ../../../pipenv:1
-msgid "Clears caches (pipenv, pip, and pip-tools)."
-msgstr ""
-
-#: ../../../pipenv:1
 msgid "Show the version and exit."
 msgstr ""
 
@@ -316,15 +337,16 @@ msgid "Checks for security vulnerabilities and against PEP 508 markers provided 
 msgstr ""
 
 #: ../../../pipenv check:1
-msgid "Use system Python."
-msgstr ""
-
-#: ../../../pipenv check:1
 msgid "Given a code path, show potentially unused dependencies."
 msgstr ""
 
 #: ../../../pipenv check:1
 msgid "Ignore specified vulnerability during safety checks."
+msgstr ""
+
+#: ../../../pipenv check:1
+#: ../../../pipenv install:1
+msgid "System pip management."
 msgstr ""
 
 #: ../../index.rst:0
@@ -348,15 +370,6 @@ msgstr ""
 
 #: ../../../pipenv clean:1
 msgid "Uninstalls all packages not specified in Pipfile.lock."
-msgstr ""
-
-#: ../../../pipenv clean:1
-#: ../../../pipenv install:1
-#: ../../../pipenv lock:1
-#: ../../../pipenv sync:1
-#: ../../../pipenv uninstall:1
-#: ../../../pipenv update:1
-msgid "Verbose mode."
 msgstr ""
 
 #: ../../../pipenv clean:1
@@ -384,39 +397,32 @@ msgid "Installs provided packages and adds them to Pipfile, or (if none is given
 msgstr ""
 
 #: ../../../pipenv install:1
-#: ../../../pipenv update:1
-msgid "Install package(s) in [dev-packages]."
-msgstr ""
-
-#: ../../../pipenv install:1
-#: ../../../pipenv uninstall:1
-msgid "System pip management."
-msgstr ""
-
-#: ../../../pipenv install:1
-msgid "Import a requirements.txt file."
-msgstr ""
-
-#: ../../../pipenv install:1
 msgid "Import from codebase."
 msgstr ""
 
 #: ../../../pipenv install:1
-msgid "Ignore Pipfile when installing, using the Pipfile.lock."
+msgid "Abort if the Pipfile.lock is out-of-date, or Python version is wrong."
 msgstr ""
 
 #: ../../../pipenv install:1
-#: ../../../pipenv sync:1
-#: ../../../pipenv update:1
-msgid "Install dependencies one-at-a-time, instead of concurrently."
-msgstr ""
-
-#: ../../../pipenv install:1
+#: ../../../pipenv uninstall:1
 msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
 msgstr ""
 
 #: ../../../pipenv install:1
-msgid "Abort if the Pipfile.lock is out-of-date, or Python version is wrong."
+#: ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "An editable python package URL or path, often to a VCS repo."
+msgstr ""
+
+#: ../../../pipenv install:1
+#: ../../../pipenv update:1
+msgid "Ignore Pipfile when installing, using the Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv install:1
+#: ../../../pipenv update:1
+msgid "Update specified packages."
 msgstr ""
 
 #: ../../../pipenv install:1
@@ -426,20 +432,55 @@ msgid "Allow pre-releases."
 msgstr ""
 
 #: ../../../pipenv install:1
+#: ../../../pipenv update:1
+msgid "Import a requirements.txt file."
+msgstr ""
+
+#: ../../../pipenv install:1
+#: ../../../pipenv update:1
+msgid "URLs to the extra PyPI compatible indexes to query for package lookups."
+msgstr ""
+
+#: ../../../pipenv install:1
+#: ../../../pipenv update:1
+msgid "Target PyPI-compatible package index url."
+msgstr ""
+
+#: ../../../pipenv install:1
+#: ../../../pipenv sync:1
+#: ../../../pipenv update:1
+msgid "Install dependencies one-at-a-time, instead of concurrently."
+msgstr ""
+
+#: ../../../pipenv install:1
 #: ../../../pipenv lock:1
+#: ../../../pipenv sync:1
 #: ../../../pipenv uninstall:1
 #: ../../../pipenv update:1
 msgid "Keep out-dated dependencies from being updated in Pipfile.lock."
 msgstr ""
 
 #: ../../../pipenv install:1
-msgid "Update specified packages."
+#: ../../../pipenv lock:1
+#: ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "Install package(s) in [dev-packages]."
+msgstr ""
+
+#: ../../index.rst:0
+#: ../../index.rst:0
+msgid "Environment variables"
 msgstr ""
 
 #: ../../../pipenv install:1
-#: ../../../pipenv uninstall:1
 #: ../../../pipenv update:1
-msgid "Optional argument"
+msgid "Provide a default for :option:`--extra-index-url`"
+msgstr ""
+
+#: ../../../pipenv install:1
+#: ../../../pipenv update:1
+msgid "Provide a default for :option:`-i`"
 msgstr ""
 
 #: ../../../pipenv lock:1
@@ -447,17 +488,7 @@ msgid "Generates Pipfile.lock."
 msgstr ""
 
 #: ../../../pipenv lock:1
-msgid "Generate output compatible with requirements.txt."
-msgstr ""
-
-#: ../../../pipenv lock:1
-msgid "Generate output compatible with requirements.txt for the development dependencies."
-msgstr ""
-
-#: ../../../pipenv lock:1
-#: ../../../pipenv sync:1
-#: ../../../pipenv update:1
-msgid "Clear the dependency cache."
+msgid "Generate output in requirements.txt format."
 msgstr ""
 
 #: ../../../pipenv open:1
@@ -487,10 +518,6 @@ msgstr ""
 
 #: ../../../pipenv sync:1
 msgid "Installs all packages specified in Pipfile.lock."
-msgstr ""
-
-#: ../../../pipenv sync:1
-msgid "Additionally install package(s) in [dev-packages]."
 msgstr ""
 
 #: ../../../pipenv uninstall:1
