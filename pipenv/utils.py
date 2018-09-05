@@ -1072,38 +1072,6 @@ def handle_remove_readonly(func, path, exc):
     raise
 
 
-def split_argument(req, short=None, long_=None, num=-1):
-    """Split an argument from a string (finds None if not present).
-
-    Uses -short <arg>, --long <arg>, and --long=arg as permutations.
-
-    returns string, index
-    """
-    index_entries = []
-    import re
-
-    if long_:
-        index_entries.append("--{0}".format(long_))
-    if short:
-        index_entries.append("-{0}".format(short))
-    match_string = "|".join(index_entries)
-    matches = re.findall("(?<=\s)({0})([\s=])(\S+)".format(match_string), req)
-    remove_strings = []
-    match_values = []
-    for match in matches:
-        match_values.append(match[-1])
-        remove_strings.append("".join(match))
-    for string_to_remove in remove_strings:
-        req = req.replace(" {0}".format(string_to_remove), "")
-    if not match_values:
-        return req, None
-    if num == 1:
-        return req, match_values[0]
-    if num == -1:
-        return req, match_values
-    return req, match_values[:num]
-
-
 @contextmanager
 def atomic_open_for_write(target, binary=False, newline=None, encoding=None):
     """Atomically open `target` for writing.
@@ -1167,22 +1135,6 @@ def extract_uri_from_vcs_dep(dep):
     return None
 
 
-def resolve_ref(vcs_obj, target_dir, ref):
-    return vcs_obj.get_revision_sha(target_dir, ref)
-
-
-def obtain_vcs_req(vcs_obj, src_dir, name, rev=None):
-    target_dir = os.path.join(src_dir, name)
-    target_rev = vcs_obj.make_rev_options(rev)
-    if not os.path.exists(target_dir):
-        vcs_obj.obtain(target_dir)
-    if not vcs_obj.is_commit_id_equal(
-        target_dir, rev
-    ) and not vcs_obj.is_commit_id_equal(target_dir, target_rev):
-        vcs_obj.update(target_dir, target_rev)
-    return vcs_obj.get_revision(target_dir)
-
-
 def get_vcs_deps(
     project,
     pip_freeze=None,
@@ -1193,8 +1145,8 @@ def get_vcs_deps(
     dev=False,
     pypi_mirror=None,
 ):
-    from .patched.notpip._internal.vcs import VcsSupport
     from ._compat import TemporaryDirectory, Path
+    import atexit
     from .vendor.requirementslib import Requirement
 
     section = "vcs_dev_packages" if dev else "vcs_packages"
@@ -1204,27 +1156,23 @@ def get_vcs_deps(
         packages = getattr(project, section)
     except AttributeError:
         return [], []
-    if not os.environ.get("PIP_SRC") and not project.virtualenv_location:
-        _src_dir = TemporaryDirectory(prefix="pipenv-", suffix="-src")
-        src_dir = Path(_src_dir.name)
-    else:
+    if os.environ.get("PIP_SRC"):
         src_dir = Path(
             os.environ.get("PIP_SRC", os.path.join(project.virtualenv_location, "src"))
         )
         src_dir.mkdir(mode=0o775, exist_ok=True)
-    vcs_registry = VcsSupport
+    else:
+        src_dir = TemporaryDirectory(prefix="pipenv-lock-dir")
+        atexit.register(src_dir.cleanup)
     for pkg_name, pkg_pipfile in packages.items():
         requirement = Requirement.from_pipfile(pkg_name, pkg_pipfile)
-        backend = vcs_registry()._registry.get(requirement.vcs)
-        __vcs = backend(url=requirement.req.vcs_uri)
-        locked_rev = None
         name = requirement.normalized_name
-        locked_rev = obtain_vcs_req(
-            __vcs, src_dir.as_posix(), name, rev=pkg_pipfile.get("ref")
-        )
+        commit_hash = None
         if requirement.is_vcs:
-            requirement.req.ref = locked_rev
-            lockfile[name] = requirement.pipfile_entry[1]
+            with requirement.req.locked_vcs_repo(src_dir=src_dir) as repo:
+                commit_hash = repo.get_commit_hash()
+                lockfile[name] = requirement.pipfile_entry[1]
+                lockfile[name]['ref'] = commit_hash
         reqs.append(requirement)
     return reqs, lockfile
 
@@ -1243,17 +1191,24 @@ def translate_markers(pipfile_entry):
     if not isinstance(pipfile_entry, Mapping):
         raise TypeError("Entry is not a pipfile formatted mapping.")
     from notpip._vendor.distlib.markers import DEFAULT_CONTEXT as marker_context
+    from .vendor.packaging.markers import Marker
+    from .vendor.vistir.misc import dedup
 
     allowed_marker_keys = ["markers"] + [k for k in marker_context.keys()]
     provided_keys = list(pipfile_entry.keys()) if hasattr(pipfile_entry, "keys") else []
-    pipfile_marker = next((k for k in provided_keys if k in allowed_marker_keys), None)
+    pipfile_markers = [k for k in provided_keys if k in allowed_marker_keys]
     new_pipfile = dict(pipfile_entry).copy()
-    if pipfile_marker:
-        entry = "{0}".format(pipfile_entry[pipfile_marker])
-        if pipfile_marker != "markers":
-            entry = "{0} {1}".format(pipfile_marker, entry)
-            new_pipfile.pop(pipfile_marker)
-        new_pipfile["markers"] = entry
+    marker_set = set()
+    if "markers" in new_pipfile:
+        marker_set.add(str(Marker(new_pipfile.get("markers"))))
+    for m in pipfile_markers:
+        entry = "{0}".format(pipfile_entry[m])
+        if m != "markers":
+            marker_set.add(str(Marker("{0}{1}".format(m, entry))))
+            new_pipfile.pop(m)
+    if marker_set:
+        new_pipfile["markers"] = str(Marker(" or ".join(["{0}".format(s) if " and " in s else s
+                                        for s in sorted(dedup(marker_set))]))).replace('"', "'")
     return new_pipfile
 
 

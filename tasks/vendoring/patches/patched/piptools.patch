@@ -4,22 +4,22 @@ index 4e6174c..75f9b49 100644
 +++ b/pipenv/patched/piptools/locations.py
 @@ -2,10 +2,13 @@ import os
  from shutil import rmtree
- 
+
  from .click import secho
 -from ._compat import user_cache_dir
 +# Patch by vphilippon 2017-11-22: Use pipenv cache path.
 +# from ._compat import user_cache_dir
 +from pipenv.environments import PIPENV_CACHE_DIR
- 
+
  # The user_cache_dir helper comes straight from pip itself
 -CACHE_DIR = user_cache_dir('pip-tools')
 +# CACHE_DIR = user_cache_dir(os.path.join('pip-tools'))
 +CACHE_DIR = PIPENV_CACHE_DIR
- 
+
  # NOTE
  # We used to store the cache dir under ~/.pip-tools, which is not the
 diff --git a/pipenv/patched/piptools/repositories/pypi.py b/pipenv/patched/piptools/repositories/pypi.py
-index 1c4b943..91902dc 100644
+index 1c4b943..84077f0 100644
 --- a/pipenv/patched/piptools/repositories/pypi.py
 +++ b/pipenv/patched/piptools/repositories/pypi.py
 @@ -1,9 +1,10 @@
@@ -230,7 +230,7 @@ index 1c4b943..91902dc 100644
          """
          Given a pinned or an editable InstallRequirement, returns a set of
          dependencies (also InstallRequirements, but not necessarily pinned).
-@@ -155,20 +273,47 @@ class PyPIRepository(BaseRepository):
+@@ -155,20 +273,46 @@ class PyPIRepository(BaseRepository):
                      os.makedirs(download_dir)
              if not os.path.isdir(self._wheel_download_dir):
                  os.makedirs(self._wheel_download_dir)
@@ -245,21 +245,20 @@ index 1c4b943..91902dc 100644
 +                    from pipenv.utils import chdir
 +                    with chdir(ireq.setup_py_dir):
 +                        from setuptools.dist import distutils
-+                        distutils.core.run_setup(ireq.setup_py)
++                        dist = distutils.core.run_setup(ireq.setup_py)
 +                except (ImportError, InstallationError, TypeError, AttributeError):
 +                    pass
 +                try:
-+                    dist = ireq.get_dist()
++                    dist = ireq.get_dist() if not dist else dist
 +                except InstallationError:
 +                    ireq.run_egg_info()
 +                    dist = ireq.get_dist()
 +                except (TypeError, ValueError, AttributeError):
 +                    pass
 +                else:
-+                    if dist.has_metadata('requires.txt'):
-+                        setup_requires = self.finder.get_extras_links(
-+                            dist.get_metadata_lines('requires.txt')
-+                        )
++                    setup_requires = getattr(dist, "extras_require", None)
++                    if not setup_requires:
++                        setup_requires = {"setup_requires": getattr(dist, "setup_requires", None)}
              try:
 -                # Pip < 9 and below
 +                # Pip 9 and below
@@ -282,7 +281,7 @@ index 1c4b943..91902dc 100644
                  )
              except TypeError:
                  # Pip >= 10 (new resolver!)
-@@ -188,17 +333,97 @@ class PyPIRepository(BaseRepository):
+@@ -188,17 +332,97 @@ class PyPIRepository(BaseRepository):
                      finder=self.finder,
                      session=self.session,
                      upgrade_strategy="to-satisfy-only",
@@ -383,7 +382,7 @@ index 1c4b943..91902dc 100644
          return set(self._dependencies_cache[ireq])
  
      def get_hashes(self, ireq):
-@@ -210,6 +435,10 @@ class PyPIRepository(BaseRepository):
+@@ -210,6 +434,10 @@ class PyPIRepository(BaseRepository):
          if ireq.editable:
              return set()
  
@@ -394,7 +393,7 @@ index 1c4b943..91902dc 100644
          if not is_pinned_requirement(ireq):
              raise TypeError(
                  "Expected pinned requirement, got {}".format(ireq))
-@@ -217,24 +446,22 @@ class PyPIRepository(BaseRepository):
+@@ -217,24 +445,22 @@ class PyPIRepository(BaseRepository):
          # We need to get all of the candidates that match our current version
          # pin, these will represent all of the files that could possibly
          # satisfy this constraint.
@@ -436,11 +435,11 @@ index 05ec8fd..2f94f6b 100644
 +++ b/pipenv/patched/piptools/resolver.py
 @@ -8,13 +8,14 @@ from itertools import chain, count
  import os
- 
+
  from first import first
 +from pip._vendor.packaging.markers import default_environment
  from ._compat import InstallRequirement
- 
+
  from . import click
  from .cache import DependencyCache
  from .exceptions import UnsupportedConstraint
@@ -448,7 +447,7 @@ index 05ec8fd..2f94f6b 100644
 -from .utils import (format_requirement, format_specifier, full_groupby,
 +from .utils import (format_requirement, format_specifier, full_groupby, dedup, simplify_markers,
                      is_pinned_requirement, key_from_ireq, key_from_req, UNSAFE_PACKAGES)
- 
+
  green = partial(click.style, fg='green')
 @@ -28,6 +29,7 @@ class RequirementSummary(object):
      def __init__(self, ireq):
@@ -457,11 +456,11 @@ index 05ec8fd..2f94f6b 100644
 +        self.markers = ireq.markers
          self.extras = str(sorted(ireq.extras))
          self.specifier = str(ireq.specifier)
- 
+
 @@ -71,7 +73,7 @@ class Resolver(object):
          with self.repository.allow_all_wheels():
              return {ireq: self.repository.get_hashes(ireq) for ireq in ireqs}
- 
+
 -    def resolve(self, max_rounds=10):
 +    def resolve(self, max_rounds=12):
          """
@@ -517,14 +516,14 @@ index 05ec8fd..2f94f6b 100644
 +                    ireq.extras = ireq.extra
          elif not is_pinned_requirement(ireq):
              raise TypeError('Expected pinned or editable requirement, got {}'.format(ireq))
- 
+
 @@ -283,14 +301,14 @@ class Resolver(object):
          if ireq not in self.dependency_cache:
              log.debug('  {} not in cache, need to check index'.format(format_requirement(ireq)), fg='yellow')
              dependencies = self.repository.get_dependencies(ireq)
 -            self.dependency_cache[ireq] = sorted(str(ireq.req) for ireq in dependencies)
 +            self.dependency_cache[ireq] = sorted(format_requirement(_ireq) for _ireq in dependencies)
- 
+
          # Example: ['Werkzeug>=0.9', 'Jinja2>=2.4']
          dependency_strings = self.dependency_cache[ireq]
          log.debug('  {:25} requires {}'.format(format_requirement(ireq),
@@ -532,7 +531,7 @@ index 05ec8fd..2f94f6b 100644
          for dependency_string in dependency_strings:
 -            yield InstallRequirement.from_line(dependency_string, constraint=ireq.constraint)
 +                yield InstallRequirement.from_line(dependency_string, constraint=ireq.constraint)
- 
+
      def reverse_dependencies(self, ireqs):
          non_editable = [ireq for ireq in ireqs if not ireq.editable]
 diff --git a/pipenv/patched/piptools/repositories/local.py b/pipenv/patched/piptools/repositories/local.py
@@ -555,25 +554,25 @@ index fde5816..23a05f2 100644
 @@ -2,6 +2,7 @@
  from __future__ import (absolute_import, division, print_function,
                          unicode_literals)
- 
+
 +import six
  import os
  import sys
  from itertools import chain, groupby
 @@ -11,13 +12,79 @@ from contextlib import contextmanager
  from ._compat import InstallRequirement
- 
+
  from first import first
 -
 +from pip._vendor.packaging.specifiers import SpecifierSet, InvalidSpecifier
 +from pip._vendor.packaging.version import Version, InvalidVersion, parse as parse_version
 +from pip._vendor.packaging.markers import Marker, Op, Value, Variable
  from .click import style
- 
- 
+
+
  UNSAFE_PACKAGES = {'setuptools', 'distribute', 'pip'}
- 
- 
+
+
 +def simplify_markers(ireq):
 +    """simplify_markers "This code cleans up markers for a specific :class:`~InstallRequirement`"
 +
@@ -643,8 +642,8 @@ index fde5816..23a05f2 100644
      if ireq.req is None and ireq.link is not None:
 @@ -43,16 +110,51 @@ def comment(text):
      return style(text, fg='green')
- 
- 
+
+
 -def make_install_requirement(name, version, extras, constraint=False):
 +def make_install_requirement(name, version, extras, markers, constraint=False):
      # If no extras are specified, the extras string is blank
@@ -652,7 +651,7 @@ index fde5816..23a05f2 100644
      if extras:
          # Sort extras for stability
          extras_string = "[{}]".format(",".join(sorted(extras)))
- 
+
 -    return InstallRequirement.from_line(
 -        str('{}{}=={}'.format(name, extras_string, version)),
 -        constraint=constraint)
@@ -694,8 +693,8 @@ index fde5816..23a05f2 100644
 +        parts.append("; {0}".format(requirement.marker))
 +
 +    return "".join(parts)
- 
- 
+
+
  def format_requirement(ireq, marker=None):
 @@ -63,10 +165,10 @@ def format_requirement(ireq, marker=None):
      if ireq.editable:
@@ -703,14 +702,14 @@ index fde5816..23a05f2 100644
      else:
 -        line = str(ireq.req).lower()
 +        line = _requirement_to_str_lowercase_name(ireq.req)
- 
+
 -    if marker:
 -        line = '{} ; {}'.format(line, marker)
 +    if marker and ';' not in line:
 +        line = '{}; {}'.format(line, marker)
- 
+
      return line
- 
+
 diff --git a/pipenv/patched/piptools/_compat/pip_compat.py b/pipenv/patched/piptools/_compat/pip_compat.py
 index 7e8cdf3..0a0d27d 100644
 --- a/pipenv/patched/piptools/_compat/pip_compat.py
