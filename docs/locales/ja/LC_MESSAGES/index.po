@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-22 15:00+0000\n"
+"POT-Creation-Date: 2018-09-05 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -321,12 +321,13 @@ msgstr ""
 msgid "Display manpage."
 msgstr "マニュアルページを表示します。"
 
-#: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv clean:1
-#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv open:1
-#: ../../../pipenv run:1 ../../../pipenv shell:1 ../../../pipenv sync:1
-#: ../../../pipenv uninstall:1 ../../../pipenv update:1
-msgid "Use Python 3/2 when creating virtualenv."
-msgstr "仮想環境を作成するときにPython 3あるいはPython 2を使います。"
+#: ../../../pipenv:1
+msgid "Output diagnostic information for use in GitHub issues."
+msgstr ""
+
+#: ../../../pipenv:1
+msgid "Enable site-packages for the virtualenv."
+msgstr "仮想環境のsite-packagesを有効にします。"
 
 #: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv clean:1
 #: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv open:1
@@ -335,23 +336,31 @@ msgstr "仮想環境を作成するときにPython 3あるいはPython 2を使�
 msgid "Specify which version of Python virtualenv should use."
 msgstr "どのバージョンのPython仮想環境を使うかを指定します。"
 
-#: ../../../pipenv:1
-msgid "Enable site-packages for the virtualenv."
-msgstr "仮想環境のsite-packagesを有効にします。"
+#: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv clean:1
+#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv open:1
+#: ../../../pipenv run:1 ../../../pipenv shell:1 ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1 ../../../pipenv update:1
+msgid "Use Python 3/2 when creating virtualenv."
+msgstr "仮想環境を作成するときにPython 3あるいはPython 2を使います。"
+
+#: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv install:1
+#: ../../../pipenv lock:1 ../../../pipenv open:1 ../../../pipenv run:1
+#: ../../../pipenv sync:1 ../../../pipenv uninstall:1 ../../../pipenv update:1
+msgid "Clears caches (pipenv, pip, and pip-tools)."
+msgstr ""
+
+#: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv clean:1
+#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv open:1
+#: ../../../pipenv run:1 ../../../pipenv sync:1 ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "Verbose mode."
+msgstr "冗長モード。"
 
 #: ../../../pipenv:1 ../../../pipenv check:1 ../../../pipenv install:1
 #: ../../../pipenv lock:1 ../../../pipenv open:1 ../../../pipenv run:1
 #: ../../../pipenv shell:1 ../../../pipenv sync:1 ../../../pipenv uninstall:1
 #: ../../../pipenv update:1
 msgid "Specify a PyPI mirror."
-msgstr ""
-
-#: ../../../pipenv:1
-msgid "Output diagnostic information for use in GitHub issues."
-msgstr ""
-
-#: ../../../pipenv:1
-msgid "Clears caches (pipenv, pip, and pip-tools)."
 msgstr ""
 
 #: ../../../pipenv:1
@@ -365,16 +374,16 @@ msgid ""
 msgstr "セキュリティの脆弱性とPipfileにあるPEP 508マーカーをチェックします。"
 
 #: ../../../pipenv check:1
-msgid "Use system Python."
-msgstr "システムのPythonを使います。"
-
-#: ../../../pipenv check:1
 msgid "Given a code path, show potentially unused dependencies."
 msgstr "コードのパスを与えると、使われていない可能性のある依存関係を表示します。"
 
 #: ../../../pipenv check:1
 msgid "Ignore specified vulnerability during safety checks."
 msgstr ""
+
+#: ../../../pipenv check:1 ../../../pipenv install:1
+msgid "System pip management."
+msgstr "システムのpipの管理。"
 
 #: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
 #: ../../index.rst:0 ../../index.rst:0 ../../index.rst:0
@@ -390,11 +399,6 @@ msgstr "オプションの引数"
 #: ../../../pipenv clean:1
 msgid "Uninstalls all packages not specified in Pipfile.lock."
 msgstr ""
-
-#: ../../../pipenv clean:1 ../../../pipenv install:1 ../../../pipenv lock:1
-#: ../../../pipenv sync:1 ../../../pipenv uninstall:1 ../../../pipenv update:1
-msgid "Verbose mode."
-msgstr "冗長モード。"
 
 #: ../../../pipenv clean:1
 msgid "Just output unneeded packages."
@@ -423,73 +427,81 @@ msgid ""
 msgstr ""
 "引数で与えられたパッケージをインストールして、Pipfileに追加するか、(引数が何も与えられない場合は) 全てのパッケージをインストールします。"
 
-#: ../../../pipenv install:1 ../../../pipenv update:1
-msgid "Install package(s) in [dev-packages]."
-msgstr "[dev-packages] にあるパッケージをインストールします。"
-
-#: ../../../pipenv install:1 ../../../pipenv uninstall:1
-msgid "System pip management."
-msgstr "システムのpipの管理。"
-
-#: ../../../pipenv install:1
-msgid "Import a requirements.txt file."
-msgstr "requirements.txtファイルをインポートします。"
-
 #: ../../../pipenv install:1
 msgid "Import from codebase."
 msgstr "コードからインポートします。"
 
 #: ../../../pipenv install:1
-msgid "Ignore Pipfile when installing, using the Pipfile.lock."
-msgstr "インストール時にPipfileを無視し、Pipfile.lockを使います。"
+msgid "Abort if the Pipfile.lock is out-of-date, or Python version is wrong."
+msgstr "Pipfile.lockが古い、もしくはPythonバージョンが間違っている場合に、異常終了します。"
 
-#: ../../../pipenv install:1 ../../../pipenv sync:1 ../../../pipenv update:1
-msgid "Install dependencies one-at-a-time, instead of concurrently."
-msgstr "並列ではなく、一度に一つずつ依存パッケージをインストールします。"
-
-#: ../../../pipenv install:1
+#: ../../../pipenv install:1 ../../../pipenv uninstall:1
 msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
 msgstr "インストール時にバージョン固定の仕組みを無視し、代わりにPipfileを使います。"
 
-#: ../../../pipenv install:1
-msgid "Abort if the Pipfile.lock is out-of-date, or Python version is wrong."
-msgstr "Pipfile.lockが古い、もしくはPythonバージョンが間違っている場合に、異常終了します。"
+#: ../../../pipenv install:1 ../../../pipenv uninstall:1 ../../../pipenv
+#: update:1
+msgid "An editable python package URL or path, often to a VCS repo."
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv update:1
+msgid "Ignore Pipfile when installing, using the Pipfile.lock."
+msgstr "インストール時にPipfileを無視し、Pipfile.lockを使います。"
+
+#: ../../../pipenv install:1 ../../../pipenv update:1
+msgid "Update specified packages."
+msgstr "指定されたパッケージを更新します。"
 
 #: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv update:1
 msgid "Allow pre-releases."
 msgstr "プレリリースバージョンのパッケージを許可します。"
 
-#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv
-#: uninstall:1 ../../../pipenv update:1
+#: ../../../pipenv install:1 ../../../pipenv update:1
+msgid "Import a requirements.txt file."
+msgstr "requirements.txtファイルをインポートします。"
+
+#: ../../../pipenv install:1 ../../../pipenv update:1
+msgid ""
+"URLs to the extra PyPI compatible indexes to query for package lookups."
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv update:1
+msgid "Target PyPI-compatible package index url."
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv sync:1 ../../../pipenv update:1
+msgid "Install dependencies one-at-a-time, instead of concurrently."
+msgstr "並列ではなく、一度に一つずつ依存パッケージをインストールします。"
+
+#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1 ../../../pipenv update:1
 msgid "Keep out-dated dependencies from being updated in Pipfile.lock."
 msgstr "Pipfile.lockの古くなった依存関係が更新されないようにします。"
 
-#: ../../../pipenv install:1
-msgid "Update specified packages."
-msgstr "指定されたパッケージを更新します。"
+#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1 ../../../pipenv update:1
+msgid "Install package(s) in [dev-packages]."
+msgstr "[dev-packages] にあるパッケージをインストールします。"
 
-#: ../../../pipenv install:1 ../../../pipenv uninstall:1 ../../../pipenv
-#: update:1
-msgid "Optional argument"
-msgstr "オプションの引数"
+#: ../../index.rst:0 ../../index.rst:0
+msgid "Environment variables"
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv update:1
+msgid "Provide a default for :option:`--extra-index-url`"
+msgstr ""
+
+#: ../../../pipenv install:1 ../../../pipenv update:1
+msgid "Provide a default for :option:`-i`"
+msgstr ""
 
 #: ../../../pipenv lock:1
 msgid "Generates Pipfile.lock."
 msgstr "Pipfile.lockを生成します。"
 
 #: ../../../pipenv lock:1
-msgid "Generate output compatible with requirements.txt."
-msgstr "requirements.txtと互換性のある出力を生成します。"
-
-#: ../../../pipenv lock:1
-msgid ""
-"Generate output compatible with requirements.txt for the development "
-"dependencies."
-msgstr "開発用の依存パッケージのrequirements.txtと互換性のある出力を生成します。"
-
-#: ../../../pipenv lock:1 ../../../pipenv sync:1 ../../../pipenv update:1
-msgid "Clear the dependency cache."
-msgstr "依存関係のキャッシュを削除します。"
+msgid "Generate output in requirements.txt format."
+msgstr ""
 
 #: ../../../pipenv open:1
 msgid "View a given module in your editor."
@@ -518,10 +530,6 @@ msgstr "サブシェルを既に起動している場合でも、常にサブシ
 #: ../../../pipenv sync:1
 msgid "Installs all packages specified in Pipfile.lock."
 msgstr ""
-
-#: ../../../pipenv sync:1
-msgid "Additionally install package(s) in [dev-packages]."
-msgstr "追加で [dev-packages] にあるパッケージをインストールします。"
 
 #: ../../../pipenv uninstall:1
 msgid "Un-installs a provided package and removes it from Pipfile."
