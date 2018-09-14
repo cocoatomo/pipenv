@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-18 15:00+0000\n"
+"POT-Creation-Date: 2018-09-14 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -229,7 +229,7 @@ msgid "The virtualenv created by Pipenv may be different from what you were expe
 msgstr ""
 
 #: ../../basics.rst:290
-msgid "``--dev`` — Install both ``develop`` and ``default`` packages from ``Pipfile.lock``."
+msgid "``--dev`` — Install both ``develop`` and ``default`` packages from ``Pipfile``."
 msgstr ""
 
 #: ../../basics.rst:291

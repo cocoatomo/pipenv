@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-05 15:01+0000\n"
+"POT-Creation-Date: 2018-09-14 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -393,7 +393,7 @@ msgid "Reversed dependency graph."
 msgstr ""
 
 #: ../../../pipenv install:1
-msgid "Installs provided packages and adds them to Pipfile, or (if none is given), installs all packages."
+msgid "Installs provided packages and adds them to Pipfile, or (if no packages are given), installs all packages from Pipfile."
 msgstr ""
 
 #: ../../../pipenv install:1
@@ -465,7 +465,7 @@ msgstr ""
 #: ../../../pipenv sync:1
 #: ../../../pipenv uninstall:1
 #: ../../../pipenv update:1
-msgid "Install package(s) in [dev-packages]."
+msgid "Install both develop and default packages."
 msgstr ""
 
 #: ../../index.rst:0
