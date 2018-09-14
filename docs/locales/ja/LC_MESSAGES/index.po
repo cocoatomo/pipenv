@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-05 15:01+0000\n"
+"POT-Creation-Date: 2018-09-14 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -422,10 +422,9 @@ msgstr "逆向きの依存関係グラフ。"
 
 #: ../../../pipenv install:1
 msgid ""
-"Installs provided packages and adds them to Pipfile, or (if none is given), "
-"installs all packages."
+"Installs provided packages and adds them to Pipfile, or (if no packages are "
+"given), installs all packages from Pipfile."
 msgstr ""
-"引数で与えられたパッケージをインストールして、Pipfileに追加するか、(引数が何も与えられない場合は) 全てのパッケージをインストールします。"
 
 #: ../../../pipenv install:1
 msgid "Import from codebase."
@@ -480,8 +479,8 @@ msgstr "Pipfile.lockの古くなった依存関係が更新されないように
 
 #: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv sync:1
 #: ../../../pipenv uninstall:1 ../../../pipenv update:1
-msgid "Install package(s) in [dev-packages]."
-msgstr "[dev-packages] にあるパッケージをインストールします。"
+msgid "Install both develop and default packages."
+msgstr ""
 
 #: ../../index.rst:0 ../../index.rst:0
 msgid "Environment variables"
