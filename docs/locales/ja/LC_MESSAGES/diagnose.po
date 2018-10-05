@@ -104,6 +104,9 @@ msgid ""
 " all existing Pipenv installations, and see :ref:`installing-pipenv` to "
 "choose one of the recommended way to install Pipenv instead."
 msgstr ""
+"たいていはPipenvとシステムパッケージが混ざってしまっているのが原因です。\n"
+"Pipenvは隔離された環境にインストールすることを *強く* 推奨します。\n"
+"既にインストールされているPipenvを全てアンインストールし、 :ref:`installing-pipenv` を参照して、推奨されている方法でPipenvをインストールしてください。"
 
 #: ../../diagnose.rst:52
 msgid "☤ My pyenv-installed Python is not found"
@@ -250,7 +253,7 @@ msgstr ""
 
 #: ../../diagnose.rst:135
 msgid "☤ An exception is raised during ``Locking dependencies…``"
-msgstr ""
+msgstr "☤ ``Locking dependencies…`` となっている間に例外が送出される"
 
 #: ../../diagnose.rst:137
 msgid ""

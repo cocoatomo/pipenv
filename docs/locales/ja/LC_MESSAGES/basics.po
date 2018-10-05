@@ -99,6 +99,8 @@ msgid ""
 "This will create a ``Pipfile`` if one doesn't exist. If one does exist, it "
 "will automatically be edited with the new package you provided."
 msgstr ""
+"このコマンドは ``Pipfile`` が無ければ作成します。\n"
+"既に存在していた場合は、引数で与えたパッケージが追加されるよう自動的に ``Pipfile`` を編集します。"
 
 #: ../../basics.rst:151
 msgid "Next, activate the Pipenv shell::"
@@ -228,6 +230,8 @@ msgid ""
 "(e.g. on other machines). If this is not true, feel free to simply remove "
 "this section."
 msgstr ""
+"``[requires] python_version = \"3.6\"`` という文言が含まれていると、アプリケーションがこのバージョンのPythonを要求していることを示し、将来 (例えば他のマシンで) この ``Pipfile`` に対して ``pipenv install`` を実行するときに自動で使われます。\n"
+"この指定が間違っている場合は、気にせずこのセクションを削除してください。"
 
 #: ../../basics.rst:232
 msgid ""
@@ -257,6 +261,8 @@ msgid ""
 "dependencies are **not** added to the ``Pipfile.lock`` if you leave the "
 "``-e`` option out."
 msgstr ""
+"全ての子依存関係も ``Pipfile.lock`` に追加されます。\n"
+"``-e`` オプションを設定しないでおくと、子依存関係は ``Pipfile.lock`` には追加され **ません**。"
 
 #: ../../basics.rst:257
 msgid "☤ Environment Management with Pipenv"
@@ -333,6 +339,7 @@ msgid ""
 "``--dev`` — Install both ``develop`` and ``default`` packages from "
 "``Pipfile``."
 msgstr ""
+"``--dev`` — ``Pipfile`` の ``develop`` パッケージと ``default`` パッケージの両方をインストールします。"
 
 #: ../../basics.rst:291
 msgid ""
