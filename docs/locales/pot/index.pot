@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-14 15:01+0000\n"
+"POT-Creation-Date: 2018-10-07 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,7 +181,7 @@ msgid "``graph`` will show you a dependency graph of your installed dependencies
 msgstr ""
 
 #: ../../index.rst:105
-msgid "``shell`` will spawn a shell with the virtualenv activated."
+msgid "``shell`` will spawn a shell with the virtualenv activated. This shell can be deactivated by using ``exit``."
 msgstr ""
 
 #: ../../index.rst:106

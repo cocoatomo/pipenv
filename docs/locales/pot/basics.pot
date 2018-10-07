@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.7.1.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-14 15:01+0000\n"
+"POT-Creation-Date: 2018-10-07 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,20 +68,24 @@ msgstr ""
 msgid "Clone / create project repository::"
 msgstr ""
 
-#: ../../basics.rst:141
+#: ../../basics.rst:140
 msgid "Install from Pipfile, if there is one::"
 msgstr ""
 
-#: ../../basics.rst:145
+#: ../../basics.rst:144
 msgid "Or, add a package to your new project::"
 msgstr ""
 
-#: ../../basics.rst:149
+#: ../../basics.rst:148
 msgid "This will create a ``Pipfile`` if one doesn't exist. If one does exist, it will automatically be edited with the new package you provided."
 msgstr ""
 
-#: ../../basics.rst:151
+#: ../../basics.rst:150
 msgid "Next, activate the Pipenv shell::"
+msgstr ""
+
+#: ../../basics.rst:155
+msgid "This will spawn a new shell subprocess, which can be deactivated by using ``exit``."
 msgstr ""
 
 #: ../../basics.rst:160
