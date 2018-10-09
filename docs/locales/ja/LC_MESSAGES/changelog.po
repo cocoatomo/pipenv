@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2018.7.1.dev0\n"
+"Project-Id-Version: pipenv 2018.10.10.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-16 15:01+0000\n"
+"POT-Creation-Date: 2018-10-09 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -23,14 +23,528 @@ msgid "Release and Version History"
 msgstr "リリースとバージョンヒストリー"
 
 #: ../../../../CHANGELOG.rst:2
-msgid "2018.7.1 (2018-07-01)"
-msgstr "2018.7.1 (2018-07-01)"
+msgid "2018.10.9 (2018-10-09)"
+msgstr ""
 
-#: ../../../../CHANGELOG.rst:5 ../../../../CHANGELOG.rst:86
+#: ../../../../CHANGELOG.rst:5 ../../../../CHANGELOG.rst:222
+#: ../../../../CHANGELOG.rst:303
 msgid "Features & Improvements"
 msgstr "特徴と改善"
 
-#: ../../../../CHANGELOG.rst:7 ../../../../CHANGELOG.rst:57
+#: ../../../../CHANGELOG.rst:7
+msgid ""
+"Added environment variables `PIPENV_VERBOSE` and `PIPENV_QUIET` to control "
+"output verbosity without needing to pass options.  `#2527 "
+"<https://github.com/pypa/pipenv/issues/2527>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:10
+msgid ""
+"Updated test-pypi addon to better support json-api access (forward "
+"compatibility). Improved testing process for new contributors.  `#2568 "
+"<https://github.com/pypa/pipenv/issues/2568>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:13
+msgid "Greatly enhanced python discovery functionality:"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:15
+msgid "Added pep514 (windows launcher/finder) support for python discovery."
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:16
+msgid ""
+"Introduced architecture discovery for python installations which support "
+"different architectures.  `#2582 "
+"<https://github.com/pypa/pipenv/issues/2582>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:18
+msgid ""
+"Added support for ``pipenv shell`` on msys and cygwin/mingw/git bash for "
+"Windows.  `#2641 <https://github.com/pypa/pipenv/issues/2641>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:20
+msgid ""
+"Enhanced resolution of editable and VCS dependencies.  `#2643 "
+"<https://github.com/pypa/pipenv/issues/2643>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:22
+msgid ""
+"Deduplicate and refactor CLI to use stateful arguments and object passing.  "
+"See `this issue <https://github.com/pallets/click/issues/108>`_ for "
+"reference.  `#2814 <https://github.com/pypa/pipenv/issues/2814>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:26 ../../../../CHANGELOG.rst:358
+msgid "Behavior Changes"
+msgstr "動作の変更"
+
+#: ../../../../CHANGELOG.rst:28
+msgid ""
+"Virtual environment activation for ``run`` is revised to improve "
+"interpolation with other Python discovery tools.  `#2503 "
+"<https://github.com/pypa/pipenv/issues/2503>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:31
+msgid ""
+"Improve terminal coloring to display better in Powershell.  `#2511 "
+"<https://github.com/pypa/pipenv/issues/2511>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:33
+msgid ""
+"Invoke ``virtualenv`` directly for virtual environment creation, instead of "
+"depending on ``pew``.  `#2518 <https://github.com/pypa/pipenv/issues/2518>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:35
+msgid ""
+"``pipenv --help`` will now include short help descriptions.  `#2542 "
+"<https://github.com/pypa/pipenv/issues/2542>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:37
+msgid ""
+"Add ``COMSPEC`` to fallback option (along with ``SHELL`` and "
+"``PYENV_SHELL``) if shell detection fails, improving robustness on Windows."
+"  `#2651 <https://github.com/pypa/pipenv/issues/2651>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:40
+msgid ""
+"Fallback to shell mode if `run` fails with Windows error 193 to handle non-"
+"executable commands. This should improve usability on Windows, where some "
+"users run non-executable files without specifying a command, relying on "
+"Windows file association to choose the current command.  `#2718 "
+"<https://github.com/pypa/pipenv/issues/2718>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:44 ../../../../CHANGELOG.rst:237
+#: ../../../../CHANGELOG.rst:371
+msgid "Bug Fixes"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:46
+msgid ""
+"Fixed a bug which prevented installation of editable requirements using "
+"``ssh://`` style urls  `#1393 <https://github.com/pypa/pipenv/issues/1393>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:48
+msgid ""
+"VCS Refs for locked local editable dependencies will now update "
+"appropriately to the latest hash when running ``pipenv update``.  `#1690 "
+"<https://github.com/pypa/pipenv/issues/1690>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:50
+msgid ""
+"``.tar.gz`` and ``.zip`` artifacts will now have dependencies installed even"
+" when they are missing from the lockfile.  `#2173 "
+"<https://github.com/pypa/pipenv/issues/2173>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:52
+msgid ""
+"The command line parser will now handle multiple ``-e/--editable`` "
+"dependencies properly via click's option parser to help mitigate future "
+"parsing issues.  `#2279 <https://github.com/pypa/pipenv/issues/2279>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:54
+msgid ""
+"Fixed the ability of pipenv to parse ``dependency_links`` from ``setup.py`` "
+"when ``PIP_PROCESS_DEPENDENCY_LINKS`` is enabled.  `#2434 "
+"<https://github.com/pypa/pipenv/issues/2434>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:56
+msgid ""
+"Fixed a bug which could cause ``-i/--index`` arguments to sometimes be "
+"incorrectly picked up in packages.  This is now handled in the command line "
+"parser.  `#2494 <https://github.com/pypa/pipenv/issues/2494>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:58
+msgid ""
+"Fixed non-deterministic resolution issues related to changes to the internal"
+" package finder in ``pip 10``.  `#2499 "
+"<https://github.com/pypa/pipenv/issues/2499>`_, `#2529 "
+"<https://github.com/pypa/pipenv/issues/2529>`_, `#2589 "
+"<https://github.com/pypa/pipenv/issues/2589>`_, `#2666 "
+"<https://github.com/pypa/pipenv/issues/2666>`_, `#2767 "
+"<https://github.com/pypa/pipenv/issues/2767>`_, `#2785 "
+"<https://github.com/pypa/pipenv/issues/2785>`_, `#2795 "
+"<https://github.com/pypa/pipenv/issues/2795>`_, `#2801 "
+"<https://github.com/pypa/pipenv/issues/2801>`_, `#2824 "
+"<https://github.com/pypa/pipenv/issues/2824>`_, `#2862 "
+"<https://github.com/pypa/pipenv/issues/2862>`_, `#2879 "
+"<https://github.com/pypa/pipenv/issues/2879>`_, `#2894 "
+"<https://github.com/pypa/pipenv/issues/2894>`_, `#2933 "
+"<https://github.com/pypa/pipenv/issues/2933>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:72
+msgid ""
+"Fix subshell invocation on Windows for Python 2.  `#2515 "
+"<https://github.com/pypa/pipenv/issues/2515>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:74
+msgid ""
+"Fixed a bug which sometimes caused pipenv to throw a ``TypeError`` or to run"
+" into encoding issues when writing lockfiles on python 2.  `#2561 "
+"<https://github.com/pypa/pipenv/issues/2561>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:76
+msgid ""
+"Improve quoting logic for ``pipenv run`` so it works better with Windows "
+"built-in commands.  `#2563 <https://github.com/pypa/pipenv/issues/2563>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:79
+msgid ""
+"Fixed a bug related to parsing vcs requirements with both extras and "
+"subdirectory fragments. Corrected an issue in the ``requirementslib`` parser"
+" which led to some markers being discarded rather than evaluated.  `#2564 "
+"<https://github.com/pypa/pipenv/issues/2564>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:82
+msgid ""
+"Fixed multiple issues with finding the correct system python locations.  "
+"`#2582 <https://github.com/pypa/pipenv/issues/2582>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:84
+msgid ""
+"Catch JSON decoding error to prevent exception when the lock file is of "
+"invalid format.  `#2607 <https://github.com/pypa/pipenv/issues/2607>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:87
+msgid ""
+"Fixed a rare bug which could sometimes cause errors when installing packages"
+" with custom sources.  `#2610 <https://github.com/pypa/pipenv/issues/2610>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:89 ../../../../CHANGELOG.rst:153
+msgid ""
+"Update requirementslib to fix a bug which could raise an "
+"``UnboundLocalError`` when parsing malformed VCS URIs.  `#2617 "
+"<https://github.com/pypa/pipenv/issues/2617>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:91
+msgid ""
+"Fixed an issue which prevented passing multiple ``--ignore`` parameters to "
+"``pipenv check``.  `#2632 <https://github.com/pypa/pipenv/issues/2632>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:93
+msgid ""
+"Fixed a bug which caused attempted hashing of ``ssh://`` style URIs which "
+"could cause failures during installation of private ssh repositories. - "
+"Corrected path conversion issues which caused certain editable VCS paths to "
+"be converted to ``ssh://`` URIs improperly.  `#2639 "
+"<https://github.com/pypa/pipenv/issues/2639>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:96
+msgid ""
+"Fixed a bug which caused paths to be formatted incorrectly when using "
+"``pipenv shell`` in bash for windows.  `#2641 "
+"<https://github.com/pypa/pipenv/issues/2641>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:98
+msgid ""
+"Dependency links to private repositories defined via ``ssh://`` schemes will"
+" now install correctly and skip hashing as long as "
+"``PIP_PROCESS_DEPENDENCY_LINKS=1``.  `#2643 "
+"<https://github.com/pypa/pipenv/issues/2643>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:100
+msgid ""
+"Fixed a bug which sometimes caused pipenv to parse the ``trusted_host`` "
+"argument to pip incorrectly when parsing source URLs which specify "
+"``verify_ssl = false``.  `#2656 "
+"<https://github.com/pypa/pipenv/issues/2656>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:102
+msgid ""
+"Prevent crashing when a virtual environment in ``WORKON_HOME`` is faulty.  "
+"`#2676 <https://github.com/pypa/pipenv/issues/2676>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:104
+msgid ""
+"Fixed virtualenv creation failure when a .venv file is present in the "
+"project root.  `#2680 <https://github.com/pypa/pipenv/issues/2680>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:106
+msgid ""
+"Fixed a bug which could cause the ``-e/--editable`` argument on a dependency"
+" to be accidentally parsed as a dependency itself.  `#2714 "
+"<https://github.com/pypa/pipenv/issues/2714>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:108
+msgid ""
+"Correctly pass `verbose` and `debug` flags to the resolver subprocess so it "
+"generates appropriate output. This also resolves a bug introduced by the fix"
+" to #2527.  `#2732 <https://github.com/pypa/pipenv/issues/2732>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:110
+msgid ""
+"All markers are now included in ``pipenv lock --requirements`` output.  "
+"`#2748 <https://github.com/pypa/pipenv/issues/2748>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:112
+msgid ""
+"Fixed a bug in marker resolution which could cause duplicate and non-"
+"deterministic markers.  `#2760 "
+"<https://github.com/pypa/pipenv/issues/2760>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:114
+msgid ""
+"Fixed a bug in the dependency resolver which caused regular issues when "
+"handling ``setup.py`` based dependency resolution.  `#2766 "
+"<https://github.com/pypa/pipenv/issues/2766>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:133 ../../../../CHANGELOG.rst:187
+msgid "Updated vendored dependencies:"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:117 ../../../../CHANGELOG.rst:171
+msgid ""
+"``pip-tools`` (updated and patched to latest w/ ``pip 18.0`` compatibilty)"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:118 ../../../../CHANGELOG.rst:172
+msgid "``pip 10.0.1 => 18.0``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:119 ../../../../CHANGELOG.rst:173
+msgid "``click 6.7 => 7.0``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:120 ../../../../CHANGELOG.rst:174
+msgid "``toml 0.9.4 => 0.10.0``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:121 ../../../../CHANGELOG.rst:175
+msgid "``pyparsing 2.2.0 => 2.2.2``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:122 ../../../../CHANGELOG.rst:176
+msgid "``delegator 0.1.0 => 0.1.1``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:123 ../../../../CHANGELOG.rst:177
+msgid "``attrs 18.1.0 => 18.2.0``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:124 ../../../../CHANGELOG.rst:178
+msgid "``distlib 0.2.7 => 0.2.8``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:125 ../../../../CHANGELOG.rst:179
+msgid "``packaging 17.1.0 => 18.0``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:126 ../../../../CHANGELOG.rst:180
+msgid "``passa 0.2.0 => 0.3.1``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:127 ../../../../CHANGELOG.rst:181
+msgid "``pip_shims 0.1.2 => 0.3.1``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:128 ../../../../CHANGELOG.rst:182
+msgid "``plette 0.1.1 => 0.2.2``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:129 ../../../../CHANGELOG.rst:183
+msgid "``pythonfinder 1.0.2 => 1.1.0``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:130 ../../../../CHANGELOG.rst:184
+msgid "``pytoml 0.1.18 => 0.1.19``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:131 ../../../../CHANGELOG.rst:185
+msgid "``requirementslib 1.1.16 => 1.1.17``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:132 ../../../../CHANGELOG.rst:186
+msgid "``shellingham 1.2.4 => 1.2.6``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:133 ../../../../CHANGELOG.rst:187
+msgid "``tomlkit 0.4.2 => 0.4.4``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:134
+msgid ""
+"``vistir 0.1.4 => 0.1.6``  `#2802 "
+"<https://github.com/pypa/pipenv/issues/2802>`_,"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:135
+msgid ""
+"`#2867 <https://github.com/pypa/pipenv/issues/2867>`_, `#2880 "
+"<https://github.com/pypa/pipenv/issues/2880>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:138
+msgid ""
+"Fixed a bug where `pipenv` crashes when the `WORKON_HOME` directory does not"
+" exist.  `#2877 <https://github.com/pypa/pipenv/issues/2877>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:140
+msgid ""
+"Fixed pip is not loaded from pipenv's patched one but the system one  `#2912"
+" <https://github.com/pypa/pipenv/issues/2912>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:142
+msgid ""
+"Fixed various bugs related to ``pip 18.1`` release which prevented locking, "
+"installation, and syncing, and dumping to a ``requirements.txt`` file.  "
+"`#2924 <https://github.com/pypa/pipenv/issues/2924>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:146 ../../../../CHANGELOG.rst:272
+#: ../../../../CHANGELOG.rst:465
+msgid "Vendored Libraries"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:148
+msgid ""
+"Pew is no longer vendored. Entry point ``pewtwo``, packages ``pipenv.pew`` "
+"and ``pipenv.patched.pew`` are removed.  `#2521 "
+"<https://github.com/pypa/pipenv/issues/2521>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:151
+msgid ""
+"Update ``pythonfinder`` to major release ``1.0.0`` for integration.  `#2582 "
+"<https://github.com/pypa/pipenv/issues/2582>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:155
+msgid ""
+"Vendored new libraries ``vistir`` and ``pip-shims``, ``tomlkit``, "
+"``modutil``, and ``plette``."
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:157
+msgid ""
+"Update vendored libraries: - ``scandir`` to ``1.9.0`` - ``click-completion``"
+" to ``0.4.1`` - ``semver`` to ``2.8.1`` - ``shellingham`` to ``1.2.4`` - "
+"``pytoml`` to ``0.1.18`` - ``certifi`` to ``2018.8.24`` - ``ptyprocess`` to "
+"``0.6.0`` - ``requirementslib`` to ``1.1.5`` - ``pythonfinder`` to ``1.0.2``"
+" - ``pipdeptree`` to ``0.13.0`` - ``python-dotenv`` to ``0.9.1``  `#2639 "
+"<https://github.com/pypa/pipenv/issues/2639>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:188
+msgid ""
+"``vistir 0.1.4 => 0.1.6``  `#2902 "
+"<https://github.com/pypa/pipenv/issues/2902>`_,"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:189
+msgid "`#2935 <https://github.com/pypa/pipenv/issues/2935>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:193 ../../../../CHANGELOG.rst:294
+#: ../../../../CHANGELOG.rst:453
+msgid "Improved Documentation"
+msgstr "ドキュメントの改善"
+
+#: ../../../../CHANGELOG.rst:195
+msgid ""
+"Simplified the test configuration process.  `#2568 "
+"<https://github.com/pypa/pipenv/issues/2568>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:197
+msgid ""
+"Updated documentation to use working fortune cookie addon.  `#2644 "
+"<https://github.com/pypa/pipenv/issues/2644>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:199
+msgid ""
+"Added additional information about troubleshooting ``pipenv shell`` by using"
+" the the ``$PIPENV_SHELL`` environment variable.  `#2671 "
+"<https://github.com/pypa/pipenv/issues/2671>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:201
+msgid ""
+"Added a link to ``PEP-440`` version specifiers in the documentation for "
+"additional detail.  `#2674 <https://github.com/pypa/pipenv/issues/2674>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:203
+msgid ""
+"Added simple example to README.md for installing from git.  `#2685 "
+"<https://github.com/pypa/pipenv/issues/2685>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:205
+msgid ""
+"Stopped recommending `--system` for Docker contexts.  `#2762 "
+"<https://github.com/pypa/pipenv/issues/2762>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:207
+msgid ""
+"Fixed the example url for doing \"pipenv install -e some-repo-"
+"url#egg=something\", it was missing the \"egg=\" in the fragment identifier."
+"  `#2792 <https://github.com/pypa/pipenv/issues/2792>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:211
+msgid ""
+"Fixed link to the \"be cordial\" essay in the contribution documentation.  "
+"`#2793 <https://github.com/pypa/pipenv/issues/2793>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:213
+msgid ""
+"Clarify `pipenv install` documentation  `#2844 "
+"<https://github.com/pypa/pipenv/issues/2844>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:215
+msgid ""
+"Replace reference to uservoice with PEEP-000  `#2909 "
+"<https://github.com/pypa/pipenv/issues/2909>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst:219
+msgid "2018.7.1 (2018-07-01)"
+msgstr "2018.7.1 (2018-07-01)"
+
+#: ../../../../CHANGELOG.rst:224 ../../../../CHANGELOG.rst:274
 msgid ""
 "All calls to ``pipenv shell`` are now implemented from the ground up using "
 "`shellingham  <https://github.com/sarugaku/shellingham>`_, a custom library "
@@ -38,7 +552,7 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2371>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:9
+#: ../../../../CHANGELOG.rst:226
 msgid ""
 "Added support for python 3.7 via a few small compatibility / bugfixes.  "
 "`#2427 <https://github.com/pypa/pipenv/issues/2427>`_, `#2434 "
@@ -46,7 +560,7 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2436>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:13
+#: ../../../../CHANGELOG.rst:230
 msgid ""
 "Added new flag ``pipenv --support`` to replace the diagnostic command "
 "``python -m pipenv.help``.  `#2477 "
@@ -54,30 +568,26 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2478>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:16
+#: ../../../../CHANGELOG.rst:233
 msgid ""
 "Improved import times and CLI runtimes with minor tweaks.  `#2485 "
 "<https://github.com/pypa/pipenv/issues/2485>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:20 ../../../../CHANGELOG.rst:154
-msgid "Bug Fixes"
-msgstr ""
-
-#: ../../../../CHANGELOG.rst:22
+#: ../../../../CHANGELOG.rst:239
 msgid ""
 "Fixed an ongoing bug which sometimes resolved incompatible versions into "
 "lockfiles.  `#1901 <https://github.com/pypa/pipenv/issues/1901>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:24
+#: ../../../../CHANGELOG.rst:241
 msgid ""
 "Fixed a bug which caused errors when creating virtualenvs which contained "
 "leading dash characters.  `#2415 "
 "<https://github.com/pypa/pipenv/issues/2415>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:26
+#: ../../../../CHANGELOG.rst:243
 msgid ""
 "Fixed a logic error which caused ``--deploy --system`` to overwrite editable"
 " vcs packages in the pipfile before installing, which caused any "
@@ -85,40 +595,40 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2417>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:28 ../../../../CHANGELOG.rst:59
+#: ../../../../CHANGELOG.rst:245 ../../../../CHANGELOG.rst:276
 msgid ""
 "Updated requirementslib to fix an issue with properly quoting markers in VCS"
 " requirements.  `#2419 <https://github.com/pypa/pipenv/issues/2419>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:30 ../../../../CHANGELOG.rst:61
+#: ../../../../CHANGELOG.rst:247 ../../../../CHANGELOG.rst:278
 msgid ""
 "Installed new vendored jinja2 templates for ``click-completion`` which were "
 "causing template errors for users with completion enabled.  `#2422 "
 "<https://github.com/pypa/pipenv/issues/2422>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:32
+#: ../../../../CHANGELOG.rst:249
 msgid ""
 "Added support for python 3.7 via a few small compatibility / bugfixes.  "
 "`#2427 <https://github.com/pypa/pipenv/issues/2427>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:34 ../../../../CHANGELOG.rst:67
+#: ../../../../CHANGELOG.rst:251 ../../../../CHANGELOG.rst:284
 msgid ""
 "Fixed an issue reading package names from ``setup.py`` files in projects "
 "which imported utilities such as ``versioneer``.  `#2433 "
 "<https://github.com/pypa/pipenv/issues/2433>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:36
+#: ../../../../CHANGELOG.rst:253
 msgid ""
 "Pipenv will now ensure that its internal package names registry files are "
 "written with unicode strings.  `#2450 "
 "<https://github.com/pypa/pipenv/issues/2450>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:38
+#: ../../../../CHANGELOG.rst:255
 msgid ""
 "Fixed a bug causing requirements input as relative paths to be output as "
 "absolute paths or URIs. Fixed a bug affecting normalization of "
@@ -126,14 +636,14 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2453>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:41
+#: ../../../../CHANGELOG.rst:258
 msgid ""
 "Pipenv will now always use ``pathlib2`` for ``Path`` based filesystem "
 "interactions by default on ``python<3.5``.  `#2454 "
 "<https://github.com/pypa/pipenv/issues/2454>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:43
+#: ../../../../CHANGELOG.rst:260
 msgid ""
 "Fixed a bug which prevented passing proxy PyPI indexes set with ``--pypi-"
 "mirror`` from being passed to pip during virtualenv creation, which could "
@@ -141,21 +651,21 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2462>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:45
+#: ../../../../CHANGELOG.rst:262
 msgid ""
 "Using the ``python -m pipenv.help`` command will now use proper encoding for"
 " the host filesystem to avoid encoding issues.  `#2466 "
 "<https://github.com/pypa/pipenv/issues/2466>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:47
+#: ../../../../CHANGELOG.rst:264
 msgid ""
 "The new ``jinja2`` templates for ``click_completion`` will now be included "
 "in pipenv source distributions.  `#2479 "
 "<https://github.com/pypa/pipenv/issues/2479>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:49
+#: ../../../../CHANGELOG.rst:266
 msgid ""
 "Resolved a long-standing issue with re-using previously generated "
 "``InstallRequirement`` objects for resolution which could cause ``PKG-INFO``"
@@ -163,58 +673,50 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2480>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:51 ../../../../CHANGELOG.rst:73
+#: ../../../../CHANGELOG.rst:268 ../../../../CHANGELOG.rst:290
 msgid ""
 "Resolved an issue parsing usernames from private PyPI URIs in ``Pipfiles`` "
 "by updating ``requirementslib``.  `#2484 "
 "<https://github.com/pypa/pipenv/issues/2484>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:55 ../../../../CHANGELOG.rst:248
-msgid "Vendored Libraries"
-msgstr ""
-
-#: ../../../../CHANGELOG.rst:63
+#: ../../../../CHANGELOG.rst:280
 msgid ""
 "Add patch to ``prettytoml`` to support Python 3.7.  `#2426 "
 "<https://github.com/pypa/pipenv/issues/2426>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:65
+#: ../../../../CHANGELOG.rst:282
 msgid ""
 "Patched ``prettytoml.AbstractTable._enumerate_items`` to handle "
 "``StopIteration`` errors in preparation of release of python 3.7.  `#2427 "
 "<https://github.com/pypa/pipenv/issues/2427>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:69
+#: ../../../../CHANGELOG.rst:286
 msgid ""
 "Updated ``requirementslib`` to version ``1.0.9``  `#2453 "
 "<https://github.com/pypa/pipenv/issues/2453>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:71
+#: ../../../../CHANGELOG.rst:288
 msgid ""
 "Unraveled a lot of old, unnecessary patches to ``pip-tools`` which were "
 "causing non-deterministic resolution errors.  `#2480 "
 "<https://github.com/pypa/pipenv/issues/2480>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:77 ../../../../CHANGELOG.rst:236
-msgid "Improved Documentation"
-msgstr "ドキュメントの改善"
-
-#: ../../../../CHANGELOG.rst:79
+#: ../../../../CHANGELOG.rst:296
 msgid ""
 "Added instructions for installing using Fedora's official repositories.  "
 "`#2404 <https://github.com/pypa/pipenv/issues/2404>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:83
+#: ../../../../CHANGELOG.rst:300
 msgid "2018.6.25 (2018-06-25)"
 msgstr "2018.6.25 (2018-06-25)"
 
-#: ../../../../CHANGELOG.rst:88
+#: ../../../../CHANGELOG.rst:305
 msgid ""
 "Pipenv-created virtualenvs will now be associated with a ``.project`` folder"
 " (features can be implemented on top of this later or users may choose to "
@@ -222,32 +724,32 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/1861>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:93
+#: ../../../../CHANGELOG.rst:310
 msgid ""
 "Virtualenv names will now appear in prompts for most Windows users.  `#2167 "
 "<https://github.com/pypa/pipenv/issues/2167>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:96
+#: ../../../../CHANGELOG.rst:313
 msgid ""
 "Added support for cmder shell paths with spaces.  `#2168 "
 "<https://github.com/pypa/pipenv/issues/2168>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:99
+#: ../../../../CHANGELOG.rst:316
 msgid ""
 "Added nested JSON output to the ``pipenv graph`` command.  `#2199 "
 "<https://github.com/pypa/pipenv/issues/2199>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:102 ../../../../CHANGELOG.rst:254
+#: ../../../../CHANGELOG.rst:319 ../../../../CHANGELOG.rst:471
 msgid ""
 "Dropped vendored pip 9 and vendored, patched, and migrated to pip 10. "
 "Updated patched piptools version.  `#2255 "
 "<https://github.com/pypa/pipenv/issues/2255>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:106
+#: ../../../../CHANGELOG.rst:323
 msgid ""
 "PyPI mirror URLs can now be set to override instances of PyPI urls by "
 "passing the ``--pypi-mirror`` argument from the command line or setting the "
@@ -255,63 +757,59 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2281>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:111
+#: ../../../../CHANGELOG.rst:328
 msgid ""
 "Virtualenv activation lines will now avoid being written to some shell "
 "history files.  `#2287 <https://github.com/pypa/pipenv/issues/2287>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:114 ../../../../CHANGELOG.rst:148
+#: ../../../../CHANGELOG.rst:331 ../../../../CHANGELOG.rst:365
 msgid ""
 "Pipenv will now only search for ``requirements.txt`` files when creating new"
 " projects, and during that time only if the user doesn't specify packages to"
 " pass in.  `#2309 <https://github.com/pypa/pipenv/issues/2309>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:118
+#: ../../../../CHANGELOG.rst:335
 msgid ""
 "Added support for mounted drives via UNC paths.  `#2331 "
 "<https://github.com/pypa/pipenv/issues/2331>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:121
+#: ../../../../CHANGELOG.rst:338
 msgid ""
 "Added support for Windows Subsystem for Linux bash shell detection.  `#2363 "
 "<https://github.com/pypa/pipenv/issues/2363>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:124
+#: ../../../../CHANGELOG.rst:341
 msgid ""
 "Pipenv will now generate hashes much more quickly by resolving them in a "
 "single pass during locking.  `#2384 "
 "<https://github.com/pypa/pipenv/issues/2384>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:128
+#: ../../../../CHANGELOG.rst:345
 msgid ""
 "``pipenv run`` will now avoid spawning additional ``COMSPEC`` instances to "
 "run commands in when possible.  `#2385 "
 "<https://github.com/pypa/pipenv/issues/2385>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:132
+#: ../../../../CHANGELOG.rst:349
 msgid ""
 "Massive internal improvements to requirements parsing codebase, resolver, "
 "and error messaging.  `#2388 <https://github.com/pypa/pipenv/issues/2388>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:135
+#: ../../../../CHANGELOG.rst:352
 msgid ""
 "``pipenv check`` now may take multiple of the additional argument "
 "``--ignore`` which takes a parameter ``cve_id`` for the purpose of ignoring "
 "specific CVEs.  `#2408 <https://github.com/pypa/pipenv/issues/2408>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:141
-msgid "Behavior Changes"
-msgstr "動作の変更"
-
-#: ../../../../CHANGELOG.rst:143
+#: ../../../../CHANGELOG.rst:360
 msgid ""
 "Pipenv will now parse & capitalize ``platform_python_implementation`` "
 "markers .. warning:: This could cause an issue if you have an out of date "
@@ -319,7 +817,7 @@ msgid ""
 "of ``CPython``).  `#2123 <https://github.com/pypa/pipenv/issues/2123>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:156
+#: ../../../../CHANGELOG.rst:373
 msgid ""
 "Massive internal improvements to requirements parsing codebase, resolver, "
 "and error messaging.  `#1962 <https://github.com/pypa/pipenv/issues/1962>`_,"
@@ -328,46 +826,46 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2312>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:162
+#: ../../../../CHANGELOG.rst:379
 msgid ""
 "Pipenv will now parse & capitalize ``platform_python_implementation`` "
 "markers.  `#2123 <https://github.com/pypa/pipenv/issues/2123>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:165
+#: ../../../../CHANGELOG.rst:382
 msgid ""
 "Fixed a bug with parsing and grouping old-style ``setup.py`` extras during "
 "resolution  `#2142 <https://github.com/pypa/pipenv/issues/2142>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:168
+#: ../../../../CHANGELOG.rst:385
 msgid ""
 "Fixed a bug causing pipenv graph to throw unhelpful exceptions when running "
 "against empty or non-existent environments.  `#2161 "
 "<https://github.com/pypa/pipenv/issues/2161>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:172
+#: ../../../../CHANGELOG.rst:389
 msgid ""
 "Fixed a bug which caused ``--system`` to incorrectly abort when users were "
 "in a virtualenv.  `#2181 <https://github.com/pypa/pipenv/issues/2181>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:175 ../../../../CHANGELOG.rst:250
+#: ../../../../CHANGELOG.rst:392 ../../../../CHANGELOG.rst:467
 msgid ""
 "Removed vendored ``cacert.pem`` which could cause issues for some users with"
 " custom certificate settings.  `#2193 "
 "<https://github.com/pypa/pipenv/issues/2193>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:179
+#: ../../../../CHANGELOG.rst:396
 msgid ""
 "Fixed a regression which led to direct invocations of ``virtualenv``, rather"
 " than calling it by module.  `#2198 "
 "<https://github.com/pypa/pipenv/issues/2198>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:183
+#: ../../../../CHANGELOG.rst:400
 msgid ""
 "Locking will now pin the correct VCS ref during ``pipenv update`` runs. "
 "Running ``pipenv update`` with a new vcs ref specified in the ``Pipfile`` "
@@ -375,73 +873,73 @@ msgid ""
 "the specified ref.  `#2209 <https://github.com/pypa/pipenv/issues/2209>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:188
+#: ../../../../CHANGELOG.rst:405
 msgid ""
 "``pipenv clean`` will now correctly ignore comments from ``pip freeze`` when"
 " cleaning the environment.  `#2262 "
 "<https://github.com/pypa/pipenv/issues/2262>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:192
+#: ../../../../CHANGELOG.rst:409
 msgid ""
 "Resolution bugs causing packages for incompatible python versions to be "
 "locked have been fixed.  `#2267 "
 "<https://github.com/pypa/pipenv/issues/2267>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:196
+#: ../../../../CHANGELOG.rst:413
 msgid ""
 "Fixed a bug causing pipenv graph to fail to display sometimes.  `#2268 "
 "<https://github.com/pypa/pipenv/issues/2268>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:199 ../../../../CHANGELOG.rst:258
+#: ../../../../CHANGELOG.rst:416 ../../../../CHANGELOG.rst:475
 msgid ""
 "Updated ``requirementslib`` to fix a bug in pipfile parsing affecting "
 "relative path conversions.  `#2269 "
 "<https://github.com/pypa/pipenv/issues/2269>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:203
+#: ../../../../CHANGELOG.rst:420
 msgid ""
 "Windows executable discovery now leverages ``os.pathext``.  `#2298 "
 "<https://github.com/pypa/pipenv/issues/2298>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:206
+#: ../../../../CHANGELOG.rst:423
 msgid ""
 "Fixed a bug which caused ``--deploy --system`` to inadvertently create a "
 "virtualenv before failing.  `#2301 "
 "<https://github.com/pypa/pipenv/issues/2301>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:210
+#: ../../../../CHANGELOG.rst:427
 msgid ""
 "Fixed an issue which led to a failure to unquote special characters in file "
 "and wheel paths.  `#2302 <https://github.com/pypa/pipenv/issues/2302>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:213
+#: ../../../../CHANGELOG.rst:430
 msgid ""
 "VCS dependencies are now manually obtained only if they do not match the "
 "requested ref.  `#2304 <https://github.com/pypa/pipenv/issues/2304>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:216
+#: ../../../../CHANGELOG.rst:433
 msgid ""
 "Added error handling functionality to properly cope with single-digit "
 "``Requires-Python`` metatdata with no specifiers.  `#2377 "
 "<https://github.com/pypa/pipenv/issues/2377>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:220
+#: ../../../../CHANGELOG.rst:437
 msgid ""
 "``pipenv update`` will now always run the resolver and lock before ensuring "
 "your dependencies are in sync with your lockfile.  `#2379 "
 "<https://github.com/pypa/pipenv/issues/2379>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:224
+#: ../../../../CHANGELOG.rst:441
 msgid ""
 "Resolved a bug in our patched resolvers which could cause nondeterministic "
 "resolution failures in certain conditions. Running ``pipenv install`` with "
@@ -450,93 +948,93 @@ msgid ""
 "<https://github.com/pypa/pipenv/issues/2384>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:230 ../../../../CHANGELOG.rst:265
+#: ../../../../CHANGELOG.rst:447 ../../../../CHANGELOG.rst:482
 msgid ""
 "Patched ``python-dotenv`` to ensure that environment variables always get "
 "encoded to the filesystem encoding.  `#2386 "
 "<https://github.com/pypa/pipenv/issues/2386>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:238
+#: ../../../../CHANGELOG.rst:455
 msgid ""
 "Update documentation wording to clarify Pipenv's overall role in the "
 "packaging ecosystem.  `#2194 <https://github.com/pypa/pipenv/issues/2194>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:240
+#: ../../../../CHANGELOG.rst:457
 msgid ""
 "Added contribution documentation and guidelines.  `#2205 "
 "<https://github.com/pypa/pipenv/issues/2205>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:242
+#: ../../../../CHANGELOG.rst:459
 msgid ""
 "Added instructions for supervisord compatibility.  `#2215 "
 "<https://github.com/pypa/pipenv/issues/2215>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:244
+#: ../../../../CHANGELOG.rst:461
 msgid ""
 "Fixed broken links to development philosophy and contribution documentation."
 "  `#2248 <https://github.com/pypa/pipenv/issues/2248>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:262
+#: ../../../../CHANGELOG.rst:479
 msgid ""
 "Added custom shell detection library ``shellingham``, a port of our changes "
 "to ``pew``.  `#2363 <https://github.com/pypa/pipenv/issues/2363>`_"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:269
+#: ../../../../CHANGELOG.rst:486
 msgid ""
 "Updated vendored libraries. The following vendored libraries were updated:"
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:271
+#: ../../../../CHANGELOG.rst:488
 msgid "distlib from version ``0.2.6`` to ``0.2.7``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:272
+#: ../../../../CHANGELOG.rst:489
 msgid "jinja2 from version ``2.9.5`` to ``2.10``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:273
+#: ../../../../CHANGELOG.rst:490
 msgid "pathlib2 from version ``2.1.0`` to ``2.3.2``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:274
+#: ../../../../CHANGELOG.rst:491
 msgid "parse from version ``2.8.0`` to ``2.8.4``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:275
+#: ../../../../CHANGELOG.rst:492
 msgid "pexpect from version ``2.5.2`` to ``2.6.0``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:276
+#: ../../../../CHANGELOG.rst:493
 msgid "requests from version ``2.18.4`` to ``2.19.1``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:277
+#: ../../../../CHANGELOG.rst:494
 msgid "idna from version ``2.6`` to ``2.7``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:278
+#: ../../../../CHANGELOG.rst:495
 msgid "certifi from version ``2018.1.16`` to ``2018.4.16``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:279
+#: ../../../../CHANGELOG.rst:496
 msgid "packaging from version ``16.8`` to ``17.1``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:280
+#: ../../../../CHANGELOG.rst:497
 msgid "six from version ``1.10.0`` to ``1.11.0``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:281
+#: ../../../../CHANGELOG.rst:498
 msgid "requirementslib from version ``0.2.0`` to ``1.0.1``."
 msgstr ""
 
-#: ../../../../CHANGELOG.rst:283
+#: ../../../../CHANGELOG.rst:500
 msgid ""
 "In addition, scandir was vendored and patched to avoid importing host system"
 " binaries when falling back to pathlib2.  `#2368 "
