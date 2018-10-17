@@ -179,7 +179,7 @@ msgstr ""
 msgid ""
 "You can tell Pipenv to install a Pipfile's contents into its parent system "
 "with the ``--system`` flag::"
-msgstr "``--system`` フラグを使って、Pipfileの内容にあるものを親システムにイストールするようPipenvに指示できます::"
+msgstr "``--system`` フラグを使って、Pipfileの内容にあるものを親システムにインストールするようPipenvに指示できます::"
 
 #: ../../advanced.rst:131
 msgid ""
