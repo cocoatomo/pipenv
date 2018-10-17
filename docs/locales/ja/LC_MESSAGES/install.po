@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-14 15:00+0000\n"
+"POT-Creation-Date: 2018-10-17 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: tomo🐧, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -261,10 +261,39 @@ msgstr ""
 "インストールしたパッケージに全てのコマンドがアクセスできることが保証された新しいシェルの起動もできます。"
 
 #: ../../install.rst:226
+msgid "☤ Virtualenv mapping caveat"
+msgstr ""
+
+#: ../../install.rst:228
+msgid "Pipenv automatically maps projects to their specific virtualenvs."
+msgstr ""
+
+#: ../../install.rst:229
+msgid ""
+"The virtualenv is stored globally with the name of the project’s root "
+"directory plus the hash of the full path to the project's root (e.g., "
+"``my_project-a3de50``)."
+msgstr ""
+
+#: ../../install.rst:230
+msgid ""
+"If you change your project's path, you break such a default mapping and "
+"pipenv will no longer be able to find and to use the project's virtualenv."
+msgstr ""
+
+#: ../../install.rst:231
+msgid ""
+"You might want to set ``export PIPENV_VENV_IN_PROJECT=1`` in your "
+".bashrc/.zshrc (or any shell configuration file) for creating the virtualenv"
+" inside your project's directory, avoiding problems with subsequent path "
+"changes."
+msgstr ""
+
+#: ../../install.rst:235
 msgid "☤ Next steps"
 msgstr "☤ 次のステップ"
 
-#: ../../install.rst:228
+#: ../../install.rst:237
 msgid ""
 "Congratulations, you now know how to install and use Python packages! ✨ 🍰 ✨"
 msgstr "おめでとうございます、Pythonのパッケージをインストールして使う方法が学べました! ✨ 🍰 ✨"
