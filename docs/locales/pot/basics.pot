@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-18 15:00+0000\n"
+"POT-Creation-Date: 2018-10-20 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -161,7 +161,7 @@ msgid "The use of ``~=`` is preferred over the ``==`` identifier as the former p
 msgstr ""
 
 #: ../../basics.rst:214
-msgid "To avoind installing a specific version you can use the ``!=`` identifier."
+msgid "To avoid installing a specific version you can use the ``!=`` identifier."
 msgstr ""
 
 #: ../../basics.rst:216
