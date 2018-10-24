@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-14 15:00+0000\n"
+"POT-Creation-Date: 2018-10-24 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -122,7 +122,7 @@ msgid "Or you can install packages exactly as specified in ``Pipfile.lock`` usin
 msgstr ""
 
 #: ../../advanced.rst:122
-msgid "``pipenv install --ignore-pipfile`` is nearly equivalent to ``pipenv sync``, but you ``pipenv sync`` will *never* attempt to re-lock your dependencies as it is considered an atomic operation.  ``pipenv install`` by default does attempt to re-lock unless using the ``--deploy`` flag."
+msgid "``pipenv install --ignore-pipfile`` is nearly equivalent to ``pipenv sync``, but ``pipenv sync`` will *never* attempt to re-lock your dependencies as it is considered an atomic operation.  ``pipenv install`` by default does attempt to re-lock unless using the ``--deploy`` flag."
 msgstr ""
 
 #: ../../advanced.rst:125
