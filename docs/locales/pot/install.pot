@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-17 15:00+0000\n"
+"POT-Creation-Date: 2018-10-26 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,7 +114,7 @@ msgid "On Linux and macOS you can find the user base binary directory by running
 msgstr ""
 
 #: ../../install.rst:121
-msgid "On Windows you can find the user base binary directory by running ``py -m site --user-site`` and replacing ``site-packages`` with ``Scripts``. For example, this could return ``C:\\Users\\Username\\AppData\\Roaming\\Python36\\site-packages`` so you would need to set your ``PATH`` to include ``C:\\Users\\Username\\AppData\\Roaming\\Python36\\Scripts``. You can set your user ``PATH`` permanently in the `Control Panel`_. You may need to log out for the ``PATH`` changes to take effect."
+msgid "On Windows you can find the user base binary directory by running ``python -m site --user-site`` and replacing ``site-packages`` with ``Scripts``. For example, this could return ``C:\\Users\\Username\\AppData\\Roaming\\Python36\\site-packages`` so you would need to set your ``PATH`` to include ``C:\\Users\\Username\\AppData\\Roaming\\Python36\\Scripts``. You can set your user ``PATH`` permanently in the `Control Panel`_. You may need to log out for the ``PATH`` changes to take effect."
 msgstr ""
 
 #: ../../install.rst:130

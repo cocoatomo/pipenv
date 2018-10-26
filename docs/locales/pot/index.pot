@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-14 15:00+0000\n"
+"POT-Creation-Date: 2018-10-26 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,147 +60,151 @@ msgstr ""
 msgid "Streamline development workflow by loading ``.env`` files."
 msgstr ""
 
-#: ../../index.rst:44
-msgid "Install Pipenv Today!"
-msgstr ""
-
-#: ../../index.rst:46
-msgid "If you're on MacOS, you can install Pipenv easily with Homebrew::"
+#: ../../index.rst:42
+msgid "You can quickly play with Pipenv right in your browser:"
 msgstr ""
 
 #: ../../index.rst:50
-msgid "Or, if you're using Fedora 28::"
+msgid "Install Pipenv Today!"
 msgstr ""
 
-#: ../../index.rst:54
-msgid "Otherwise, refer to the :ref:`installing-pipenv` chapter for instructions."
+#: ../../index.rst:52
+msgid "If you're on MacOS, you can install Pipenv easily with Homebrew::"
 msgstr ""
 
 #: ../../index.rst:56
+msgid "Or, if you're using Fedora 28::"
+msgstr ""
+
+#: ../../index.rst:60
+msgid "Otherwise, refer to the :ref:`installing-pipenv` chapter for instructions."
+msgstr ""
+
+#: ../../index.rst:62
 msgid "✨🍰✨"
 msgstr ""
 
-#: ../../index.rst:65
+#: ../../index.rst:71
 msgid "User Testimonials"
 msgstr ""
 
-#: ../../index.rst:68
+#: ../../index.rst:74
 msgid "**Jannis Leidel**, former pip maintainer—"
 msgstr ""
 
-#: ../../index.rst:68
+#: ../../index.rst:74
 msgid "*Pipenv is the porcelain I always wanted to build for pip. It fits my brain and mostly replaces virtualenvwrapper and manual pip calls for me. Use it.*"
 msgstr ""
 
-#: ../../index.rst:71
+#: ../../index.rst:77
 msgid "**David Gang**—"
 msgstr ""
 
-#: ../../index.rst:71
+#: ../../index.rst:77
 msgid "*This package manager is really awesome. For the first time I know exactly what my dependencies are which I installed and what the transitive dependencies are. Combined with the fact that installs are deterministic, makes this package manager first class, like cargo*."
 msgstr ""
 
-#: ../../index.rst:74
+#: ../../index.rst:80
 msgid "**Justin Myles Holmes**—"
 msgstr ""
 
-#: ../../index.rst:74
+#: ../../index.rst:80
 msgid "*Pipenv is finally an abstraction meant to engage the mind instead of merely the filesystem.*"
 msgstr ""
 
-#: ../../index.rst:77
+#: ../../index.rst:83
 msgid "☤ Pipenv Features"
 msgstr ""
 
-#: ../../index.rst:79
+#: ../../index.rst:85
 msgid "Enables truly *deterministic builds*, while easily specifying *only what you want*."
 msgstr ""
 
-#: ../../index.rst:80
+#: ../../index.rst:86
 msgid "Generates and checks file hashes for locked dependencies."
 msgstr ""
 
-#: ../../index.rst:81
+#: ../../index.rst:87
 msgid "Automatically install required Pythons, if ``pyenv`` is available."
 msgstr ""
 
-#: ../../index.rst:82
+#: ../../index.rst:88
 msgid "Automatically finds your project home, recursively, by looking for a ``Pipfile``."
 msgstr ""
 
-#: ../../index.rst:83
+#: ../../index.rst:89
 msgid "Automatically generates a ``Pipfile``, if one doesn't exist."
 msgstr ""
 
-#: ../../index.rst:84
+#: ../../index.rst:90
 msgid "Automatically creates a virtualenv in a standard location."
 msgstr ""
 
-#: ../../index.rst:85
+#: ../../index.rst:91
 msgid "Automatically adds/removes packages to a ``Pipfile`` when they are un/installed."
 msgstr ""
 
-#: ../../index.rst:86
+#: ../../index.rst:92
 msgid "Automatically loads ``.env`` files, if they exist."
 msgstr ""
 
-#: ../../index.rst:88
+#: ../../index.rst:94
 msgid "The main commands are ``install``, ``uninstall``, and ``lock``, which generates a ``Pipfile.lock``. These are intended to replace ``$ pip install`` usage, as well as manual virtualenv management (to activate a virtualenv, run ``$ pipenv shell``)."
 msgstr ""
 
-#: ../../index.rst:91
+#: ../../index.rst:97
 msgid "Basic Concepts"
 msgstr ""
 
-#: ../../index.rst:93
+#: ../../index.rst:99
 msgid "A virtualenv will automatically be created, when one doesn't exist."
 msgstr ""
 
-#: ../../index.rst:94
+#: ../../index.rst:100
 msgid "When no parameters are passed to ``install``, all packages ``[packages]`` specified will be installed."
 msgstr ""
 
-#: ../../index.rst:95
+#: ../../index.rst:101
 msgid "To initialize a Python 3 virtual environment, run ``$ pipenv --three``."
 msgstr ""
 
-#: ../../index.rst:96
+#: ../../index.rst:102
 msgid "To initialize a Python 2 virtual environment, run ``$ pipenv --two``."
 msgstr ""
 
-#: ../../index.rst:97
+#: ../../index.rst:103
 msgid "Otherwise, whatever virtualenv defaults to will be the default."
 msgstr ""
 
-#: ../../index.rst:102
+#: ../../index.rst:108
 msgid "Other Commands"
 msgstr ""
 
-#: ../../index.rst:104
+#: ../../index.rst:110
 msgid "``graph`` will show you a dependency graph of your installed dependencies."
 msgstr ""
 
-#: ../../index.rst:105
+#: ../../index.rst:111
 msgid "``shell`` will spawn a shell with the virtualenv activated. This shell can be deactivated by using ``exit``."
 msgstr ""
 
-#: ../../index.rst:106
+#: ../../index.rst:112
 msgid "``run`` will run a given command from the virtualenv, with any arguments forwarded (e.g. ``$ pipenv run python`` or ``$ pipenv run pip freeze``)."
 msgstr ""
 
-#: ../../index.rst:107
+#: ../../index.rst:113
 msgid "``check`` checks for security vulnerabilities and asserts that PEP 508 requirements are being met by the current environment."
 msgstr ""
 
-#: ../../index.rst:111
+#: ../../index.rst:117
 msgid "Further Documentation Guides"
 msgstr ""
 
-#: ../../index.rst:121
+#: ../../index.rst:127
 msgid "Contribution Guides"
 msgstr ""
 
-#: ../../index.rst:130
+#: ../../index.rst:136
 msgid "☤ Pipenv Usage"
 msgstr ""
 
@@ -545,19 +549,19 @@ msgstr ""
 msgid "List out-of-date dependencies."
 msgstr ""
 
-#: ../../index.rst:137
+#: ../../index.rst:143
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../index.rst:139
+#: ../../index.rst:145
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../index.rst:140
+#: ../../index.rst:146
 msgid ":ref:`modindex`"
 msgstr ""
 
-#: ../../index.rst:141
+#: ../../index.rst:147
 msgid ":ref:`search`"
 msgstr ""
 
