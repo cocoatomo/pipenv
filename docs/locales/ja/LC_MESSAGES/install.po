@@ -50,13 +50,15 @@ msgstr ""
 
 #: ../../install.rst:24
 msgid "☤ Make sure you've got Python & pip"
-msgstr ""
+msgstr "☤  Pythonとpipがあるかの確認"
 
 #: ../../install.rst:26
 msgid ""
 "Before you go any further, make sure you have Python and that it's available"
 " from your command line. You can check this by simply running::"
 msgstr ""
+"先に進む前に、Pythonがインストールしてあって、コマンドラインから使えることを確認してください。\n"
+"次のコマンドを実行して確認できます::"
 
 #: ../../install.rst:31
 msgid ""
@@ -86,6 +88,8 @@ msgid ""
 "Additionally, you'll need to make sure you have pip available. You can check"
 " this by running::"
 msgstr ""
+"さらに、pipが使える状態にあるかを確認する必要があります。\n"
+"次のコマンドを実行して確認できます:"
 
 #: ../../install.rst:55
 msgid ""
@@ -102,6 +106,8 @@ msgid ""
 "If you plan to install Pipenv using Homebrew you can skip this step. The "
 "Homebrew installer takes care of pip for you."
 msgstr ""
+"Homebrewを使ってPipenvをインストールするつもりの場合は、この手順はスキップできます。\n"
+"Homebrewのインストーラはpipの面倒も見てくれます。"
 
 #: ../../install.rst:71
 msgid "☤ Installing Pipenv"
@@ -115,6 +121,9 @@ msgid ""
 "a higher-level tool that simplifies dependency management for common use "
 "cases."
 msgstr ""
+"PipenvはPythonプロジェクトのための依存関係管理ツールです。\n"
+"もしNode.jsの `npm`_ やRubyの `bundler`_ に馴染みがあるなら、Pipenvはそれらのツールとやりたいことはよく似ています。\n"
+"pipはPythonのパッケージをインストールできますが、Pipenvは通常のユースケースでの依存関係管理を簡単にするより高度なツールとして推奨されています。"
 
 #: ../../install.rst:84
 msgid "☤ Homebrew Installation of Pipenv"
@@ -134,7 +143,7 @@ msgstr ""
 
 #: ../../install.rst:92
 msgid "Once you have installed `Homebrew`_ simply run::"
-msgstr ""
+msgstr "`Homebrew`_ がインストールできたら次のコマンドを実行します::"
 
 #: ../../install.rst:96 ../../install.rst:139
 msgid "To upgrade pipenv at any time::"
@@ -192,12 +201,18 @@ msgid ""
 "your user ``PATH`` permanently in the `Control Panel`_. You may need to log "
 "out for the ``PATH`` changes to take effect."
 msgstr ""
+"Windows では ``python -m site --user-site`` を実行してユーザーのベースバイナリディレクトリを見付け、 ``site-packages`` を ``Scripts`` で置き換えます。\n"
+"例えば、このコマンドは ``C:\\Users\\Username\\AppData\\Roaming\\Python36\\site-packages`` のようなパスを返すので、 ``C:\\Users\\Username\\AppData\\Roaming\\Python36\\Scripts`` を ``PATH`` に含める必要があります。\n"
+"`コントロールパネル <https://msdn.microsoft.com/en-us/library/windows/desktop/bb776899(v=vs.85).aspx>`__ でユーザー環境変数の ``PATH`` に設定すると再起動しても消えません。\n"
+"``PATH`` の変更を有効にするには一度ログアウトする必要があるかもしれません。"
 
 #: ../../install.rst:130
 msgid ""
 "For more information, see the `user installs documentation "
 "<https://pip.pypa.io/en/stable/user_guide/#user-installs>`_."
 msgstr ""
+"さらに詳しいことは `ユーザーインストールの説明 <https://pip.pypa.io/en/stable/user_guide/#user-"
+"installs>`_ を参照してください。"
 
 #: ../../install.rst:145
 msgid "☤ Crude Installation of Pipenv"
@@ -219,6 +234,8 @@ msgid ""
 "change into your project's directory (or just an empty directory for this "
 "tutorial) and run::"
 msgstr ""
+"Pipenvはプロジェクトごとに依存関係を管理します。\n"
+"パッケージをインストールするには、プロジェクトのディレクトリ (もしくは、このチュートリアル用の空ディレクトリ) に移動して、次のコマンドを実行してください::"
 
 #: ../../install.rst:162
 msgid ""
@@ -228,6 +245,9 @@ msgid ""
 "them, such as when you share your project with others. You should get output"
 " similar to this (although the exact paths shown will vary)::"
 msgstr ""
+"Pipenvは非常に優れた `Requests`_ ライブラリをインストールし、プロジェクトディレクトリに ``Pipfile`` を作成します。\n"
+"Pipfileは、プロジェクトを他の人に共有するときのように、依存関係を再インストールする必要が出てきたときに、プロジェクトがどの依存関係を必要としているのかを追跡するのに使います。\n"
+"これに似た出力が表示されるはずです (もっとも、表示されている正確なパスは異なるでしょう)::"
 
 #: ../../install.rst:197
 msgid "☤ Using installed packages"
@@ -241,7 +261,7 @@ msgstr "これでRequestsがインストールされたので、単純な ``main
 
 #: ../../install.rst:210
 msgid "Then you can run this script using ``pipenv run``::"
-msgstr ""
+msgstr "そして ``pipenv run`` を使って、このスクリプトが実行できます::"
 
 #: ../../install.rst:214
 msgid "You should get output similar to this:"

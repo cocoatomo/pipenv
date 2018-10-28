@@ -111,16 +111,16 @@ msgstr "さぁ今すぐこれからPipenvをインストール!"
 
 #: ../../index.rst:52
 msgid "If you're on MacOS, you can install Pipenv easily with Homebrew::"
-msgstr ""
+msgstr "MacOSを使っている場合は、Homebrewで簡単にPipenvがインストールできます::"
 
 #: ../../index.rst:56
 msgid "Or, if you're using Fedora 28::"
-msgstr ""
+msgstr "あるいは、Fedora 28を使っている場合には次のようにします::"
 
 #: ../../index.rst:60
 msgid ""
 "Otherwise, refer to the :ref:`installing-pipenv` chapter for instructions."
-msgstr ""
+msgstr "それ以外の場合は、 :ref:`installing-pipenv` の章の手順を参照してください。"
 
 #: ../../index.rst:62
 msgid "✨🍰✨"
@@ -282,7 +282,7 @@ msgstr "より進んだ内容のドキュメントガイド"
 
 #: ../../index.rst:127
 msgid "Contribution Guides"
-msgstr ""
+msgstr "貢献のためのガイド"
 
 #: ../../index.rst:136
 msgid "☤ Pipenv Usage"
@@ -367,7 +367,7 @@ msgstr "冗長モード。"
 #: ../../../pipenv shell:1 ../../../pipenv sync:1 ../../../pipenv uninstall:1
 #: ../../../pipenv update:1
 msgid "Specify a PyPI mirror."
-msgstr ""
+msgstr "PyPI のミラーを指定します。"
 
 #: ../../../pipenv:1
 msgid "Show the version and exit."
@@ -385,7 +385,7 @@ msgstr "コードのパスを与えると、使われていない可能性のあ
 
 #: ../../../pipenv check:1
 msgid "Ignore specified vulnerability during safety checks."
-msgstr ""
+msgstr "安全確認中に特定の脆弱性を無視します。"
 
 #: ../../../pipenv check:1 ../../../pipenv install:1
 msgid "System pip management."
@@ -404,7 +404,7 @@ msgstr "オプションの引数"
 
 #: ../../../pipenv clean:1
 msgid "Uninstalls all packages not specified in Pipfile.lock."
-msgstr ""
+msgstr "Pipfile.lockに指定されていない全てのパッケージをアンインストールします。"
 
 #: ../../../pipenv clean:1
 msgid "Just output unneeded packages."
@@ -420,7 +420,7 @@ msgstr "JSONを出力します。"
 
 #: ../../../pipenv graph:1
 msgid "Output JSON in nested tree."
-msgstr ""
+msgstr "入れ子の木構造形式のJSONを出力します。"
 
 #: ../../../pipenv graph:1
 msgid "Reversed dependency graph."
@@ -534,7 +534,7 @@ msgstr "サブシェルを既に起動している場合でも、常にサブシ
 
 #: ../../../pipenv sync:1
 msgid "Installs all packages specified in Pipfile.lock."
-msgstr ""
+msgstr "Pipfile.lockに指定されている全てのパッケージをインストールします。"
 
 #: ../../../pipenv uninstall:1
 msgid "Un-installs a provided package and removes it from Pipfile."
@@ -556,7 +556,7 @@ msgstr ""
 
 #: ../../../pipenv update:1
 msgid "Runs lock, then sync."
-msgstr ""
+msgstr "ロックを掛けて、同期を取ります。"
 
 #: ../../../pipenv update:1 ../../../pipenv update:1
 msgid "List out-of-date dependencies."
