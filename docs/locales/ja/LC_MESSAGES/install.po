@@ -278,11 +278,11 @@ msgstr ""
 
 #: ../../install.rst:226
 msgid "☤ Virtualenv mapping caveat"
-msgstr ""
+msgstr "☤ 仮想環境の対応付けについての注意書き"
 
 #: ../../install.rst:228
 msgid "Pipenv automatically maps projects to their specific virtualenvs."
-msgstr ""
+msgstr "Pipenvは自動的にプロジェクトをそれ専用の仮想環境に対応付けます。"
 
 #: ../../install.rst:229
 msgid ""
@@ -296,6 +296,7 @@ msgid ""
 "If you change your project's path, you break such a default mapping and "
 "pipenv will no longer be able to find and to use the project's virtualenv."
 msgstr ""
+"プロジェクトのパスを変更した場合は、そのデフォルトの対応付けは壊れてしまい、Pipenvはプロジェクトの仮想環境を見付けることも、使用することもできなくなります。"
 
 #: ../../install.rst:231
 msgid ""
