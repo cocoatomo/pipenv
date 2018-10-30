@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-24 15:00+0000\n"
+"POT-Creation-Date: 2018-10-30 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -501,6 +501,14 @@ msgstr ""
 
 #: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_SHELL_FANCY:3
 msgid "Default is to use the compatibility shell if possible."
+msgstr ""
+
+#: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_SPINNER:1
+msgid "Sets the default spinner type."
+msgstr ""
+
+#: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_SPINNER:3
+msgid "Spinners are identitcal to the node.js spinners and can be found at https://github.com/sindresorhus/cli-spinners"
 msgstr ""
 
 #: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_TIMEOUT:1
