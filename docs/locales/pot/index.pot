@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-26 15:00+0000\n"
+"POT-Creation-Date: 2018-10-31 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -244,6 +244,7 @@ msgid "Remove the virtualenv."
 msgstr ""
 
 #: ../../../pipenv:1
+#: ../../../pipenv clean:1
 #: ../../../pipenv graph:1
 #: ../../../pipenv sync:1
 #: ../../../pipenv update:1
@@ -497,6 +498,14 @@ msgstr ""
 
 #: ../../../pipenv open:1
 msgid "View a given module in your editor."
+msgstr ""
+
+#: ../../../pipenv open:1
+msgid "This uses the EDITOR environment variable. You can temporarily override it, for example:"
+msgstr ""
+
+#: ../../../pipenv open:1
+msgid "EDITOR=atom pipenv open requests"
 msgstr ""
 
 #: ../../../pipenv open:1

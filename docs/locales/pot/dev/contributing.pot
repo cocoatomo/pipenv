@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-14 15:00+0000\n"
+"POT-Creation-Date: 2018-10-31 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,7 +85,7 @@ msgid "Fork the repository on GitHub."
 msgstr ""
 
 #: ../../dev/contributing.rst:70
-msgid "Run the tests to confirm they all pass on your system. If they don't, you'll need to investigate why they fail. If you're unable to diagnose this yourself, raise it as a bug report by following the guidelines in this document: :ref:`bug-reports`."
+msgid "`Run the tests`_ to confirm they all pass on your system. If they don't, you'll need to investigate why they fail. If you're unable to diagnose this yourself, raise it as a bug report by following the guidelines in this document: :ref:`bug-reports`."
 msgstr ""
 
 #: ../../dev/contributing.rst:74
@@ -138,5 +138,29 @@ msgstr ""
 
 #: ../../dev/contributing.rst:117
 msgid "Bug reports are hugely important! Before you raise one, though, please check through the `GitHub issues`_, **both open and closed**, to confirm that the bug hasn't been reported before. Duplicate bug reports are a huge drain on the time of other contributors, and should be avoided as much as possible."
+msgstr ""
+
+#: ../../dev/contributing.rst:125
+msgid "Run the tests"
+msgstr ""
+
+#: ../../dev/contributing.rst:127
+msgid "Three ways of running the tests are as follows:"
+msgstr ""
+
+#: ../../dev/contributing.rst:129
+msgid "``make test`` (which uses ``docker``)"
+msgstr ""
+
+#: ../../dev/contributing.rst:130
+msgid "``./run-tests.sh`` or ``run-tests.bat``"
+msgstr ""
+
+#: ../../dev/contributing.rst:131
+msgid "Using pipenv::"
+msgstr ""
+
+#: ../../dev/contributing.rst:136
+msgid "For the last two, it is important that your environment is setup correctly, and this may take some work, for example, on a specific Mac installation, the following steps may be needed::"
 msgstr ""
 
