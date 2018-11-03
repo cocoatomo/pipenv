@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-31 15:00+0000\n"
+"POT-Creation-Date: 2018-11-03 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -410,6 +410,7 @@ msgid "Abort if the Pipfile.lock is out-of-date, or Python version is wrong."
 msgstr ""
 
 #: ../../../pipenv install:1
+#: ../../../pipenv lock:1
 #: ../../../pipenv uninstall:1
 msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
 msgstr ""
