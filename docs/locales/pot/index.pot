@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 15:01+0000\n"
+"POT-Creation-Date: 2018-11-08 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -411,7 +411,7 @@ msgstr ""
 
 #: ../../../pipenv install:1
 #: ../../../pipenv uninstall:1
-msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
+msgid "Skip locking mechanisms and use the Pipfile instead during operation."
 msgstr ""
 
 #: ../../../pipenv install:1
