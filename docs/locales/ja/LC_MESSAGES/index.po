@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-07 15:01+0000\n"
+"POT-Creation-Date: 2018-11-08 15:00+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo🐧, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -444,8 +444,8 @@ msgid "Abort if the Pipfile.lock is out-of-date, or Python version is wrong."
 msgstr "Pipfile.lockが古い、もしくはPythonバージョンが間違っている場合に、異常終了します。"
 
 #: ../../../pipenv install:1 ../../../pipenv uninstall:1
-msgid "Ignore locking mechanisms when installing—use the Pipfile, instead."
-msgstr "インストール時にバージョン固定の仕組みを無視し、代わりにPipfileを使います。"
+msgid "Skip locking mechanisms and use the Pipfile instead during operation."
+msgstr ""
 
 #: ../../../pipenv install:1 ../../../pipenv uninstall:1 ../../../pipenv
 #: update:1
