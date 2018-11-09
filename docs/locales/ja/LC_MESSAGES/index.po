@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.10.14.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-08 15:00+0000\n"
+"POT-Creation-Date: 2018-11-09 15:00+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo🐧, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -460,7 +460,9 @@ msgstr "インストール時にPipfileを無視し、Pipfile.lockを使いま�
 msgid "Update specified packages."
 msgstr "指定されたパッケージを更新します。"
 
-#: ../../../pipenv install:1 ../../../pipenv lock:1 ../../../pipenv update:1
+#: ../../../pipenv install:1 ../../../pipenv install:1 ../../../pipenv lock:1
+#: ../../../pipenv sync:1 ../../../pipenv uninstall:1 ../../../pipenv update:1
+#: ../../../pipenv update:1
 msgid "Allow pre-releases."
 msgstr "プレリリースバージョンのパッケージを許可します。"
 
