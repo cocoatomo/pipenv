@@ -3,7 +3,8 @@
 import os
 import sys
 from appdirs import user_cache_dir
-from .vendor.vistir.misc import fs_str, to_text
+from .vendor.vistir.misc import fs_str
+from ._compat import fix_utf8
 
 
 # HACK: avoid resolver.py uses the wrong byte code files.
@@ -210,6 +211,17 @@ Default is to prompt the user for an answer if the current command line session
 if interactive.
 """
 
+PIPENV_SKIP_LOCK = False
+"""If set, Pipenv won't lock dependencies automatically.
+
+This might be desirable if a project has large number of dependencies,
+because locking is an inherently slow operation.
+
+Default is to lock dependencies and update ``Pipfile.lock`` on each run.
+
+NOTE: This only affects the ``install`` and ``uninstall`` commands.
+"""
+
 PIPENV_PYUP_API_KEY = os.environ.get("PIPENV_PYUP_API_KEY", "1ab8d58f-5122e025-83674263-bc1e79e0")
 
 # Internal, support running in a different Python from sys.executable.
@@ -264,6 +276,6 @@ def is_quiet(threshold=-1):
     return PIPENV_VERBOSITY <= threshold
 
 
-PIPENV_SPINNER_FAIL_TEXT = fs_str(to_text(u"✘ {0}")) if not PIPENV_HIDE_EMOJIS else ("{0}")
+PIPENV_SPINNER_FAIL_TEXT = fix_utf8(u"✘ {0}") if not PIPENV_HIDE_EMOJIS else ("{0}")
 
-PIPENV_SPINNER_OK_TEXT = fs_str(to_text(u"✔ {0}")) if not PIPENV_HIDE_EMOJIS else ("{0}")
+PIPENV_SPINNER_OK_TEXT = fix_utf8(u"✔ {0}") if not PIPENV_HIDE_EMOJIS else ("{0}")
