@@ -19,25 +19,12 @@ from click import echo as click_echo
 from first import first
 from vistir.misc import fs_str
 
-six.add_move(six.MovedAttribute("Mapping", "collections", "collections.abc"))
-six.add_move(six.MovedAttribute("Sequence", "collections", "collections.abc"))
-from six.moves import Mapping, Sequence
+six.add_move(six.MovedAttribute("Mapping", "collections", "collections.abc"))  # noqa
+six.add_move(six.MovedAttribute("Sequence", "collections", "collections.abc"))  # noqa
+six.add_move(six.MovedAttribute("Set", "collections", "collections.abc"))  # noqa
+from six.moves import Mapping, Sequence, Set
 
 from vistir.compat import ResourceWarning
-
-try:
-    from weakref import finalize
-except ImportError:
-    try:
-        from .vendor.backports.weakref import finalize
-    except ImportError:
-
-        class finalize(object):
-            def __init__(self, *args, **kwargs):
-                logging.warn("weakref.finalize unavailable, not cleaning...")
-
-            def detach(self):
-                return False
 
 
 logging.basicConfig(level=logging.ERROR)
@@ -320,7 +307,7 @@ class Resolver(object):
         if self.sources:
             requirementstxt_sources = " ".join(self.pip_args) if self.pip_args else ""
             requirementstxt_sources = requirementstxt_sources.replace(" --", "\n--")
-        constraints_file.write(u"{0}\n".format(requirementstxt_sources))
+            constraints_file.write(u"{0}\n".format(requirementstxt_sources))
         constraints = self.initial_constraints
         constraints_file.write(u"\n".join([c for c in constraints]))
         constraints_file.close()
@@ -411,41 +398,62 @@ class Resolver(object):
             self.resolved_tree.update(results)
             return self.resolved_tree
 
+    @staticmethod
+    def _should_include_hash(ireq):
+        from pipenv.vendor.vistir.compat import Path, to_native_string
+        from pipenv.vendor.vistir.path import url_to_path
+
+        # We can only hash artifacts.
+        try:
+            if not ireq.link.is_artifact:
+                return False
+        except AttributeError:
+            return False
+
+        # But we don't want normal pypi artifcats since the normal resolver
+        # handles those
+        if is_pypi_url(ireq.link.url):
+            return False
+
+        # We also don't want to try to hash directories as this will fail
+        # as these are editable deps and are not hashable.
+        if (ireq.link.scheme == "file" and
+                Path(to_native_string(url_to_path(ireq.link.url))).is_dir()):
+            return False
+        return True
+
     def resolve_hashes(self):
-        def _should_include_hash(ireq):
-            from pipenv.vendor.vistir.compat import Path, to_native_string
-            from pipenv.vendor.vistir.path import url_to_path
-
-            # We can only hash artifacts.
-            try:
-                if not ireq.link.is_artifact:
-                    return False
-            except AttributeError:
-                return False
-
-            # But we don't want normal pypi artifcats since the normal resolver
-            # handles those
-            if is_pypi_url(ireq.link.url):
-                return False
-
-            # We also don't want to try to hash directories as this will fail
-            # as these are editable deps and are not hashable.
-            if (ireq.link.scheme == "file" and
-                    Path(to_native_string(url_to_path(ireq.link.url))).is_dir()):
-                return False
-            return True
-
         if self.results is not None:
             resolved_hashes = self.resolver.resolve_hashes(self.results)
             for ireq, ireq_hashes in resolved_hashes.items():
+                # We _ALWAYS MUST PRIORITIZE_ the inclusion of hashes from local sources
+                # PLEASE *DO NOT MODIFY THIS* TO CHECK WHETHER AN IREQ ALREADY HAS A HASH
+                # RESOLVED. The resolver will pull hashes from PyPI and only from PyPI.
+                # The entire purpose of this approach is to include missing hashes.
+                # This fixes a race condition in resolution for missing dependency caches
+                # see pypa/pipenv#3289
+                if self._should_include_hash(ireq) and (
+                    not ireq_hashes or ireq.link.scheme == "file"
+                ):
+                    if not ireq_hashes:
+                        ireq_hashes = set()
+                    new_hashes = self.resolver.repository._hash_cache.get_hash(ireq.link)
+                    add_to_set(ireq_hashes, new_hashes)
+                else:
+                    ireq_hashes = set(ireq_hashes)
+                # The _ONLY CASE_ where we flat out set the value is if it isn't present
+                # It's a set, so otherwise we *always* need to do a union update
                 if ireq not in self.hashes:
-                    if _should_include_hash(ireq):
-                        self.hashes[ireq] = [
-                            self.resolver.repository._hash_cache.get_hash(ireq.link)
-                        ]
-                    else:
-                        self.hashes[ireq] = ireq_hashes
+                    self.hashes[ireq] = ireq_hashes
+                else:
+                    self.hashes[ireq] |= ireq_hashes
             return self.hashes
+
+
+def _show_warning(message, category, filename, lineno, line):
+    warnings.showwarning(message=message, category=category, filename=filename,
+                         lineno=lineno, file=sys.stderr, line=line)
+    sys.stderr.flush()
 
 
 def actually_resolve_deps(
@@ -462,13 +470,19 @@ def actually_resolve_deps(
 
     if not req_dir:
         req_dir = create_tracked_tempdir(suffix="-requirements", prefix="pipenv-")
-    constraints = get_resolver_metadata(
-        deps, index_lookup, markers_lookup, project, sources,
-    )
-    resolver = Resolver(constraints, req_dir, project, sources, clear=clear, pre=pre)
-    resolved_tree = resolver.resolve()
-    hashes = resolver.resolve_hashes()
+    warning_list = []
 
+    with warnings.catch_warnings(record=True) as warning_list:
+        constraints = get_resolver_metadata(
+            deps, index_lookup, markers_lookup, project, sources,
+        )
+        resolver = Resolver(constraints, req_dir, project, sources, clear=clear, pre=pre)
+        resolved_tree = resolver.resolve()
+        hashes = resolver.resolve_hashes()
+
+    for warning in warning_list:
+        _show_warning(warning.message, warning.category, warning.filename, warning.lineno,
+                      warning.line)
     return (resolved_tree, hashes, markers_lookup, resolver)
 
 
@@ -482,7 +496,7 @@ def create_spinner(text, nospin=None, spinner_name=None):
     with vistir.spin.create_spinner(
             spinner_name=spinner_name,
             start_text=vistir.compat.fs_str(text),
-            nospin=nospin
+            nospin=nospin, write_to_stdout=False
     ) as sp:
         yield sp
 
@@ -500,7 +514,7 @@ def resolve(cmd, sp):
     out = to_native_string("")
     while True:
         try:
-            result = c.expect(u"\n", timeout=environments.PIPENV_TIMEOUT)
+            result = c.expect(u"\n", timeout=environments.PIPENV_INSTALL_TIMEOUT)
         except (EOF, TIMEOUT):
             pass
         if result is None:
@@ -526,7 +540,10 @@ def resolve(cmd, sp):
     return c
 
 
-def get_locked_dep(dep, pipfile_section):
+def get_locked_dep(dep, pipfile_section, prefer_pipfile=False):
+    # the prefer pipfile flag is not used yet, but we are introducing
+    # it now for development purposes
+    # TODO: Is this implementation clear? How can it be improved?
     entry = None
     cleaner_kwargs = {
         "is_top_level": False,
@@ -540,6 +557,14 @@ def get_locked_dep(dep, pipfile_section):
     if entry:
         cleaner_kwargs.update({"is_top_level": True, "pipfile_entry": entry})
     lockfile_entry = clean_resolved_dep(dep, **cleaner_kwargs)
+    if entry and isinstance(entry, Mapping):
+        version = entry.get("version", "") if entry else ""
+    else:
+        version = entry if entry else ""
+    lockfile_version = lockfile_entry.get("version", "")
+    # Keep pins from the lockfile
+    if prefer_pipfile and lockfile_version != version and version.startswith("=="):
+        lockfile_version = version
     return lockfile_entry
 
 
@@ -550,7 +575,10 @@ def prepare_lockfile(results, pipfile, lockfile):
         # markers, normalized names, URL info, etc that we may have dropped during lock
         if not is_vcs(dep):
             lockfile_entry = get_locked_dep(dep, pipfile)
-            lockfile.update(lockfile_entry)
+            name = next(iter(k for k in lockfile_entry.keys()))
+            current_entry = lockfile.get(name)
+            if not current_entry or not is_vcs(current_entry):
+                lockfile.update(lockfile_entry)
     return lockfile
 
 
@@ -578,7 +606,7 @@ def venv_resolve_deps(
     pipfile_section = "dev_packages" if dev else "packages"
     lockfile_section = "develop" if dev else "default"
     vcs_section = "vcs_{0}".format(pipfile_section)
-    vcs_deps = getattr(project, vcs_section, [])
+    vcs_deps = getattr(project, vcs_section, {})
     if not deps and not vcs_deps:
         return {}
 
@@ -598,6 +626,7 @@ def venv_resolve_deps(
                 dev=dev,
             )
             vcs_deps = [req.as_line() for req in vcs_reqs if req.editable]
+            lockfile[lockfile_section].update(vcs_lockfile)
     cmd = [
         which("python", allow_global=allow_global),
         Path(resolver.__file__.rstrip("co")).as_posix()
@@ -648,7 +677,9 @@ def venv_resolve_deps(
             click_echo(err.strip(), err=True)
         raise RuntimeError("There was a problem with locking.")
     lockfile[lockfile_section] = prepare_lockfile(results, pipfile, lockfile[lockfile_section])
-    lockfile[lockfile_section].update(vcs_lockfile)
+    for k, v in vcs_lockfile.items():
+        if k in getattr(project, vcs_section, {}) or k not in lockfile[lockfile_section]:
+            lockfile[lockfile_section][k].update(v)
 
 
 def resolve_deps(
@@ -832,7 +863,16 @@ def mkdir_p(newdir):
         if head and not os.path.isdir(head):
             mkdir_p(head)
         if tail:
-            os.mkdir(newdir)
+            # Even though we've checked that the directory doesn't exist above, it might exist
+            # now if some other process has created it between now and the time we checked it.
+            try:
+                os.mkdir(newdir)
+            except OSError as exn:
+                # If we failed because the directory does exist, that's not a problem -
+                # that's what we were trying to do anyway. Only re-raise the exception
+                # if we failed for some other reason.
+                if exn.errno != errno.EEXIST:
+                    raise
 
 
 def is_required_version(version, specified_version):
@@ -1464,3 +1504,15 @@ def sys_version(version_tuple):
     sys.version_info = version_tuple
     yield
     sys.version_info = old_version
+
+
+def add_to_set(original_set, element):
+    """Given a set and some arbitrary element, add the element(s) to the set"""
+    if not element:
+        return original_set
+    if isinstance(element, Set):
+        original_set |= element
+    elif isinstance(element, (list, tuple)):
+        original_set |= set(element)
+    else:
+        original_set.add(element)

@@ -7,6 +7,7 @@ import attr
 import packaging.version
 import packaging.specifiers
 import packaging.utils
+import six
 
 try:
     from setuptools.dist import distutils
@@ -16,7 +17,7 @@ except ImportError:
 from appdirs import user_cache_dir
 from six.moves import configparser
 from six.moves.urllib.parse import unquote
-from vistir.compat import Path
+from vistir.compat import Path, Iterable
 from vistir.contextmanagers import cd
 from vistir.misc import run
 from vistir.path import create_tracked_tempdir, ensure_mkdir_p, mkdir_p
@@ -67,6 +68,20 @@ def _get_src_dir():
     return os.path.join(os.getcwd(), "src")  # Match pip's behavior.
 
 
+def ensure_reqs(reqs):
+    import pkg_resources
+    if not isinstance(reqs, Iterable):
+        raise TypeError("Expecting an Iterable, got %r" % reqs)
+    new_reqs = []
+    for req in reqs:
+        if not req:
+            continue
+        if isinstance(req, six.string_types):
+            req = pkg_resources.Requirement.parse("{0}".format(str(req)))
+        new_reqs.append(req)
+    return new_reqs
+
+
 def _prepare_wheel_building_kwargs(ireq):
     download_dir = os.path.join(CACHE_DIR, "pkgs")
     mkdir_p(download_dir)
@@ -103,7 +118,7 @@ def iter_egginfos(path, pkg_name=None):
             if not entry.name.endswith("egg-info"):
                 for dir_entry in iter_egginfos(entry.path, pkg_name=pkg_name):
                     yield dir_entry
-            elif pkg_name is None or entry.name.startswith(pkg_name):
+            elif pkg_name is None or entry.name.startswith(pkg_name.replace("-", "_")):
                 yield entry
 
 
@@ -131,25 +146,39 @@ def get_metadata(path, pkg_name=None):
             None,
         )
         if dist:
-            requires = dist.requires()
-            dep_map = dist._build_dep_map()
+            try:
+                requires = dist.requires()
+            except exception:
+                requires = []
+            try:
+                dep_map = dist._build_dep_map()
+            except Exception:
+                dep_map = {}
             deps = []
+            extras = {}
             for k in dep_map.keys():
                 if k is None:
                     deps.extend(dep_map.get(k))
                     continue
                 else:
+                    extra = None
                     _deps = dep_map.get(k)
-                    k = k.replace(":", "; ")
-                    _deps = [
-                        pkg_resources.Requirement.parse("{0}{1}".format(str(req), k))
-                        for req in _deps
-                    ]
-                    deps.extend(_deps)
+                    if k.startswith(":python_version"):
+                        marker = k.replace(":", "; ")
+                    else:
+                        marker = ""
+                        extra = "{0}".format(k)
+                    _deps = ["{0}{1}".format(str(req), marker) for req in _deps]
+                    _deps = ensure_reqs(_deps)
+                    if extra:
+                        extras[extra] = _deps
+                    else:
+                        deps.extend(_deps)
             return {
                 "name": dist.project_name,
                 "version": dist.version,
                 "requires": requires,
+                "extras": extras
             }
 
 
@@ -158,7 +187,6 @@ class SetupInfo(object):
     name = attr.ib(type=str, default=None)
     base_dir = attr.ib(type=Path, default=None)
     version = attr.ib(type=packaging.version.Version, default=None)
-    extras = attr.ib(type=list, default=attr.Factory(list))
     requires = attr.ib(type=dict, default=attr.Factory(dict))
     build_requires = attr.ib(type=list, default=attr.Factory(list))
     build_backend = attr.ib(type=list, default=attr.Factory(list))
@@ -205,34 +233,40 @@ class SetupInfo(object):
                 python_requires = parser.get("options", "python_requires")
                 if python_requires and not self.python_requires:
                     self.python_requires = python_requires
-            if parser.has_option("options", "extras_require"):
+            if "options.extras_require" in parser.sections():
                 self.extras.update(
                     {
                         section: [
-                            dep.strip()
+                            init_requirement(dep.strip())
                             for dep in parser.get(
                                 "options.extras_require", section
                             ).split("\n")
                             if dep
                         ]
                         for section in parser.options("options.extras_require")
+                        if section not in ["options", "metadata"]
                     }
                 )
+                if self.ireq.extras:
+                    self.requires.update({
+                        extra: self.extras[extra]
+                        for extra in self.ireq.extras if extra in self.extras
+                    })
 
     def run_setup(self):
         if self.setup_py is not None and self.setup_py.exists():
             target_cwd = self.setup_py.parent.as_posix()
             with cd(target_cwd), _suppress_distutils_logs():
+                # This is for you, Hynek
+                # see https://github.com/hynek/environ_config/blob/69b1c8a/setup.py
                 script_name = self.setup_py.as_posix()
-                args = ["egg_info", "--egg-base", self.base_dir]
+                args = ["egg_info"]
                 g = {"__file__": script_name, "__name__": "__main__"}
                 local_dict = {}
                 if sys.version_info < (3, 5):
                     save_argv = sys.argv
                 else:
                     save_argv = sys.argv.copy()
-                # This is for you, Hynek
-                # see https://github.com/hynek/environ_config/blob/69b1c8a/setup.py
                 try:
                     global _setup_distribution, _setup_stop_after
                     _setup_stop_after = "run"
@@ -287,6 +321,15 @@ class SetupInfo(object):
                 self.requires.update(
                     {req.key: req for req in metadata.get("requires", {})}
                 )
+                if getattr(self.ireq, "extras", None):
+                    for extra in self.ireq.extras:
+                        extras = metadata.get("extras", {}).get(extra, [])
+                        if extras:
+                            extras = ensure_reqs(extras)
+                            self.extras[extra] = set(extras)
+                            self.requires.update(
+                                {req.key: req for req in extras if req is not None}
+                            )
 
     def run_pyproject(self):
         if self.pyproject and self.pyproject.exists():

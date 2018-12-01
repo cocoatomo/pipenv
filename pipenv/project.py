@@ -43,10 +43,11 @@ from .environments import (
     PIPENV_MAX_DEPTH,
     PIPENV_PIPFILE,
     PIPENV_VENV_IN_PROJECT,
-    PIPENV_VIRTUALENV,
     PIPENV_TEST_INDEX,
     PIPENV_PYTHON,
     PIPENV_DEFAULT_PYTHON_VERSION,
+    PIPENV_IGNORE_VIRTUALENVS,
+    is_in_virtualenv
 )
 
 
@@ -345,8 +346,8 @@ class Project(object):
     @property
     def environment(self):
         if not self._environment:
-            prefix = self.get_location_for_virtualenv()
-            is_venv = prefix == sys.prefix
+            prefix = self.virtualenv_location
+            is_venv = is_in_virtualenv()
             sources = self.sources if self.sources else [DEFAULT_SOURCE,]
             self._environment = Environment(
                 prefix=prefix, is_venv=is_venv, sources=sources, pipfile=self.parsed_pipfile,
@@ -426,8 +427,10 @@ class Project(object):
     @property
     def virtualenv_location(self):
         # if VIRTUAL_ENV is set, use that.
-        if PIPENV_VIRTUALENV:
-            return PIPENV_VIRTUALENV
+        virtualenv_env = os.getenv("VIRTUAL_ENV")
+        if ("PIPENV_ACTIVE" not in os.environ and
+                not PIPENV_IGNORE_VIRTUALENVS and virtualenv_env):
+            return virtualenv_env
 
         if not self._virtualenv_location:  # Use cached version, if available.
             assert self.project_directory, "project not created"
@@ -690,6 +693,7 @@ class Project(object):
             ConfigOptionParser, make_option_group, index_group
         )
 
+        name = self.name if self.name is not None else "Pipfile"
         config_parser = ConfigOptionParser(name=self.name)
         config_parser.add_option_group(make_option_group(index_group, config_parser))
         install = config_parser.option_groups[0]
@@ -739,10 +743,19 @@ class Project(object):
             source["verify_ssl"] = source["verify_ssl"].lower() == "true"
         return source
 
-    def get_or_create_lockfile(self):
+    def get_or_create_lockfile(self, from_pipfile=False):
         from pipenv.vendor.requirementslib.models.lockfile import Lockfile as Req_Lockfile
         lockfile = None
-        if self.lockfile_exists:
+        if from_pipfile and self.pipfile_exists:
+            lockfile_dict = {
+                "default": self._lockfile["default"].copy(),
+                "develop": self._lockfile["develop"].copy()
+            }
+            lockfile_dict.update({"_meta": self.get_lockfile_meta()})
+            lockfile = Req_Lockfile.from_data(
+                path=self.lockfile_location, data=lockfile_dict, meta_from_project=False
+            )
+        elif self.lockfile_exists:
             try:
                 lockfile = Req_Lockfile.load(self.lockfile_location)
             except OSError:
@@ -766,24 +779,16 @@ class Project(object):
             )
             lockfile._lockfile = lockfile.projectfile.model = _created_lockfile
             return lockfile
-        elif self.pipfile_exists:
-            lockfile_dict = {
-                "default": self._lockfile["default"].copy(),
-                "develop": self._lockfile["develop"].copy()
-            }
-            lockfile_dict.update({"_meta": self.get_lockfile_meta()})
-            _created_lockfile = Req_Lockfile.from_data(
-                path=self.lockfile_location, data=lockfile_dict, meta_from_project=False
-            )
-            lockfile._lockfile = _created_lockfile
-            return lockfile
+        else:
+            return self.get_or_create_lockfile(from_pipfile=True)
 
     def get_lockfile_meta(self):
         from .vendor.plette.lockfiles import PIPFILE_SPEC_CURRENT
-        sources = self.lockfile_content.get("_meta", {}).get("sources", [])
-        if not sources:
-            sources = self.pipfile_sources
-        elif not isinstance(sources, list):
+        if self.lockfile_exists:
+            sources = self.lockfile_content.get("_meta", {}).get("sources", [])
+        else:
+            sources = [dict(source) for source in self.parsed_pipfile["source"]]
+        if not isinstance(sources, list):
             sources = [sources,]
         return {
             "hash": {"sha256": self.calculate_pipfile_hash()},
