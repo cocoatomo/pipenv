@@ -9,9 +9,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2018.11.15.dev0\n"
+"Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-18 15:00+0000\n"
+"POT-Creation-Date: 2018-12-02 15:00+0000\n"
 "PO-Revision-Date: 2018-07-16 16:03+0000\n"
 "Last-Translator: tomo🐧, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -27,27 +27,230 @@ msgstr "リリースとバージョンヒストリー"
 
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:2
-msgid "2018.11.14 (2018-11-14)"
+msgid "2018.11.26 (2018-11-26)"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:5 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:128
+#: <included from /home/circleci/repo/docs/changelog.rst>:58
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:345 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:426
+#: /home/circleci/repo/docs/changelog.rst>:127 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:203
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:396 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:530
+msgid "Bug Fixes"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:7
+msgid ""
+"Environment variables are expanded correctly before running scripts on "
+"POSIX.  `#3178 <https://github.com/pypa/pipenv/issues/3178>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:8
+msgid ""
+"Pipenv will no longer disable user-mode installation when the ``--system`` "
+"flag is passed in.  `#3222 <https://github.com/pypa/pipenv/issues/3222>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:9
+msgid ""
+"Fixed an issue with attempting to render unicode output in non-unicode "
+"locales.  `#3223 <https://github.com/pypa/pipenv/issues/3223>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:10
+msgid ""
+"Fixed a bug which could cause failures to occur when parsing python entries "
+"from global pyenv version files.  `#3224 "
+"<https://github.com/pypa/pipenv/issues/3224>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:11
+msgid ""
+"Fixed an issue which prevented the parsing of named extras sections from "
+"certain ``setup.py`` files.  `#3230 "
+"<https://github.com/pypa/pipenv/issues/3230>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:12
+msgid ""
+"Correctly detect the virtualenv location inside an activated virtualenv.  "
+"`#3231 <https://github.com/pypa/pipenv/issues/3231>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:13
+msgid ""
+"Fixed a bug which caused spinner frames to be written to stdout during "
+"locking operations which could cause redirection pipes to fail.  `#3239 "
+"<https://github.com/pypa/pipenv/issues/3239>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:14
+msgid ""
+"Fixed a bug that editable pacakges can't be uninstalled correctly.  `#3240 "
+"<https://github.com/pypa/pipenv/issues/3240>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:15
+msgid ""
+"Corrected an issue with installation timeouts which caused dependency "
+"resolution to fail for longer duration resolution steps.  `#3244 "
+"<https://github.com/pypa/pipenv/issues/3244>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:16
+msgid ""
+"Adding normal pep 508 compatible markers is now fully functional when using "
+"VCS dependencies.  `#3249 <https://github.com/pypa/pipenv/issues/3249>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:17
+msgid ""
+"Updated ``requirementslib`` and ``pythonfinder`` for multiple bugfixes.  "
+"`#3254 <https://github.com/pypa/pipenv/issues/3254>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:18
+msgid ""
+"Pipenv will now ignore hashes when installing with ``--skip-lock``.  `#3255 "
+"<https://github.com/pypa/pipenv/issues/3255>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:19
+msgid ""
+"Fixed an issue where pipenv could crash when multiple pipenv processes "
+"attempted to create the same directory.  `#3257 "
+"<https://github.com/pypa/pipenv/issues/3257>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:20
+msgid ""
+"Fixed an issue which sometimes prevented successful creation of project "
+"pipfiles.  `#3260 <https://github.com/pypa/pipenv/issues/3260>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:21
+msgid ""
+"``pipenv install`` will now unset the ``PYTHONHOME`` environment variable "
+"when not combined with ``--system``.  `#3261 "
+"<https://github.com/pypa/pipenv/issues/3261>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:22
+msgid ""
+"Pipenv will ensure that warnings do not interfere with the resolution "
+"process by suppressing warnings' usage of standard output and writing to "
+"standard error instead.  `#3273 "
+"<https://github.com/pypa/pipenv/issues/3273>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:23
+msgid ""
+"Fixed an issue which prevented variables from the environment, such as "
+"``PIPENV_DEV`` or ``PIPENV_SYSTEM``, from being parsed and implemented "
+"correctly.  `#3278 <https://github.com/pypa/pipenv/issues/3278>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:24
+msgid ""
+"Clear pythonfinder cache after Python install.  `#3287 "
+"<https://github.com/pypa/pipenv/issues/3287>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:25
+msgid ""
+"Fixed a race condition in hash resolution for dependencies for certain "
+"dependencies with missing cache entries or fresh Pipenv installs.  `#3289 "
+"<https://github.com/pypa/pipenv/issues/3289>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:26
+msgid ""
+"Pipenv will now respect top-level pins over VCS dependency locks.  `#3296 "
+"<https://github.com/pypa/pipenv/issues/3296>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:29 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:93
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:153 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:305
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:431 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:624
+msgid "Vendored Libraries"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:35
+msgid ""
+"Update vendored dependencies to resolve resolution output parsing and python"
+" finding:"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:32
+msgid "``pythonfinder 1.1.9 -> 1.1.10``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:33
+msgid "``requirementslib 1.3.1 -> 1.3.3``"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:34
+msgid ""
+"``vistir 0.2.3 -> 0.2.5``  `#3280 "
+"<https://github.com/pypa/pipenv/issues/3280>`_"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:38
+msgid "2018.11.14 (2018-11-14)"
+msgstr ""
+
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:41 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:164
+#: ../../../../CHANGELOG.rst <included from
+#: /home/circleci/repo/docs/changelog.rst>:381 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:462
 msgid "Features & Improvements"
 msgstr "特徴と改善"
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:7
+#: /home/circleci/repo/docs/changelog.rst>:43
 msgid ""
 "Improved exceptions and error handling on failures.  `#1977 "
 "<https://github.com/pypa/pipenv/issues/1977>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:8
+#: /home/circleci/repo/docs/changelog.rst>:44
 msgid ""
 "Added persistent settings for all CLI flags via ``PIPENV_{FLAG_NAME}`` "
 "environment variables by enabling ``auto_envvar_prefix=PIPENV`` in click "
@@ -56,7 +259,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:9
+#: /home/circleci/repo/docs/changelog.rst>:45
 msgid ""
 "Added improved messaging about available but skipped updates due to "
 "dependency conflicts when running ``pipenv update --outdated``.  `#2411 "
@@ -64,7 +267,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:10
+#: /home/circleci/repo/docs/changelog.rst>:46
 msgid ""
 "Added environment variable `PIPENV_PYUP_API_KEY` to add ability to override "
 "the bundled pyup.io API key.  `#2825 "
@@ -72,7 +275,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:12
+#: /home/circleci/repo/docs/changelog.rst>:48
 msgid ""
 "Added additional output to ``pipenv update --outdated`` to indicate that the"
 " operation succeded and all packages were already up to date.  `#2828 "
@@ -80,7 +283,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:13
+#: /home/circleci/repo/docs/changelog.rst>:49
 msgid ""
 "Updated ``crayons`` patch to enable colors on native powershell but swap "
 "native blue for magenta.  `#3020 "
@@ -88,7 +291,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:14
+#: /home/circleci/repo/docs/changelog.rst>:50
 msgid ""
 "Added support for ``--bare`` to ``pipenv clean``, and fixed ``pipenv sync "
 "--bare`` to actually reduce output.  `#3041 "
@@ -96,28 +299,28 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:15
+#: /home/circleci/repo/docs/changelog.rst>:51
 msgid ""
 "Added windows-compatible spinner via upgraded ``vistir`` dependency.  `#3089"
 " <https://github.com/pypa/pipenv/issues/3089>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:16
+#: /home/circleci/repo/docs/changelog.rst>:52
 msgid ""
 "Added support for python installations managed by ``asdf``.  `#3096 "
 "<https://github.com/pypa/pipenv/issues/3096>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:17
+#: /home/circleci/repo/docs/changelog.rst>:53
 msgid ""
 "Improved runtime performance of no-op commands such as ``pipenv --venv`` by "
 "around 2/3.  `#3158 <https://github.com/pypa/pipenv/issues/3158>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:18
+#: /home/circleci/repo/docs/changelog.rst>:54
 msgid ""
 "Do not show error but success for running ``pipenv uninstall --all`` in a "
 "fresh virtual environment.  `#3170 "
@@ -125,25 +328,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:19
+#: /home/circleci/repo/docs/changelog.rst>:55
 msgid ""
 "Improved asynchronous installation and error handling via queued subprocess "
 "paralleization.  `#3217 <https://github.com/pypa/pipenv/issues/3217>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:22 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:91
-#: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:167 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:360
-#: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:494
-msgid "Bug Fixes"
-msgstr ""
-
-#: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:24
+#: /home/circleci/repo/docs/changelog.rst>:60
 msgid ""
 "Remote non-PyPI artifacts and local wheels and artifacts will now include "
 "their own hashes rather than including hashes from ``PyPI``.  `#2394 "
@@ -151,21 +343,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:25
+#: /home/circleci/repo/docs/changelog.rst>:61
 msgid ""
 "Non-ascii characters will now be handled correctly when parsed by pipenv's "
 "``ToML`` parsers.  `#2737 <https://github.com/pypa/pipenv/issues/2737>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:26
+#: /home/circleci/repo/docs/changelog.rst>:62
 msgid ""
 "Updated ``pipenv uninstall`` to respect the ``--skip-lock`` argument.  "
 "`#2848 <https://github.com/pypa/pipenv/issues/2848>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:27
+#: /home/circleci/repo/docs/changelog.rst>:63
 msgid ""
 "Fixed a bug which caused uninstallation to sometimes fail to successfullly "
 "remove packages from ``Pipfiles`` with comments on preceding or following "
@@ -174,7 +366,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:29
+#: /home/circleci/repo/docs/changelog.rst>:65
 msgid ""
 "Pipenv will no longer fail when encountering python versions on Windows that"
 " have been uninstalled.  `#2983 "
@@ -182,14 +374,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:30
+#: /home/circleci/repo/docs/changelog.rst>:66
 msgid ""
 "Fixed unnecessary extras are added when translating markers  `#3026 "
 "<https://github.com/pypa/pipenv/issues/3026>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:31
+#: /home/circleci/repo/docs/changelog.rst>:67
 msgid ""
 "Fixed a virtualenv creation issue which could cause new virtualenvs to "
 "inadvertently attempt to read and write to global site packages.  `#3047 "
@@ -197,7 +389,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:32
+#: /home/circleci/repo/docs/changelog.rst>:68
 msgid ""
 "Fixed an issue with virtualenv path derivation which could cause errors, "
 "particularly for users on WSL bash.  `#3055 "
@@ -205,7 +397,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:33
+#: /home/circleci/repo/docs/changelog.rst>:69
 msgid ""
 "Fixed a bug which caused ``Unexpected EOF`` errors to be thrown when ``pip``"
 " was waiting for input from users who had put login credentials in "
@@ -214,7 +406,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:34
+#: /home/circleci/repo/docs/changelog.rst>:70
 msgid ""
 "Fixed a bug in ``requirementslib`` which prevented successful installation "
 "from mercurial repositories.  `#3090 "
@@ -222,21 +414,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:35
+#: /home/circleci/repo/docs/changelog.rst>:71
 msgid ""
 "Fixed random resource warnings when using pyenv or any other subprocess "
 "calls.  `#3094 <https://github.com/pypa/pipenv/issues/3094>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:36
+#: /home/circleci/repo/docs/changelog.rst>:72
 msgid ""
 "Fixed a bug which sometimes prevented cloning and parsing ``mercurial`` "
 "requirements.  `#3096 <https://github.com/pypa/pipenv/issues/3096>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:37
+#: /home/circleci/repo/docs/changelog.rst>:73
 msgid ""
 "Fixed an issue in ``delegator.py`` related to subprocess calls when using "
 "``PopenSpawn`` to stream output, which sometimes threw unexpected ``EOF`` "
@@ -246,21 +438,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:40
+#: /home/circleci/repo/docs/changelog.rst>:76
 msgid ""
 "Fix the path casing issue that makes `pipenv clean` fail on Windows  `#3104 "
 "<https://github.com/pypa/pipenv/issues/3104>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:41
+#: /home/circleci/repo/docs/changelog.rst>:77
 msgid ""
 "Pipenv will avoid leaving build artifacts in the current working directory."
 "  `#3106 <https://github.com/pypa/pipenv/issues/3106>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:42
+#: /home/circleci/repo/docs/changelog.rst>:78
 msgid ""
 "Fixed issues with broken subprocess calls leaking resource handles and "
 "causing random and sporadic failures.  `#3109 "
@@ -268,7 +460,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:43
+#: /home/circleci/repo/docs/changelog.rst>:79
 msgid ""
 "Fixed an issue which caused ``pipenv clean`` to sometimes clean packages "
 "from the base ``site-packages`` folder or fail entirely.  `#3113 "
@@ -276,7 +468,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:44
+#: /home/circleci/repo/docs/changelog.rst>:80
 msgid ""
 "Updated ``pythonfinder`` to correct an issue with unnesting of nested paths "
 "when searching for python versions.  `#3121 "
@@ -284,7 +476,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:45
+#: /home/circleci/repo/docs/changelog.rst>:81
 msgid ""
 "Added additional logic for ignoring and replacing non-ascii characters when "
 "formatting console output on non-UTF-8 systems.  `#3131 "
@@ -292,7 +484,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:46
+#: /home/circleci/repo/docs/changelog.rst>:82
 msgid ""
 "Fix virtual environment discovery when `PIPENV_VENV_IN_PROJECT` is set, but "
 "the in-project `.venv` is a file.  `#3134 "
@@ -300,7 +492,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:47
+#: /home/circleci/repo/docs/changelog.rst>:83
 msgid ""
 "Hashes for remote and local non-PyPI artifacts will now be included in "
 "``Pipfile.lock`` during resolution.  `#3145 "
@@ -308,42 +500,42 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:48
+#: /home/circleci/repo/docs/changelog.rst>:84
 msgid ""
 "Fix project path hashing logic in purpose to prevent collisions of virtual "
 "environments.  `#3151 <https://github.com/pypa/pipenv/issues/3151>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:49
+#: /home/circleci/repo/docs/changelog.rst>:85
 msgid ""
 "Fix package installation when the virtual environment path contains "
 "parentheses.  `#3158 <https://github.com/pypa/pipenv/issues/3158>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:50
+#: /home/circleci/repo/docs/changelog.rst>:86
 msgid ""
 "Azure Pipelines YAML files are updated to use the latest syntax and product "
 "name.  `#3164 <https://github.com/pypa/pipenv/issues/3164>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:51
+#: /home/circleci/repo/docs/changelog.rst>:87
 msgid ""
 "Fixed new spinner success message to write only one success message during "
 "resolution.  `#3183 <https://github.com/pypa/pipenv/issues/3183>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:52
+#: /home/circleci/repo/docs/changelog.rst>:88
 msgid ""
 "Pipenv will now correctly respect the ``--pre`` option when used with "
 "``pipenv install``.  `#3185 <https://github.com/pypa/pipenv/issues/3185>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:53
+#: /home/circleci/repo/docs/changelog.rst>:89
 msgid ""
 "Fix a bug where exception is raised when run pipenv graph in a project "
 "without created virtualenv  `#3201 "
@@ -351,25 +543,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:54
+#: /home/circleci/repo/docs/changelog.rst>:90
 msgid ""
 "When sources are missing names, names will now be derived from the supplied "
 "URL.  `#3216 <https://github.com/pypa/pipenv/issues/3216>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:57 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:117
-#: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:269 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:395
-#: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:588
-msgid "Vendored Libraries"
-msgstr ""
-
-#: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:59
+#: /home/circleci/repo/docs/changelog.rst>:95
 msgid ""
 "Updated ``pythonfinder`` to correct an issue with unnesting of nested paths "
 "when searching for python versions.  `#3061 "
@@ -378,95 +559,95 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:70 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:76
+#: /home/circleci/repo/docs/changelog.rst>:106 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:112
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:256 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:310
+#: /home/circleci/repo/docs/changelog.rst>:292 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:346
 msgid "Updated vendored dependencies:"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:62
+#: /home/circleci/repo/docs/changelog.rst>:98
 msgid "``certifi 2018.08.24 => 2018.10.15``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:63
+#: /home/circleci/repo/docs/changelog.rst>:99
 msgid "``urllib3 1.23 => 1.24``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:64
+#: /home/circleci/repo/docs/changelog.rst>:100
 msgid "``requests 2.19.1 => 2.20.0``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:65
+#: /home/circleci/repo/docs/changelog.rst>:101
 msgid "``shellingham ``1.2.6 => 1.2.7``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:66
+#: /home/circleci/repo/docs/changelog.rst>:102
 msgid "``tomlkit 0.4.4. => 0.4.6``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:67
+#: /home/circleci/repo/docs/changelog.rst>:103
 msgid "``vistir 0.1.6 => 0.1.8``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:68
+#: /home/circleci/repo/docs/changelog.rst>:104
 msgid "``pythonfinder 0.1.2 => 0.1.3``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:69
+#: /home/circleci/repo/docs/changelog.rst>:105
 msgid "``requirementslib 1.1.9 => 1.1.10``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:70
+#: /home/circleci/repo/docs/changelog.rst>:106
 msgid "``backports.functools_lru_cache 1.5.0 (new)``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:71
+#: /home/circleci/repo/docs/changelog.rst>:107
 msgid ""
 "``cursor 1.2.0 (new)``  `#3089 "
 "<https://github.com/pypa/pipenv/issues/3089>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:73
+#: /home/circleci/repo/docs/changelog.rst>:109
 msgid "``requests 2.19.1 => 2.20.1``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:74
+#: /home/circleci/repo/docs/changelog.rst>:110
 msgid "``tomlkit 0.4.46 => 0.5.2``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:75
+#: /home/circleci/repo/docs/changelog.rst>:111
 msgid "``vistir 0.1.6 => 0.2.4``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:76
+#: /home/circleci/repo/docs/changelog.rst>:112
 msgid "``pythonfinder 1.1.2 => 1.1.8``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:77
+#: /home/circleci/repo/docs/changelog.rst>:113
 msgid ""
 "``requirementslib 1.1.10 => 1.3.0``  `#3096 "
 "<https://github.com/pypa/pipenv/issues/3096>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:78
+#: /home/circleci/repo/docs/changelog.rst>:114
 msgid ""
 "Switch to ``tomlkit`` for parsing and writing. Drop ``prettytoml`` and "
 "``contoml`` from vendors.  `#3191 "
@@ -474,35 +655,35 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:79
+#: /home/circleci/repo/docs/changelog.rst>:115
 msgid ""
 "Updated ``requirementslib`` to aid in resolution of local and remote "
 "archives.  `#3196 <https://github.com/pypa/pipenv/issues/3196>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:82 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:316
+#: /home/circleci/repo/docs/changelog.rst>:118 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:352
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:417 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:576
+#: /home/circleci/repo/docs/changelog.rst>:453 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:612
 msgid "Improved Documentation"
 msgstr "ドキュメントの改善"
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:84
+#: /home/circleci/repo/docs/changelog.rst>:120
 msgid ""
 "Expanded development and testing documentation for contributors to get "
 "started.  `#3074 <https://github.com/pypa/pipenv/issues/3074>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:88
+#: /home/circleci/repo/docs/changelog.rst>:124
 msgid "2018.10.13 (2018-10-13)"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:93
+#: /home/circleci/repo/docs/changelog.rst>:129
 msgid ""
 "Fixed a bug in ``pipenv clean`` which caused global packages to sometimes be"
 " inadvertently targeted for cleanup.  `#2849 "
@@ -510,7 +691,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:95
+#: /home/circleci/repo/docs/changelog.rst>:131
 msgid ""
 "Fix broken backport imports for vendored vistir.  `#2950 "
 "<https://github.com/pypa/pipenv/issues/2950>`_, `#2955 "
@@ -519,28 +700,28 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:99
+#: /home/circleci/repo/docs/changelog.rst>:135
 msgid ""
 "Fixed a bug with importing local vendored dependencies when running ``pipenv"
 " graph``.  `#2952 <https://github.com/pypa/pipenv/issues/2952>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:101
+#: /home/circleci/repo/docs/changelog.rst>:137
 msgid ""
 "Fixed a bug which caused executable discovery to fail when running inside a "
 "virtualenv.  `#2957 <https://github.com/pypa/pipenv/issues/2957>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:103
+#: /home/circleci/repo/docs/changelog.rst>:139
 msgid ""
 "Fix parsing of outline tables.  `#2971 "
 "<https://github.com/pypa/pipenv/issues/2971>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:105
+#: /home/circleci/repo/docs/changelog.rst>:141
 msgid ""
 "Fixed a bug which caused ``verify_ssl`` to fail to drop through to ``pip "
 "install`` correctly as ``trusted-host``.  `#2979 "
@@ -548,21 +729,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:107
+#: /home/circleci/repo/docs/changelog.rst>:143
 msgid ""
 "Fixed a bug which caused canonicalized package names to fail to resolve "
 "against PyPI.  `#2989 <https://github.com/pypa/pipenv/issues/2989>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:109
+#: /home/circleci/repo/docs/changelog.rst>:145
 msgid ""
 "Enhanced CI detection to detect Azure Devops builds.  `#2993 "
 "<https://github.com/pypa/pipenv/issues/2993>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:111
+#: /home/circleci/repo/docs/changelog.rst>:147
 msgid ""
 "Fixed a bug which prevented installing pinned versions which used "
 "redirection symbols from the command line.  `#2998 "
@@ -570,33 +751,33 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:113
+#: /home/circleci/repo/docs/changelog.rst>:149
 msgid ""
 "Fixed a bug which prevented installing the local directory in non-editable "
 "mode.  `#3005 <https://github.com/pypa/pipenv/issues/3005>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:119
+#: /home/circleci/repo/docs/changelog.rst>:155
 msgid ""
 "Updated ``requirementslib`` to version ``1.1.9``.  `#2989 "
 "<https://github.com/pypa/pipenv/issues/2989>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:121
+#: /home/circleci/repo/docs/changelog.rst>:157
 msgid ""
 "Upgraded ``pythonfinder => 1.1.1`` and ``vistir => 0.1.7``.  `#3007 "
 "<https://github.com/pypa/pipenv/issues/3007>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:125
+#: /home/circleci/repo/docs/changelog.rst>:161
 msgid "2018.10.9 (2018-10-09)"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:130
+#: /home/circleci/repo/docs/changelog.rst>:166
 msgid ""
 "Added environment variables `PIPENV_VERBOSE` and `PIPENV_QUIET` to control "
 "output verbosity without needing to pass options.  `#2527 "
@@ -604,7 +785,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:133
+#: /home/circleci/repo/docs/changelog.rst>:169
 msgid ""
 "Updated test-pypi addon to better support json-api access (forward "
 "compatibility). Improved testing process for new contributors.  `#2568 "
@@ -612,17 +793,17 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:136
+#: /home/circleci/repo/docs/changelog.rst>:172
 msgid "Greatly enhanced python discovery functionality:"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:138
+#: /home/circleci/repo/docs/changelog.rst>:174
 msgid "Added pep514 (windows launcher/finder) support for python discovery."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:139
+#: /home/circleci/repo/docs/changelog.rst>:175
 msgid ""
 "Introduced architecture discovery for python installations which support "
 "different architectures.  `#2582 "
@@ -630,21 +811,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:141
+#: /home/circleci/repo/docs/changelog.rst>:177
 msgid ""
 "Added support for ``pipenv shell`` on msys and cygwin/mingw/git bash for "
 "Windows.  `#2641 <https://github.com/pypa/pipenv/issues/2641>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:143
+#: /home/circleci/repo/docs/changelog.rst>:179
 msgid ""
 "Enhanced resolution of editable and VCS dependencies.  `#2643 "
 "<https://github.com/pypa/pipenv/issues/2643>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:145
+#: /home/circleci/repo/docs/changelog.rst>:181
 msgid ""
 "Deduplicate and refactor CLI to use stateful arguments and object passing.  "
 "See `this issue <https://github.com/pallets/click/issues/108>`_ for "
@@ -652,13 +833,13 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:149 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:481
+#: /home/circleci/repo/docs/changelog.rst>:185 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:517
 msgid "Behavior Changes"
 msgstr "動作の変更"
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:151
+#: /home/circleci/repo/docs/changelog.rst>:187
 msgid ""
 "Virtual environment activation for ``run`` is revised to improve "
 "interpolation with other Python discovery tools.  `#2503 "
@@ -666,28 +847,28 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:154
+#: /home/circleci/repo/docs/changelog.rst>:190
 msgid ""
 "Improve terminal coloring to display better in Powershell.  `#2511 "
 "<https://github.com/pypa/pipenv/issues/2511>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:156
+#: /home/circleci/repo/docs/changelog.rst>:192
 msgid ""
 "Invoke ``virtualenv`` directly for virtual environment creation, instead of "
 "depending on ``pew``.  `#2518 <https://github.com/pypa/pipenv/issues/2518>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:158
+#: /home/circleci/repo/docs/changelog.rst>:194
 msgid ""
 "``pipenv --help`` will now include short help descriptions.  `#2542 "
 "<https://github.com/pypa/pipenv/issues/2542>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:160
+#: /home/circleci/repo/docs/changelog.rst>:196
 msgid ""
 "Add ``COMSPEC`` to fallback option (along with ``SHELL`` and "
 "``PYENV_SHELL``) if shell detection fails, improving robustness on Windows."
@@ -695,7 +876,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:163
+#: /home/circleci/repo/docs/changelog.rst>:199
 msgid ""
 "Fallback to shell mode if `run` fails with Windows error 193 to handle non-"
 "executable commands. This should improve usability on Windows, where some "
@@ -705,14 +886,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:169
+#: /home/circleci/repo/docs/changelog.rst>:205
 msgid ""
 "Fixed a bug which prevented installation of editable requirements using "
 "``ssh://`` style urls  `#1393 <https://github.com/pypa/pipenv/issues/1393>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:171
+#: /home/circleci/repo/docs/changelog.rst>:207
 msgid ""
 "VCS Refs for locked local editable dependencies will now update "
 "appropriately to the latest hash when running ``pipenv update``.  `#1690 "
@@ -720,7 +901,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:173
+#: /home/circleci/repo/docs/changelog.rst>:209
 msgid ""
 "``.tar.gz`` and ``.zip`` artifacts will now have dependencies installed even"
 " when they are missing from the lockfile.  `#2173 "
@@ -728,7 +909,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:175
+#: /home/circleci/repo/docs/changelog.rst>:211
 msgid ""
 "The command line parser will now handle multiple ``-e/--editable`` "
 "dependencies properly via click's option parser to help mitigate future "
@@ -736,7 +917,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:177
+#: /home/circleci/repo/docs/changelog.rst>:213
 msgid ""
 "Fixed the ability of pipenv to parse ``dependency_links`` from ``setup.py`` "
 "when ``PIP_PROCESS_DEPENDENCY_LINKS`` is enabled.  `#2434 "
@@ -744,7 +925,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:179
+#: /home/circleci/repo/docs/changelog.rst>:215
 msgid ""
 "Fixed a bug which could cause ``-i/--index`` arguments to sometimes be "
 "incorrectly picked up in packages.  This is now handled in the command line "
@@ -752,7 +933,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:181
+#: /home/circleci/repo/docs/changelog.rst>:217
 msgid ""
 "Fixed non-deterministic resolution issues related to changes to the internal"
 " package finder in ``pip 10``.  `#2499 "
@@ -772,14 +953,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:195
+#: /home/circleci/repo/docs/changelog.rst>:231
 msgid ""
 "Fix subshell invocation on Windows for Python 2.  `#2515 "
 "<https://github.com/pypa/pipenv/issues/2515>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:197
+#: /home/circleci/repo/docs/changelog.rst>:233
 msgid ""
 "Fixed a bug which sometimes caused pipenv to throw a ``TypeError`` or to run"
 " into encoding issues when writing lockfiles on python 2.  `#2561 "
@@ -787,14 +968,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:199
+#: /home/circleci/repo/docs/changelog.rst>:235
 msgid ""
 "Improve quoting logic for ``pipenv run`` so it works better with Windows "
 "built-in commands.  `#2563 <https://github.com/pypa/pipenv/issues/2563>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:202
+#: /home/circleci/repo/docs/changelog.rst>:238
 msgid ""
 "Fixed a bug related to parsing vcs requirements with both extras and "
 "subdirectory fragments. Corrected an issue in the ``requirementslib`` parser"
@@ -803,29 +984,29 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:205
+#: /home/circleci/repo/docs/changelog.rst>:241
 msgid ""
 "Fixed multiple issues with finding the correct system python locations.  "
 "`#2582 <https://github.com/pypa/pipenv/issues/2582>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:207
+#: /home/circleci/repo/docs/changelog.rst>:243
 msgid ""
 "Catch JSON decoding error to prevent exception when the lock file is of "
 "invalid format.  `#2607 <https://github.com/pypa/pipenv/issues/2607>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:210
+#: /home/circleci/repo/docs/changelog.rst>:246
 msgid ""
 "Fixed a rare bug which could sometimes cause errors when installing packages"
 " with custom sources.  `#2610 <https://github.com/pypa/pipenv/issues/2610>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:212 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:276
+#: /home/circleci/repo/docs/changelog.rst>:248 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:312
 msgid ""
 "Update requirementslib to fix a bug which could raise an "
 "``UnboundLocalError`` when parsing malformed VCS URIs.  `#2617 "
@@ -833,14 +1014,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:214
+#: /home/circleci/repo/docs/changelog.rst>:250
 msgid ""
 "Fixed an issue which prevented passing multiple ``--ignore`` parameters to "
 "``pipenv check``.  `#2632 <https://github.com/pypa/pipenv/issues/2632>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:216
+#: /home/circleci/repo/docs/changelog.rst>:252
 msgid ""
 "Fixed a bug which caused attempted hashing of ``ssh://`` style URIs which "
 "could cause failures during installation of private ssh repositories. - "
@@ -850,7 +1031,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:219
+#: /home/circleci/repo/docs/changelog.rst>:255
 msgid ""
 "Fixed a bug which caused paths to be formatted incorrectly when using "
 "``pipenv shell`` in bash for windows.  `#2641 "
@@ -858,7 +1039,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:221
+#: /home/circleci/repo/docs/changelog.rst>:257
 msgid ""
 "Dependency links to private repositories defined via ``ssh://`` schemes will"
 " now install correctly and skip hashing as long as "
@@ -867,7 +1048,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:223
+#: /home/circleci/repo/docs/changelog.rst>:259
 msgid ""
 "Fixed a bug which sometimes caused pipenv to parse the ``trusted_host`` "
 "argument to pip incorrectly when parsing source URLs which specify "
@@ -876,21 +1057,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:225
+#: /home/circleci/repo/docs/changelog.rst>:261
 msgid ""
 "Prevent crashing when a virtual environment in ``WORKON_HOME`` is faulty.  "
 "`#2676 <https://github.com/pypa/pipenv/issues/2676>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:227
+#: /home/circleci/repo/docs/changelog.rst>:263
 msgid ""
 "Fixed virtualenv creation failure when a .venv file is present in the "
 "project root.  `#2680 <https://github.com/pypa/pipenv/issues/2680>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:229
+#: /home/circleci/repo/docs/changelog.rst>:265
 msgid ""
 "Fixed a bug which could cause the ``-e/--editable`` argument on a dependency"
 " to be accidentally parsed as a dependency itself.  `#2714 "
@@ -898,7 +1079,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:231
+#: /home/circleci/repo/docs/changelog.rst>:267
 msgid ""
 "Correctly pass `verbose` and `debug` flags to the resolver subprocess so it "
 "generates appropriate output. This also resolves a bug introduced by the fix"
@@ -906,14 +1087,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:233
+#: /home/circleci/repo/docs/changelog.rst>:269
 msgid ""
 "All markers are now included in ``pipenv lock --requirements`` output.  "
 "`#2748 <https://github.com/pypa/pipenv/issues/2748>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:235
+#: /home/circleci/repo/docs/changelog.rst>:271
 msgid ""
 "Fixed a bug in marker resolution which could cause duplicate and non-"
 "deterministic markers.  `#2760 "
@@ -921,7 +1102,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:237
+#: /home/circleci/repo/docs/changelog.rst>:273
 msgid ""
 "Fixed a bug in the dependency resolver which caused regular issues when "
 "handling ``setup.py`` based dependency resolution.  `#2766 "
@@ -929,138 +1110,138 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:240 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:294
+#: /home/circleci/repo/docs/changelog.rst>:276 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:330
 msgid ""
 "``pip-tools`` (updated and patched to latest w/ ``pip 18.0`` compatibilty)"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:241 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:295
+#: /home/circleci/repo/docs/changelog.rst>:277 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:331
 msgid "``pip 10.0.1 => 18.0``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:242 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:296
+#: /home/circleci/repo/docs/changelog.rst>:278 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:332
 msgid "``click 6.7 => 7.0``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:243 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:297
+#: /home/circleci/repo/docs/changelog.rst>:279 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:333
 msgid "``toml 0.9.4 => 0.10.0``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:244 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:298
+#: /home/circleci/repo/docs/changelog.rst>:280 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:334
 msgid "``pyparsing 2.2.0 => 2.2.2``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:245 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:299
+#: /home/circleci/repo/docs/changelog.rst>:281 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:335
 msgid "``delegator 0.1.0 => 0.1.1``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:246 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:300
+#: /home/circleci/repo/docs/changelog.rst>:282 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:336
 msgid "``attrs 18.1.0 => 18.2.0``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:247 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:301
+#: /home/circleci/repo/docs/changelog.rst>:283 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:337
 msgid "``distlib 0.2.7 => 0.2.8``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:248 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:302
+#: /home/circleci/repo/docs/changelog.rst>:284 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:338
 msgid "``packaging 17.1.0 => 18.0``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:249 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:303
+#: /home/circleci/repo/docs/changelog.rst>:285 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:339
 msgid "``passa 0.2.0 => 0.3.1``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:250 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:304
+#: /home/circleci/repo/docs/changelog.rst>:286 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:340
 msgid "``pip_shims 0.1.2 => 0.3.1``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:251 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:305
+#: /home/circleci/repo/docs/changelog.rst>:287 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:341
 msgid "``plette 0.1.1 => 0.2.2``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:252 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:306
+#: /home/circleci/repo/docs/changelog.rst>:288 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:342
 msgid "``pythonfinder 1.0.2 => 1.1.0``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:253 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:307
+#: /home/circleci/repo/docs/changelog.rst>:289 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:343
 msgid "``pytoml 0.1.18 => 0.1.19``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:254 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:308
+#: /home/circleci/repo/docs/changelog.rst>:290 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:344
 msgid "``requirementslib 1.1.16 => 1.1.17``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:255 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:309
+#: /home/circleci/repo/docs/changelog.rst>:291 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:345
 msgid "``shellingham 1.2.4 => 1.2.6``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:256 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:310
+#: /home/circleci/repo/docs/changelog.rst>:292 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:346
 msgid "``tomlkit 0.4.2 => 0.4.4``"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:257
+#: /home/circleci/repo/docs/changelog.rst>:293
 msgid ""
 "``vistir 0.1.4 => 0.1.6``  `#2802 "
 "<https://github.com/pypa/pipenv/issues/2802>`_,"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:258
+#: /home/circleci/repo/docs/changelog.rst>:294
 msgid ""
 "`#2867 <https://github.com/pypa/pipenv/issues/2867>`_, `#2880 "
 "<https://github.com/pypa/pipenv/issues/2880>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:261
+#: /home/circleci/repo/docs/changelog.rst>:297
 msgid ""
 "Fixed a bug where `pipenv` crashes when the `WORKON_HOME` directory does not"
 " exist.  `#2877 <https://github.com/pypa/pipenv/issues/2877>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:263
+#: /home/circleci/repo/docs/changelog.rst>:299
 msgid ""
 "Fixed pip is not loaded from pipenv's patched one but the system one  `#2912"
 " <https://github.com/pypa/pipenv/issues/2912>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:265
+#: /home/circleci/repo/docs/changelog.rst>:301
 msgid ""
 "Fixed various bugs related to ``pip 18.1`` release which prevented locking, "
 "installation, and syncing, and dumping to a ``requirements.txt`` file.  "
@@ -1068,7 +1249,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:271
+#: /home/circleci/repo/docs/changelog.rst>:307
 msgid ""
 "Pew is no longer vendored. Entry point ``pewtwo``, packages ``pipenv.pew`` "
 "and ``pipenv.patched.pew`` are removed.  `#2521 "
@@ -1076,21 +1257,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:274
+#: /home/circleci/repo/docs/changelog.rst>:310
 msgid ""
 "Update ``pythonfinder`` to major release ``1.0.0`` for integration.  `#2582 "
 "<https://github.com/pypa/pipenv/issues/2582>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:278
+#: /home/circleci/repo/docs/changelog.rst>:314
 msgid ""
 "Vendored new libraries ``vistir`` and ``pip-shims``, ``tomlkit``, "
 "``modutil``, and ``plette``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:280
+#: /home/circleci/repo/docs/changelog.rst>:316
 msgid ""
 "Update vendored libraries: - ``scandir`` to ``1.9.0`` - ``click-completion``"
 " to ``0.4.1`` - ``semver`` to ``2.8.1`` - ``shellingham`` to ``1.2.4`` - "
@@ -1101,33 +1282,33 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:311
+#: /home/circleci/repo/docs/changelog.rst>:347
 msgid ""
 "``vistir 0.1.4 => 0.1.6``  `#2902 "
 "<https://github.com/pypa/pipenv/issues/2902>`_,"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:312
+#: /home/circleci/repo/docs/changelog.rst>:348
 msgid "`#2935 <https://github.com/pypa/pipenv/issues/2935>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:318
+#: /home/circleci/repo/docs/changelog.rst>:354
 msgid ""
 "Simplified the test configuration process.  `#2568 "
 "<https://github.com/pypa/pipenv/issues/2568>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:320
+#: /home/circleci/repo/docs/changelog.rst>:356
 msgid ""
 "Updated documentation to use working fortune cookie addon.  `#2644 "
 "<https://github.com/pypa/pipenv/issues/2644>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:322
+#: /home/circleci/repo/docs/changelog.rst>:358
 msgid ""
 "Added additional information about troubleshooting ``pipenv shell`` by using"
 " the the ``$PIPENV_SHELL`` environment variable.  `#2671 "
@@ -1135,28 +1316,28 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:324
+#: /home/circleci/repo/docs/changelog.rst>:360
 msgid ""
 "Added a link to ``PEP-440`` version specifiers in the documentation for "
 "additional detail.  `#2674 <https://github.com/pypa/pipenv/issues/2674>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:326
+#: /home/circleci/repo/docs/changelog.rst>:362
 msgid ""
 "Added simple example to README.md for installing from git.  `#2685 "
 "<https://github.com/pypa/pipenv/issues/2685>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:328
+#: /home/circleci/repo/docs/changelog.rst>:364
 msgid ""
 "Stopped recommending `--system` for Docker contexts.  `#2762 "
 "<https://github.com/pypa/pipenv/issues/2762>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:330
+#: /home/circleci/repo/docs/changelog.rst>:366
 msgid ""
 "Fixed the example url for doing \"pipenv install -e some-repo-"
 "url#egg=something\", it was missing the \"egg=\" in the fragment identifier."
@@ -1164,34 +1345,34 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:334
+#: /home/circleci/repo/docs/changelog.rst>:370
 msgid ""
 "Fixed link to the \"be cordial\" essay in the contribution documentation.  "
 "`#2793 <https://github.com/pypa/pipenv/issues/2793>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:336
+#: /home/circleci/repo/docs/changelog.rst>:372
 msgid ""
 "Clarify `pipenv install` documentation  `#2844 "
 "<https://github.com/pypa/pipenv/issues/2844>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:338
+#: /home/circleci/repo/docs/changelog.rst>:374
 msgid ""
 "Replace reference to uservoice with PEEP-000  `#2909 "
 "<https://github.com/pypa/pipenv/issues/2909>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:342
+#: /home/circleci/repo/docs/changelog.rst>:378
 msgid "2018.7.1 (2018-07-01)"
 msgstr "2018.7.1 (2018-07-01)"
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:347 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:397
+#: /home/circleci/repo/docs/changelog.rst>:383 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:433
 msgid ""
 "All calls to ``pipenv shell`` are now implemented from the ground up using "
 "`shellingham  <https://github.com/sarugaku/shellingham>`_, a custom library "
@@ -1200,7 +1381,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:349
+#: /home/circleci/repo/docs/changelog.rst>:385
 msgid ""
 "Added support for python 3.7 via a few small compatibility / bugfixes.  "
 "`#2427 <https://github.com/pypa/pipenv/issues/2427>`_, `#2434 "
@@ -1209,7 +1390,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:353
+#: /home/circleci/repo/docs/changelog.rst>:389
 msgid ""
 "Added new flag ``pipenv --support`` to replace the diagnostic command "
 "``python -m pipenv.help``.  `#2477 "
@@ -1218,21 +1399,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:356
+#: /home/circleci/repo/docs/changelog.rst>:392
 msgid ""
 "Improved import times and CLI runtimes with minor tweaks.  `#2485 "
 "<https://github.com/pypa/pipenv/issues/2485>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:362
+#: /home/circleci/repo/docs/changelog.rst>:398
 msgid ""
 "Fixed an ongoing bug which sometimes resolved incompatible versions into "
 "lockfiles.  `#1901 <https://github.com/pypa/pipenv/issues/1901>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:364
+#: /home/circleci/repo/docs/changelog.rst>:400
 msgid ""
 "Fixed a bug which caused errors when creating virtualenvs which contained "
 "leading dash characters.  `#2415 "
@@ -1240,7 +1421,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:366
+#: /home/circleci/repo/docs/changelog.rst>:402
 msgid ""
 "Fixed a logic error which caused ``--deploy --system`` to overwrite editable"
 " vcs packages in the pipfile before installing, which caused any "
@@ -1249,16 +1430,16 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:368 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:399
+#: /home/circleci/repo/docs/changelog.rst>:404 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:435
 msgid ""
 "Updated requirementslib to fix an issue with properly quoting markers in VCS"
 " requirements.  `#2419 <https://github.com/pypa/pipenv/issues/2419>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:370 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:401
+#: /home/circleci/repo/docs/changelog.rst>:406 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:437
 msgid ""
 "Installed new vendored jinja2 templates for ``click-completion`` which were "
 "causing template errors for users with completion enabled.  `#2422 "
@@ -1266,15 +1447,15 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:372
+#: /home/circleci/repo/docs/changelog.rst>:408
 msgid ""
 "Added support for python 3.7 via a few small compatibility / bugfixes.  "
 "`#2427 <https://github.com/pypa/pipenv/issues/2427>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:374 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:407
+#: /home/circleci/repo/docs/changelog.rst>:410 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:443
 msgid ""
 "Fixed an issue reading package names from ``setup.py`` files in projects "
 "which imported utilities such as ``versioneer``.  `#2433 "
@@ -1282,7 +1463,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:376
+#: /home/circleci/repo/docs/changelog.rst>:412
 msgid ""
 "Pipenv will now ensure that its internal package names registry files are "
 "written with unicode strings.  `#2450 "
@@ -1290,7 +1471,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:378
+#: /home/circleci/repo/docs/changelog.rst>:414
 msgid ""
 "Fixed a bug causing requirements input as relative paths to be output as "
 "absolute paths or URIs. Fixed a bug affecting normalization of "
@@ -1299,7 +1480,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:381
+#: /home/circleci/repo/docs/changelog.rst>:417
 msgid ""
 "Pipenv will now always use ``pathlib2`` for ``Path`` based filesystem "
 "interactions by default on ``python<3.5``.  `#2454 "
@@ -1307,7 +1488,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:383
+#: /home/circleci/repo/docs/changelog.rst>:419
 msgid ""
 "Fixed a bug which prevented passing proxy PyPI indexes set with ``--pypi-"
 "mirror`` from being passed to pip during virtualenv creation, which could "
@@ -1316,7 +1497,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:385
+#: /home/circleci/repo/docs/changelog.rst>:421
 msgid ""
 "Using the ``python -m pipenv.help`` command will now use proper encoding for"
 " the host filesystem to avoid encoding issues.  `#2466 "
@@ -1324,7 +1505,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:387
+#: /home/circleci/repo/docs/changelog.rst>:423
 msgid ""
 "The new ``jinja2`` templates for ``click_completion`` will now be included "
 "in pipenv source distributions.  `#2479 "
@@ -1332,7 +1513,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:389
+#: /home/circleci/repo/docs/changelog.rst>:425
 msgid ""
 "Resolved a long-standing issue with re-using previously generated "
 "``InstallRequirement`` objects for resolution which could cause ``PKG-INFO``"
@@ -1341,8 +1522,8 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:391 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:413
+#: /home/circleci/repo/docs/changelog.rst>:427 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:449
 msgid ""
 "Resolved an issue parsing usernames from private PyPI URIs in ``Pipfiles`` "
 "by updating ``requirementslib``.  `#2484 "
@@ -1350,14 +1531,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:403
+#: /home/circleci/repo/docs/changelog.rst>:439
 msgid ""
 "Add patch to ``prettytoml`` to support Python 3.7.  `#2426 "
 "<https://github.com/pypa/pipenv/issues/2426>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:405
+#: /home/circleci/repo/docs/changelog.rst>:441
 msgid ""
 "Patched ``prettytoml.AbstractTable._enumerate_items`` to handle "
 "``StopIteration`` errors in preparation of release of python 3.7.  `#2427 "
@@ -1365,14 +1546,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:409
+#: /home/circleci/repo/docs/changelog.rst>:445
 msgid ""
 "Updated ``requirementslib`` to version ``1.0.9``  `#2453 "
 "<https://github.com/pypa/pipenv/issues/2453>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:411
+#: /home/circleci/repo/docs/changelog.rst>:447
 msgid ""
 "Unraveled a lot of old, unnecessary patches to ``pip-tools`` which were "
 "causing non-deterministic resolution errors.  `#2480 "
@@ -1380,19 +1561,19 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:419
+#: /home/circleci/repo/docs/changelog.rst>:455
 msgid ""
 "Added instructions for installing using Fedora's official repositories.  "
 "`#2404 <https://github.com/pypa/pipenv/issues/2404>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:423
+#: /home/circleci/repo/docs/changelog.rst>:459
 msgid "2018.6.25 (2018-06-25)"
 msgstr "2018.6.25 (2018-06-25)"
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:428
+#: /home/circleci/repo/docs/changelog.rst>:464
 msgid ""
 "Pipenv-created virtualenvs will now be associated with a ``.project`` folder"
 " (features can be implemented on top of this later or users may choose to "
@@ -1401,29 +1582,29 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:433
+#: /home/circleci/repo/docs/changelog.rst>:469
 msgid ""
 "Virtualenv names will now appear in prompts for most Windows users.  `#2167 "
 "<https://github.com/pypa/pipenv/issues/2167>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:436
+#: /home/circleci/repo/docs/changelog.rst>:472
 msgid ""
 "Added support for cmder shell paths with spaces.  `#2168 "
 "<https://github.com/pypa/pipenv/issues/2168>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:439
+#: /home/circleci/repo/docs/changelog.rst>:475
 msgid ""
 "Added nested JSON output to the ``pipenv graph`` command.  `#2199 "
 "<https://github.com/pypa/pipenv/issues/2199>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:442 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:594
+#: /home/circleci/repo/docs/changelog.rst>:478 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:630
 msgid ""
 "Dropped vendored pip 9 and vendored, patched, and migrated to pip 10. "
 "Updated patched piptools version.  `#2255 "
@@ -1431,7 +1612,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:446
+#: /home/circleci/repo/docs/changelog.rst>:482
 msgid ""
 "PyPI mirror URLs can now be set to override instances of PyPI urls by "
 "passing the ``--pypi-mirror`` argument from the command line or setting the "
@@ -1440,15 +1621,15 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:451
+#: /home/circleci/repo/docs/changelog.rst>:487
 msgid ""
 "Virtualenv activation lines will now avoid being written to some shell "
 "history files.  `#2287 <https://github.com/pypa/pipenv/issues/2287>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:454 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:488
+#: /home/circleci/repo/docs/changelog.rst>:490 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:524
 msgid ""
 "Pipenv will now only search for ``requirements.txt`` files when creating new"
 " projects, and during that time only if the user doesn't specify packages to"
@@ -1456,21 +1637,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:458
+#: /home/circleci/repo/docs/changelog.rst>:494
 msgid ""
 "Added support for mounted drives via UNC paths.  `#2331 "
 "<https://github.com/pypa/pipenv/issues/2331>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:461
+#: /home/circleci/repo/docs/changelog.rst>:497
 msgid ""
 "Added support for Windows Subsystem for Linux bash shell detection.  `#2363 "
 "<https://github.com/pypa/pipenv/issues/2363>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:464
+#: /home/circleci/repo/docs/changelog.rst>:500
 msgid ""
 "Pipenv will now generate hashes much more quickly by resolving them in a "
 "single pass during locking.  `#2384 "
@@ -1478,7 +1659,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:468
+#: /home/circleci/repo/docs/changelog.rst>:504
 msgid ""
 "``pipenv run`` will now avoid spawning additional ``COMSPEC`` instances to "
 "run commands in when possible.  `#2385 "
@@ -1486,14 +1667,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:472
+#: /home/circleci/repo/docs/changelog.rst>:508
 msgid ""
 "Massive internal improvements to requirements parsing codebase, resolver, "
 "and error messaging.  `#2388 <https://github.com/pypa/pipenv/issues/2388>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:475
+#: /home/circleci/repo/docs/changelog.rst>:511
 msgid ""
 "``pipenv check`` now may take multiple of the additional argument "
 "``--ignore`` which takes a parameter ``cve_id`` for the purpose of ignoring "
@@ -1501,7 +1682,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:483
+#: /home/circleci/repo/docs/changelog.rst>:519
 msgid ""
 "Pipenv will now parse & capitalize ``platform_python_implementation`` "
 "markers .. warning:: This could cause an issue if you have an out of date "
@@ -1510,7 +1691,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:496
+#: /home/circleci/repo/docs/changelog.rst>:532
 msgid ""
 "Massive internal improvements to requirements parsing codebase, resolver, "
 "and error messaging.  `#1962 <https://github.com/pypa/pipenv/issues/1962>`_,"
@@ -1520,21 +1701,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:502
+#: /home/circleci/repo/docs/changelog.rst>:538
 msgid ""
 "Pipenv will now parse & capitalize ``platform_python_implementation`` "
 "markers.  `#2123 <https://github.com/pypa/pipenv/issues/2123>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:505
+#: /home/circleci/repo/docs/changelog.rst>:541
 msgid ""
 "Fixed a bug with parsing and grouping old-style ``setup.py`` extras during "
 "resolution  `#2142 <https://github.com/pypa/pipenv/issues/2142>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:508
+#: /home/circleci/repo/docs/changelog.rst>:544
 msgid ""
 "Fixed a bug causing pipenv graph to throw unhelpful exceptions when running "
 "against empty or non-existent environments.  `#2161 "
@@ -1542,15 +1723,15 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:512
+#: /home/circleci/repo/docs/changelog.rst>:548
 msgid ""
 "Fixed a bug which caused ``--system`` to incorrectly abort when users were "
 "in a virtualenv.  `#2181 <https://github.com/pypa/pipenv/issues/2181>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:515 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:590
+#: /home/circleci/repo/docs/changelog.rst>:551 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:626
 msgid ""
 "Removed vendored ``cacert.pem`` which could cause issues for some users with"
 " custom certificate settings.  `#2193 "
@@ -1558,7 +1739,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:519
+#: /home/circleci/repo/docs/changelog.rst>:555
 msgid ""
 "Fixed a regression which led to direct invocations of ``virtualenv``, rather"
 " than calling it by module.  `#2198 "
@@ -1566,7 +1747,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:523
+#: /home/circleci/repo/docs/changelog.rst>:559
 msgid ""
 "Locking will now pin the correct VCS ref during ``pipenv update`` runs. "
 "Running ``pipenv update`` with a new vcs ref specified in the ``Pipfile`` "
@@ -1575,7 +1756,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:528
+#: /home/circleci/repo/docs/changelog.rst>:564
 msgid ""
 "``pipenv clean`` will now correctly ignore comments from ``pip freeze`` when"
 " cleaning the environment.  `#2262 "
@@ -1583,7 +1764,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:532
+#: /home/circleci/repo/docs/changelog.rst>:568
 msgid ""
 "Resolution bugs causing packages for incompatible python versions to be "
 "locked have been fixed.  `#2267 "
@@ -1591,15 +1772,15 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:536
+#: /home/circleci/repo/docs/changelog.rst>:572
 msgid ""
 "Fixed a bug causing pipenv graph to fail to display sometimes.  `#2268 "
 "<https://github.com/pypa/pipenv/issues/2268>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:539 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:598
+#: /home/circleci/repo/docs/changelog.rst>:575 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:634
 msgid ""
 "Updated ``requirementslib`` to fix a bug in pipfile parsing affecting "
 "relative path conversions.  `#2269 "
@@ -1607,14 +1788,14 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:543
+#: /home/circleci/repo/docs/changelog.rst>:579
 msgid ""
 "Windows executable discovery now leverages ``os.pathext``.  `#2298 "
 "<https://github.com/pypa/pipenv/issues/2298>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:546
+#: /home/circleci/repo/docs/changelog.rst>:582
 msgid ""
 "Fixed a bug which caused ``--deploy --system`` to inadvertently create a "
 "virtualenv before failing.  `#2301 "
@@ -1622,21 +1803,21 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:550
+#: /home/circleci/repo/docs/changelog.rst>:586
 msgid ""
 "Fixed an issue which led to a failure to unquote special characters in file "
 "and wheel paths.  `#2302 <https://github.com/pypa/pipenv/issues/2302>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:553
+#: /home/circleci/repo/docs/changelog.rst>:589
 msgid ""
 "VCS dependencies are now manually obtained only if they do not match the "
 "requested ref.  `#2304 <https://github.com/pypa/pipenv/issues/2304>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:556
+#: /home/circleci/repo/docs/changelog.rst>:592
 msgid ""
 "Added error handling functionality to properly cope with single-digit "
 "``Requires-Python`` metatdata with no specifiers.  `#2377 "
@@ -1644,7 +1825,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:560
+#: /home/circleci/repo/docs/changelog.rst>:596
 msgid ""
 "``pipenv update`` will now always run the resolver and lock before ensuring "
 "your dependencies are in sync with your lockfile.  `#2379 "
@@ -1652,7 +1833,7 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:564
+#: /home/circleci/repo/docs/changelog.rst>:600
 msgid ""
 "Resolved a bug in our patched resolvers which could cause nondeterministic "
 "resolution failures in certain conditions. Running ``pipenv install`` with "
@@ -1662,8 +1843,8 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:570 ../../../../CHANGELOG.rst
-#: <included from /home/circleci/repo/docs/changelog.rst>:605
+#: /home/circleci/repo/docs/changelog.rst>:606 ../../../../CHANGELOG.rst
+#: <included from /home/circleci/repo/docs/changelog.rst>:641
 msgid ""
 "Patched ``python-dotenv`` to ensure that environment variables always get "
 "encoded to the filesystem encoding.  `#2386 "
@@ -1671,103 +1852,103 @@ msgid ""
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:578
+#: /home/circleci/repo/docs/changelog.rst>:614
 msgid ""
 "Update documentation wording to clarify Pipenv's overall role in the "
 "packaging ecosystem.  `#2194 <https://github.com/pypa/pipenv/issues/2194>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:580
+#: /home/circleci/repo/docs/changelog.rst>:616
 msgid ""
 "Added contribution documentation and guidelines.  `#2205 "
 "<https://github.com/pypa/pipenv/issues/2205>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:582
+#: /home/circleci/repo/docs/changelog.rst>:618
 msgid ""
 "Added instructions for supervisord compatibility.  `#2215 "
 "<https://github.com/pypa/pipenv/issues/2215>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:584
+#: /home/circleci/repo/docs/changelog.rst>:620
 msgid ""
 "Fixed broken links to development philosophy and contribution documentation."
 "  `#2248 <https://github.com/pypa/pipenv/issues/2248>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:602
+#: /home/circleci/repo/docs/changelog.rst>:638
 msgid ""
 "Added custom shell detection library ``shellingham``, a port of our changes "
 "to ``pew``.  `#2363 <https://github.com/pypa/pipenv/issues/2363>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:609
+#: /home/circleci/repo/docs/changelog.rst>:645
 msgid ""
 "Updated vendored libraries. The following vendored libraries were updated:"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:611
+#: /home/circleci/repo/docs/changelog.rst>:647
 msgid "distlib from version ``0.2.6`` to ``0.2.7``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:612
+#: /home/circleci/repo/docs/changelog.rst>:648
 msgid "jinja2 from version ``2.9.5`` to ``2.10``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:613
+#: /home/circleci/repo/docs/changelog.rst>:649
 msgid "pathlib2 from version ``2.1.0`` to ``2.3.2``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:614
+#: /home/circleci/repo/docs/changelog.rst>:650
 msgid "parse from version ``2.8.0`` to ``2.8.4``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:615
+#: /home/circleci/repo/docs/changelog.rst>:651
 msgid "pexpect from version ``2.5.2`` to ``2.6.0``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:616
+#: /home/circleci/repo/docs/changelog.rst>:652
 msgid "requests from version ``2.18.4`` to ``2.19.1``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:617
+#: /home/circleci/repo/docs/changelog.rst>:653
 msgid "idna from version ``2.6`` to ``2.7``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:618
+#: /home/circleci/repo/docs/changelog.rst>:654
 msgid "certifi from version ``2018.1.16`` to ``2018.4.16``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:619
+#: /home/circleci/repo/docs/changelog.rst>:655
 msgid "packaging from version ``16.8`` to ``17.1``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:620
+#: /home/circleci/repo/docs/changelog.rst>:656
 msgid "six from version ``1.10.0`` to ``1.11.0``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:621
+#: /home/circleci/repo/docs/changelog.rst>:657
 msgid "requirementslib from version ``0.2.0`` to ``1.0.1``."
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from
-#: /home/circleci/repo/docs/changelog.rst>:623
+#: /home/circleci/repo/docs/changelog.rst>:659
 msgid ""
 "In addition, scandir was vendored and patched to avoid importing host system"
 " binaries when falling back to pathlib2.  `#2368 "
