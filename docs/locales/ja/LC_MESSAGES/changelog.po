@@ -28,7 +28,7 @@ msgstr "リリースとバージョンヒストリー"
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:2
 msgid "2018.11.26 (2018-11-26)"
-msgstr ""
+msgstr "2018.11.26 (2018-11-26)"
 
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:5 ../../../../CHANGELOG.rst
@@ -40,7 +40,7 @@ msgstr ""
 #: /home/circleci/repo/docs/changelog.rst>:396 ../../../../CHANGELOG.rst
 #: <included from /home/circleci/repo/docs/changelog.rst>:530
 msgid "Bug Fixes"
-msgstr ""
+msgstr "バグ修正"
 
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:7
@@ -231,7 +231,7 @@ msgstr ""
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:38
 msgid "2018.11.14 (2018-11-14)"
-msgstr ""
+msgstr "2018.11.14 (2018-11-14)"
 
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:41 ../../../../CHANGELOG.rst
@@ -680,7 +680,7 @@ msgstr ""
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:124
 msgid "2018.10.13 (2018-10-13)"
-msgstr ""
+msgstr "2018.10.13 (2018-10-13)"
 
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:129
@@ -774,7 +774,7 @@ msgstr ""
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:161
 msgid "2018.10.9 (2018-10-09)"
-msgstr ""
+msgstr "2018.10.9 (2018-10-09)"
 
 #: ../../../../CHANGELOG.rst <included from
 #: /home/circleci/repo/docs/changelog.rst>:166
