@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2018.11.15.dev0\n"
+"Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-18 15:00+0000\n"
+"POT-Creation-Date: 2018-12-02 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -545,10 +545,6 @@ msgstr ""
 
 #: ../../../pipenv uninstall:1
 msgid "Un-installs a provided package and removes it from Pipfile."
-msgstr ""
-
-#: ../../../pipenv uninstall:1
-msgid "Lock afterwards."
 msgstr ""
 
 #: ../../../pipenv uninstall:1
