@@ -29,7 +29,7 @@ msgstr "開発哲学"
 msgid ""
 "Pipenv is an open but opinionated tool, created by an open but opinionated "
 "developer."
-msgstr ""
+msgstr "Pipenvは、オープンだが自分の意見を通す開発者によって作成された、オープンだが自分の意見を通すツールです。"
 
 #: ../../dev/philosophy.rst:8
 msgid "Management Style"
