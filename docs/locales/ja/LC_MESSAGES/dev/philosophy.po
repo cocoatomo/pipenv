@@ -43,6 +43,10 @@ msgid ""
 "to making decisions based on technical merit, he is responsible for making "
 "decisions based on the development philosophy of Pipenv."
 msgstr ""
+"`Kenneth Reitz <http://kennethreitz.org>`__ がBDFLです。\n"
+"Pipenvプロジェクトに関係するどんな判断にも、彼が最終的な決定権を持っています。\n"
+"Kennethにはその説明に加えて、方向性の決定とライブラリの姿形に対する責務があります。\n"
+"技術的なメリットに基づいた判断に加えて、KennethはPipenvの開発哲学に基づいて判断を下す責務を負っています。"
 
 #: ../../dev/philosophy.rst:12
 msgid ""
@@ -55,23 +59,26 @@ msgid ""
 "are responsible for making judgements about whether or not a feature request"
 " is likely to be accepted by Kenneth."
 msgstr ""
+"`Dan Ryan <http://github.com/techalchemy>`__、 `Tzu-ping Chung <https://github.com/uranusjr>`__、 `Nate Prewitt <https://github.com/nateprewitt>`__ がコアコントリビューターです。\n"
+"彼らの責務は、バグレポートの優先順位付け、プルリクエストのレビュー、Kennethがライブラリまわりの開発について把握できていることを保証することです。\n"
+"彼らには、機能追加要望がKennethに受け入れられそうかどうかについて判断する責任があります。"
 
 #: ../../dev/philosophy.rst:18
 msgid "Values"
-msgstr ""
+msgstr "価値観"
 
 #: ../../dev/philosophy.rst:20
 msgid "Simplicity is always better than functionality."
-msgstr ""
+msgstr "単純さは常に機能に勝る。"
 
 #: ../../dev/philosophy.rst:21
 msgid "Listen to everyone, then disregard it."
-msgstr ""
+msgstr "全ての人に耳を傾けてから、無視をする。"
 
 #: ../../dev/philosophy.rst:22
 msgid "The API is all that matters. Everything else is secondary."
-msgstr ""
+msgstr "APIが全て。それ以外のものは二の次。"
 
 #: ../../dev/philosophy.rst:23
 msgid "Fit the 90% use-case. Ignore the nay-sayers."
-msgstr ""
+msgstr "90%のユースケースに対応する。否定論者は無視する。"

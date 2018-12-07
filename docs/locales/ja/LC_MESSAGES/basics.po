@@ -113,7 +113,7 @@ msgstr "次に、Pipenvシェルを有効化する::"
 msgid ""
 "This will spawn a new shell subprocess, which can be deactivated by using "
 "``exit``."
-msgstr ""
+msgstr "このコマンドは新しいシェルのサブプロセスを立ち上げます。このプロセスは ``exit`` を使って停止できます。"
 
 #: ../../basics.rst:160
 msgid "☤ Example Pipenv Upgrade Workflow"
@@ -183,15 +183,17 @@ msgid ""
 "You can specify versions of a package using the `Semantic Versioning scheme "
 "<https://semver.org/>`_ (i.e. ``major.minor.micro``)."
 msgstr ""
+"`Semantic Versioning scheme <https://semver.org/>`_ （すなわち "
+"``major.minor.micro``）を使用して、パッケージのバージョンを指定できます。"
 
 #: ../../basics.rst:188
 msgid "For example, to install requests you can use: ::"
-msgstr ""
+msgstr "例えば、インストールリクエストで次の記法が使えます: ::"
 
 #: ../../basics.rst:192
 msgid ""
 "Pipenv will install version ``1.2`` and any minor update, but not ``2.0``."
-msgstr ""
+msgstr "Pipenvはバージョン ``1.2`` やそのマイナーアップデートをインストールしますが、``2.0`` はインストールしません。"
 
 #: ../../basics.rst:194
 msgid ""
@@ -205,10 +207,12 @@ msgid ""
 " according to `PEP 440`_ , you can't use versions containing a hyphen or a "
 "plus sign."
 msgstr ""
+"一般的には、Pipenvはpipと同じバージョン指定形式を使います。\n"
+"しかし、 `PEP 440`_ によると、ハイフンやプラス記号を含んだバージョン名は使えないことに注意してください。"
 
 #: ../../basics.rst:200
 msgid "To make inclusive or exclusive version comparisons you can use: ::"
-msgstr ""
+msgstr "境界を含む、あるいは含まないバージョン比較をするには、次の記法が使えます: ::"
 
 #: ../../basics.rst:206
 msgid ""
@@ -217,6 +221,9 @@ msgid ""
 "<https://robots.thoughtbot.com/input-output-redirection-in-the-shell>`_ in "
 "Unix-based operating systems."
 msgstr ""
+"パッケージ名とバージョン指定部分を ``\" \"`` で囲って、Unix系のOSでの `入出力のリダイレクト "
+"<https://robots.thoughtbot.com/input-output-redirection-in-the-shell>`_ "
+"の問題を避けることを強く推奨します。"
 
 #: ../../basics.rst:210
 msgid ""

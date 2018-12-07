@@ -293,6 +293,8 @@ msgid ""
 "directory plus the hash of the full path to the project's root (e.g., "
 "``my_project-a3de50``)."
 msgstr ""
+"仮想環境は、プロジェクトのルートディレクトリにそのパスのハッシュを付け足した名前（例えば、 ``my_project-"
+"a3de50``）で共通の場所に保存されます。"
 
 #: ../../install.rst:230
 msgid ""
@@ -308,6 +310,8 @@ msgid ""
 " inside your project's directory, avoiding problems with subsequent path "
 "changes."
 msgstr ""
+"後でパスを変更して起きる問題を避けるために、.bashrcか.zshrc（あるいは他のシェル設定ファイル）に ``export "
+"PIPENV_VENV_IN_PROJECT=1`` を設定して、プロジェクトのディレクトリ内に仮想環境を作るようにするのも良いでしょう。"
 
 #: ../../install.rst:235
 msgid "☤ Next steps"
