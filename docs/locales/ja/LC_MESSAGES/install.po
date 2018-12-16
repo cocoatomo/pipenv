@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-02 15:00+0000\n"
+"POT-Creation-Date: 2018-12-16 15:00+0000\n"
 "PO-Revision-Date: 2017-09-27 21:43+0000\n"
 "Last-Translator: tomo, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -97,20 +97,16 @@ msgstr ""
 #: ../../install.rst:55
 msgid ""
 "If you installed Python from source, with an installer from `python.org`_, "
-"or via `Homebrew`_ you should already have pip. If you're on Linux and "
-"installed using your OS package manager, you may have to `install pip "
-"<https://pip.pypa.io/en/stable/installing/>`_ separately."
+"via `Homebrew`_ or via `Linuxbrew`_ you should already have pip. If you're "
+"on Linux and installed using your OS package manager, you may have to "
+"`install pip <https://pip.pypa.io/en/stable/installing/>`_ separately."
 msgstr ""
-"ソースコードや `python.org`_ のインストーラーや  `Homebrew`_ からPythonをインストールした場合は、既にpipがインストールされているはずです。\n"
-"Linuxを使っていて、OSのパッケージマネージャーを使ってインストールした場合には、それとは別に `pipのインストール <https://pip.pypa.io/en/stable/installing/>`_ をしなければならないかもしれません。"
 
-#: ../../install.rst:59
+#: ../../install.rst:58
 msgid ""
-"If you plan to install Pipenv using Homebrew you can skip this step. The "
-"Homebrew installer takes care of pip for you."
+"If you plan to install Pipenv using Homebrew or Linuxbrew you can skip this "
+"step. The Homebrew/Linuxbrew installer takes care of pip for you."
 msgstr ""
-"Homebrewを使ってPipenvをインストールするつもりの場合は、この手順はスキップできます。\n"
-"Homebrewのインストーラはpipの面倒も見てくれます。"
 
 #: ../../install.rst:71
 msgid "☤ Installing Pipenv"
@@ -133,20 +129,21 @@ msgid "☤ Homebrew Installation of Pipenv"
 msgstr "☤ HomebrewでのPipenvのインストール方法"
 
 #: ../../install.rst:86
-msgid "Homebrew is a popular open-source package management system for macOS."
-msgstr "HomebrewはmacOSの人気のあるオープンソースパッケージマネージシステムです。"
+msgid ""
+"`Homebrew`_ is a popular open-source package management system for macOS. "
+"For Linux users, `Linuxbrew`_  is a Linux port of that."
+msgstr ""
 
 #: ../../install.rst:88
 msgid ""
-"Installing pipenv via Homebrew will keep pipenv and all of its dependencies "
-"in an isolated virtual environment so it doesn't interfere with the rest of "
-"your Python installation."
+"Installing pipenv via Homebrew or Linuxbrew will keep pipenv and all of its "
+"dependencies in an isolated virtual environment so it doesn't interfere with"
+" the rest of your Python installation."
 msgstr ""
-"Homebrewでpipenvをインストールするとpipenvとその依存パッケージを隔離された仮想環境に閉じ込めるので、他のインストールされているPythonに影響は与えません。"
 
 #: ../../install.rst:92
-msgid "Once you have installed `Homebrew`_ simply run::"
-msgstr "`Homebrew`_ がインストールできたら次のコマンドを実行します::"
+msgid "Once you have installed Homebrew or Linuxbrew simply run::"
+msgstr ""
 
 #: ../../install.rst:96 ../../install.rst:139
 msgid "To upgrade pipenv at any time::"
