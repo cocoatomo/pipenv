@@ -157,14 +157,14 @@ msgid ""
 "This will fail a build if the ``Pipfile.lock`` is out–of–date, instead of "
 "generating a new one."
 msgstr ""
-"このフラグを立てると、 ``Pipfile.lock`` が古くなっている場合に、 ``Pipfile.lock`` "
-"を新しく生成するのではなくビルドが失敗します。"
+"このフラグを立てると、 ``Pipfile.lock`` が古くなっている場合に、``Pipfile.lock`` "
+"を新しく生成するのではなく、ビルドが失敗します。"
 
 #: ../../advanced.rst:116
 msgid ""
 "Or you can install packages exactly as specified in ``Pipfile.lock`` using "
 "the ``sync`` command::"
-msgstr ""
+msgstr "そうでない場合は、``sync`` コマンドを使って ``Pipfile.lock`` の指定どおりにパッケージがインストールされます::"
 
 #: ../../advanced.rst:122
 msgid ""
@@ -176,7 +176,7 @@ msgstr ""
 
 #: ../../advanced.rst:125
 msgid "Deploying System Dependencies"
-msgstr ""
+msgstr "システム環境への依存関係のデプロイ"
 
 #: ../../advanced.rst:127
 msgid ""
@@ -188,7 +188,7 @@ msgstr "``--system`` フラグを使って、Pipfileの内容にあるものを�
 msgid ""
 "This is useful for managing the system Python, and deployment infrastructure"
 " (e.g. Heroku does this)."
-msgstr ""
+msgstr "これはシステム環境のPythonの管理やデプロイのためのインフラで役に立ちます (例えば、Herokuで使われています)。"
 
 #: ../../advanced.rst:134
 msgid "☤ Pipenv and Other Python Distributions"
@@ -199,6 +199,8 @@ msgid ""
 "To use Pipenv with a third-party Python distribution (e.g. Anaconda), you "
 "simply provide the path to the Python binary::"
 msgstr ""
+"サードパーティーのPythonディストリビューション (例えば、Anaconda) "
+"でPipenvを使うには、Pythonバイナリへのパスを与えるだけでよいです::"
 
 #: ../../advanced.rst:140
 msgid ""
