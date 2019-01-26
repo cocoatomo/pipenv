@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# tomo, 2018
+# tomo, 2019
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-02 15:00+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
-"Last-Translator: tomo, 2018\n"
+"Last-Translator: tomo, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -230,17 +230,18 @@ msgid ""
 "The use of ``~=`` is preferred over the ``==`` identifier as the former "
 "prevents pipenv from updating the packages:  ::"
 msgstr ""
+"``~=`` はPipenvがパッケージをアップデートするのを妨げるので、``==`` 識別子よりも ``~=`` 識別子を使う方が推奨されます。"
 
 #: ../../basics.rst:214
 msgid ""
 "To avoid installing a specific version you can use the ``!=`` identifier."
-msgstr ""
+msgstr "特定のバージョンのインストールを防ぐには ``!=`` 識別子が使えます。"
 
 #: ../../basics.rst:216
 msgid ""
 "For an in depth explanation of the valid identifiers and more complex use "
 "cases check `the relevant section of PEP-440`_."
-msgstr ""
+msgstr "有効な識別子とより複雑な使用場面の深い説明は `the relevant section of PEP-440`_ を確認してください。"
 
 #: ../../basics.rst:221
 msgid "☤ Specifying Versions of Python"
@@ -506,6 +507,8 @@ msgid ""
 "``PIPENV_SHELL`` environment variable, which ``$ pipenv shell`` will use if "
 "available. For detail, see :ref:`configuration-with-environment-variables`."
 msgstr ""
+"``$ pipenv shell`` の問題に遭遇した場合は、まずは ``PIPENV_SHELL`` 環境変数を確認してください。``$ pipenv shell`` は使用可能な場合に、この環境変数を利用します。\n"
+"詳しくは、:ref:`configuration-with-environment-variables` を参照してください。"
 
 #: ../../basics.rst:360
 msgid "☤ A Note about VCS Dependencies"
@@ -515,7 +518,7 @@ msgstr "☤ バージョン管理システムについての但し書き"
 msgid ""
 "You can install packages with pipenv from git and other version control "
 "systems using URLs formatted according to the following rule::"
-msgstr ""
+msgstr "pipenvは、gitやその他のバージョン管理システムで次の規則に従った形式のURLを使っているものからパッケージをインストールできます。"
 
 #: ../../basics.rst:366
 msgid ""
