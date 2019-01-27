@@ -453,15 +453,15 @@ msgstr ""
 
 #: ../../advanced.rst:361
 msgid "For example, in your Pipfile::"
-msgstr ""
+msgstr "例えば、Pipfileに次のように書きます::"
 
 #: ../../advanced.rst:366
 msgid "And then in your terminal::"
-msgstr ""
+msgstr "そして、ターミナルで次のように打ち込みます::"
 
 #: ../../advanced.rst:371
 msgid "Commands that expect arguments will also work. For example::"
-msgstr ""
+msgstr "引数を要求するコマンドでも上手く動きます。例えば::"
 
 #: ../../advanced.rst:381
 msgid "☤ Support for Environment Variables"
@@ -499,7 +499,7 @@ msgstr ""
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_CACHE_DIR:1
 msgid "Location for Pipenv to store it's package cache."
-msgstr ""
+msgstr "Pipenvがパッケージキャッシュを保存する場所です。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_CACHE_DIR:3
