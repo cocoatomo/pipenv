@@ -442,7 +442,7 @@ msgstr "☤ 独自のスクリプトショートカット"
 msgid ""
 "Pipenv supports creating custom shortcuts in the (optional) ``[scripts]`` "
 "section of your Pipfile."
-msgstr ""
+msgstr "Pipenvは、Pipfileのオプションの ``[scripts]`` 節で独自のショートカットの作成をサポートしています。"
 
 #: ../../advanced.rst:358
 msgid ""
@@ -450,6 +450,8 @@ msgid ""
 "command in the context of your pipenv virtual environment even if you have "
 "not activated the pipenv shell first."
 msgstr ""
+"そのショートカットは、ターミナルで ``pipenv run <shortcut name>`` "
+"と実行でき、Pipenvシェルを事前に有効化してなかったとしてもPipenvの仮想環境のコンテキストでコマンドが実行されます。"
 
 #: ../../advanced.rst:361
 msgid "For example, in your Pipfile::"
@@ -509,7 +511,7 @@ msgstr ""
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_COLORBLIND:1
 msgid "If set, disable terminal colors."
-msgstr ""
+msgstr "設定された場合、ターミナル出力に色が付きません。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_COLORBLIND:3
@@ -517,12 +519,14 @@ msgid ""
 "Some people don't like colors in their terminals, for some reason. Default "
 "is to show colors."
 msgstr ""
+"なんらか理由で、ターミナル出力に色が付いて欲しくない人もいます。\n"
+"デフォルトでは色が付きます。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DEFAULT_PYTHON_VERSION:1
 msgid ""
 "Use this Python version when creating new virtual environments by default."
-msgstr ""
+msgstr "新しい仮想環境を作るときに、デフォルトでこのバージョンのPythonが使われます。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DEFAULT_PYTHON_VERSION:3
@@ -536,39 +540,39 @@ msgstr ""
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DONT_LOAD_ENV:1
 msgid "If set, Pipenv does not load the ``.env`` file."
-msgstr ""
+msgstr "設定された場合、Pipenvは ``.env`` ファイルを読み込みません。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DONT_LOAD_ENV:3
 msgid "Default is to load ``.env`` for ``run`` and ``shell`` commands."
-msgstr ""
+msgstr "デフォルトでは、 ``run`` コマンドと ``shell`` コマンドで ``.env`` が読み込まれます。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DONT_USE_PYENV:1
 msgid "If set, Pipenv does not attempt to install Python with pyenv."
-msgstr ""
+msgstr "設定された場合、PipenvはpyenvでPythonをインストールしようとはしなくなります。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DONT_USE_PYENV:3
 msgid ""
 "Default is to install Python automatically via pyenv when needed, if "
 "possible."
-msgstr ""
+msgstr "デフォルトでは、可能なら必要なときにpyenvで自動的にPythonをインストールします。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DOTENV_LOCATION:1
 msgid "If set, Pipenv loads the ``.env`` file at the specified location."
-msgstr ""
+msgstr "設定された場合、Pipenvは指定された場所の ``.env`` を読み込みます。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DOTENV_LOCATION:3
 msgid "Default is to load ``.env`` from the project root, if found."
-msgstr ""
+msgstr "デフォルトでは、もしあればプロジェクトルートから ``.env`` を読み込みます。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_EMULATOR:1
 msgid "If set, the terminal emulator's name for ``pipenv shell`` to use."
-msgstr ""
+msgstr "設定された場合、ターミナルエミュレーターの名前に ``pipenv shell`` が使われます。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_EMULATOR:3
@@ -576,16 +580,20 @@ msgid ""
 "Default is to detect emulators automatically. This should be set if your "
 "emulator, e.g. Cmder, cannot be detected correctly."
 msgstr ""
+"デフォルトでは、エミュレーターを自動的に検出します。\n"
+"例えばCmderなどの正しく検出されないエミュレーターの場合は、この環境変数を設定すべきです。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_HIDE_EMOJIS:1
 msgid "Disable emojis in output."
-msgstr ""
+msgstr "出力に絵文字を使いません。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_HIDE_EMOJIS:3
 msgid "Default is to show emojis. This is automatically set on Windows."
 msgstr ""
+"デフォルトでは、絵文字を使います。\n"
+"Windowsでは自動的に設定されます。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_IGNORE_VIRTUALENVS:1
@@ -601,11 +609,13 @@ msgid ""
 "behavior, and enables the user to use any user-built environments with "
 "Pipenv."
 msgstr ""
+"デフォルトでは、Pipenvは仮想環境内で実行されているかどうかを検出し、できる限り再利用します。\n"
+"通常、これが望ましい振る舞いで、ユーザーが好きに構築した仮想環境をPipenvで使えるようにします。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_INSTALL_TIMEOUT:1
 msgid "Max number of seconds to wait for package installation."
-msgstr ""
+msgstr "パッケージのインストールが完了するのを待つ最大秒数です。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_INSTALL_TIMEOUT:3
@@ -615,12 +625,14 @@ msgstr ""
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_MAX_DEPTH:1
 msgid "Maximum number of directories to recursively search for a Pipfile."
-msgstr ""
+msgstr "Pipfileを再帰的に探しに行くディレクトリ数の最大値です。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_MAX_DEPTH:3
 msgid "Default is 3. See also ``PIPENV_NO_INHERIT``."
 msgstr ""
+"デフォルトでは、3です。\n"
+"``PIPENV_NO_INHERIT`` も参照してください。"
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_MAX_RETRIES:1
