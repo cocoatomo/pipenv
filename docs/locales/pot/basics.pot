@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-02 15:00+0000\n"
+"POT-Creation-Date: 2019-03-07 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,7 +157,7 @@ msgid "The use of ``\" \"`` around the package and version specification is high
 msgstr ""
 
 #: ../../basics.rst:210
-msgid "The use of ``~=`` is preferred over the ``==`` identifier as the former prevents pipenv from updating the packages:  ::"
+msgid "The use of ``~=`` is preferred over the ``==`` identifier as the latter prevents pipenv from updating the packages:  ::"
 msgstr ""
 
 #: ../../basics.rst:214
