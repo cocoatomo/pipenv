@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-02 15:00+0000\n"
+"POT-Creation-Date: 2019-03-07 15:00+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -227,10 +227,9 @@ msgstr ""
 
 #: ../../basics.rst:210
 msgid ""
-"The use of ``~=`` is preferred over the ``==`` identifier as the former "
+"The use of ``~=`` is preferred over the ``==`` identifier as the latter "
 "prevents pipenv from updating the packages:  ::"
 msgstr ""
-"``~=`` はPipenvがパッケージをアップデートするのを妨げるので、``==`` 識別子よりも ``~=`` 識別子を使う方が推奨されます。"
 
 #: ../../basics.rst:214
 msgid ""
