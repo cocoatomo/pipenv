@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-07 15:00+0000\n"
+"POT-Creation-Date: 2019-03-08 15:00+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -216,14 +216,11 @@ msgstr "境界を含む、あるいは含まないバージョン比較をする
 
 #: ../../basics.rst:206
 msgid ""
-"The use of ``\" \"`` around the package and version specification is highly "
-"recommended to avoid issues with `Input and output redirection "
-"<https://robots.thoughtbot.com/input-output-redirection-in-the-shell>`_ in "
-"Unix-based operating systems."
+"The use of double quotes around the package and version specification (i.e. "
+"``\"requests>2.19\"``) is highly recommended to avoid issues with `Input and"
+" output redirection <https://robots.thoughtbot.com/input-output-redirection-"
+"in-the-shell>`_ in Unix-based operating systems."
 msgstr ""
-"パッケージ名とバージョン指定部分を ``\" \"`` で囲って、Unix系のOSでの `入出力のリダイレクト "
-"<https://robots.thoughtbot.com/input-output-redirection-in-the-shell>`_ "
-"の問題を避けることを強く推奨します。"
 
 #: ../../basics.rst:210
 msgid ""
