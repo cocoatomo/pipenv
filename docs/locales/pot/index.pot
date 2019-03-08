@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-07 15:00+0000\n"
+"POT-Creation-Date: 2019-03-08 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -394,7 +394,7 @@ msgid "Installs provided packages and adds them to Pipfile, or (if no packages a
 msgstr ""
 
 #: ../../../pipenv install:1
-msgid "Import from codebase."
+msgid "Install packages automatically discovered from import statements."
 msgstr ""
 
 #: ../../../pipenv install:1

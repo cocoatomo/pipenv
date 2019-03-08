@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-07 15:00+0000\n"
+"POT-Creation-Date: 2019-03-08 15:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -153,7 +153,7 @@ msgid "To make inclusive or exclusive version comparisons you can use: ::"
 msgstr ""
 
 #: ../../basics.rst:206
-msgid "The use of ``\" \"`` around the package and version specification is highly recommended to avoid issues with `Input and output redirection <https://robots.thoughtbot.com/input-output-redirection-in-the-shell>`_ in Unix-based operating systems."
+msgid "The use of double quotes around the package and version specification (i.e. ``\"requests>2.19\"``) is highly recommended to avoid issues with `Input and output redirection <https://robots.thoughtbot.com/input-output-redirection-in-the-shell>`_ in Unix-based operating systems."
 msgstr ""
 
 #: ../../basics.rst:210
