@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-08 15:00+0000\n"
+"POT-Creation-Date: 2019-03-27 15:00+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -81,23 +81,29 @@ msgstr ""
 "の文法については `ここ <https://pip.pypa.io/en/stable/user_guide/#installing-"
 "packages>`_ に完全なドキュメントがあります。"
 
-#: ../../basics.rst:134
+#: ../../basics.rst:130
+msgid ""
+"Note that the ``Pipfile`` uses the `TOML Spec <https://github.com/toml-"
+"lang/toml#user-content-spec>`_."
+msgstr ""
+
+#: ../../basics.rst:135
 msgid "☤ Example Pipenv Workflow"
 msgstr "☤ Pipenvのワークフローの例"
 
-#: ../../basics.rst:136
+#: ../../basics.rst:137
 msgid "Clone / create project repository::"
 msgstr "プロジェクトのレポジトリをクローンまたは作成する::"
 
-#: ../../basics.rst:140
+#: ../../basics.rst:141
 msgid "Install from Pipfile, if there is one::"
 msgstr "Pipfileがあった場合には、Pipfileの内容でインストールする::"
 
-#: ../../basics.rst:144
+#: ../../basics.rst:145
 msgid "Or, add a package to your new project::"
 msgstr "もしくは、新しいプロジェクトにパッケージを追加する::"
 
-#: ../../basics.rst:148
+#: ../../basics.rst:149
 msgid ""
 "This will create a ``Pipfile`` if one doesn't exist. If one does exist, it "
 "will automatically be edited with the new package you provided."
@@ -105,35 +111,35 @@ msgstr ""
 "このコマンドは ``Pipfile`` が無ければ作成します。\n"
 "既に存在していた場合は、引数で与えたパッケージが追加されるよう自動的に ``Pipfile`` を編集します。"
 
-#: ../../basics.rst:150
+#: ../../basics.rst:151
 msgid "Next, activate the Pipenv shell::"
 msgstr "次に、Pipenvシェルを有効化する::"
 
-#: ../../basics.rst:155
+#: ../../basics.rst:156
 msgid ""
 "This will spawn a new shell subprocess, which can be deactivated by using "
 "``exit``."
 msgstr "このコマンドは新しいシェルのサブプロセスを立ち上げます。このプロセスは ``exit`` を使って停止できます。"
 
-#: ../../basics.rst:160
+#: ../../basics.rst:161
 msgid "☤ Example Pipenv Upgrade Workflow"
 msgstr "☤ Pipenvのアップグレードの流れの例"
 
-#: ../../basics.rst:162
+#: ../../basics.rst:163
 msgid "Find out what's changed upstream: ``$ pipenv update --outdated``."
 msgstr "どれに変更があったかをコマンド ``$ pipenv update --outdated`` で調べます。"
 
-#: ../../basics.rst:165
+#: ../../basics.rst:166
 msgid "Upgrade packages, two options:"
 msgstr "パッケージを更新します。方法は2つあります:"
 
-#: ../../basics.rst:164
+#: ../../basics.rst:165
 msgid "Want to upgrade everything? Just do ``$ pipenv update``."
 msgstr ""
 "全部のパッケージを更新したい?\n"
 "それなら ``$ pipenv update`` とするだけです。"
 
-#: ../../basics.rst:165
+#: ../../basics.rst:166
 msgid ""
 "Want to upgrade packages one-at-a-time? ``$ pipenv update <pkg>`` for each "
 "outdated package."
@@ -141,11 +147,11 @@ msgstr ""
 "一度に1つだけパッケージを更新したい?\n"
 "パッケージごとに ``$ pipenv update <pkg>`` とします。"
 
-#: ../../basics.rst:168
+#: ../../basics.rst:169
 msgid "☤ Importing from requirements.txt"
 msgstr "☤ requirements.txtからのインポート"
 
-#: ../../basics.rst:170
+#: ../../basics.rst:171
 msgid ""
 "If you only have a ``requirements.txt`` file available when running ``pipenv"
 " install``, pipenv will automatically import the contents of this file and "
@@ -154,7 +160,7 @@ msgstr ""
 "``pipenv install`` を実行したときに ``requirements.txt`` "
 "ファイルしか無い場合は、Pipenvは自動でそのファイルの内容をインポートし ``Pipfile`` を作成します。"
 
-#: ../../basics.rst:173
+#: ../../basics.rst:174
 msgid ""
 "You can also specify ``$ pipenv install -r path/to/requirements.txt`` to "
 "import a requirements file."
@@ -162,7 +168,7 @@ msgstr ""
 "requirementsファイルをインポートするのに、 ``$ pipenv install -r path/to/requirements.txt``"
 " と指定することもできます。"
 
-#: ../../basics.rst:175
+#: ../../basics.rst:176
 msgid ""
 "If your requirements file has version numbers pinned, you'll likely want to "
 "edit the new ``Pipfile`` to remove those, and let ``pipenv`` keep track of "
@@ -174,11 +180,11 @@ msgstr ""
 "とりあえず今のところは固定バージョンを ``Pipfile.lock`` に保持しておきたい場合は、 ``pipenv lock --keep-outdated`` を実行してください。\n"
 "すぐに `アップグレード <#initialization>`_ するのも忘れずに!"
 
-#: ../../basics.rst:183
+#: ../../basics.rst:184
 msgid "☤ Specifying Versions of a Package"
 msgstr "☤ パッケージのバージョンを指定する"
 
-#: ../../basics.rst:185
+#: ../../basics.rst:186
 msgid ""
 "You can specify versions of a package using the `Semantic Versioning scheme "
 "<https://semver.org/>`_ (i.e. ``major.minor.micro``)."
@@ -186,22 +192,22 @@ msgstr ""
 "`Semantic Versioning scheme <https://semver.org/>`_ （すなわち "
 "``major.minor.micro``）を使用して、パッケージのバージョンを指定できます。"
 
-#: ../../basics.rst:188
+#: ../../basics.rst:189
 msgid "For example, to install requests you can use: ::"
 msgstr "例えば、インストールリクエストで次の記法が使えます: ::"
 
-#: ../../basics.rst:192
+#: ../../basics.rst:193
 msgid ""
 "Pipenv will install version ``1.2`` and any minor update, but not ``2.0``."
 msgstr "Pipenvはバージョン ``1.2`` やそのマイナーアップデートをインストールしますが、``2.0`` はインストールしません。"
 
-#: ../../basics.rst:194
+#: ../../basics.rst:195
 msgid ""
 "This will update your ``Pipfile`` to reflect this requirement, "
 "automatically."
 msgstr "このコマンドを実行することで、バージョン指定を反映するように ``Pipfile`` が自動で更新されます。"
 
-#: ../../basics.rst:196
+#: ../../basics.rst:197
 msgid ""
 "In general, Pipenv uses the same specifier format as pip. However, note that"
 " according to `PEP 440`_ , you can't use versions containing a hyphen or a "
@@ -210,11 +216,11 @@ msgstr ""
 "一般的には、Pipenvはpipと同じバージョン指定形式を使います。\n"
 "しかし、 `PEP 440`_ によると、ハイフンやプラス記号を含んだバージョン名は使えないことに注意してください。"
 
-#: ../../basics.rst:200
+#: ../../basics.rst:201
 msgid "To make inclusive or exclusive version comparisons you can use: ::"
 msgstr "境界を含む、あるいは含まないバージョン比較をするには、次の記法が使えます: ::"
 
-#: ../../basics.rst:206
+#: ../../basics.rst:207
 msgid ""
 "The use of double quotes around the package and version specification (i.e. "
 "``\"requests>2.19\"``) is highly recommended to avoid issues with `Input and"
@@ -222,28 +228,28 @@ msgid ""
 "in-the-shell>`_ in Unix-based operating systems."
 msgstr ""
 
-#: ../../basics.rst:210
+#: ../../basics.rst:211
 msgid ""
 "The use of ``~=`` is preferred over the ``==`` identifier as the latter "
 "prevents pipenv from updating the packages:  ::"
 msgstr ""
 
-#: ../../basics.rst:214
+#: ../../basics.rst:215
 msgid ""
 "To avoid installing a specific version you can use the ``!=`` identifier."
 msgstr "特定のバージョンのインストールを防ぐには ``!=`` 識別子が使えます。"
 
-#: ../../basics.rst:216
+#: ../../basics.rst:217
 msgid ""
 "For an in depth explanation of the valid identifiers and more complex use "
 "cases check `the relevant section of PEP-440`_."
 msgstr "有効な識別子とより複雑な使用場面の深い説明は `the relevant section of PEP-440`_ を確認してください。"
 
-#: ../../basics.rst:221
+#: ../../basics.rst:222
 msgid "☤ Specifying Versions of Python"
 msgstr "☤ Pythonのバージョンを指定する"
 
-#: ../../basics.rst:223
+#: ../../basics.rst:224
 msgid ""
 "To create a new virtualenv, using a specific version of Python you have "
 "installed (and on your ``PATH``), use the ``--python VERSION`` flag, like "
@@ -252,31 +258,31 @@ msgstr ""
 "インストール済みの (そして ``PATH`` 上にある) 特定のバージョンのPythonを使って、新しく仮想環境を作るには、 ``--python "
 "VERSION`` フラグを次のように使います:"
 
-#: ../../basics.rst:226
+#: ../../basics.rst:227
 msgid "Use Python 3::"
 msgstr "Python 3を使うには::"
 
-#: ../../basics.rst:230
+#: ../../basics.rst:231
 msgid "Use Python3.6::"
 msgstr "Python 3.6を使うには::"
 
-#: ../../basics.rst:234
+#: ../../basics.rst:235
 msgid "Use Python 2.7.14::"
 msgstr "Python 2.7.14を使うには::"
 
-#: ../../basics.rst:238
+#: ../../basics.rst:239
 msgid ""
 "When given a Python version, like this, Pipenv will automatically scan your "
 "system for a Python that matches that given version."
 msgstr "このようにPythonのバージョンが与えられたときは、Pipenvはそのバージョンに合うPythonをシステムから自動で探しに行きます。"
 
-#: ../../basics.rst:240
+#: ../../basics.rst:241
 msgid ""
 "If a ``Pipfile`` hasn't been created yet, one will be created for you, that "
 "looks like this::"
 msgstr "``Pipfile`` がまだ作成されていなかった場合は、次のような内容で作成されます::"
 
-#: ../../basics.rst:253
+#: ../../basics.rst:254
 msgid ""
 "The inclusion of ``[requires] python_version = \"3.6\"`` specifies that your"
 " application requires this version of Python, and will be used automatically"
@@ -287,7 +293,7 @@ msgstr ""
 "``[requires] python_version = \"3.6\"`` という文言が含まれていると、アプリケーションがこのバージョンのPythonを要求していることを示し、将来 (例えば他のマシンで) この ``Pipfile`` に対して ``pipenv install`` を実行するときに自動で使われます。\n"
 "この指定が間違っている場合は、気にせずこのセクションを削除してください。"
 
-#: ../../basics.rst:257
+#: ../../basics.rst:258
 msgid ""
 "If you don't specify a Python version on the command–line, either the "
 "``[requires]`` ``python_full_version`` or ``python_version`` will be "
@@ -297,11 +303,11 @@ msgstr ""
 "コマンドラインでも ``[requires]`` でもPythonのバージョンを指定しなかった場合は、 ``python_full_version`` "
 "や ``python_version`` は自動で選ばれ、システムのデフォルトとしてインストールされている ``python`` が実行時に選ばれます。"
 
-#: ../../basics.rst:262
+#: ../../basics.rst:263
 msgid "☤ Editable Dependencies (e.g. ``-e .`` )"
 msgstr "☤ 編集可能な依存関係 (例えば ``-e .`` )"
 
-#: ../../basics.rst:264
+#: ../../basics.rst:265
 msgid ""
 "You can tell Pipenv to install a path as editable — often this is useful for"
 " the current working directory when working on packages::"
@@ -309,7 +315,7 @@ msgstr ""
 "Pipenvに編集可能なパスとしてインストールするよう指示できます — "
 "この機能は、パッケージの開発作業をしているときに、現在の作業ディレクトリを指すのに便利なことが多いです::"
 
-#: ../../basics.rst:275
+#: ../../basics.rst:276
 msgid ""
 "All sub-dependencies will get added to the ``Pipfile.lock`` as well. Sub-"
 "dependencies are **not** added to the ``Pipfile.lock`` if you leave the "
@@ -318,11 +324,11 @@ msgstr ""
 "全ての子依存関係も ``Pipfile.lock`` に追加されます。\n"
 "``-e`` オプションを設定しないでおくと、子依存関係は ``Pipfile.lock`` には追加され **ません**。"
 
-#: ../../basics.rst:282
+#: ../../basics.rst:283
 msgid "☤ Environment Management with Pipenv"
 msgstr "☤ Pipenvによる環境管理"
 
-#: ../../basics.rst:284
+#: ../../basics.rst:285
 msgid ""
 "The three primary commands you'll use in managing your pipenv environment "
 "are ``$ pipenv install``, ``$ pipenv uninstall``, and ``$ pipenv lock``."
@@ -330,44 +336,44 @@ msgstr ""
 "Pipenvの環境管理で使うであろう主要な3つのコマンドは ``$ pipenv install`` 、 ``$ pipenv uninstall`` "
 "、 ``$ pipenv lock`` です。"
 
-#: ../../basics.rst:290
+#: ../../basics.rst:291
 msgid "$ pipenv install"
 msgstr "$ pipenv install"
 
-#: ../../basics.rst:292
+#: ../../basics.rst:293
 msgid ""
 "``$ pipenv install`` is used for installing packages into the pipenv virtual"
 " environment and updating your Pipfile."
 msgstr ""
 "``$ pipenv install`` は、Pipenvの仮想環境にパッケージをインストールしたり、Pipfileを更新したりするのに使います。"
 
-#: ../../basics.rst:295
+#: ../../basics.rst:296
 msgid "Along with the basic install command, which takes the form::"
 msgstr "次の形式の基本的なインストールコマンドと一緒に::"
 
-#: ../../basics.rst:299
+#: ../../basics.rst:300
 msgid "The user can provide these additional parameters:"
 msgstr "ユーザーは以下の追加のパラメータを渡せます:"
 
-#: ../../basics.rst:301
+#: ../../basics.rst:302
 msgid ""
 "``--two`` — Performs the installation in a virtualenv using the system "
 "``python2`` link."
 msgstr "``--two`` — システムのシンボリックリンク ``python2`` を使い、仮想環境へのインストールを行います。"
 
-#: ../../basics.rst:302
+#: ../../basics.rst:303
 msgid ""
 "``--three`` — Performs the installation in a virtualenv using the system "
 "``python3`` link."
 msgstr "``--three`` — システムのシンボリックリンク ``python3`` を使い、仮想環境へのインストールを行います。"
 
-#: ../../basics.rst:303
+#: ../../basics.rst:304
 msgid ""
 "``--python`` — Performs the installation in a virtualenv using the provided "
 "Python interpreter."
 msgstr "``--python`` — 引数で与えられたPythonインタプリタを使い、仮想環境へのインストールを行います。"
 
-#: ../../basics.rst:305
+#: ../../basics.rst:306
 msgid ""
 "None of the above commands should be used together. They are also "
 "**destructive** and will delete your current virtualenv before replacing it "
@@ -376,7 +382,7 @@ msgstr ""
 "上のコマンドは一緒に使ってはいけません。\n"
 "これらのコマンドは *破壊的* であり、現在の仮想環境を削除してから、適切なバージョンが使われた仮想環境に置き換えられます。"
 
-#: ../../basics.rst:309
+#: ../../basics.rst:310
 msgid ""
 "The virtualenv created by Pipenv may be different from what you were "
 "expecting. Dangerous characters (i.e. ``$`!*@\"`` as well as space, line "
@@ -388,27 +394,27 @@ msgstr ""
 "危険な文字 (つまり、空白、ラインフィード、キャリッジリターン、タブだけでなく ``$`!*@\"`` も) はアンダースコアに変換されます。\n"
 "さらに、現在のフォルダのフルパスは \"スラッグ値\" にエンコードされ、仮想環境名が一意になるように末尾に追加されます。"
 
-#: ../../basics.rst:315
+#: ../../basics.rst:316
 msgid ""
 "``--dev`` — Install both ``develop`` and ``default`` packages from "
 "``Pipfile``."
 msgstr ""
 "``--dev`` — ``Pipfile`` の ``develop`` パッケージと ``default`` パッケージの両方をインストールします。"
 
-#: ../../basics.rst:316
+#: ../../basics.rst:317
 msgid ""
 "``--system`` — Use the system ``pip`` command rather than the one from your "
 "virtualenv."
 msgstr "``--system`` — 仮想環境ではなく、システムの ``pip`` コマンドを使用します。"
 
-#: ../../basics.rst:317
+#: ../../basics.rst:318
 msgid ""
 "``--ignore-pipfile`` — Ignore the ``Pipfile`` and install from the "
 "``Pipfile.lock``."
 msgstr ""
 "``--ignore-pipfile`` — ``Pipfile`` を無視し、 ``Pipfile.lock`` を使ってインストールします。"
 
-#: ../../basics.rst:318
+#: ../../basics.rst:319
 msgid ""
 "``--skip-lock`` — Ignore the ``Pipfile.lock`` and install from the "
 "``Pipfile``. In addition, do not write out a ``Pipfile.lock`` reflecting "
@@ -417,11 +423,11 @@ msgstr ""
 "``--skip-lock`` — ``Pipfile.lock`` を無視し、 ``Pipfile`` を使ってインストールします。\n"
 "それに加えて、 ``Pipfile`` の変更部分を ``Pipfile.lock`` へは反映しません。"
 
-#: ../../basics.rst:323
+#: ../../basics.rst:324
 msgid "$ pipenv uninstall"
 msgstr "$ pipenv uninstall"
 
-#: ../../basics.rst:325
+#: ../../basics.rst:326
 msgid ""
 "``$ pipenv uninstall`` supports all of the parameters in `pipenv install "
 "<#pipenv-install>`_, as well as two additional options, ``--all`` and "
@@ -430,23 +436,23 @@ msgstr ""
 "``$ pipenv uninstall`` は `pipenv install <#pipenv-install>`_ の全てのパラメータに加えて、 "
 "``--all`` と ``--all-dev`` もサポートしています。"
 
-#: ../../basics.rst:328
+#: ../../basics.rst:329
 msgid ""
 "``--all`` — This parameter will purge all files from the virtual "
 "environment, but leave the Pipfile untouched."
 msgstr "``--all`` — このパラメータを付けると、仮想環境から全てのファイルを除去しますが、Pipfileだけは触らずに残します。"
 
-#: ../../basics.rst:331
+#: ../../basics.rst:332
 msgid ""
 "``--all-dev`` — This parameter will remove all of the development packages "
 "from the virtual environment, and remove them from the Pipfile."
 msgstr "``--all-dev`` — このパラメータを付けると、開発環境の全てのパッケージを仮想環境から除去し、Pipfileからも削除します。"
 
-#: ../../basics.rst:338
+#: ../../basics.rst:339
 msgid "$ pipenv lock"
 msgstr "$ pipenv lock"
 
-#: ../../basics.rst:340
+#: ../../basics.rst:341
 msgid ""
 "``$ pipenv lock`` is used to create a ``Pipfile.lock``, which declares "
 "**all** dependencies (and sub-dependencies) of your project, their latest "
@@ -457,11 +463,11 @@ msgstr ""
 "このファイルにはプロジェクトの *全ての* 依存パッケージ (とさらにその依存パッケージ) と、それらの利用可能な最新のバージョン、ダウンロード済みのファイルの現在のハッシュが宣言されています。\n"
 "このファイルのおかげで、繰り返し可能かつ、最も重要な機能である *決定論的な* ビルドが保証されています。"
 
-#: ../../basics.rst:343
+#: ../../basics.rst:344
 msgid "☤ About Shell Configuration"
 msgstr "☤ シェルの設定について"
 
-#: ../../basics.rst:345
+#: ../../basics.rst:346
 msgid ""
 "Shells are typically misconfigured for subshell use, so ``$ pipenv shell "
 "--fancy`` may produce unexpected results. If this is the case, try ``$ "
@@ -472,7 +478,7 @@ msgstr ""
 "その場合は、 ``$ pipenv shell`` を試してみてください。\n"
 "これは \"互換モード\" を使っていて、間違った設定がされていてもサブシェルを起動しようと試みます。"
 
-#: ../../basics.rst:347
+#: ../../basics.rst:348
 msgid ""
 "A proper shell configuration only sets environment variables like ``PATH`` "
 "during a login session, not during every subshell spawn (as they are "
@@ -481,13 +487,13 @@ msgstr ""
 "適切なシェル設定では、(たいていはこの設定になっていますが) 全てのサブシェルが起動している間ではなく、あるログインセッションが起動している間だけ ``PATH`` のような環境変数を設定します。\n"
 "fishでは、適切な設定は次のようになります::"
 
-#: ../../basics.rst:353
+#: ../../basics.rst:354
 msgid ""
 "You should do this for your shell too, in your ``~/.profile`` or "
 "``~/.bashrc`` or wherever appropriate."
 msgstr "各自のシェルに対して、 ``~/.profile`` や ``~/.bashrc`` などの適切なファイルで同様の設定をしてください。"
 
-#: ../../basics.rst:355
+#: ../../basics.rst:356
 msgid ""
 "The shell launched in interactive mode. This means that if your shell reads "
 "its configuration from a specific file for interactive mode (e.g. bash by "
@@ -497,7 +503,7 @@ msgstr ""
 "シェルは対話モードで起動します。\n"
 "つまり、シェルが対話モード用の設定をあるファイルから読み込む (例えば、bashはデフォルトで対話モード用の設定ファイル ``~/.bashrc`` を探しに行きます) 場合は、その設定ファイルを編集 (もしくは作成) する必要があります。"
 
-#: ../../basics.rst:357
+#: ../../basics.rst:358
 msgid ""
 "If you experience issues with ``$ pipenv shell``, just check the "
 "``PIPENV_SHELL`` environment variable, which ``$ pipenv shell`` will use if "
@@ -506,17 +512,17 @@ msgstr ""
 "``$ pipenv shell`` の問題に遭遇した場合は、まずは ``PIPENV_SHELL`` 環境変数を確認してください。``$ pipenv shell`` は使用可能な場合に、この環境変数を利用します。\n"
 "詳しくは、:ref:`configuration-with-environment-variables` を参照してください。"
 
-#: ../../basics.rst:360
+#: ../../basics.rst:361
 msgid "☤ A Note about VCS Dependencies"
 msgstr "☤ バージョン管理システムについての但し書き"
 
-#: ../../basics.rst:362
+#: ../../basics.rst:363
 msgid ""
 "You can install packages with pipenv from git and other version control "
 "systems using URLs formatted according to the following rule::"
 msgstr "pipenvは、gitやその他のバージョン管理システムで次の規則に従った形式のURLを使っているものからパッケージをインストールできます。"
 
-#: ../../basics.rst:366
+#: ../../basics.rst:367
 msgid ""
 "The only optional section is the ``@<branch_or_tag>`` section.  When using "
 "git over SSH, you may use the shorthand vcs and scheme alias "
@@ -524,7 +530,7 @@ msgid ""
 " Note that this is translated to ``git+ssh://git@<location>`` when parsed."
 msgstr ""
 
-#: ../../basics.rst:368
+#: ../../basics.rst:369
 msgid ""
 "Note that it is **strongly recommended** that you install any version-"
 "controlled dependencies in editable mode, using ``pipenv install -e``, in "
@@ -533,14 +539,14 @@ msgid ""
 "all known dependencies."
 msgstr ""
 
-#: ../../basics.rst:370
+#: ../../basics.rst:371
 msgid ""
 "Below is an example usage which installs the git repository located at "
 "``https://github.com/requests/requests.git`` from tag ``v2.20.1`` as package"
 " name ``requests``::"
 msgstr ""
 
-#: ../../basics.rst:383
+#: ../../basics.rst:384
 msgid ""
 "Valid values for ``<vcs_type>`` include ``git``, ``bzr``, ``svn``, and "
 "``hg``.  Valid values for ``<scheme>`` include ``http``, ``https``, ``ssh``,"
@@ -549,7 +555,7 @@ msgid ""
 "combined with ``sftp`` and ``lp``."
 msgstr ""
 
-#: ../../basics.rst:385
+#: ../../basics.rst:386
 msgid ""
 "You can read more about pip's implementation of VCS support `here "
 "<https://pip.pypa.io/en/stable/reference/pip_install/#vcs-support>`_. For "
@@ -558,11 +564,11 @@ msgid ""
 "<https://github.com/pypa/pipfile>`_."
 msgstr ""
 
-#: ../../basics.rst:389
+#: ../../basics.rst:390
 msgid "☤ Pipfile.lock Security Features"
 msgstr "☤ セキュリティ機能 Pipfile.lock"
 
-#: ../../basics.rst:391
+#: ../../basics.rst:392
 msgid ""
 "``Pipfile.lock`` takes advantage of some great new security improvements in "
 "``pip``. By default, the ``Pipfile.lock`` will be generated with the sha256 "
@@ -574,7 +580,7 @@ msgstr ""
 "デフォルトでは、 ``Pipfile.lock`` はダウンロードされたパッケージごとのsha256ハッシュから生成されます。\n"
 "これにより ``pip`` は、ネットワークが驚異に晒されていたり、信頼できないPyPIエンドポイントから依存パッケージをインストールしたりしているときに、意図したとおりのパッケージをインストールしていることを保証できます。"
 
-#: ../../basics.rst:396
+#: ../../basics.rst:397
 msgid ""
 "We highly recommend approaching deployments with promoting projects from a "
 "development environment into production. You can use ``pipenv lock`` to "
