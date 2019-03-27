@@ -1,16 +1,21 @@
 # -*- coding=utf-8 -*-
+from __future__ import print_function
+import errno
 import json
 import os
+import shutil
 import sys
 import warnings
 
+from shutil import rmtree as _rmtree
+
 import pytest
 
-from vistir.compat import ResourceWarning, fs_str
+from vistir.compat import ResourceWarning, fs_str, fs_encode, FileNotFoundError, PermissionError, TemporaryDirectory
 from vistir.contextmanagers import temp_environ
-from vistir.path import mkdir_p, create_tracked_tempdir
+from vistir.path import mkdir_p, create_tracked_tempdir, handle_remove_readonly
 
-from pipenv._compat import Path, TemporaryDirectory
+from pipenv._compat import Path
 from pipenv.exceptions import VirtualenvActivationException
 from pipenv.vendor import delegator, requests, toml, tomlkit
 from pytest_pypi.app import prepare_fixtures
@@ -23,16 +28,24 @@ warnings.simplefilter("default", category=ResourceWarning)
 HAS_WARNED_GITHUB = False
 
 
+def try_internet(url="http://httpbin.org/ip", timeout=1.5):
+    resp = requests.get(url, timeout=timeout)
+    resp.raise_for_status()
+
+
 def check_internet():
-    try:
-        # Kenneth represents the Internet LGTM.
-        resp = requests.get('http://httpbin.org/ip', timeout=1.0)
-        resp.raise_for_status()
-    except Exception:
-        warnings.warn('Cannot connect to HTTPBin...', RuntimeWarning)
-        warnings.warn('Will skip tests requiring Internet', RuntimeWarning)
-        return False
-    return True
+    has_internet = False
+    for url in ("http://httpbin.org/ip", "http://clients3.google.com/generate_204"):
+        try:
+            try_internet(url)
+        except Exception:
+            warnings.warn(
+                "Failed connecting to internet: {0}".format(url), RuntimeWarning
+            )
+        else:
+            has_internet = True
+            break
+    return has_internet
 
 
 def check_github_ssh():
@@ -85,6 +98,14 @@ def pytest_runtest_setup(item):
         sys.version_info[:2] <= (2, 7) and os.name == "nt"
     ):
         pytest.skip('must use python > 2.7 on windows')
+    if item.get_marker('py3_only') is not None and (
+        sys.version_info < (3, 0)
+    ):
+        pytest.skip('test only runs on python 3')
+    if item.get_marker('lte_py36') is not None and (
+        sys.version_info >= (3, 7)
+    ):
+        pytest.skip('test only runs on python < 3.7')
 
 
 @pytest.fixture
@@ -308,7 +329,7 @@ class _PipenvInstance(object):
         if block:
             print('$ pipenv {0}'.format(cmd))
             print(c.out)
-            print(c.err)
+            print(c.err, file=sys.stderr)
             if c.return_code != 0:
                 print("Command failed...")
 
@@ -332,9 +353,24 @@ class _PipenvInstance(object):
         return os.sep.join([self.path, 'Pipfile.lock'])
 
 
+def _rmtree_func(path, ignore_errors=True, onerror=None):
+    directory = fs_encode(path)
+    global _rmtree
+    shutil_rmtree = _rmtree
+    if onerror is None:
+        onerror = handle_remove_readonly
+    try:
+        shutil_rmtree(directory, ignore_errors=ignore_errors, onerror=onerror)
+    except (IOError, OSError, FileNotFoundError, PermissionError) as exc:
+        # Ignore removal failures where the file doesn't exist
+        if exc.errno != errno.ENOENT:
+            raise
+
+
 @pytest.fixture()
-def PipenvInstance():
-    with temp_environ():
+def PipenvInstance(monkeypatch):
+    with temp_environ(), monkeypatch.context() as m:
+        m.setattr(shutil, "rmtree", _rmtree_func)
         original_umask = os.umask(0o007)
         os.environ["PIPENV_NOSPIN"] = fs_str("1")
         os.environ["CI"] = fs_str("1")
@@ -348,9 +384,9 @@ def PipenvInstance():
 
 
 @pytest.fixture(autouse=True)
-def pip_src_dir(request, pathlib_tmpdir):
+def pip_src_dir(request, vistir_tmpdir):
     old_src_dir = os.environ.get('PIP_SRC', '')
-    os.environ['PIP_SRC'] = pathlib_tmpdir.as_posix()
+    os.environ['PIP_SRC'] = vistir_tmpdir.as_posix()
 
     def finalize():
         os.environ['PIP_SRC'] = fs_str(old_src_dir)
