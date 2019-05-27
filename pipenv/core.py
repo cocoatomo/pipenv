@@ -14,11 +14,11 @@ import urllib3.util as urllib3_util
 import vistir
 
 import click_completion
-import crayons
 import delegator
 import dotenv
 import pipfile
 
+from .patched import crayons
 from . import environments, exceptions, pep508checker, progress
 from ._compat import fix_utf8, decode_for_output
 from .cmdparse import Script
@@ -242,7 +242,9 @@ def import_from_code(path="."):
 
     rs = []
     try:
-        for r in pipreqs.get_all_imports(path):
+        for r in pipreqs.get_all_imports(
+            path, encoding="utf-8", extra_ignore_dirs=[".venv"]
+        ):
             if r not in BAD_PACKAGES:
                 rs.append(r)
         pkg_names = pipreqs.get_pkg_names(rs)
@@ -539,11 +541,16 @@ def ensure_project(
     # Automatically use an activated virtualenv.
     if PIPENV_USE_SYSTEM:
         system = True
-    if not project.pipfile_exists:
-        if deploy is True:
-            raise exceptions.PipfileNotFound
-        else:
-            project.touch_pipfile()
+    if not project.pipfile_exists and deploy:
+        raise exceptions.PipfileNotFound
+    # Fail if working under /
+    if not project.name:
+        click.echo(
+            "{0}: Pipenv is not intended to work under the root directory, "
+            "please choose another path.".format(crayons.red("ERROR")),
+            err=True
+        )
+        sys.exit(1)
     # Skip virtualenv creation when --system was used.
     if not system:
         ensure_virtualenv(
@@ -565,7 +572,7 @@ def ensure_project(
                             crayons.red("Warning", bold=True),
                             crayons.normal("python_version", bold=True),
                             crayons.blue(project.required_python_version),
-                            crayons.blue(python_version(path_to_python)),
+                            crayons.blue(python_version(path_to_python) or "unknown"),
                             crayons.green(shorten_path(path_to_python)),
                         ),
                         err=True,
@@ -606,24 +613,23 @@ def shorten_path(location, bold=False):
 def do_where(virtualenv=False, bare=True):
     """Executes the where functionality."""
     if not virtualenv:
-        location = project.pipfile_location
-        # Shorten the virtual display of the path to the virtualenv.
-        if not bare:
-            location = shorten_path(location)
-        if not location:
+        if not project.pipfile_exists:
             click.echo(
                 "No Pipfile present at project home. Consider running "
                 "{0} first to automatically generate a Pipfile for you."
                 "".format(crayons.green("`pipenv install`")),
                 err=True,
             )
-        elif not bare:
+            return
+        location = project.pipfile_location
+        # Shorten the virtual display of the path to the virtualenv.
+        if not bare:
+            location = shorten_path(location)
             click.echo(
                 "Pipfile found at {0}.\n  Considering this to be the project home."
                 "".format(crayons.green(location)),
                 err=True,
             )
-            pass
         else:
             click.echo(project.project_directory)
     else:
@@ -742,10 +748,8 @@ def batch_install(deps_list, procs, failed_deps_queue,
                 pypi_mirror=pypi_mirror,
                 trusted_hosts=trusted_hosts,
                 extra_indexes=extra_indexes,
-                use_pep517=not retry,
+                use_pep517=not failed,
             )
-            if dep.is_vcs or dep.editable:
-                c.block()
             if procs.qsize() < nprocs:
                 c.dep = dep
                 procs.put(c)
@@ -881,7 +885,7 @@ def do_create_virtualenv(python=None, site_packages=False, pypi_mirror=None):
     )
 
     # Default to using sys.executable, if Python wasn't provided.
-    if python is None:
+    if not python:
         python = sys.executable
     click.echo(
         u"{0} {1} {3} {2}".format(
@@ -915,17 +919,17 @@ def do_create_virtualenv(python=None, site_packages=False, pypi_mirror=None):
         pip_config = {}
 
     # Actually create the virtualenv.
-    nospin = environments.PIPENV_NOSPIN
-    with create_spinner("Creating virtual environment...") as sp:
+    with create_spinner(u"Creating virtual environment...") as sp:
         c = vistir.misc.run(
             cmd, verbose=False, return_object=True, write_to_stdout=False,
             combine_stderr=False, block=True, nospin=True, env=pip_config,
         )
-        click.echo(crayons.blue("{0}".format(c.out)), err=True)
+        click.echo(crayons.blue(u"{0}".format(c.out)), err=True)
         if c.returncode != 0:
             sp.fail(environments.PIPENV_SPINNER_FAIL_TEXT.format(u"Failed creating virtual environment"))
+            error = c.err if environments.is_verbose() else exceptions.prettify_exc(c.err)
             raise exceptions.VirtualenvCreationException(
-                extra=[crayons.blue("{0}".format(c.err)),]
+                extra=crayons.red("{0}".format(error))
             )
         else:
 
@@ -1048,6 +1052,7 @@ def do_lock(
                 err=True,
             )
 
+        # Mutates the lockfile
         venv_resolve_deps(
             packages,
             which=which,
@@ -1058,7 +1063,8 @@ def do_lock(
             allow_global=system,
             pypi_mirror=pypi_mirror,
             pipfile=packages,
-            lockfile=lockfile
+            lockfile=lockfile,
+            keep_outdated=keep_outdated
         )
 
     # Support for --keep-outdated…
@@ -1075,6 +1081,12 @@ def do_lock(
                         lockfile[section_name][canonical_name] = cached_lockfile[
                             section_name
                         ][canonical_name].copy()
+            for key in ["default", "develop"]:
+                packages = set(cached_lockfile[key].keys())
+                new_lockfile = set(lockfile[key].keys())
+                missing = packages - new_lockfile
+                for missing_pkg in missing:
+                    lockfile[key][missing_pkg] = cached_lockfile[key][missing_pkg].copy()
     # Overwrite any develop packages with default packages.
     lockfile["develop"].update(overwrite_dev(lockfile.get("default", {}), lockfile["develop"]))
     if write:
@@ -1405,15 +1417,18 @@ def pip_install(
             name = requirement.name
             if requirement.extras:
                 name = "{0}{1}".format(name, requirement.extras_as_pip)
-            line = "-e {0}#egg={1}".format(vistir.path.path_to_url(repo.checkout_directory), requirement.name)
+            line = "{0}{1}#egg={2}".format(
+                line, vistir.path.path_to_url(repo.checkout_directory), requirement.name
+            )
             if repo.subdirectory:
                 line = "{0}&subdirectory={1}".format(line, repo.subdirectory)
         else:
             line = requirement.as_line(**line_kwargs)
-        click.echo(
-            "Writing requirement line to temporary file: {0!r}".format(line),
-            err=True
-        )
+        if environments.is_verbose():
+            click.echo(
+                "Writing requirement line to temporary file: {0!r}".format(line),
+                err=True
+            )
         f.write(vistir.misc.to_bytes(line))
         r = f.name
         f.close()
@@ -1430,10 +1445,11 @@ def pip_install(
         ignore_hashes = True if not requirement.hashes else ignore_hashes
         line = requirement.as_line(include_hashes=not ignore_hashes)
         line = "{0} {1}".format(line, " ".join(src))
-        click.echo(
-            "Writing requirement line to temporary file: {0!r}".format(line),
-            err=True
-        )
+        if environments.is_verbose():
+            click.echo(
+                "Writing requirement line to temporary file: {0!r}".format(line),
+                err=True
+            )
         f.write(vistir.misc.to_bytes(line))
         r = f.name
         f.close()
@@ -1456,7 +1472,7 @@ def pip_install(
             if "--hash" not in f.read():
                 ignore_hashes = True
     else:
-        ignore_hashes = True if not requirement.hashes else False
+        ignore_hashes = True if not requirement.hashes else ignore_hashes
         install_reqs = requirement.as_line(as_list=True, include_hashes=not ignore_hashes)
         if not requirement.markers:
             install_reqs = [escape_cmd(r) for r in install_reqs]
@@ -1759,6 +1775,17 @@ def ensure_lockfile(keep_outdated=False, pypi_mirror=None):
 
 
 def do_py(system=False):
+    if not project.virtualenv_exists:
+        click.echo(
+            "{}({}){}".format(
+                crayons.red("No virtualenv has been created for this project "),
+                crayons.white(project.project_directory, bold=True),
+                crayons.red(" yet!")
+            ),
+            err=True,
+        )
+        return    
+    
     try:
         click.echo(which("python", allow_global=system))
     except AttributeError:
@@ -2320,8 +2347,9 @@ def do_shell(three=None, python=False, fancy=False, shell_args=None, pypi_mirror
         project.project_directory,
         shell_args,
     )
-    # Only set PIPENV_ACTIVE after finishing reading virtualenv_location
+
     # Set an environment variable, so we know we're in the environment.
+    # Only set PIPENV_ACTIVE after finishing reading virtualenv_location
     # otherwise its value will be changed
     os.environ["PIPENV_ACTIVE"] = vistir.misc.fs_str("1")
 
@@ -2522,8 +2550,8 @@ def do_check(
     if not args:
         args = []
     if unused:
-        deps_required = [k for k in project.packages.keys()]
-        deps_needed = import_from_code(unused)
+        deps_required = [k.lower() for k in project.packages.keys()]
+        deps_needed = [k.lower() for k in import_from_code(unused)]
         for dep in deps_needed:
             try:
                 deps_required.remove(dep)
@@ -2553,11 +2581,6 @@ def do_check(
     # Run the PEP 508 checker in the virtualenv.
     cmd = _cmd + [vistir.compat.Path(pep508checker_path).as_posix()]
     c = run_command(cmd)
-    if is_verbose():
-        click.echo("{0}{1}".format(
-            "Running command: ",
-            crayons.white("$ {0}".format(decode_for_output(" ".join(cmd))), bold=True)
-        ))
     if c.return_code is not None:
         try:
             results = simplejson.loads(c.out.strip())

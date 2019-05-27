@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function
 import os
 import sys
 
@@ -25,7 +27,7 @@ tablib = {version = "*", markers="os_name=='splashwear'"}
         c = p.pipenv('install')
         assert c.return_code == 0
         assert 'Ignoring' in c.out
-        assert 'markers' in p.lockfile['default']['tablib']
+        assert 'markers' in p.lockfile['default']['tablib'], p.lockfile["default"]["tablib"]
 
         c = p.pipenv('run python -c "import tablib;"')
         assert c.return_code == 1
@@ -65,7 +67,7 @@ def test_specific_package_environment_markers(PipenvInstance, pypi):
         with open(p.pipfile_path, 'w') as f:
             contents = """
 [packages]
-requests = {version = "*", os_name = "== 'splashwear'"}
+tablib = {version = "*", os_name = "== 'splashwear'"}
             """.strip()
             f.write(contents)
 
@@ -73,9 +75,9 @@ requests = {version = "*", os_name = "== 'splashwear'"}
         assert c.return_code == 0
 
         assert 'Ignoring' in c.out
-        assert 'markers' in p.lockfile['default']['requests']
+        assert 'markers' in p.lockfile['default']['tablib']
 
-        c = p.pipenv('run python -c "import requests;"')
+        c = p.pipenv('run python -c "import tablib;"')
         assert c.return_code == 1
 
 
@@ -95,8 +97,8 @@ funcsigs = {version = "*", os_name = "== 'splashwear'"}
 
         c = p.pipenv('install')
         assert c.return_code == 0
-
-        assert p.lockfile['default']['funcsigs']['markers'] == "os_name == 'splashwear'"
+        assert "markers" in p.lockfile['default']['funcsigs'], p.lockfile['default']['funcsigs']
+        assert p.lockfile['default']['funcsigs']['markers'] == "os_name == 'splashwear'", p.lockfile['default']['funcsigs']
 
 
 @pytest.mark.markers
