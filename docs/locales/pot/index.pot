@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-08 15:00+0000\n"
+"POT-Creation-Date: 2019-05-27 15:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -423,16 +423,6 @@ msgid "Update specified packages."
 msgstr ""
 
 #: ../../../pipenv install:1
-#: ../../../pipenv install:1
-#: ../../../pipenv lock:1
-#: ../../../pipenv sync:1
-#: ../../../pipenv uninstall:1
-#: ../../../pipenv update:1
-#: ../../../pipenv update:1
-msgid "Allow pre-releases."
-msgstr ""
-
-#: ../../../pipenv install:1
 #: ../../../pipenv update:1
 msgid "Import a requirements.txt file."
 msgstr ""
@@ -459,6 +449,14 @@ msgstr ""
 #: ../../../pipenv uninstall:1
 #: ../../../pipenv update:1
 msgid "Keep out-dated dependencies from being updated in Pipfile.lock."
+msgstr ""
+
+#: ../../../pipenv install:1
+#: ../../../pipenv lock:1
+#: ../../../pipenv sync:1
+#: ../../../pipenv uninstall:1
+#: ../../../pipenv update:1
+msgid "Allow pre-releases."
 msgstr ""
 
 #: ../../../pipenv install:1
