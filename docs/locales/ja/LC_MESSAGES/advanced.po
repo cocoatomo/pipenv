@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-05 15:00+0000\n"
+"POT-Creation-Date: 2019-05-28 15:01+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -256,7 +256,7 @@ msgstr ""
 msgid "Example::"
 msgstr "例::"
 
-#: ../../advanced.rst:231 ../../advanced.rst:529
+#: ../../advanced.rst:231 ../../advanced.rst:539
 msgid "✨🍰✨"
 msgstr "✨🍰✨"
 
@@ -454,42 +454,44 @@ msgstr ""
 "と実行でき、Pipenvシェルを事前に有効化してなかったとしてもPipenvの仮想環境のコンテキストでコマンドが実行されます。"
 
 #: ../../advanced.rst:361
-msgid "For example, in your Pipfile::"
-msgstr "例えば、Pipfileに次のように書きます::"
+msgid "For example, in your Pipfile:"
+msgstr ""
 
-#: ../../advanced.rst:366
+#: ../../advanced.rst:368
 msgid "And then in your terminal::"
 msgstr "そして、ターミナルで次のように打ち込みます::"
 
-#: ../../advanced.rst:371
-msgid "Commands that expect arguments will also work. For example::"
-msgstr "引数を要求するコマンドでも上手く動きます。例えば::"
+#: ../../advanced.rst:373
+msgid "Commands that expect arguments will also work. For example:"
+msgstr ""
 
-#: ../../advanced.rst:381
+#: ../../advanced.rst:386
 msgid "☤ Support for Environment Variables"
 msgstr "☤ 環境変数のサポート"
 
-#: ../../advanced.rst:383
+#: ../../advanced.rst:388
 msgid ""
-"Pipenv supports the usage of environment variables in values. For example::"
+"Pipenv supports the usage of environment variables in place of "
+"authentication fragments in your Pipfile. These will only be parsed if they "
+"are present in the ``[[source]]`` section. For example:"
 msgstr ""
-"Pipenvでは、値の中で環境変数が使えます。\n"
-"次の例を見てください::"
 
-#: ../../advanced.rst:397
+#: ../../advanced.rst:406
 msgid ""
-"Environment variables may be specified as ``${MY_ENVAR}`` or ``$MY_ENVAR``. "
+"Environment variables may be specified as ``${MY_ENVAR}`` or ``$MY_ENVAR``."
+msgstr ""
+
+#: ../../advanced.rst:408
+msgid ""
 "On Windows, ``%MY_ENVAR%`` is supported in addition to ``${MY_ENVAR}`` or "
 "``$MY_ENVAR``."
 msgstr ""
-"環境変数は ``${MY_ENVAR}`` や ``$MY_ENVAR`` のように指定します。\n"
-"Windowsでは、 ``${MY_ENVAR}`` と ``$MY_ENVAR`` に加えて ``%MY_ENVAR%`` もサポートされています。"
 
-#: ../../advanced.rst:402
+#: ../../advanced.rst:412
 msgid "☤ Configuration With Environment Variables"
 msgstr "☤ 環境変数による設定"
 
-#: ../../advanced.rst:404
+#: ../../advanced.rst:414
 msgid ""
 "Pipenv comes with a handful of options that can be enabled via shell "
 "environment variables. To activate them, simply create the variable in your "
@@ -722,6 +724,19 @@ msgid ""
 msgstr ""
 
 #: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_RESOLVE_VCS:1
+msgid "Tells Pipenv whether to resolve all VCS dependencies in full."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_RESOLVE_VCS:3
+msgid ""
+"As of Pipenv 2018.11.26, only editable VCS dependencies were resolved in "
+"full. To retain this behavior and avoid handling any conflicts that arise "
+"from the new approach, you may set this to '0', 'off', or 'false'."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_SHELL:1
 msgid "An absolute path to the preferred shell for ``pipenv shell``."
 msgstr ""
@@ -830,7 +845,7 @@ msgstr ""
 msgid "Return type"
 msgstr ""
 
-#: ../../advanced.rst:411
+#: ../../advanced.rst:421
 msgid ""
 "If you'd like to set these environment variables on a per-project basis, I "
 "recommend utilizing the fantastic `direnv <https://direnv.net>`_ project, in"
@@ -839,7 +854,7 @@ msgstr ""
 "これらの環境変数をプロジェクトごとの設定にしたい場合は、それを実現するために素敵な `direnv <https://direnv.net>`_ "
 "を利用するのをお薦めします。"
 
-#: ../../advanced.rst:413
+#: ../../advanced.rst:423
 msgid ""
 "Also note that `pip itself supports environment variables "
 "<https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_, if you "
@@ -849,22 +864,22 @@ msgstr ""
 "<https://pip.pypa.io/en/stable/user_guide/#environment-variables>`_ "
 "ことに着目してください。"
 
-#: ../../advanced.rst:415
+#: ../../advanced.rst:425
 msgid "For example::"
 msgstr "例えば、次のようにできます::"
 
-#: ../../advanced.rst:421
+#: ../../advanced.rst:431
 msgid "☤ Custom Virtual Environment Location"
 msgstr "☤ 仮想環境の独自の配置場所"
 
-#: ../../advanced.rst:423
+#: ../../advanced.rst:433
 msgid ""
 "Pipenv automatically honors the ``WORKON_HOME`` environment variable, if you"
 " have it set — so you can tell pipenv to store your virtual environments "
 "wherever you want, e.g.::"
 msgstr ""
 
-#: ../../advanced.rst:429
+#: ../../advanced.rst:439
 msgid ""
 "In addition, you can also have Pipenv stick the virtualenv in "
 "``project/.venv`` by setting the ``PIPENV_VENV_IN_PROJECT`` environment "
@@ -873,27 +888,27 @@ msgstr ""
 "さらに、 ``PIPENV_VENV_IN_PROJECT`` 環境変数を設定することで、 ``project/.venv`` "
 "にある仮想環境をPipenvに使わせることができます。"
 
-#: ../../advanced.rst:433
+#: ../../advanced.rst:443
 msgid "☤ Testing Projects"
 msgstr "☤ プロジェクトのテスト"
 
-#: ../../advanced.rst:435
+#: ../../advanced.rst:445
 msgid ""
 "Pipenv is being used in projects like `Requests`_ for declaring development "
 "dependencies and running the test suite."
 msgstr "Pipenvは `Requests`_ のようなプロジェクトで開発用の依存関係の宣言とテストスイートの実行に使われています。"
 
-#: ../../advanced.rst:437
+#: ../../advanced.rst:447
 msgid ""
 "We've currently tested deployments with both `Travis-CI`_ and `tox`_ with "
 "success."
 msgstr "現時点では `Travis-CI`_ と `tox`_ の両方で上手くデプロイのテストを行えています。"
 
-#: ../../advanced.rst:440
+#: ../../advanced.rst:450
 msgid "Travis CI"
 msgstr "Travis CI"
 
-#: ../../advanced.rst:442
+#: ../../advanced.rst:452
 msgid ""
 "An example Travis CI setup can be found in `Requests`_. The project uses a "
 "Makefile to define common functions such as its ``init`` and ``tests`` "
@@ -903,31 +918,29 @@ msgstr ""
 "このプロジェクトではMakefileによく使う関数を ``init`` コマンドや ``tests`` コマンドとして定義してあります。\n"
 "以下が ``.travis.yml`` の本質的なところを抜き出したものです::"
 
-#: ../../advanced.rst:463
+#: ../../advanced.rst:473
 msgid "and the corresponding Makefile::"
 msgstr "そして対応するMakefileは以下の通りです::"
 
-#: ../../advanced.rst:474
+#: ../../advanced.rst:484
 msgid "Tox Automation Project"
 msgstr "ToX自動化プロジェクト"
 
-#: ../../advanced.rst:476
+#: ../../advanced.rst:486
 msgid ""
 "Alternatively, you can configure a ``tox.ini`` like the one below for both "
 "local and external testing::"
 msgstr "または、 ``tox.ini`` を次のようにローカル環境でのテストと外部環境でのテストの両方に対して設定できます::"
 
-#: ../../advanced.rst:495
+#: ../../advanced.rst:505
 msgid ""
 "Pipenv will automatically use the virtualenv provided by ``tox``. If "
 "``pipenv install --dev`` installs e.g. ``pytest``, then installed command "
-"``py.test`` will be present in given virtualenv and can be called directly "
-"by ``py.test tests`` instead of ``pipenv run py.test tests``."
+"``pytest`` will be present in given virtualenv and can be called directly by"
+" ``pytest tests`` instead of ``pipenv run pytest tests``."
 msgstr ""
-"Pipenvは自動的に ``tox`` が提供する仮想環境を使います。\n"
-"``pipenv install --dev`` が例えば ``pytest`` をインストールしたならば、インストールされたコマンド ``py.test`` は与えられた仮想環境に入っていて、 ``pipenv run py.test tests`` としなくても ``py.test tests`` と直接呼び出せます。"
 
-#: ../../advanced.rst:497
+#: ../../advanced.rst:507
 msgid ""
 "You might also want to add ``--ignore-pipfile`` to ``pipenv install``, as to"
 " not accidentally modify the lock-file on each test run. This causes Pipenv "
@@ -944,39 +957,39 @@ msgstr ""
 "これが重要な点なのは、今いる環境 (すなわちtoxが用意した仮想環境) は通常は (望ましいもしくは望しくないことに) 現時点のプロジェクトと、 ``tox`` の ``deps`` に設定されている追加の依存関係を含んでいるためです。\n"
 "最初に用意される環境に対しては、この方法ではなく ``skip_install = True`` をtox.iniに追加することで無効化できます。"
 
-#: ../../advanced.rst:506
+#: ../../advanced.rst:516
 msgid ""
 "This method requires you to be explicit about updating the lock-file, which "
 "is probably a good idea in any case."
 msgstr "この方法はlockファイルの更新に関しての明示的な指定が必要であり、おそらくこれがどのケースにおいても良い案です。"
 
-#: ../../advanced.rst:509
+#: ../../advanced.rst:519
 msgid ""
 "A 3rd party plugin, `tox-pipenv`_ is also available to use Pipenv natively "
 "with tox."
 msgstr "サードパーティのプラグイン `tox-pipenv`_ も、toxにPipenvを連係させるのに使えます。"
 
-#: ../../advanced.rst:517
+#: ../../advanced.rst:527
 msgid "☤ Shell Completion"
 msgstr "☤ シェルの補完"
 
-#: ../../advanced.rst:519
+#: ../../advanced.rst:529
 msgid "To enable completion in fish, add this to your config::"
 msgstr "fishで補完を有効にするには、次のコマンドを設定ファイルに追加してください::"
 
-#: ../../advanced.rst:523
+#: ../../advanced.rst:533
 msgid "Alternatively, with bash or zsh, add this to your config::"
 msgstr "また、bashやzshでは次のコマンドを設定ファイルに追加してください::"
 
-#: ../../advanced.rst:527
+#: ../../advanced.rst:537
 msgid "Magic shell completions are now enabled!"
 msgstr "魔法のシェル補完が使えるようになりました!"
 
-#: ../../advanced.rst:532
+#: ../../advanced.rst:542
 msgid "☤ Working with Platform-Provided Python Components"
 msgstr "☤ プラットフォームが提供するPythonコンポーネントを使っての作業"
 
-#: ../../advanced.rst:534
+#: ../../advanced.rst:544
 msgid ""
 "It's reasonably common for platform specific Python bindings for operating "
 "system interfaces to only be available through the system package manager, "
@@ -987,7 +1000,7 @@ msgstr ""
 "オペレーティングシステムのインターフェースに使われているプラットフォーム固有のPythonは、システムのパッケージマネージャからしか利用できず、従って `pip` を使った仮想環境へのインストールには使えないのが合理的に考えて普通です。\n"
 "このようなケースでは、システムの `site-packages` ディレクトリにアクセスできる仮想環境を作ります::"
 
-#: ../../advanced.rst:542
+#: ../../advanced.rst:552
 msgid ""
 "To ensure that all `pip`-installable components actually are installed into "
 "the virtual environment and system packages are only used for interfaces "
@@ -998,11 +1011,11 @@ msgstr ""
 "でインストールできるコンポーネントが本当に仮想環境にインストールされ、システムのパッケージはPythonレベルでの依存関係解決に一切現れないインターフェースのために使われることを保証するために、"
 " `PIP_IGNORE_INSTALLED` 設定を使いましょう::"
 
-#: ../../advanced.rst:553
+#: ../../advanced.rst:563
 msgid "☤ Pipfile vs setup.py"
 msgstr "☤ Pipfile vs setup.py"
 
-#: ../../advanced.rst:555
+#: ../../advanced.rst:565
 msgid ""
 "There is a subtle but very important distinction to be made between "
 "**applications** and **libraries**. This is a very common source of "
@@ -1011,7 +1024,7 @@ msgstr ""
 "**アプリケーション** と **ライブラリ** の間には、微妙だが非常に重要な違いがあります。\n"
 "これはPythonコミュニティでよく起こる混乱の元になっています。"
 
-#: ../../advanced.rst:557
+#: ../../advanced.rst:567
 msgid ""
 "Libraries provide reusable functionality to other libraries and applications"
 " (let's use the umbrella term **projects** here). They are required to work "
@@ -1029,7 +1042,7 @@ msgstr ""
 "ある特定の機能や修正やバグに依存している場合には、バージョンの下限や (滅多に無いですが) 上限を指定することもあります。\n"
 "ライブラリの依存関係は ``setup.py`` では ``install_requires`` で指定します。"
 
-#: ../../advanced.rst:559
+#: ../../advanced.rst:569
 msgid ""
 "Libraries are ultimately meant to be used in some **application**. "
 "Applications are different in that they usually are not depended on by other"
@@ -1043,11 +1056,11 @@ msgstr ""
 "アプリケーションは、ある特定の環境に配置され、依存関係やさらにその先の依存関係全ての正確なバージョンが具体的であるようになっています。\n"
 "この処理をより簡単にすることが、現在Pipenvの最も重要な目標です。"
 
-#: ../../advanced.rst:561
+#: ../../advanced.rst:571
 msgid "To summarize:"
 msgstr "まとめると次のようになります:"
 
-#: ../../advanced.rst:563
+#: ../../advanced.rst:573
 msgid ""
 "For libraries, define **abstract dependencies** via ``install_requires`` in "
 "``setup.py``. The decision of which version exactly to be installed and "
@@ -1056,7 +1069,7 @@ msgstr ""
 "ライブラリは、 ``setup.py`` の ``install_requires`` で **抽象的な依存関係** を定義します。\n"
 "厳密にどのバージョンをインストールし、どこから依存パッケージを取得するかの判断は、あなたが決めることではありません!"
 
-#: ../../advanced.rst:564
+#: ../../advanced.rst:574
 msgid ""
 "For applications, define **dependencies and where to get them** in the "
 "`Pipfile` and use this file to update the set of **concrete dependencies** "
@@ -1074,13 +1087,13 @@ msgstr ""
 "``Pipfile`` はそのlockファイルを作るのに便利なもので、実際に使う依存関係の正確なバージョンについて、曖昧なままにしておけます。\n"
 "Pipenvは、きちんと動作する衝突の起きない依存関係のバージョン指定を定義する助けになります。他のツールではこの作業は非常にうんざりするものになります。"
 
-#: ../../advanced.rst:565
+#: ../../advanced.rst:575
 msgid ""
 "Of course, ``Pipfile`` and Pipenv are still useful for library developers, "
 "as they can be used to define a development or test environment."
 msgstr "もちろん、 ``Pipfile`` とPipenvはライブラリの開発者にも便利なもので、開発環境やテスト環境を定義するのに使えます。"
 
-#: ../../advanced.rst:566
+#: ../../advanced.rst:576
 msgid ""
 "And, of course, there are projects for which the distinction between library"
 " and application isn't that clear. In that case, use ``install_requires`` "
@@ -1089,20 +1102,20 @@ msgstr ""
 "そして当り前ですが、ライブラリとアプリケーションの区別が明確でないプロジェクトもあります。\n"
 "その場合は、Pipenvおよび ``Pipfile`` と一緒に ``install_requires`` を使ってください。"
 
-#: ../../advanced.rst:568
+#: ../../advanced.rst:578
 msgid "You can also do this::"
 msgstr "次のようにもできます::"
 
-#: ../../advanced.rst:572
+#: ../../advanced.rst:582
 msgid ""
 "This will tell Pipenv to lock all your ``setup.py``–declared dependencies."
 msgstr "このコマンドでは、 ``setup.py`` で宣言されている依存関係を全てロックするようにPipenvに指示しています。"
 
-#: ../../advanced.rst:575
+#: ../../advanced.rst:585
 msgid "☤ Changing Pipenv's Cache Location"
 msgstr "☤ Pipenvのキャッシュの場所を変更する"
 
-#: ../../advanced.rst:577
+#: ../../advanced.rst:587
 msgid ""
 "You can force Pipenv to use a different cache location by setting the "
 "environment variable ``PIPENV_CACHE_DIR`` to the location you wish. This is "
@@ -1112,11 +1125,11 @@ msgstr ""
 "環境変数 ``PIPENV_CACHE_DIR`` を好きな場所に設定することで、デフォルトと異なるキャッシュの場所を使うようPipenvに強制できます。\n"
 "これは ``PIP_CACHE_DIR`` を別のディレクトリに変更しているのと同じ状況で役に立ちます。"
 
-#: ../../advanced.rst:580
+#: ../../advanced.rst:590
 msgid "☤ Changing Default Python Versions"
 msgstr "☤ Pythonのデフォルトバージョンを変更する"
 
-#: ../../advanced.rst:582
+#: ../../advanced.rst:592
 msgid ""
 "By default, Pipenv will initialize a project using whatever version of "
 "python the python3 is. Besides starting a project with the ``--three`` or "
