@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-28 15:01+0000\n"
+"POT-Creation-Date: 2019-06-04 15:01+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -822,6 +822,16 @@ msgstr ""
 msgid ""
 "Default is to prompt the user for an answer if the current command line "
 "session if interactive."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIP_EXISTS_ACTION:1
+msgid "Specifies the value for pip's --exists-action option"
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIP_EXISTS_ACTION:3
+msgid "Defaullts to (w)ipe"
 msgstr ""
 
 #: ../../../pipenv/environments.pydocstring of

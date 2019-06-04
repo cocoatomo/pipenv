@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-02 15:00+0000\n"
+"POT-Creation-Date: 2019-06-04 15:01+0000\n"
 "PO-Revision-Date: 2018-07-16 16:03+0000\n"
 "Last-Translator: tomo, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -224,10 +224,10 @@ msgid "``./run-tests.sh`` or ``run-tests.bat``"
 msgstr ""
 
 #: ../../dev/contributing.rst:131
-msgid "Using pipenv::"
+msgid "Using pipenv:"
 msgstr ""
 
-#: ../../dev/contributing.rst:136
+#: ../../dev/contributing.rst:141
 msgid ""
 "For the last two, it is important that your environment is setup correctly, "
 "and this may take some work, for example, on a specific Mac installation, "
