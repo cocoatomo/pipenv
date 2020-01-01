@@ -26,12 +26,12 @@ It automatically creates and manages a virtualenv for your projects, as well as 
 
 Pipenv is primarily meant to provide users and developers of applications with an easy method to setup a working environment. For the distinction between libraries and applications and the usage of ``setup.py`` vs ``Pipfile`` to define dependencies, see :ref:`pipfile-vs-setuppy`.
 
-.. image:: https://s3.amazonaws.com/media.kennethreitz.com/pipenv.gif
+.. image:: https://gist.githubusercontent.com/jlusk/855d611bbcfa2b159839db73d07f6ce9/raw/7f5743401809f7e630ee8ff458faa980e19924a0/pipenv.gif
    :height: 341px
    :width: 654px
    :scale: 100 %
    :alt: a short animation of pipenv at work
-   
+
 The problems that Pipenv seeks to solve are multi-faceted:
 
 - You no longer need to use ``pip`` and ``virtualenv`` separately. They work together.
@@ -120,6 +120,7 @@ Further Documentation Guides
 
    basics
    advanced
+   cli
    diagnose
 
 Contribution Guides
@@ -130,13 +131,6 @@ Contribution Guides
 
    dev/philosophy
    dev/contributing
-
-☤ Pipenv Usage
---------------
-
-.. click:: pipenv:cli
-   :prog: pipenv
-   :show-nested:
 
 Indices and tables
 ==================

@@ -8,7 +8,7 @@ import os
 import sys
 import warnings
 
-from .__version__ import __version__
+from .__version__ import __version__    # noqa
 
 
 PIPENV_ROOT = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
@@ -37,11 +37,13 @@ except Exception:
     pass
 
 from pipenv.vendor.vistir.misc import get_text_stream
+
 stdout = get_text_stream("stdout")
 stderr = get_text_stream("stderr")
 
 if os.name == "nt":
     from pipenv.vendor.vistir.misc import _can_use_color, _wrap_for_color
+
     if _can_use_color(stdout):
         stdout = _wrap_for_color(stdout)
     if _can_use_color(stderr):
@@ -51,7 +53,7 @@ sys.stdout = stdout
 sys.stderr = stderr
 
 from .cli import cli
-from . import resolver
+from . import resolver  # noqa
 
 if __name__ == "__main__":
     cli()
