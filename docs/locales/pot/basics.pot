@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-27 15:00+0000\n"
+"POT-Creation-Date: 2020-01-01 15:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,343 +28,355 @@ msgstr ""
 msgid "☤ Example Pipfile & Pipfile.lock"
 msgstr ""
 
-#: ../../basics.rst:15
+#: ../../basics.rst:13
+msgid "Pipfiles contain information for the dependencies of the project, and supercede the requirements.txt present in Python projects. You should add Pipfile in the Git repository letting users who clone the repository the only thing required would be installing Pipenv in the machine and type ``pipenv install``. Pipenv is a reference implementation for using Pipfile."
+msgstr ""
+
+#: ../../basics.rst:21
 msgid "Here is a simple example of a ``Pipfile`` and the resulting ``Pipfile.lock``."
 msgstr ""
 
-#: ../../basics.rst:18
+#: ../../basics.rst:24
 msgid "Example Pipfile"
 msgstr ""
 
-#: ../../basics.rst:36
+#: ../../basics.rst:42
 msgid "Example Pipfile.lock"
 msgstr ""
 
-#: ../../basics.rst:124
+#: ../../basics.rst:130
 msgid "☤ General Recommendations & Version Control"
 msgstr ""
 
-#: ../../basics.rst:126
+#: ../../basics.rst:132
 msgid "Generally, keep both ``Pipfile`` and ``Pipfile.lock`` in version control."
 msgstr ""
 
-#: ../../basics.rst:127
+#: ../../basics.rst:133
 msgid "Do not keep ``Pipfile.lock`` in version control if multiple versions of Python are being targeted."
 msgstr ""
 
-#: ../../basics.rst:128
-msgid "Specify your target Python version in your `Pipfile`'s ``[requires]`` section. Ideally, you should only have one target Python version, as this is a deployment tool."
-msgstr ""
-
-#: ../../basics.rst:129
-msgid "``pipenv install`` is fully compatible with ``pip install`` syntax, for which the full documentation can be found `here <https://pip.pypa.io/en/stable/user_guide/#installing-packages>`_."
-msgstr ""
-
-#: ../../basics.rst:130
-msgid "Note that the ``Pipfile`` uses the `TOML Spec <https://github.com/toml-lang/toml#user-content-spec>`_."
+#: ../../basics.rst:134
+msgid "Specify your target Python version in your `Pipfile`'s ``[requires]`` section. Ideally, you should only have one target Python version, as this is a deployment tool. ``python_version`` should be in the format ``X.Y`` and ``python_full_version`` should be in ``X.Y.Z`` format."
 msgstr ""
 
 #: ../../basics.rst:135
-msgid "☤ Example Pipenv Workflow"
+msgid "``pipenv install`` is fully compatible with ``pip install`` syntax, for which the full documentation can be found `here <https://pip.pypa.io/en/stable/user_guide/#installing-packages>`_."
 msgstr ""
 
-#: ../../basics.rst:137
-msgid "Clone / create project repository::"
+#: ../../basics.rst:136
+msgid "Note that the ``Pipfile`` uses the `TOML Spec <https://github.com/toml-lang/toml#user-content-spec>`_."
 msgstr ""
 
 #: ../../basics.rst:141
+msgid "☤ Example Pipenv Workflow"
+msgstr ""
+
+#: ../../basics.rst:143
+msgid "Clone / create project repository::"
+msgstr ""
+
+#: ../../basics.rst:147
 msgid "Install from Pipfile, if there is one::"
 msgstr ""
 
-#: ../../basics.rst:145
+#: ../../basics.rst:151
 msgid "Or, add a package to your new project::"
 msgstr ""
 
-#: ../../basics.rst:149
+#: ../../basics.rst:155
 msgid "This will create a ``Pipfile`` if one doesn't exist. If one does exist, it will automatically be edited with the new package you provided."
 msgstr ""
 
-#: ../../basics.rst:151
+#: ../../basics.rst:157
 msgid "Next, activate the Pipenv shell::"
 msgstr ""
 
-#: ../../basics.rst:156
+#: ../../basics.rst:162
 msgid "This will spawn a new shell subprocess, which can be deactivated by using ``exit``."
 msgstr ""
 
-#: ../../basics.rst:161
+#: ../../basics.rst:167
 msgid "☤ Example Pipenv Upgrade Workflow"
 msgstr ""
 
-#: ../../basics.rst:163
+#: ../../basics.rst:169
 msgid "Find out what's changed upstream: ``$ pipenv update --outdated``."
 msgstr ""
 
-#: ../../basics.rst:166
+#: ../../basics.rst:172
 msgid "Upgrade packages, two options:"
 msgstr ""
 
-#: ../../basics.rst:165
+#: ../../basics.rst:171
 msgid "Want to upgrade everything? Just do ``$ pipenv update``."
 msgstr ""
 
-#: ../../basics.rst:166
+#: ../../basics.rst:172
 msgid "Want to upgrade packages one-at-a-time? ``$ pipenv update <pkg>`` for each outdated package."
 msgstr ""
 
-#: ../../basics.rst:169
+#: ../../basics.rst:175
 msgid "☤ Importing from requirements.txt"
 msgstr ""
 
-#: ../../basics.rst:171
+#: ../../basics.rst:177
 msgid "If you only have a ``requirements.txt`` file available when running ``pipenv install``, pipenv will automatically import the contents of this file and create a ``Pipfile`` for you."
 msgstr ""
 
-#: ../../basics.rst:174
+#: ../../basics.rst:180
 msgid "You can also specify ``$ pipenv install -r path/to/requirements.txt`` to import a requirements file."
 msgstr ""
 
-#: ../../basics.rst:176
+#: ../../basics.rst:182
 msgid "If your requirements file has version numbers pinned, you'll likely want to edit the new ``Pipfile`` to remove those, and let ``pipenv`` keep track of pinning.  If you want to keep the pinned versions in your ``Pipfile.lock`` for now, run ``pipenv lock --keep-outdated``.  Make sure to `upgrade <#initialization>`_ soon!"
 msgstr ""
 
-#: ../../basics.rst:184
+#: ../../basics.rst:190
 msgid "☤ Specifying Versions of a Package"
 msgstr ""
 
-#: ../../basics.rst:186
+#: ../../basics.rst:192
 msgid "You can specify versions of a package using the `Semantic Versioning scheme <https://semver.org/>`_ (i.e. ``major.minor.micro``)."
 msgstr ""
 
-#: ../../basics.rst:189
+#: ../../basics.rst:195
 msgid "For example, to install requests you can use: ::"
 msgstr ""
 
-#: ../../basics.rst:193
+#: ../../basics.rst:199
 msgid "Pipenv will install version ``1.2`` and any minor update, but not ``2.0``."
 msgstr ""
 
-#: ../../basics.rst:195
+#: ../../basics.rst:201
 msgid "This will update your ``Pipfile`` to reflect this requirement, automatically."
 msgstr ""
 
-#: ../../basics.rst:197
+#: ../../basics.rst:203
 msgid "In general, Pipenv uses the same specifier format as pip. However, note that according to `PEP 440`_ , you can't use versions containing a hyphen or a plus sign."
 msgstr ""
 
-#: ../../basics.rst:201
+#: ../../basics.rst:207
 msgid "To make inclusive or exclusive version comparisons you can use: ::"
 msgstr ""
 
-#: ../../basics.rst:207
+#: ../../basics.rst:213
 msgid "The use of double quotes around the package and version specification (i.e. ``\"requests>2.19\"``) is highly recommended to avoid issues with `Input and output redirection <https://robots.thoughtbot.com/input-output-redirection-in-the-shell>`_ in Unix-based operating systems."
 msgstr ""
 
-#: ../../basics.rst:211
+#: ../../basics.rst:217
 msgid "The use of ``~=`` is preferred over the ``==`` identifier as the latter prevents pipenv from updating the packages:  ::"
 msgstr ""
 
-#: ../../basics.rst:215
+#: ../../basics.rst:221
 msgid "To avoid installing a specific version you can use the ``!=`` identifier."
 msgstr ""
 
-#: ../../basics.rst:217
+#: ../../basics.rst:223
 msgid "For an in depth explanation of the valid identifiers and more complex use cases check `the relevant section of PEP-440`_."
 msgstr ""
 
-#: ../../basics.rst:222
+#: ../../basics.rst:228
 msgid "☤ Specifying Versions of Python"
 msgstr ""
 
-#: ../../basics.rst:224
+#: ../../basics.rst:230
 msgid "To create a new virtualenv, using a specific version of Python you have installed (and on your ``PATH``), use the ``--python VERSION`` flag, like so:"
 msgstr ""
 
-#: ../../basics.rst:227
+#: ../../basics.rst:233
 msgid "Use Python 3::"
 msgstr ""
 
-#: ../../basics.rst:231
+#: ../../basics.rst:237
 msgid "Use Python3.6::"
 msgstr ""
 
-#: ../../basics.rst:235
+#: ../../basics.rst:241
 msgid "Use Python 2.7.14::"
 msgstr ""
 
-#: ../../basics.rst:239
+#: ../../basics.rst:245
 msgid "When given a Python version, like this, Pipenv will automatically scan your system for a Python that matches that given version."
 msgstr ""
 
-#: ../../basics.rst:241
+#: ../../basics.rst:247
 msgid "If a ``Pipfile`` hasn't been created yet, one will be created for you, that looks like this::"
 msgstr ""
 
-#: ../../basics.rst:254
+#: ../../basics.rst:260
 msgid "The inclusion of ``[requires] python_version = \"3.6\"`` specifies that your application requires this version of Python, and will be used automatically when running ``pipenv install`` against this ``Pipfile`` in the future (e.g. on other machines). If this is not true, feel free to simply remove this section."
 msgstr ""
 
-#: ../../basics.rst:258
+#: ../../basics.rst:264
 msgid "If you don't specify a Python version on the command–line, either the ``[requires]`` ``python_full_version`` or ``python_version`` will be selected automatically, falling back to whatever your system's default ``python`` installation is, at time of execution."
 msgstr ""
 
-#: ../../basics.rst:263
+#: ../../basics.rst:269
 msgid "☤ Editable Dependencies (e.g. ``-e .`` )"
 msgstr ""
 
-#: ../../basics.rst:265
+#: ../../basics.rst:271
 msgid "You can tell Pipenv to install a path as editable — often this is useful for the current working directory when working on packages::"
 msgstr ""
 
-#: ../../basics.rst:276
+#: ../../basics.rst:282
 msgid "All sub-dependencies will get added to the ``Pipfile.lock`` as well. Sub-dependencies are **not** added to the ``Pipfile.lock`` if you leave the ``-e`` option out."
 msgstr ""
 
-#: ../../basics.rst:283
+#: ../../basics.rst:289
 msgid "☤ Environment Management with Pipenv"
 msgstr ""
 
-#: ../../basics.rst:285
+#: ../../basics.rst:291
 msgid "The three primary commands you'll use in managing your pipenv environment are ``$ pipenv install``, ``$ pipenv uninstall``, and ``$ pipenv lock``."
 msgstr ""
 
-#: ../../basics.rst:291
+#: ../../basics.rst:297
 msgid "$ pipenv install"
 msgstr ""
 
-#: ../../basics.rst:293
+#: ../../basics.rst:299
 msgid "``$ pipenv install`` is used for installing packages into the pipenv virtual environment and updating your Pipfile."
 msgstr ""
 
-#: ../../basics.rst:296
+#: ../../basics.rst:302
 msgid "Along with the basic install command, which takes the form::"
 msgstr ""
 
-#: ../../basics.rst:300
+#: ../../basics.rst:306
 msgid "The user can provide these additional parameters:"
 msgstr ""
 
-#: ../../basics.rst:302
+#: ../../basics.rst:308
 msgid "``--two`` — Performs the installation in a virtualenv using the system ``python2`` link."
 msgstr ""
 
-#: ../../basics.rst:303
+#: ../../basics.rst:309
 msgid "``--three`` — Performs the installation in a virtualenv using the system ``python3`` link."
 msgstr ""
 
-#: ../../basics.rst:304
+#: ../../basics.rst:310
 msgid "``--python`` — Performs the installation in a virtualenv using the provided Python interpreter."
 msgstr ""
 
-#: ../../basics.rst:306
+#: ../../basics.rst:312
 msgid "None of the above commands should be used together. They are also **destructive** and will delete your current virtualenv before replacing it with an appropriately versioned one."
 msgstr ""
 
-#: ../../basics.rst:310
+#: ../../basics.rst:316
 msgid "The virtualenv created by Pipenv may be different from what you were expecting. Dangerous characters (i.e. ``$`!*@\"`` as well as space, line feed, carriage return, and tab) are converted to underscores. Additionally, the full path to the current folder is encoded into a \"slug value\" and appended to ensure the virtualenv name is unique."
 msgstr ""
 
-#: ../../basics.rst:316
+#: ../../basics.rst:322
 msgid "``--dev`` — Install both ``develop`` and ``default`` packages from ``Pipfile``."
 msgstr ""
 
-#: ../../basics.rst:317
+#: ../../basics.rst:323
 msgid "``--system`` — Use the system ``pip`` command rather than the one from your virtualenv."
 msgstr ""
 
-#: ../../basics.rst:318
+#: ../../basics.rst:324
+msgid "``--deploy`` — Make sure the packages are properly locked in Pipfile.lock, and abort if the lock file is out-of-date."
+msgstr ""
+
+#: ../../basics.rst:325
 msgid "``--ignore-pipfile`` — Ignore the ``Pipfile`` and install from the ``Pipfile.lock``."
 msgstr ""
 
-#: ../../basics.rst:319
+#: ../../basics.rst:326
 msgid "``--skip-lock`` — Ignore the ``Pipfile.lock`` and install from the ``Pipfile``. In addition, do not write out a ``Pipfile.lock`` reflecting changes to the ``Pipfile``."
 msgstr ""
 
-#: ../../basics.rst:324
+#: ../../basics.rst:331
 msgid "$ pipenv uninstall"
 msgstr ""
 
-#: ../../basics.rst:326
+#: ../../basics.rst:333
 msgid "``$ pipenv uninstall`` supports all of the parameters in `pipenv install <#pipenv-install>`_, as well as two additional options, ``--all`` and ``--all-dev``."
 msgstr ""
 
-#: ../../basics.rst:329
+#: ../../basics.rst:336
 msgid "``--all`` — This parameter will purge all files from the virtual environment, but leave the Pipfile untouched."
 msgstr ""
 
-#: ../../basics.rst:332
+#: ../../basics.rst:339
 msgid "``--all-dev`` — This parameter will remove all of the development packages from the virtual environment, and remove them from the Pipfile."
 msgstr ""
 
-#: ../../basics.rst:339
+#: ../../basics.rst:346
 msgid "$ pipenv lock"
 msgstr ""
 
-#: ../../basics.rst:341
+#: ../../basics.rst:348
 msgid "``$ pipenv lock`` is used to create a ``Pipfile.lock``, which declares **all** dependencies (and sub-dependencies) of your project, their latest available versions, and the current hashes for the downloaded files. This ensures repeatable, and most importantly *deterministic*, builds."
 msgstr ""
 
-#: ../../basics.rst:344
+#: ../../basics.rst:351
 msgid "☤ About Shell Configuration"
 msgstr ""
 
-#: ../../basics.rst:346
+#: ../../basics.rst:353
 msgid "Shells are typically misconfigured for subshell use, so ``$ pipenv shell --fancy`` may produce unexpected results. If this is the case, try ``$ pipenv shell``, which uses \"compatibility mode\", and will attempt to spawn a subshell despite misconfiguration."
 msgstr ""
 
-#: ../../basics.rst:348
+#: ../../basics.rst:355
 msgid "A proper shell configuration only sets environment variables like ``PATH`` during a login session, not during every subshell spawn (as they are typically configured to do). In fish, this looks like this::"
 msgstr ""
 
-#: ../../basics.rst:354
+#: ../../basics.rst:361
 msgid "You should do this for your shell too, in your ``~/.profile`` or ``~/.bashrc`` or wherever appropriate."
 msgstr ""
 
-#: ../../basics.rst:356
+#: ../../basics.rst:363
 msgid "The shell launched in interactive mode. This means that if your shell reads its configuration from a specific file for interactive mode (e.g. bash by default looks for a ``~/.bashrc`` configuration file for interactive mode), then you'll need to modify (or create) this file."
 msgstr ""
 
-#: ../../basics.rst:358
+#: ../../basics.rst:365
 msgid "If you experience issues with ``$ pipenv shell``, just check the ``PIPENV_SHELL`` environment variable, which ``$ pipenv shell`` will use if available. For detail, see :ref:`configuration-with-environment-variables`."
 msgstr ""
 
-#: ../../basics.rst:361
+#: ../../basics.rst:368
 msgid "☤ A Note about VCS Dependencies"
 msgstr ""
 
-#: ../../basics.rst:363
+#: ../../basics.rst:370
 msgid "You can install packages with pipenv from git and other version control systems using URLs formatted according to the following rule::"
 msgstr ""
 
-#: ../../basics.rst:367
+#: ../../basics.rst:374
 msgid "The only optional section is the ``@<branch_or_tag>`` section.  When using git over SSH, you may use the shorthand vcs and scheme alias ``git+git@<location>:<user_or_organization>/<repository>@<branch_or_tag>#<package_name>``. Note that this is translated to ``git+ssh://git@<location>`` when parsed."
 msgstr ""
 
-#: ../../basics.rst:369
+#: ../../basics.rst:376
 msgid "Note that it is **strongly recommended** that you install any version-controlled dependencies in editable mode, using ``pipenv install -e``, in order to ensure that dependency resolution can be performed with an up to date copy of the repository each time it is performed, and that it includes all known dependencies."
 msgstr ""
 
-#: ../../basics.rst:371
+#: ../../basics.rst:378
 msgid "Below is an example usage which installs the git repository located at ``https://github.com/requests/requests.git`` from tag ``v2.20.1`` as package name ``requests``::"
 msgstr ""
 
-#: ../../basics.rst:384
+#: ../../basics.rst:391
 msgid "Valid values for ``<vcs_type>`` include ``git``, ``bzr``, ``svn``, and ``hg``.  Valid values for ``<scheme>`` include ``http``, ``https``, ``ssh``, and ``file``.  In specific cases you also have access to other schemes: ``svn`` may be combined with ``svn`` as a scheme, and ``bzr`` can be combined with ``sftp`` and ``lp``."
 msgstr ""
 
-#: ../../basics.rst:386
+#: ../../basics.rst:393
 msgid "You can read more about pip's implementation of VCS support `here <https://pip.pypa.io/en/stable/reference/pip_install/#vcs-support>`_. For more information about other options available when specifying VCS dependencies, please check the `Pipfile spec <https://github.com/pypa/pipfile>`_."
 msgstr ""
 
-#: ../../basics.rst:390
+#: ../../basics.rst:397
 msgid "☤ Pipfile.lock Security Features"
 msgstr ""
 
-#: ../../basics.rst:392
+#: ../../basics.rst:399
 msgid "``Pipfile.lock`` takes advantage of some great new security improvements in ``pip``. By default, the ``Pipfile.lock`` will be generated with the sha256 hashes of each downloaded package. This will allow ``pip`` to guarantee you're installing what you intend to when on a compromised network, or downloading dependencies from an untrusted PyPI endpoint."
 msgstr ""
 
-#: ../../basics.rst:397
+#: ../../basics.rst:404
 msgid "We highly recommend approaching deployments with promoting projects from a development environment into production. You can use ``pipenv lock`` to compile your dependencies on your development environment and deploy the compiled ``Pipfile.lock`` to all of your production environments for reproducible builds."
+msgstr ""
+
+#: ../../basics.rst:411
+msgid "If you'd like a ``requirements.txt`` output of the lockfile, run ``$ pipenv lock -r``. This will include all hashes, however (which is great!). To get a ``requirements.txt`` without hashes, use ``$ pipenv run pip freeze``."
 msgstr ""
 
