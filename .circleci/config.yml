@@ -6,7 +6,7 @@ version: 2
 jobs:
   build-catalogue:
     docker:
-      - image: circleci/python:3.6.1
+      - image: circleci/python:latest
 
     working_directory: ~/repo
 
@@ -67,7 +67,7 @@ jobs:
 
   build-doc:
     docker:
-      - image: circleci/python:3.6.1
+      - image: circleci/python:latest
 
     working_directory: ~/repo
 
