@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-01 15:04+0000\n"
+"POT-Creation-Date: 2020-01-20 15:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -381,6 +381,14 @@ msgstr ""
 
 #: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_DONT_LOAD_ENV:3
 msgid "Default is to load ``.env`` for ``run`` and ``shell`` commands."
+msgstr ""
+
+#: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_DONT_USE_ASDF:1
+msgid "If set, Pipenv does not attempt to install Python with asdf."
+msgstr ""
+
+#: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_DONT_USE_ASDF:3
+msgid "Default is to install Python automatically via asdf when needed, if possible."
 msgstr ""
 
 #: ../../../pipenv/environments.py:docstring of pipenv.environments.PIPENV_DONT_USE_PYENV:1
