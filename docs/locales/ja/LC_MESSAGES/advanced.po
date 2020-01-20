@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-01 15:04+0000\n"
+"POT-Creation-Date: 2020-01-20 15:04+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -557,6 +557,18 @@ msgstr "設定された場合、Pipenvは ``.env`` ファイルを読み込み�
 #: pipenv.environments.PIPENV_DONT_LOAD_ENV:3
 msgid "Default is to load ``.env`` for ``run`` and ``shell`` commands."
 msgstr "デフォルトでは、 ``run`` コマンドと ``shell`` コマンドで ``.env`` が読み込まれます。"
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DONT_USE_ASDF:1
+msgid "If set, Pipenv does not attempt to install Python with asdf."
+msgstr ""
+
+#: ../../../pipenv/environments.pydocstring of
+#: pipenv.environments.PIPENV_DONT_USE_ASDF:3
+msgid ""
+"Default is to install Python automatically via asdf when needed, if "
+"possible."
+msgstr ""
 
 #: ../../../pipenv/environments.pydocstring of
 #: pipenv.environments.PIPENV_DONT_USE_PYENV:1
