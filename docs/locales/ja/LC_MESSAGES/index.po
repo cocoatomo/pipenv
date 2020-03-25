@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2017. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project
+# Copyright (C) 2020. A project founded by <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a>
 # This file is distributed under the same license as the pipenv package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-01 15:04+0000\n"
+"POT-Creation-Date: 2020-03-25 15:04+0000\n"
 "PO-Revision-Date: 2017-09-14 00:01+0000\n"
 "Last-Translator: tomo, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Pipenv: Python Dev Workflow for Humans"
 msgstr "Pipenv: 人間のためのPython開発ワークフロー"
 
-#: ../../index.rst:23
+#: ../../index.rst:20
 msgid ""
 "**Pipenv** is a tool that aims to bring the best of all packaging worlds "
 "(bundler, composer, npm, cargo, yarn, etc.) to the Python world. *Windows is"
@@ -34,7 +34,7 @@ msgstr ""
 "**Pipenv** は、全てのパッケージングの世界 (bundler、composer、npm、cargo、yarnなどなど。) における最高のものをPythonの世界にもたらすことを目的としたツールです。\n"
 "*我々の世界ではWindowsは第一級市民です。*"
 
-#: ../../index.rst:25
+#: ../../index.rst:22
 msgid ""
 "It automatically creates and manages a virtualenv for your projects, as well"
 " as adds/removes packages from your ``Pipfile`` as you install/uninstall "
@@ -44,7 +44,7 @@ msgstr ""
 "Pipenvは、手動でパッケージのインストールおよびアンインストールを行うのと同じように ``Pipfile`` に対してパッケージの追加および削除を行うのに加え、自動でプロジェクト用の仮想環境を作成し管理します。\n"
 "またPipenvは、いかなるときも重要な ``Pipfile.lock`` を生成し、これを利用しビルドが常に同じ結果になるようにします。"
 
-#: ../../index.rst:27
+#: ../../index.rst:24
 msgid ""
 "Pipenv is primarily meant to provide users and developers of applications "
 "with an easy method to setup a working environment. For the distinction "
@@ -54,11 +54,11 @@ msgstr ""
 "Pipenvは主にアプリケーションのユーザーと開発者に、簡単に作業環境を作れる方法を提供するためのツールです。\n"
 "ライブラリとアプリケーションの違いや、依存関係を定義するための ``setup.py`` と ``Pipfile`` の使い方の違いについては、 :ref:`pipfile-vs-setuppy` を参照してください。"
 
-#: ../../index.rst:35
+#: ../../index.rst:32
 msgid "The problems that Pipenv seeks to solve are multi-faceted:"
 msgstr "Pipenvは様々な側面を持つ問題を解決しようとしています:"
 
-#: ../../index.rst:37
+#: ../../index.rst:34
 msgid ""
 "You no longer need to use ``pip`` and ``virtualenv`` separately. They work "
 "together."
@@ -66,7 +66,7 @@ msgstr ""
 "もう ``pip`` と ``virtualenv`` を別々に使う必要はありません。\n"
 "両者は連係して動作します。"
 
-#: ../../index.rst:38
+#: ../../index.rst:35
 msgid ""
 "Managing a ``requirements.txt`` file `can be problematic "
 "<https://www.kennethreitz.org/essays/a-better-pip-workflow>`_, so Pipenv "
@@ -77,7 +77,7 @@ msgstr ""
 "<https://www.kennethreitz.org/essays/a-better-pip-workflow>`_ ので、代わりにPipenvは"
 " ``Pipfile`` および ``Pipfile.lock`` を使い、最小限の依存関係の宣言と直前にテストした依存関係の組み合わせを区別します。"
 
-#: ../../index.rst:39
+#: ../../index.rst:36
 msgid ""
 "Hashes are used everywhere, always. Security. Automatically expose security "
 "vulnerabilities."
@@ -86,7 +86,7 @@ msgstr ""
 "安心安全。\n"
 "そして、自動でセキュリティの脆弱性を白日の下に晒します。"
 
-#: ../../index.rst:40
+#: ../../index.rst:37
 msgid ""
 "Strongly encourage the use of the latest versions of dependencies to "
 "minimize security risks `arising from outdated components "
@@ -96,50 +96,50 @@ msgstr ""
 "<https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities>`_"
 " セキュリティリスクを最小化することを強くお薦めします。"
 
-#: ../../index.rst:41
+#: ../../index.rst:38
 msgid "Give you insight into your dependency graph (e.g. ``$ pipenv graph``)."
 msgstr "依存関係グラフを深く理解できるようになります (例えば ``$ pipenv graph``)。"
 
-#: ../../index.rst:42
+#: ../../index.rst:39
 msgid "Streamline development workflow by loading ``.env`` files."
 msgstr "``.env`` ファイルを読み込むことで、開発ワークフローの能率を上げます。"
 
-#: ../../index.rst:44
+#: ../../index.rst:41
 msgid "You can quickly play with Pipenv right in your browser:"
 msgstr ""
 
-#: ../../index.rst:52
+#: ../../index.rst:49
 msgid "Install Pipenv Today!"
 msgstr "さぁ今すぐこれからPipenvをインストール!"
 
-#: ../../index.rst:54
+#: ../../index.rst:51
 msgid ""
 "If you're on MacOS, you can install Pipenv easily with Homebrew. You can "
 "also use Linuxbrew on Linux using the same command::"
 msgstr ""
 
-#: ../../index.rst:58
+#: ../../index.rst:55
 msgid "Or, if you're using Fedora 28::"
 msgstr "あるいは、Fedora 28を使っている場合には次のようにします::"
 
-#: ../../index.rst:62
+#: ../../index.rst:59
 msgid ""
 "Otherwise, refer to the :ref:`installing-pipenv` chapter for instructions."
 msgstr "それ以外の場合は、 :ref:`installing-pipenv` の章の手順を参照してください。"
 
-#: ../../index.rst:64
+#: ../../index.rst:61
 msgid "✨🍰✨"
 msgstr "✨🍰✨"
 
-#: ../../index.rst:73
+#: ../../index.rst:70
 msgid "User Testimonials"
 msgstr "ユーザーによる推薦文"
 
-#: ../../index.rst:76
+#: ../../index.rst:73
 msgid "**David Gang**—"
 msgstr "**David Gang**—"
 
-#: ../../index.rst:76
+#: ../../index.rst:73
 msgid ""
 "*This package manager is really awesome. For the first time I know exactly "
 "what my dependencies are which I installed and what the transitive "
@@ -150,59 +150,59 @@ msgstr ""
 "どんな依存関係があり、そのうちのどれが私がインストールしたもので、どれが推移的依存関係なのかを初めて認識できた。\n"
 "インストールが決定論的であることも相俟って、cargoのような一級品のパッケージマネージャーとなっている* 。"
 
-#: ../../index.rst:79
+#: ../../index.rst:76
 msgid "**Justin Myles Holmes**—"
 msgstr "**Justin Myles Holmes**—"
 
-#: ../../index.rst:79
+#: ../../index.rst:76
 msgid ""
 "*Pipenv is finally an abstraction meant to engage the mind instead of merely"
 " the filesystem.*"
 msgstr "*Pipenvは遂に、単なるファイルシステムとではなく思考と結び付くための抽象化を果たした。*"
 
-#: ../../index.rst:82
+#: ../../index.rst:79
 msgid "☤ Pipenv Features"
 msgstr "☤ Pipenvの特徴"
 
-#: ../../index.rst:84
+#: ../../index.rst:81
 msgid ""
 "Enables truly *deterministic builds*, while easily specifying *only what you"
 " want*."
 msgstr "*何をしたいか* を簡単に指定するだけで、真の *決定論的ビルド* が可能です。"
 
-#: ../../index.rst:85
+#: ../../index.rst:82
 msgid "Generates and checks file hashes for locked dependencies."
 msgstr "固定された依存関係のファイルハッシュを生成しチェックします。"
 
-#: ../../index.rst:86
+#: ../../index.rst:83
 msgid "Automatically install required Pythons, if ``pyenv`` is available."
 msgstr "``pyenv`` が使える場合は、要求されているPythonを自動でインストールします。"
 
-#: ../../index.rst:87
+#: ../../index.rst:84
 msgid ""
 "Automatically finds your project home, recursively, by looking for a "
 "``Pipfile``."
 msgstr "``Pipfile`` を探して、再帰的に、プロジェクトホームを自動で見付けに行きます。"
 
-#: ../../index.rst:88
+#: ../../index.rst:85
 msgid "Automatically generates a ``Pipfile``, if one doesn't exist."
 msgstr "``Pipfile`` が存在していない場合、自動で生成します。"
 
-#: ../../index.rst:89
+#: ../../index.rst:86
 msgid "Automatically creates a virtualenv in a standard location."
 msgstr "標準的な場所に仮想環境を自動で作成します。"
 
-#: ../../index.rst:90
+#: ../../index.rst:87
 msgid ""
 "Automatically adds/removes packages to a ``Pipfile`` when they are "
 "un/installed."
 msgstr "パッケージがインストールもしくはアンインストールされたときに、自動で ``Pipfile`` に追加および削除します。"
 
-#: ../../index.rst:91
+#: ../../index.rst:88
 msgid "Automatically loads ``.env`` files, if they exist."
 msgstr "``.env`` ファイルが存在する場合、自動で読み込みます。"
 
-#: ../../index.rst:93
+#: ../../index.rst:90
 msgid ""
 "The main commands are ``install``, ``uninstall``, and ``lock``, which "
 "generates a ``Pipfile.lock``. These are intended to replace ``$ pip "
@@ -212,50 +212,50 @@ msgstr ""
 "主なコマンドは ``install`` 、 ``uninstall`` 、 ``lock`` で、``lock`` コマンドは ``Pipfile.lock`` を生成します。\n"
 "これらは、手動での仮想環境の管理 (仮想環境を有効にするための ``$ pipenv shell`` の実行) だけでなく、 ``$ pip install`` の使用も置き換えるために作られています。"
 
-#: ../../index.rst:96
+#: ../../index.rst:93
 msgid "Basic Concepts"
 msgstr "基本コンセプト"
 
-#: ../../index.rst:98
+#: ../../index.rst:95
 msgid "A virtualenv will automatically be created, when one doesn't exist."
 msgstr "既存の仮想環境が存在しないときは、自動で作成されます。"
 
-#: ../../index.rst:99
+#: ../../index.rst:96
 msgid ""
 "When no parameters are passed to ``install``, all packages ``[packages]`` "
 "specified will be installed."
 msgstr ""
 "``install`` にパラメータが何も渡されないときは、 ``[packages]`` に指定された全てのパッケージがインストールされます。"
 
-#: ../../index.rst:100
+#: ../../index.rst:97
 msgid ""
 "To initialize a Python 3 virtual environment, run ``$ pipenv --three``."
 msgstr "Python 3の仮想環境を初期化するには、 ``$ pipenv --three`` を実行します。"
 
-#: ../../index.rst:101
+#: ../../index.rst:98
 msgid "To initialize a Python 2 virtual environment, run ``$ pipenv --two``."
 msgstr "Python 2の仮想環境を初期化するには、 ``$ pipenv --two`` を実行します。"
 
-#: ../../index.rst:102
+#: ../../index.rst:99
 msgid "Otherwise, whatever virtualenv defaults to will be the default."
 msgstr "それ以外は、virtualenvがデフォルトとしているものをPipenvのデフォルトとします。"
 
-#: ../../index.rst:107
+#: ../../index.rst:104
 msgid "Other Commands"
 msgstr "他のコマンド"
 
-#: ../../index.rst:109
+#: ../../index.rst:106
 msgid ""
 "``graph`` will show you a dependency graph of your installed dependencies."
 msgstr "``graph`` はインストールされた依存パッケージの依存関係グラフを表示します。"
 
-#: ../../index.rst:110
+#: ../../index.rst:107
 msgid ""
 "``shell`` will spawn a shell with the virtualenv activated. This shell can "
 "be deactivated by using ``exit``."
 msgstr ""
 
-#: ../../index.rst:111
+#: ../../index.rst:108
 msgid ""
 "``run`` will run a given command from the virtualenv, with any arguments "
 "forwarded (e.g. ``$ pipenv run python`` or ``$ pipenv run pip freeze``)."
@@ -263,32 +263,32 @@ msgstr ""
 "``run`` は、与えられたコマンドに任意の引数を付けて仮想環境で実行します(例えば ``$ pipenv run python`` や ``$ "
 "pipenv run pip freeze``)。"
 
-#: ../../index.rst:112
+#: ../../index.rst:109
 msgid ""
 "``check`` checks for security vulnerabilities and asserts that PEP 508 "
 "requirements are being met by the current environment."
 msgstr "``check`` はセキュリティの脆弱性をチェックし、現在の環境がPEP 508の要求仕様を満たしていることを表明します。"
 
-#: ../../index.rst:116
+#: ../../index.rst:113
 msgid "Further Documentation Guides"
 msgstr "より進んだ内容のドキュメントガイド"
 
-#: ../../index.rst:127
+#: ../../index.rst:124
 msgid "Contribution Guides"
 msgstr "貢献のためのガイド"
 
-#: ../../index.rst:136
+#: ../../index.rst:133
 msgid "Indices and tables"
 msgstr "索引と一覧表"
 
-#: ../../index.rst:138
+#: ../../index.rst:135
 msgid ":ref:`genindex`"
 msgstr ":ref:`genindex`"
 
-#: ../../index.rst:139
+#: ../../index.rst:136
 msgid ":ref:`modindex`"
 msgstr ":ref:`modindex`"
 
-#: ../../index.rst:140
+#: ../../index.rst:137
 msgid ":ref:`search`"
 msgstr ":ref:`search`"

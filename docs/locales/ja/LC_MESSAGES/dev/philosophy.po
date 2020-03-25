@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2017. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project
+# Copyright (C) 2020. A project founded by <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a>
 # This file is distributed under the same license as the pipenv package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-02 15:00+0000\n"
+"POT-Creation-Date: 2020-03-25 15:04+0000\n"
 "PO-Revision-Date: 2018-07-16 16:03+0000\n"
 "Last-Translator: tomo, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -36,6 +36,10 @@ msgid "Management Style"
 msgstr "管理スタイル"
 
 #: ../../dev/philosophy.rst:10
+msgid "**To be updated (as of March 2020)**."
+msgstr ""
+
+#: ../../dev/philosophy.rst:12
 msgid ""
 "`Kenneth Reitz <http://kennethreitz.org>`__ is the BDFL. He has final say in"
 " any decision related to the Pipenv project. Kenneth is responsible for the "
@@ -48,7 +52,7 @@ msgstr ""
 "Kennethにはその説明に加えて、方向性の決定とライブラリの姿形に対する責務があります。\n"
 "技術的なメリットに基づいた判断に加えて、KennethはPipenvの開発哲学に基づいて判断を下す責務を負っています。"
 
-#: ../../dev/philosophy.rst:12
+#: ../../dev/philosophy.rst:14
 msgid ""
 "`Dan Ryan <http://github.com/techalchemy>`__, `Tzu-ping Chung "
 "<https://github.com/uranusjr>`__, and `Nate Prewitt "
@@ -63,22 +67,22 @@ msgstr ""
 "彼らの責務は、バグレポートの優先順位付け、プルリクエストのレビュー、Kennethがライブラリまわりの開発について把握できていることを保証することです。\n"
 "彼らには、機能追加要望がKennethに受け入れられそうかどうかについて判断する責任があります。"
 
-#: ../../dev/philosophy.rst:18
+#: ../../dev/philosophy.rst:20
 msgid "Values"
 msgstr "価値観"
 
-#: ../../dev/philosophy.rst:20
+#: ../../dev/philosophy.rst:22
 msgid "Simplicity is always better than functionality."
 msgstr "単純さは常に機能に勝る。"
 
-#: ../../dev/philosophy.rst:21
+#: ../../dev/philosophy.rst:23
 msgid "Listen to everyone, then disregard it."
 msgstr "全ての人に耳を傾けてから、無視をする。"
 
-#: ../../dev/philosophy.rst:22
+#: ../../dev/philosophy.rst:24
 msgid "The API is all that matters. Everything else is secondary."
 msgstr "APIが全て。それ以外のものは二の次。"
 
-#: ../../dev/philosophy.rst:23
+#: ../../dev/philosophy.rst:25
 msgid "Fit the 90% use-case. Ignore the nay-sayers."
 msgstr "90%のユースケースに対応する。否定論者は無視する。"
