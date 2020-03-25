@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2017. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project
+# Copyright (C) 2020. A project founded by <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a>
 # This file is distributed under the same license as the pipenv package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pipenv 2018.11.27.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-02 15:00+0000\n"
+"POT-Creation-Date: 2020-03-25 15:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,30 +29,34 @@ msgid "Management Style"
 msgstr ""
 
 #: ../../dev/philosophy.rst:10
-msgid "`Kenneth Reitz <http://kennethreitz.org>`__ is the BDFL. He has final say in any decision related to the Pipenv project. Kenneth is responsible for the direction and form of the library, as well as its presentation. In addition to making decisions based on technical merit, he is responsible for making decisions based on the development philosophy of Pipenv."
+msgid "**To be updated (as of March 2020)**."
 msgstr ""
 
 #: ../../dev/philosophy.rst:12
+msgid "`Kenneth Reitz <http://kennethreitz.org>`__ is the BDFL. He has final say in any decision related to the Pipenv project. Kenneth is responsible for the direction and form of the library, as well as its presentation. In addition to making decisions based on technical merit, he is responsible for making decisions based on the development philosophy of Pipenv."
+msgstr ""
+
+#: ../../dev/philosophy.rst:14
 msgid "`Dan Ryan <http://github.com/techalchemy>`__, `Tzu-ping Chung <https://github.com/uranusjr>`__, and `Nate Prewitt <https://github.com/nateprewitt>`__ are the core contributors. They are responsible for triaging bug reports, reviewing pull requests and ensuring that Kenneth is kept up to speed with developments around the library. The day-to-day managing of the project is done by the core contributors. They are responsible for making judgements about whether or not a feature request is likely to be accepted by Kenneth."
 msgstr ""
 
-#: ../../dev/philosophy.rst:18
+#: ../../dev/philosophy.rst:20
 msgid "Values"
 msgstr ""
 
-#: ../../dev/philosophy.rst:20
+#: ../../dev/philosophy.rst:22
 msgid "Simplicity is always better than functionality."
 msgstr ""
 
-#: ../../dev/philosophy.rst:21
+#: ../../dev/philosophy.rst:23
 msgid "Listen to everyone, then disregard it."
 msgstr ""
 
-#: ../../dev/philosophy.rst:22
+#: ../../dev/philosophy.rst:24
 msgid "The API is all that matters. Everything else is secondary."
 msgstr ""
 
-#: ../../dev/philosophy.rst:23
+#: ../../dev/philosophy.rst:25
 msgid "Fit the 90% use-case. Ignore the nay-sayers."
 msgstr ""
 
