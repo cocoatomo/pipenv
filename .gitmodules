@@ -27,4 +27,4 @@
 	url = https://github.com/psf/requests
 [submodule "tests/pypi"]
 	path = tests/pypi
-	url = https://github.com/sarugaku/pipenv-test-artifacts.git
+	url = git@github.com:sarugaku/pipenv-test-artifacts.git
