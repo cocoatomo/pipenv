@@ -247,7 +247,11 @@ PIP_EXISTS_ACTION = os.environ.get("PIP_EXISTS_ACTION", "w")
 Defaullts to (w)ipe
 """
 
-PIPENV_RESOLVE_VCS = _is_env_truthy(os.environ.get("PIPENV_RESOLVE_VCS", 'true'))
+PIPENV_RESOLVE_VCS = (
+    os.environ.get("PIPENV_RESOLVE_VCS") is None
+    or _is_env_truthy("PIPENV_RESOLVE_VCS")
+)
+
 """Tells Pipenv whether to resolve all VCS dependencies in full.
 
 As of Pipenv 2018.11.26, only editable VCS dependencies were resolved in full.
@@ -256,7 +260,7 @@ approach, you may set this to '0', 'off', or 'false'.
 """
 
 PIPENV_PYUP_API_KEY = os.environ.get(
-    "PIPENV_PYUP_API_KEY", "1ab8d58f-5122e025-83674263-bc1e79e0"
+    "PIPENV_PYUP_API_KEY", None
 )
 
 # Internal, support running in a different Python from sys.executable.
