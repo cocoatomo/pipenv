@@ -114,7 +114,8 @@ workflows:
   catalogue:
     triggers:
       - schedule:
-          cron: "0 15 * * *" # 00:00 JST
+          # cron: "0 15 * * *" # 00:00 in JST
+          cron: "0 0,5,10,15,20,25,30,35,40,45,50,55 * * *" # every 5 minits JST
           filters:
             branches:
               only:
