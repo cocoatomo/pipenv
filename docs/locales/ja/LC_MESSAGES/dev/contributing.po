@@ -9,9 +9,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2020.04.01.a1\n"
+"Project-Id-Version: pipenv 2020.4.29.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-25 15:00+0000\n"
+"POT-Creation-Date: 2020-05-04 02:05+0000\n"
 "PO-Revision-Date: 2018-07-16 16:03+0000\n"
 "Last-Translator: tomo, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/cocoatomo/teams/78708/ja/)\n"
@@ -190,15 +190,15 @@ msgstr ""
 
 #: ../../dev/contributing.rst:121
 msgid ""
-"This will install the repo version of Pipenv and then install the "
+"This will install the repository version of Pipenv and then install the "
 "development dependencies. Once that has completed, you can start developing."
 msgstr ""
 
 #: ../../dev/contributing.rst:124
 msgid ""
-"The repo version of Pipenv must be installed over other global versions to "
-"resolve conflicts with the ``pipenv`` folder being implicitly added to "
-"``sys.path``. See `pypa/pipenv#2557`_ for more details."
+"The repository version of Pipenv must be installed over other global "
+"versions to resolve conflicts with the ``pipenv`` folder being implicitly "
+"added to ``sys.path``. See `pypa/pipenv#2557`_ for more details."
 msgstr ""
 
 #: ../../dev/contributing.rst:134
@@ -241,7 +241,7 @@ msgstr ""
 
 #: ../../dev/contributing.rst:155
 msgid ""
-"Contributions will not be merged until they've been code reviewed. You "
+"Contributions will not be merged until they have been code reviewed. You "
 "should implement any code review feedback unless you strongly object to it. "
 "In the event that you object to the code review feedback, you should make "
 "your case clearly and calmly. If, after doing so, the feedback is judged to "
@@ -306,9 +306,9 @@ msgid ""
 " to check whether your bug report or feature request has been mentioned in "
 "the past. Duplicate bug reports and feature requests are a huge maintenance "
 "burden on the limited resources of the project. If it is clear from your "
-"report that you would have struggled to find the original, that's ok, but if"
-" searching for a selection of words in your issue title would have found the"
-" duplicate then the issue will likely be closed extremely abruptly."
+"report that you would have struggled to find the original, that's okay, but "
+"if searching for a selection of words in your issue title would have found "
+"the duplicate then the issue will likely be closed extremely abruptly."
 msgstr ""
 
 #: ../../dev/contributing.rst:211
