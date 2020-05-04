@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2020.04.01.a1\n"
+"Project-Id-Version: pipenv 2020.4.29.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-25 15:00+0000\n"
+"POT-Creation-Date: 2020-05-04 02:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,7 +69,7 @@ msgid "☤ Installing Pipenv"
 msgstr ""
 
 #: ../../install.rst:73
-msgid "Pipenv is a dependency manager for Python projects. If you're familiar with Node.js' `npm`_ or Ruby's `bundler`_, it is similar in spirit to those tools. While pip can install Python packages, Pipenv is recommended as it's a higher-level tool that simplifies dependency management for common use cases."
+msgid "Pipenv is a dependency manager for Python projects. If you're familiar with Node\\.js's `npm`_ or Ruby's `bundler`_, it is similar in spirit to those tools. While pip can install Python packages, Pipenv is recommended as it's a higher-level tool that simplifies dependency management for common use cases."
 msgstr ""
 
 #: ../../install.rst:84
@@ -98,7 +98,7 @@ msgid "☤ Pragmatic Installation of Pipenv"
 msgstr ""
 
 #: ../../install.rst:104
-msgid "If you have a working installation of pip, and maintain certain \"toolchain\" type Python modules as global utilities in your user environment, pip `user installs <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ allow for installation into your home directory. Note that due to interaction between dependencies, you should limit tools installed in this way to basic building blocks for a Python workflow like virtualenv, pipenv, tox, and similar software."
+msgid "If you have a working installation of pip, and maintain certain \"tool-chain\" type Python modules as global utilities in your user environment, pip `user installs <https://pip.pypa.io/en/stable/user_guide/#user-installs>`_ allow for installation into your home directory. Note that due to interaction between dependencies, you should limit tools installed in this way to basic building blocks for a Python workflow like virtualenv, pipenv, tox, and similar software."
 msgstr ""
 
 #: ../../install.rst:106

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2020.04.01.a1\n"
+"Project-Id-Version: pipenv 2020.4.29.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-25 15:00+0000\n"
+"POT-Creation-Date: 2020-05-04 02:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgid "`Kenneth Reitz <http://kennethreitz.org>`__ is the BDFL. He has final say
 msgstr ""
 
 #: ../../dev/philosophy.rst:14
-msgid "`Dan Ryan <http://github.com/techalchemy>`__, `Tzu-ping Chung <https://github.com/uranusjr>`__, and `Nate Prewitt <https://github.com/nateprewitt>`__ are the core contributors. They are responsible for triaging bug reports, reviewing pull requests and ensuring that Kenneth is kept up to speed with developments around the library. The day-to-day managing of the project is done by the core contributors. They are responsible for making judgements about whether or not a feature request is likely to be accepted by Kenneth."
+msgid "`Dan Ryan <http://github.com/techalchemy>`__, `Tzu-ping Chung <https://github.com/uranusjr>`__, and `Nate Prewitt <https://github.com/nateprewitt>`__ are the core contributors. They are responsible for triaging bug reports, reviewing pull requests and ensuring that Kenneth is kept up to speed with developments around the library. The day-to-day managing of the project is done by the core contributors. They are responsible for making judgments about whether or not a feature request is likely to be accepted by Kenneth."
 msgstr ""
 
 #: ../../dev/philosophy.rst:20

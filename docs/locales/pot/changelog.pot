@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2020.04.01.a1\n"
+"Project-Id-Version: pipenv 2020.4.29.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-25 15:00+0000\n"
+"POT-Creation-Date: 2020-05-04 02:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,11 +58,11 @@ msgid "Correctly detect the virtualenv location inside an activated virtualenv. 
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:13
-msgid "Fixed a bug which caused spinner frames to be written to stdout during locking operations which could cause redirection pipes to fail.  `#3239 <https://github.com/pypa/pipenv/issues/3239>`_"
+msgid "Fixed a bug which caused spinner frames to be written to standard output during locking operations which could cause redirection pipes to fail.  `#3239 <https://github.com/pypa/pipenv/issues/3239>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:14
-msgid "Fixed a bug that editable pacakges can't be uninstalled correctly.  `#3240 <https://github.com/pypa/pipenv/issues/3240>`_"
+msgid "Fixed a bug that editable packages can't be uninstalled correctly.  `#3240 <https://github.com/pypa/pipenv/issues/3240>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:15
@@ -74,7 +74,7 @@ msgid "Adding normal pep 508 compatible markers is now fully functional when usi
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:17
-msgid "Updated ``requirementslib`` and ``pythonfinder`` for multiple bugfixes.  `#3254 <https://github.com/pypa/pipenv/issues/3254>`_"
+msgid "Updated ``requirementslib`` and ``pythonfinder`` for multiple bug fixes.  `#3254 <https://github.com/pypa/pipenv/issues/3254>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:18
@@ -86,7 +86,7 @@ msgid "Fixed an issue where pipenv could crash when multiple pipenv processes at
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:20
-msgid "Fixed an issue which sometimes prevented successful creation of project pipfiles.  `#3260 <https://github.com/pypa/pipenv/issues/3260>`_"
+msgid "Fixed an issue which sometimes prevented successful creation of a project Pipfile.  `#3260 <https://github.com/pypa/pipenv/issues/3260>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:21
@@ -162,11 +162,11 @@ msgid "Added improved messaging about available but skipped updates due to depen
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:46
-msgid "Added environment variable `PIPENV_PYUP_API_KEY` to add ability to override the bundled pyup.io API key.  `#2825 <https://github.com/pypa/pipenv/issues/2825>`_"
+msgid "Added environment variable ``PIPENV_PYUP_API_KEY`` to add ability to override the bundled PyUP.io API key.  `#2825 <https://github.com/pypa/pipenv/issues/2825>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:48
-msgid "Added additional output to ``pipenv update --outdated`` to indicate that the operation succeded and all packages were already up to date.  `#2828 <https://github.com/pypa/pipenv/issues/2828>`_"
+msgid "Added additional output to ``pipenv update --outdated`` to indicate that the operation succeeded and all packages were already up to date.  `#2828 <https://github.com/pypa/pipenv/issues/2828>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:49
@@ -194,7 +194,7 @@ msgid "Do not show error but success for running ``pipenv uninstall --all`` in a
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:55
-msgid "Improved asynchronous installation and error handling via queued subprocess paralleization.  `#3217 <https://github.com/pypa/pipenv/issues/3217>`_"
+msgid "Improved asynchronous installation and error handling via queued subprocess parallelization.  `#3217 <https://github.com/pypa/pipenv/issues/3217>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:60
@@ -210,7 +210,7 @@ msgid "Updated ``pipenv uninstall`` to respect the ``--skip-lock`` argument.  `#
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:63
-msgid "Fixed a bug which caused uninstallation to sometimes fail to successfullly remove packages from ``Pipfiles`` with comments on preceding or following lines.  `#2885 <https://github.com/pypa/pipenv/issues/2885>`_, `#3099 <https://github.com/pypa/pipenv/issues/3099>`_"
+msgid "Fixed a bug which caused uninstallation to sometimes fail to successfully remove packages from ``Pipfiles`` with comments on preceding or following lines.  `#2885 <https://github.com/pypa/pipenv/issues/2885>`_, `#3099 <https://github.com/pypa/pipenv/issues/3099>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:65
@@ -274,7 +274,7 @@ msgid "Added additional logic for ignoring and replacing non-ascii characters wh
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:82
-msgid "Fix virtual environment discovery when `PIPENV_VENV_IN_PROJECT` is set, but the in-project `.venv` is a file.  `#3134 <https://github.com/pypa/pipenv/issues/3134>`_"
+msgid "Fix virtual environment discovery when ``PIPENV_VENV_IN_PROJECT`` is set, but the in-project `.venv` is a file.  `#3134 <https://github.com/pypa/pipenv/issues/3134>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:83
@@ -460,7 +460,7 @@ msgid "Added environment variables `PIPENV_VERBOSE` and `PIPENV_QUIET` to contro
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:169
-msgid "Updated test-pypi addon to better support json-api access (forward compatibility). Improved testing process for new contributors.  `#2568 <https://github.com/pypa/pipenv/issues/2568>`_"
+msgid "Updated test-PyPI add-on to better support json-API access (forward compatibility). Improved testing process for new contributors.  `#2568 <https://github.com/pypa/pipenv/issues/2568>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:172
@@ -517,7 +517,7 @@ msgid "Fallback to shell mode if `run` fails with Windows error 193 to handle no
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:205
-msgid "Fixed a bug which prevented installation of editable requirements using ``ssh://`` style urls  `#1393 <https://github.com/pypa/pipenv/issues/1393>`_"
+msgid "Fixed a bug which prevented installation of editable requirements using ``ssh://`` style URLs  `#1393 <https://github.com/pypa/pipenv/issues/1393>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:207
@@ -525,7 +525,7 @@ msgid "VCS Refs for locked local editable dependencies will now update appropria
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:209
-msgid "``.tar.gz`` and ``.zip`` artifacts will now have dependencies installed even when they are missing from the lockfile.  `#2173 <https://github.com/pypa/pipenv/issues/2173>`_"
+msgid "``.tar.gz`` and ``.zip`` artifacts will now have dependencies installed even when they are missing from the Lockfile.  `#2173 <https://github.com/pypa/pipenv/issues/2173>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:211
@@ -549,7 +549,7 @@ msgid "Fix subshell invocation on Windows for Python 2.  `#2515 <https://github.
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:233
-msgid "Fixed a bug which sometimes caused pipenv to throw a ``TypeError`` or to run into encoding issues when writing lockfiles on python 2.  `#2561 <https://github.com/pypa/pipenv/issues/2561>`_"
+msgid "Fixed a bug which sometimes caused pipenv to throw a ``TypeError`` or to run into encoding issues when writing a Lockfile on python 2.  `#2561 <https://github.com/pypa/pipenv/issues/2561>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:235
@@ -557,7 +557,7 @@ msgid "Improve quoting logic for ``pipenv run`` so it works better with Windows 
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:238
-msgid "Fixed a bug related to parsing vcs requirements with both extras and subdirectory fragments. Corrected an issue in the ``requirementslib`` parser which led to some markers being discarded rather than evaluated.  `#2564 <https://github.com/pypa/pipenv/issues/2564>`_"
+msgid "Fixed a bug related to parsing VCS requirements with both extras and subdirectory fragments. Corrected an issue in the ``requirementslib`` parser which led to some markers being discarded rather than evaluated.  `#2564 <https://github.com/pypa/pipenv/issues/2564>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:241
@@ -610,7 +610,7 @@ msgid "Fixed a bug which could cause the ``-e/--editable`` argument on a depende
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:267
-msgid "Correctly pass `verbose` and `debug` flags to the resolver subprocess so it generates appropriate output. This also resolves a bug introduced by the fix to #2527.  `#2732 <https://github.com/pypa/pipenv/issues/2732>`_"
+msgid "Correctly pass ``verbose`` and ``debug`` flags to the resolver subprocess so it generates appropriate output. This also resolves a bug introduced by the fix to #2527.  `#2732 <https://github.com/pypa/pipenv/issues/2732>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:269
@@ -627,7 +627,7 @@ msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:276
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:330
-msgid "``pip-tools`` (updated and patched to latest w/ ``pip 18.0`` compatibilty)"
+msgid "``pip-tools`` (updated and patched to latest w/ ``pip 18.0`` compatibility)"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:277
@@ -759,7 +759,7 @@ msgid "Simplified the test configuration process.  `#2568 <https://github.com/py
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:356
-msgid "Updated documentation to use working fortune cookie addon.  `#2644 <https://github.com/pypa/pipenv/issues/2644>`_"
+msgid "Updated documentation to use working fortune cookie add-on.  `#2644 <https://github.com/pypa/pipenv/issues/2644>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:358
@@ -779,7 +779,7 @@ msgid "Stopped recommending `--system` for Docker contexts.  `#2762 <https://git
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:366
-msgid "Fixed the example url for doing \"pipenv install -e some-repo-url#egg=something\", it was missing the \"egg=\" in the fragment identifier.  `#2792 <https://github.com/pypa/pipenv/issues/2792>`_"
+msgid "Fixed the example url for doing \"pipenv install -e some-repository-url#egg=something\", it was missing the \"egg=\" in the fragment identifier.  `#2792 <https://github.com/pypa/pipenv/issues/2792>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:370
@@ -804,7 +804,7 @@ msgid "All calls to ``pipenv shell`` are now implemented from the ground up usin
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:385
-msgid "Added support for python 3.7 via a few small compatibility / bugfixes.  `#2427 <https://github.com/pypa/pipenv/issues/2427>`_, `#2434 <https://github.com/pypa/pipenv/issues/2434>`_, `#2436 <https://github.com/pypa/pipenv/issues/2436>`_"
+msgid "Added support for python 3.7 via a few small compatibility / bug fixes.  `#2427 <https://github.com/pypa/pipenv/issues/2427>`_, `#2434 <https://github.com/pypa/pipenv/issues/2434>`_, `#2436 <https://github.com/pypa/pipenv/issues/2436>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:389
@@ -812,11 +812,11 @@ msgid "Added new flag ``pipenv --support`` to replace the diagnostic command ``p
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:392
-msgid "Improved import times and CLI runtimes with minor tweaks.  `#2485 <https://github.com/pypa/pipenv/issues/2485>`_"
+msgid "Improved import times and CLI run times with minor tweaks.  `#2485 <https://github.com/pypa/pipenv/issues/2485>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:398
-msgid "Fixed an ongoing bug which sometimes resolved incompatible versions into lockfiles.  `#1901 <https://github.com/pypa/pipenv/issues/1901>`_"
+msgid "Fixed an ongoing bug which sometimes resolved incompatible versions into the project Lockfile.  `#1901 <https://github.com/pypa/pipenv/issues/1901>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:400
@@ -824,7 +824,7 @@ msgid "Fixed a bug which caused errors when creating virtualenvs which contained
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:402
-msgid "Fixed a logic error which caused ``--deploy --system`` to overwrite editable vcs packages in the pipfile before installing, which caused any installation to fail by default.  `#2417 <https://github.com/pypa/pipenv/issues/2417>`_"
+msgid "Fixed a logic error which caused ``--deploy --system`` to overwrite editable vcs packages in the Pipfile before installing, which caused any installation to fail by default.  `#2417 <https://github.com/pypa/pipenv/issues/2417>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:404
@@ -838,7 +838,7 @@ msgid "Installed new vendored jinja2 templates for ``click-completion`` which we
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:408
-msgid "Added support for python 3.7 via a few small compatibility / bugfixes.  `#2427 <https://github.com/pypa/pipenv/issues/2427>`_"
+msgid "Added support for python 3.7 via a few small compatibility / bug fixes.  `#2427 <https://github.com/pypa/pipenv/issues/2427>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:410
@@ -851,7 +851,7 @@ msgid "Pipenv will now ensure that its internal package names registry files are
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:414
-msgid "Fixed a bug causing requirements input as relative paths to be output as absolute paths or URIs. Fixed a bug affecting normalization of ``git+git@host`` uris.  `#2453 <https://github.com/pypa/pipenv/issues/2453>`_"
+msgid "Fixed a bug causing requirements input as relative paths to be output as absolute paths or URIs. Fixed a bug affecting normalization of ``git+git@host`` URLs.  `#2453 <https://github.com/pypa/pipenv/issues/2453>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:417
@@ -925,7 +925,7 @@ msgid "Dropped vendored pip 9 and vendored, patched, and migrated to pip 10. Upd
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:482
-msgid "PyPI mirror URLs can now be set to override instances of PyPI urls by passing the ``--pypi-mirror`` argument from the command line or setting the ``PIPENV_PYPI_MIRROR`` environment variable.  `#2281 <https://github.com/pypa/pipenv/issues/2281>`_"
+msgid "PyPI mirror URLs can now be set to override instances of PyPI URLs by passing the ``--pypi-mirror`` argument from the command line or setting the ``PIPENV_PYPI_MIRROR`` environment variable.  `#2281 <https://github.com/pypa/pipenv/issues/2281>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:487
@@ -962,7 +962,7 @@ msgid "``pipenv check`` now may take multiple of the additional argument ``--ign
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:519
-msgid "Pipenv will now parse & capitalize ``platform_python_implementation`` markers .. warning:: This could cause an issue if you have an out of date ``Pipfile`` which lowercases the comparison value (e.g. ``cpython`` instead of ``CPython``).  `#2123 <https://github.com/pypa/pipenv/issues/2123>`_"
+msgid "Pipenv will now parse & capitalize ``platform_python_implementation`` markers .. warning:: This could cause an issue if you have an out of date ``Pipfile`` which lower-cases the comparison value (e.g. ``cpython`` instead of ``CPython``).  `#2123 <https://github.com/pypa/pipenv/issues/2123>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:532
@@ -1012,7 +1012,7 @@ msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:575
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:634
-msgid "Updated ``requirementslib`` to fix a bug in pipfile parsing affecting relative path conversions.  `#2269 <https://github.com/pypa/pipenv/issues/2269>`_"
+msgid "Updated ``requirementslib`` to fix a bug in Pipfile parsing affecting relative path conversions.  `#2269 <https://github.com/pypa/pipenv/issues/2269>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:579
@@ -1032,11 +1032,11 @@ msgid "VCS dependencies are now manually obtained only if they do not match the 
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:592
-msgid "Added error handling functionality to properly cope with single-digit ``Requires-Python`` metatdata with no specifiers.  `#2377 <https://github.com/pypa/pipenv/issues/2377>`_"
+msgid "Added error handling functionality to properly cope with single-digit ``Requires-Python`` metadata with no specifiers.  `#2377 <https://github.com/pypa/pipenv/issues/2377>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:596
-msgid "``pipenv update`` will now always run the resolver and lock before ensuring your dependencies are in sync with your lockfile.  `#2379 <https://github.com/pypa/pipenv/issues/2379>`_"
+msgid "``pipenv update`` will now always run the resolver and lock before ensuring dependencies are in sync with project Lockfile.  `#2379 <https://github.com/pypa/pipenv/issues/2379>`_"
 msgstr ""
 
 #: ../../../../CHANGELOG.rst <included from /home/circleci/repo/docs/changelog.rst>:600

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2020.04.01.a1\n"
+"Project-Id-Version: pipenv 2020.4.29.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-25 15:00+0000\n"
+"POT-Creation-Date: 2020-05-04 02:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,7 +133,7 @@ msgid "Automatically creates a virtualenv in a standard location."
 msgstr ""
 
 #: ../../index.rst:87
-msgid "Automatically adds/removes packages to a ``Pipfile`` when they are un/installed."
+msgid "Automatically adds/removes packages to a ``Pipfile`` when they are installed or uninstalled."
 msgstr ""
 
 #: ../../index.rst:88

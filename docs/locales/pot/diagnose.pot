@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pipenv 2020.04.01.a1\n"
+"Project-Id-Version: pipenv 2020.4.29.dev0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-25 15:00+0000\n"
+"POT-Creation-Date: 2020-05-04 02:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,7 +61,7 @@ msgid "``~/.cache/pipenv`` (other operating systems)"
 msgstr ""
 
 #: ../../diagnose.rst:32
-msgid "Pipenv does not install prereleases (i.e. a version with an alpha/beta/etc. suffix, such as *1.0b1*) by default. You will need to pass the ``--pre`` flag in your command, or set"
+msgid "Pipenv does not install pre-releases (i.e. a version with an alpha/beta/etc. suffix, such as *1.0b1*) by default. You will need to pass the ``--pre`` flag in your command, or set"
 msgstr ""
 
 #: ../../diagnose.rst:41
@@ -161,7 +161,7 @@ msgid "☤ Using ``pipenv run`` in Supervisor program"
 msgstr ""
 
 #: ../../diagnose.rst:126
-msgid "When you configure a supervisor program's ``command`` with ``pipenv run ...``, you need to set locale enviroment variables properly to make it work."
+msgid "When you configure a supervisor program's ``command`` with ``pipenv run ...``, you need to set locale environment variables properly to make it work."
 msgstr ""
 
 #: ../../diagnose.rst:129
