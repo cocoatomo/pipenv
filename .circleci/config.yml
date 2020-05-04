@@ -28,7 +28,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            apt-get update && apt-get install -y --no-install-recommends python-enchant
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends python-enchant
             python3 -m venv .venv
             . .venv/bin/activate
             pip freeze -l
