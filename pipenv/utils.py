@@ -741,6 +741,10 @@ class Resolver(object):
         if self._pip_options is None:
             pip_options, _ = self.pip_command.parser.parse_args(self.pip_args)
             pip_options.cache_dir = environments.PIPENV_CACHE_DIR
+            pip_options.no_python_version_warning = True
+            pip_options.no_input = True
+            pip_options.progress_bar = "off"
+            pip_options.ignore_requires_python = True
             self._pip_options = pip_options
         return self._pip_options
 
@@ -1047,13 +1051,17 @@ def format_requirement_for_lockfile(req, markers_lookup, index_lookup, hashes=No
     if hashes:
         entry["hashes"] = sorted(set(hashes))
     entry["name"] = name
-    if index:  # and index != next(iter(project.sources), {}).get("name"):
+    if index:
         entry.update({"index": index})
     if markers:
         entry.update({"markers": markers})
     entry = translate_markers(entry)
-    if req.vcs or req.editable and entry.get("index"):
-        del entry["index"]
+    if req.vcs or req.editable:
+        for key in ("index", "version"):
+            try:
+                del entry[key]
+            except KeyError:
+                pass
     return name, entry
 
 
@@ -2200,8 +2208,7 @@ def find_python(finder, line=None):
     if not result and not line.startswith("python"):
         line = "python{0}".format(line)
         result = find_python(finder, line)
-    if not result:
-        result = next(iter(finder.find_all_python_versions()), None)
+
     if result:
         if not isinstance(result, six.string_types):
             return result.path.as_posix()
