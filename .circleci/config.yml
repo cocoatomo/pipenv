@@ -22,7 +22,7 @@ jobs:
             git remote -v
             git fetch upstream
             git submodule init
-            git submodule update
+            git submodule update --init
             git merge --no-ff upstream/master -m "Merge remote-tracking branch 'upstream/master' into translate-ja by Autobuild bot"
 
       - run:
